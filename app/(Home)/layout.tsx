@@ -1,8 +1,17 @@
 import type { Metadata } from "next";
+import { baseUrl } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Super Mario",
-  description: "Used car dealership",
+  title: "Nexus Nova",
+  description: "NFC Digital Business Card Website",
+  openGraph: {
+    type: "website",
+    title: "Nexus Nova",
+    description: "NFC Digital Business Card Website",
+    url: baseUrl,
+    siteName: "Nexus Nova",
+    locale: "en_US",
+  },
 };
 
 export default async function RootLayout({
@@ -10,11 +19,5 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body>
-        <main>{children}</main>
-      </body>
-    </html>
-  );
+  return <div>{children}</div>;
 }
