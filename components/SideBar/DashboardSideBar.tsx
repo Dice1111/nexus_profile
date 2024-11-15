@@ -29,7 +29,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
-import { Button } from "../ui/button";
 
 const data = {
   user: {
@@ -46,32 +45,30 @@ const data = {
   ],
   navMain: [
     {
-      title: "DashBoard",
-      url: "/admin",
+      title: "Dashboard",
+      url: "/dashboard",
       icon: SquareTerminal,
       isActive: true,
     },
     {
-      title: "User Accounts",
-      url: "/admin/view/user_account",
+      title: "People",
+      url: "/people",
       icon: Bot,
     },
     {
-      title: "User Profiles",
-      url: "/admin/view/user_profile",
+      title: "Overview",
+      url: "/overview",
       icon: BookOpen,
     },
     {
-      title: "Search",
-      url: "/admin/view/search",
+      title: "Setting",
+      url: "/setting",
       icon: BookOpen,
     },
   ],
 };
-// Add more routes and their data configurations as needed
-export default function DashboardSideBar() {
-  // Find the first route in the map that matches the current path prefix
 
+export default function DashboardSideBar() {
   const [activeTeam] = React.useState(data.teams[0]);
 
   return (
@@ -100,7 +97,7 @@ export default function DashboardSideBar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Platform</SidebarGroupLabel>
+          <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarMenu>
             {data.navMain.map((item) => (
               <Collapsible
