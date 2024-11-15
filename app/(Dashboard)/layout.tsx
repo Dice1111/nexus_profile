@@ -20,9 +20,5 @@ interface RootLayoutProps {
 }
 
 export default async function RootLayout({ children }: RootLayoutProps) {
-  return (
-    <div>
-      <main>{children}</main>
-    </div>
-  );
+  return <div>{children}</div>;
 }
