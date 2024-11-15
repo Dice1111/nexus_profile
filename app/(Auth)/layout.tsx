@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
+
 import { baseUrl } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Nexus Nova",
+  title: "Log In",
   description: "NFC Digital Business Card Website",
   openGraph: {
     type: "website",
-    title: "Nexus Nova",
+    title: "Log In - Nexus Nova",
     description: "NFC Digital Business Card Website",
-    url: baseUrl,
+    url: `${baseUrl}/login`,
     siteName: "Nexus Nova",
     locale: "en_US",
   },
