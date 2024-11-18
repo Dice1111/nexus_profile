@@ -5,7 +5,7 @@ import { FaFacebook, FaGoogle, FaApple } from "react-icons/fa";
 
 export default function Register() {
   return (
-    <div className="flex h-screen items-center justify-center bg-primary text ">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white ">
       <div className="w-full max-w-md p-6 space-y-6">
         <h1 className="text-2xl font-semibold text-center">Create an account</h1>
         <form className="space-y-4">
