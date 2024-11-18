@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 import { baseUrl } from "@/lib/utils";
+import { ThemeProvider } from "@/components/ThemeProvider/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Nexus Nova",
@@ -22,9 +23,16 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="dark">
-        <main>{children}</main>
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <main>{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -45,10 +45,15 @@ const data = {
   ],
   navMain: [
     {
+      title: "Profile",
+      url: "/profile",
+      icon: Bot,
+      isActive: true,
+    },
+    {
       title: "Dashboard",
       url: "/dashboard",
       icon: SquareTerminal,
-      isActive: true,
     },
     {
       title: "People",
