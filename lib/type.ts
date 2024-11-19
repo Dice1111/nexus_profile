@@ -14,6 +14,9 @@ export type Item = {
     TEXT="text",
     LINK = "link",
     VIDEO = "video",
-    AUDIO = "audio",
+    MAP = "map",
+    FILE = "file",
+    SOCIAL = "social"
+    
   }
   
