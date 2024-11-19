@@ -1,53 +1,54 @@
+import { BsFillPeopleFill } from "react-icons/bs";
+import { MdContactPhone } from "react-icons/md";
+import { PiEyeFill } from "react-icons/pi";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import classNames from "classnames";
 
-interface InfoBoxProps {
-  data: {
-    title: string;
-    description: string;
-    value: number;
-  };
+export interface InfoBoxProps {
+  title: string;
+  description: string;
+  value: number;
+  type: InfoBox_Type;
 }
 
-export function InfoBox({ data }: InfoBoxProps) {
-  const { title, description, value } = data;
+export enum InfoBox_Type {
+  CONNECTION,
+  VIEW,
+  CONTACT,
+}
 
+export function InfoBox({ ...data }: InfoBoxProps) {
   return (
     <Card className="flex flex-col">
       <CardHeader className="flex flex-row justify-between items-center p-4">
         <div>
-          {/* Title and Description */}
-          <CardTitle className="text-base sm:text-lg lg:text-xl font-semibold">
-            {title}
+          <CardTitle className="text-base  sm:text-lg lg:text-xl font-semibold">
+            {data.title}
           </CardTitle>
-          <CardDescription className="text-sm sm:text-base">
-            {description}
+          <CardDescription className="text-sm ">
+            {data.description}
           </CardDescription>
         </div>
-
-        {/* Value */}
-        <p
-          className={classNames("font-bold", {
-            "text-sm sm:text-md md:text-lg lg:text-xl": value > 10000000,
-            "text-lg sm:text- md:text-xl lg:text-2xl":
-              value > 100000 && value <= 10000000,
-            "text-lg sm:text-xl md:text-2xl lg:text-3xl":
-              value > 1000 && value <= 100000,
-            "text-1xl sm:text-2xl md:text-3xl lg:text-4xl": value <= 1000,
-          })}
-        >
-          {new Intl.NumberFormat().format(value)}
-        </p>
+        <div className="flex justify-end items-center bg-primary rounded-full p-2">
+          {data.type === InfoBox_Type.VIEW ? (
+            <PiEyeFill className="text-primary-foreground text-xl" />
+          ) : data.type === InfoBox_Type.CONNECTION ? (
+            <BsFillPeopleFill className="text-primary-foreground text-xl " />
+          ) : data.type === InfoBox_Type.CONTACT ? (
+            <MdContactPhone className="text-primary-foreground text-xl " />
+          ) : null}
+        </div>
       </CardHeader>
-      {/* Optional Footer */}
-      <CardFooter className="text-xs sm:text-sm"></CardFooter>
+      <CardContent>
+        <p className="text-2xl font-semibold">
+          {new Intl.NumberFormat().format(data.value)}
+        </p>
+      </CardContent>
     </Card>
   );
 }
