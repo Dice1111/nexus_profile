@@ -1,9 +1,9 @@
 "use client";
-import Image from "next/image";
-import { Draggable } from "@/components/DragAndDrop/Draggable";
+import Draggable from "@/components/DragAndDrop/Draggable";
+import AddProfileComponentDrawer from "@/components/Drawer/AddProfileComponentDrawer";
+import { Button } from "@/components/ui/button";
+import { profileEditContext } from "@/lib/context";
 import { Item, ITEM_TYPE } from "@/lib/type";
-import { GiCheckMark } from "react-icons/gi";
-import { CiEdit } from "react-icons/ci";
 import {
   closestCorners,
   DndContext,
@@ -15,32 +15,49 @@ import {
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { profileEditContext } from "@/lib/context";
-
+import { CiEdit } from "react-icons/ci";
+import { GiCheckMark } from "react-icons/gi";
 const itemData = [
+  { id: 3, title: "image", value: "/image/profile.jpg", type: ITEM_TYPE.IMAGE },
+  { id: 6, title: "text", value: "John Doe", type: ITEM_TYPE.TEXT },
+  { id: 7, title: "text", value: "Web Developer", type: ITEM_TYPE.TEXT },
+  {
+    id: 8,
+    title: "text",
+    value:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis labore, beatae expedita, odio dolor minus totam doloremque incidunt explicabo omnis asperiores recusandae atque suscipit repellendus, voluptatem in ducimus modi sint!",
+    type: ITEM_TYPE.TEXT,
+  },
   { id: 1, title: "phone no", value: "58385936", type: ITEM_TYPE.PHONE },
   { id: 2, title: "email", value: "apple@gmail.com", type: ITEM_TYPE.EMAIL },
-  { id: 3, title: "image", value: "Image", type: ITEM_TYPE.IMAGE },
-  { id: 4, title: "image", value: "Image", type: ITEM_TYPE.IMAGE },
-  { id: 5, title: "image", value: "Image", type: ITEM_TYPE.IMAGE },
+  { id: 9, title: "link", value: "www.apple@gmail.com", type: ITEM_TYPE.LINK },
+  {
+    id: 10,
+    title: "video",
+    value: "https://www.youtube.com/embed/ekr2nIex040?si=ip9BjeIhkp30ejcS",
+    type: ITEM_TYPE.VIDEO,
+  },
+  {
+    id: 11,
+    title: "map",
+    value:
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5641.033400395882!2d103.85507134698486!3d1.2862602131934748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da19ee4cc09203%3A0x26c9afefa555dd7!2sMarina%20Bay%20Sands%20Singapore!5e0!3m2!1sen!2ssg!4v1732018272377!5m2!1sen!2ssg",
+    type: ITEM_TYPE.MAP,
+  },
+  {
+    id: 12,
+    title: "soclial",
+    value: "apple@gmail.com",
+    type: ITEM_TYPE.SOCIAL,
+  },
 ];
-
-const profileHeaderData = {
-  name: "John Doe",
-  title: "Web Developer",
-  bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis labore, beatae expedita, odio dolor minus totam doloremque incidunt explicabo omnis asperiores recusandae atque suscipit repellendus, voluptatem in ducimus modi sint!",
-  image: "/image/profile.jpg", // Default profile image
-};
 
 const Page = () => {
   // Fetch from database
   const [items, setItems] = useState<Item[]>(itemData);
-  const [profile, setProfile] = useState(profileHeaderData);
 
   // State for editing
   const [isEditing, setEditing] = useState(false);
-  const [editingField, setEditingField] = useState<string | null>(null);
 
   // Drag end handling
   const handleDragEnd = (event: DragEndEvent) => {
@@ -60,136 +77,40 @@ const Page = () => {
   // Touch screen support for mobile
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
 
-  // Update profile details
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setProfile((prev) => ({ ...prev, [name]: value }));
-  };
-
-  // Confirm editing for the specific field
-  const handleConfirmEdit = () => {
-    setEditingField(null);
-  };
-
-  // Handle image upload
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file); // Generate a temporary URL for the uploaded file
-      setProfile((prev) => ({ ...prev, image: imageUrl }));
-    }
-  };
-
   return (
-    <div className="relative max-w-80 mx-auto flex flex-col bg-[#050505] overflow-hidden rounded-lg">
-      {/* Main Edit Button */}
-      <Button
-        variant={"ghost"}
-        size="icon"
-        className="absolute top-4 right-4 text-white rounded-lg transition z-10"
-        onClick={() => {
-          setEditing(!isEditing);
-          setEditingField(null); // Reset individual editing field
-        }}
-      >
-        {isEditing ? <GiCheckMark /> : <CiEdit />}
-      </Button>
-      {/* Profile Image */}
-      <div className="relative group">
-        <Image
-          src={profile.image}
-          width={500}
-          height={500}
-          alt="Picture of the author"
-          className="w-full h-80 object-cover transition-transform duration-300 hover:scale-105"
-          priority
-        />
-        {isEditing && (
-          <>
-            <label
-              htmlFor="image-upload"
-              className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              Click to change
-            </label>
-            <input
-              id="image-upload"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageChange}
-            />
-          </>
-        )}
-      </div>
-      {/* Profile Details */}
-      <div className="my-5 px-4 text-center">
-        {["name", "title", "bio"].map((field) => (
-          <div key={field} className="relative">
-            {editingField === field ? (
-              <>
-                {field !== "bio" ? (
-                  <input
-                    type="text"
-                    name={field}
-                    value={profile[field as keyof typeof profile]}
-                    onChange={handleInputChange}
-                    className="text-2xl text-center w-full font-bold bg-transparent border-b-2 border-gray-300 focus:outline-none"
-                  />
-                ) : (
-                  <textarea
-                    name={field}
-                    rows={4}
-                    value={profile.bio}
-                    onChange={handleInputChange}
-                    className="text-xs text-center w-full mt-4 bg-transparent border-b-2 border-gray-300 focus:outline-none"
-                  />
-                )}
-                <GiCheckMark
-                  className="absolute top-0 right-4 text-green-500 cursor-pointer hover:scale-150 transition"
-                  onClick={handleConfirmEdit}
-                />
-              </>
-            ) : (
-              <>
-                <p
-                  className={
-                    field === "name"
-                      ? "text-2xl font-bold"
-                      : field === "title"
-                      ? "italic text-xs"
-                      : "text-xs mt-4"
-                  }
-                >
-                  {profile[field as keyof typeof profile]}
-                </p>
-                {isEditing && (
-                  <CiEdit
-                    className="absolute top-0 right-4 text-secondary cursor-pointer hover:scale-150 transition"
-                    onClick={() => setEditingField(field)}
-                  />
-                )}
-              </>
-            )}
-          </div>
-        ))}
-      </div>
-      {/* Draggable Items */}
-      <div>
-        <DndContext
-          id="dnd-context"
-          sensors={sensors}
-          onDragEnd={isEditing ? handleDragEnd : undefined}
-          collisionDetection={closestCorners}
+    <>
+      <div className="relative max-w-80 mx-auto flex flex-col bg-[#050505] overflow-hidden rounded-lg">
+        {/* Main Edit Button */}
+        <Button
+          variant={"ghost"}
+          size="icon"
+          className="absolute top-4 left-4 text-white rounded-lg transition z-10"
+          onClick={() => {
+            setEditing(!isEditing);
+          }}
         >
-          <profileEditContext.Provider value={{ isEditing, setEditing }}>
-            <Draggable items={items} />
-          </profileEditContext.Provider>
-        </DndContext>
+          {isEditing ? <GiCheckMark /> : <CiEdit />}
+        </Button>
+
+        {/* Draggable Items */}
+        <div>
+          <DndContext
+            id="dnd-context"
+            sensors={sensors}
+            onDragEnd={isEditing ? handleDragEnd : undefined}
+            collisionDetection={closestCorners}
+          >
+            <profileEditContext.Provider value={{ isEditing, setEditing }}>
+              <Draggable items={items} />
+            </profileEditContext.Provider>
+          </DndContext>
+        </div>
+
+        {/* add more component button */}
       </div>
-    </div>
+
+      <AddProfileComponentDrawer />
+    </>
   );
 };
 
