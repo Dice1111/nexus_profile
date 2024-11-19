@@ -7,64 +7,54 @@ export default function Register() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white ">
       <div className="w-full max-w-md p-6 space-y-6">
-        <h1 className="text-2xl font-semibold text-center">Create an account</h1>
+        <h1 className="text-2xl font-semibold text-center">
+          Create an account
+        </h1>
         <form className="space-y-4">
           <div>
             <label htmlFor="username" className="block text-sm font-light">
               What should we call you?
             </label>
-            <Input
-              id="username"
-              type="text"
-              />
+            <Input id="username" type="text" />
           </div>
           <div>
-          <label htmlFor="email" className="block text-sm font-light">
-              What's your email?
+            <label htmlFor="email" className="block text-sm font-light">
+              What is your email?
             </label>
-            <Input
-              id="email"
-              type="email"
-
-       
-            />
+            <Input id="email" type="email" />
           </div>
           <div>
             <label htmlFor="password" className="block text-sm font-light">
               Create a password
             </label>
-            <Input
-              id="password"
-              type="password"
-
-
-            />
+            <Input id="password" type="password" />
             <p className="text-[10px]  mt-1">
               Use 8 or more characters with a mix of letters, numbers & symbols.
             </p>
           </div>
-          <Button type="submit" className="w-full mt-4 border-2 items-center justify-center space-x-2 text-base py-5 font-medium">
+          <Button
+            type="submit"
+            className="w-full mt-4 border-2 items-center justify-center space-x-2 text-base py-5 font-medium"
+          >
             Create an account
           </Button>
         </form>
 
         <div className="flex items-center justify-center space-x-2 text-lg">
-
           <span>OR Continue with</span>
-          
         </div>
 
         <div className="flex justify-between space-x-4">
-          <Button 
+          <Button
             variant="outline"
             className=" bg-foreground flex items-center justify-center w-full space-x-2 text-black"
           >
-            <FaFacebook style={{ fontSize: "40px" }}/>
+            <FaFacebook style={{ fontSize: "40px" }} />
             <span>Facebook</span>
           </Button>
-          <Button 
+          <Button
             variant="outline"
-             className=" bg-foreground flex items-center justify-center w-full space-x-2 text-black"
+            className=" bg-foreground flex items-center justify-center w-full space-x-2 text-black"
           >
             <FaGoogle />
             <span>Google</span>
