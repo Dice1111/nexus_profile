@@ -2,17 +2,29 @@ import { InfoBox, InfoBox_Type, InfoBoxProps } from "@/components/Box/InfoBox";
 import { ConnectionAndVisitorChart } from "@/components/Chart/ConnectionAndVisitorChart";
 import { fetchWithTryCatch } from "@/lib/utils";
 import {
+  fetchConnectionAndVisitorChartData,
   fetchConnectionCount,
   fetchContactSavedCount,
   fetchViewCount,
 } from "@/services/analytic-service";
 
+// ****
+//   OVerview Page
+// ****
 const Page = async () => {
-  //call Utility function to fetch data with error handling
+  // ****
+  //   Fetch Data with utility function
+  // ****
   const viewCount = await fetchWithTryCatch(fetchViewCount);
   const contactSavedCount = await fetchWithTryCatch(fetchContactSavedCount);
   const connectionCount = await fetchWithTryCatch(fetchConnectionCount);
+  const connectionAndVisitorChartData = await fetchWithTryCatch(
+    fetchConnectionAndVisitorChartData
+  );
 
+  // ****
+  //   Construct obj to pass InfoBox as props to display
+  // ****
   const TotalViewCountData: InfoBoxProps = {
     title: "Views",
     description: "Total Profile Views",
@@ -52,7 +64,9 @@ const Page = async () => {
         </div>
 
         <div>
-          <ConnectionAndVisitorChart />
+          <ConnectionAndVisitorChart
+            chartData={connectionAndVisitorChartData}
+          />
         </div>
       </div>
     </>
