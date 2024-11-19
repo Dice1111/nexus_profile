@@ -1,3 +1,8 @@
 export default function loading() {
-  return <span className="loading loading-dots loading-lg"></span>;
+  return (
+    <>
+      {console.log("I am loading")}
+      <span className="loading loading-dots loading-lg"></span>;
+    </>
+  );
 }

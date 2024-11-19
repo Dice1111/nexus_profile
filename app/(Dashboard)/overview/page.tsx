@@ -1,51 +1,62 @@
-import { InfoBox } from "@/components/Box/InfoBox";
-import { ConnectionChart } from "@/components/Chart/ConnectionChart";
-import { VisitorChart } from "@/components/Chart/VisitorChart";
+import { InfoBox, InfoBox_Type, InfoBoxProps } from "@/components/Box/InfoBox";
+import { ConnectionAndVisitorChart } from "@/components/Chart/ConnectionAndVisitorChart";
+import { fetchWithTryCatch } from "@/lib/utils";
+import {
+  fetchConnectionCount,
+  fetchContactSavedCount,
+  fetchViewCount,
+} from "@/services/analytic-service";
 
-export default function Page() {
-  const TotalViewCountData = {
-    title: "View Count",
-    description: " Total Profile Views",
-    value: 1000,
+const Page = async () => {
+  //call Utility function to fetch data with error handling
+  const viewCount = await fetchWithTryCatch(fetchViewCount);
+  const contactSavedCount = await fetchWithTryCatch(fetchContactSavedCount);
+  const connectionCount = await fetchWithTryCatch(fetchConnectionCount);
+
+  const TotalViewCountData: InfoBoxProps = {
+    title: "Views",
+    description: "Total Profile Views",
+    value: viewCount,
+    type: InfoBox_Type.VIEW,
   };
-  const TotalContactSavedCountData = {
-    title: "Contact Saved Count",
+
+  const TotalContactSavedCountData: InfoBoxProps = {
+    title: "Contacts Saved",
     description: "Total Contacts Saved",
-    value: 23,
+    value: contactSavedCount,
+    type: InfoBox_Type.CONTACT,
   };
-  const TotalFollowerData = {
-    title: "Follower Count",
-    description: "Total followers",
-    value: 78,
+
+  const TotalFollowerData: InfoBoxProps = {
+    title: "Connections",
+    description: "Total Connections",
+    value: connectionCount,
+    type: InfoBox_Type.CONNECTION,
   };
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-        <div className="col-span-1 sm:col-span-2">
-          <InfoBox data={TotalViewCountData} />
+      <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 xl:grid-cols-6 gap-4">
+          <div className="col-span-1 xl:col-span-2 ">
+            <InfoBox {...TotalViewCountData} />
+          </div>
+
+          <div className=" col-span-1 xl:col-span-2 ">
+            <InfoBox {...TotalContactSavedCountData} />
+          </div>
+
+          <div className="col-span-1  xl:col-span-2">
+            <InfoBox {...TotalFollowerData} />
+          </div>
         </div>
 
-        <div className=" col-span-1 sm:col-span-2 ">
-          <InfoBox data={TotalContactSavedCountData} />
-        </div>
-
-        <div className="col-span-1  sm:col-span-2">
-          <InfoBox data={TotalFollowerData} />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-        {/* Connection Chart */}
         <div>
-          <ConnectionChart />
-        </div>
-
-        {/* Visitor Chart */}
-        <div>
-          <VisitorChart />
+          <ConnectionAndVisitorChart />
         </div>
       </div>
     </>
   );
-}
+};
+
+export default Page;

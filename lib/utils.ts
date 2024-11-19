@@ -6,3 +6,17 @@ export const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000"; /
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export async function fetchWithTryCatch<T>(
+  fetchFunction: () => Promise<T>
+): Promise<T> {
+  try {
+    return await fetchFunction();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    } else {
+      throw new Error(String(error));
+    }
+  }
+}
