@@ -1,10 +1,13 @@
-'use client'
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaGoogle, FaFacebook, FaApple } from "react-icons/fa";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   return (
@@ -38,7 +41,6 @@ export default function LoginPage() {
                 id="password"
                 type={passwordVisible ? "text" : "password"}
                 placeholder="Enter your password"
-               
               />
               <button
                 type="button"
@@ -55,8 +57,11 @@ export default function LoginPage() {
             Log in
           </Button> */}
 
-          <Button  className="w-full mt-4 border-2 items-center justify-center space-x-2 text-base py-5 font-medium">
-             Login
+          <Button
+            onClick={() => router.push("/profile")}
+            className="w-full mt-4 border-2 items-center justify-center space-x-2 text-base py-5 font-medium"
+          >
+            Login
           </Button>
 
           {/* Forgot Password */}
@@ -90,9 +95,10 @@ export default function LoginPage() {
       {/* Footer */}
       <p className="absolute bottom-6 text-sm text-center w-full">
         Don’t have an account?{" "}
-        <a href="#" className="text-blue-400 hover:underline">
+        <Link className="text-blue-400 hover:underline" href="/signup">
+          {" "}
           Join Now.
-        </a>
+        </Link>
       </p>
     </div>
   );

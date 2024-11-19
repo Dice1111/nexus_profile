@@ -25,7 +25,6 @@ import {
   Bot,
   ChevronsUpDown,
   GalleryVerticalEnd,
-  SquareTerminal,
 } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
@@ -49,11 +48,6 @@ const data = {
       url: "/profile",
       icon: Bot,
       isActive: true,
-    },
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: SquareTerminal,
     },
     {
       title: "People",
