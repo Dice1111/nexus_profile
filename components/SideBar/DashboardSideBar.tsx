@@ -1,6 +1,7 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Collapsible } from "@/components/ui/collapsible";
+import { RiContactsBook2Fill } from "react-icons/ri";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -50,9 +51,9 @@ const data = {
       isActive: true,
     },
     {
-      title: "People",
-      url: "/people",
-      icon: Bot,
+      title: "Contact",
+      url: "/contact",
+      icon: RiContactsBook2Fill,
     },
     {
       title: "Overview",
