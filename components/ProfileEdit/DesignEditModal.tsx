@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import { hexToRgba, rgbaToHsva } from "@/lib/color_utils";
+import { ColorPicker, useColor } from "react-color-palette";
+import "react-color-palette/css";
+import { GoPlus } from "react-icons/go";
+import { GrFormCheckmark } from "react-icons/gr";
 
-// Define color presets
+// Define color presets with calculated RGBA and HSVA values
 const colorPresets = [
   { name: "Red", color: "#FF6347" },
   { name: "Green", color: "#32CD32" },
@@ -9,57 +13,102 @@ const colorPresets = [
   { name: "Purple", color: "#800080" },
   { name: "Orange", color: "#FFA500" },
   { name: "Gray", color: "#808080" },
-  { name: "Gold", color: "#FFD700" },
+  { name: "Gold", color: "#FFD900" },
   { name: "Turquoise", color: "#40E0D0" },
   { name: "Pink", color: "#FFC0CB" },
-];
+  { name: "Teal", color: "#008080" },
+  { name: "Lavender", color: "#E6E6FA" },
+].map((preset) => {
+  const rgba = hexToRgba(preset.color);
+  const hsva = rgbaToHsva(rgba);
+  return { ...preset, rgba, hsva };
+});
 
 export default function DesignEditModal() {
-  //const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useColor("#561ecb");
 
   // Handle color selection
   const handleColorSelect = (color: string) => {
-    //setSelectedColor(color); // Set the selected color to the state
+    const rgba = hexToRgba(color);
+    const hsva = rgbaToHsva(rgba);
+    setSelectedColor({
+      hex: color,
+      rgb: rgba,
+      hsv: hsva,
+    }); // Update with hex color
     console.log("Selected color:", color);
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="flex flex-col gap-10">
       {/* Title */}
-      <h2 className="text-2xl font-semibold text-gray-800">Design Settings</h2>
+      <h2 className="text-2xl font-thin">Design</h2>
 
       {/* Color Preset Selection */}
       <div>
-        <h3 className="text-lg font-medium text-gray-700">
-          Select a Color Preset
-        </h3>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 mt-4">
+        <h3 className="text-lg font-thin">Select a Color Preset</h3>
+        <div className="flex flex-box flex-wrap gap-4 mt-4 max-w-[200px]">
           {colorPresets.map((preset) => (
             <button
               key={preset.name}
               onClick={() => handleColorSelect(preset.color)}
-              className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full transition-transform hover:scale-110 border-2 ${
-                preset.color === preset.color
-                  ? "border-gray-800"
-                  : "border-transparent"
+              className={`relative w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-9 lg:h-9 rounded transition-transform hover:scale-110 ${
+                selectedColor.hex === preset.color
+                  ? "border-4 border-secondary"
+                  : "border-2 border-transparent"
               }`}
               style={{ backgroundColor: preset.color }}
-            />
+            >
+              {/* Mark */}
+              {selectedColor.hex === preset.color && (
+                <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white">
+                  <GrFormCheckmark />
+                </span>
+              )}
+            </button>
           ))}
+          <ColorPicker color={selectedColor} onChange={setSelectedColor} />
+        </div>
+        {/* Color Picker */}
+      </div>
+
+      {/* Profile Pic */}
+      <div>
+        <h2 className="text-2xl font-thin">Profile Photo</h2>
+        <div className="mt-4">
+          <label
+            htmlFor="upload-photo"
+            className="flex flex-col items-center justify-center w-32 h-32 border-2 border-dashed border-gray-300 rounded-md cursor-pointer hover:border-gray-400 transition-all"
+          >
+            <GoPlus size={30} className="mx-auto transition mt-4" />
+            <span className="mt-2 text-sm text-gray-500">Upload Photo</span>
+            <input
+              id="upload-photo"
+              type="file"
+              accept="image/*"
+              className="hidden"
+            />
+          </label>
         </div>
       </div>
 
-      {/* Design Preview */}
-      <div className="mt-8">
-        <h3 className="text-lg font-medium text-gray-700">Design Preview</h3>
-        <div
-          className="w-full sm:w-48 md:w-60 lg:w-80 h-48 mt-4 rounded-lg"
-          style={{
-            backgroundColor: "#f0f0f0", // Preview color changes based on selection
-            border: "2px solid #ccc",
-            boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)",
-          }}
-        ></div>
+      <div>
+        <h2 className="text-2xl font-thin">Logo</h2>
+        <div className="mt-4">
+          <label
+            htmlFor="upload-logo"
+            className="flex flex-col items-center justify-center w-32 h-32 border-2 border-dashed border-gray-300 rounded-md cursor-pointer hover:border-gray-400 transition-all"
+          >
+            <GoPlus size={30} className="mx-auto transition mt-4" />
+            <span className="mt-2 text-sm text-gray-500">Upload Logo</span>
+            <input
+              id="upload-logo"
+              type="file"
+              accept="image/*"
+              className="hidden"
+            />
+          </label>
+        </div>
       </div>
     </div>
   );

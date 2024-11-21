@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import DesignEditModal from "./DesignEditModal";
 import FieldsEditModal from "./FieldsEditModal";
 import InformationEditModal from "./InformationEditModal";
@@ -20,23 +20,30 @@ const PanelComponents = {
 };
 
 const navItems = [
-  { label: "Design", panel: Panel.Design },
-  { label: "Info", panel: Panel.Information },
+  { label: "Display", panel: Panel.Design },
   { label: "Fields", panel: Panel.Fields },
+  { label: "Information", panel: Panel.Information },
 ];
 
 export default function EditNavBar({ onEditPanelChange }: EditNavBarProps) {
-  const handleEditPanelChange = (panel: keyof typeof PanelComponents) => {
+  const [activePanel, setActivePanel] = useState<Panel>(Panel.Design);
+
+  const handleEditPanelChange = (panel: Panel) => {
+    setActivePanel(panel);
     onEditPanelChange(PanelComponents[panel]);
   };
 
   return (
-    <div className="bg-blue-500 flex gap-10">
+    <div className="flex h-16 gap-10 ">
       {navItems.map((item) => (
         <button
           key={item.panel}
           onClick={() => handleEditPanelChange(item.panel)}
-          className="text-white hover:text-blue-200 transition"
+          className={` transition ${
+            activePanel === item.panel
+              ? "border-b-2  font-bold"
+              : "hover:border-b-2 hover:border-gray-400"
+          }`}
         >
           {item.label}
         </button>

@@ -1,7 +1,7 @@
 "use client";
 import Draggable from "@/components/DragAndDrop/Draggable";
-import DesignEditModal from "@/components/ProfileEdit/DesignEditModal";
-import EditNavBar from "@/components/ProfileEdit/EditNavBar";
+import AddProfileComponentDrawer from "@/components/Drawer/AddProfileComponentDrawer";
+import ProfileEditor from "@/components/ProfileEdit/ProfileEditor";
 import { Button } from "@/components/ui/button";
 import { profileEditContext } from "@/lib/context";
 import { Item, ITEM_TYPE } from "@/lib/type";
@@ -56,8 +56,6 @@ const itemData = [
 const Page = () => {
   // Fetch from database
   const [items, setItems] = useState<Item[]>(itemData);
-  const [editPanelModal, setEditPanelModal] =
-    useState<JSX.Element>(DesignEditModal);
 
   // State for editing
   const [isEditing, setEditing] = useState(false);
@@ -82,45 +80,39 @@ const Page = () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className=" flex justify-space-between gap-4 w-full relative">
         {/* Left Section */}
-        <div className="bg-red-500 col-span-1 md:col-span-2">
-          <div className="relative mx-auto w-full max-w-[400px] flex flex-col bg-[#050505] overflow-hidden rounded-lg">
-            <Button
-              variant={"ghost"}
-              size="icon"
-              className="absolute top-4 left-4 text-white rounded-lg transition z-10"
-              onClick={() => {
-                setEditing(!isEditing);
-              }}
+
+        <div className="mt-10 relative mx-auto w-full max-w-[400px] flex flex-col bg-[#050505] overflow-hidden rounded-lg">
+          <Button
+            variant={"ghost"}
+            size="icon"
+            className="absolute top-4 left-4 text-white rounded-lg transition z-10"
+            onClick={() => {
+              setEditing(!isEditing);
+            }}
+          >
+            {isEditing ? <GiCheckMark /> : <CiEdit />}
+          </Button>
+
+          <div>
+            <DndContext
+              id="dnd-context"
+              sensors={sensors}
+              onDragEnd={isEditing ? handleDragEnd : undefined}
+              collisionDetection={closestCorners}
             >
-              {isEditing ? <GiCheckMark /> : <CiEdit />}
-            </Button>
-
-            <div>
-              <DndContext
-                id="dnd-context"
-                sensors={sensors}
-                onDragEnd={isEditing ? handleDragEnd : undefined}
-                collisionDetection={closestCorners}
-              >
-                <profileEditContext.Provider value={{ isEditing, setEditing }}>
-                  <Draggable items={items} />
-                </profileEditContext.Provider>
-              </DndContext>
-            </div>
+              <profileEditContext.Provider value={{ isEditing, setEditing }}>
+                <Draggable items={items} />
+              </profileEditContext.Provider>
+            </DndContext>
           </div>
         </div>
 
-        <div className="col-span-1 bg-yellow-500 ">
-          <div className="w-full h-full bg-purple-700">
-            <EditNavBar onEditPanelChange={setEditPanelModal} />
-            {editPanelModal}
-          </div>
-        </div>
+        <ProfileEditor />
       </div>
 
-      {/* <AddProfileComponentDrawer /> */}
+      <AddProfileComponentDrawer />
     </>
   );
 };

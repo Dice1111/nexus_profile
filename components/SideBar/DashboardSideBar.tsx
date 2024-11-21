@@ -71,7 +71,7 @@ export default function DashboardSideBar() {
   const [activeTeam] = React.useState(data.teams[0]);
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" className="shadow-xl">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
