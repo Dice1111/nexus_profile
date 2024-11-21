@@ -9,9 +9,9 @@ import {
   CardTitle,
 } from "../ui/card";
 
-// ****
-//   Define the props interface for the InfoBox
-// ****
+/**
+ *  Define the props interface for the InfoBox
+ */
 export interface InfoBoxProps {
   title: string;
   description: string;

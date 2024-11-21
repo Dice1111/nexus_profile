@@ -26,19 +26,38 @@ interface RootLayoutProps {
   children: ReactNode;
 }
 
+// export default async function RootLayout({ children }: RootLayoutProps) {
+//   return (
+//     <div>
+//       <SidebarProvider>
+//         <DashboardSideBar />
+//         <SidebarInset className="flex-1 overflow-hidden">
+//           <header className=" sticky top-0 bg-purple-400 flex h-16 shrink-0 items-center transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12  ">
+//             <div className="flex items-center gap-2 px-4">
+//               <SidebarTrigger className="-ml-1" />
+//             </div>
+//             <LightModeDarkModeButton />
+//           </header>
+//           <main className="container mx-auto px-4">{children}</main>
+//         </SidebarInset>
+//       </SidebarProvider>
+//     </div>
+//   );
+// }
+
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <div>
       <SidebarProvider>
         <DashboardSideBar />
-        <SidebarInset className="flex-1 overflow-hidden">
-          <header className="flex h-16 shrink-0 items-center transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 fixed">
+        <SidebarInset>
+          <header className="sticky top-0 z-10 bg-purple-400 flex h-12 shrink-0 items-center shadow-md">
             <div className="flex items-center gap-2 px-4">
               <SidebarTrigger className="-ml-1" />
             </div>
             <LightModeDarkModeButton />
           </header>
-          <main className="container mx-auto p-4">{children}</main>
+          <main className="container mx-auto px-4 pt-4">{children}</main>
         </SidebarInset>
       </SidebarProvider>
     </div>
