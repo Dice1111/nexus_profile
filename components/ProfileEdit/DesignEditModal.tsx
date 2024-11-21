@@ -25,9 +25,12 @@ const colorPresets = [
 });
 
 export default function DesignEditModal() {
-  const [selectedColor, setSelectedColor] = useColor("#561ecb");
+  const prev_color = "#ffffff";
+  const [selectedColor, setSelectedColor] = useColor(prev_color);
 
-  // Handle color selection
+  //fetch this from data base.
+
+  // Handle color selection;
   const handleColorSelect = (color: string) => {
     const rgba = hexToRgba(color);
     const hsva = rgbaToHsva(rgba);
@@ -67,7 +70,31 @@ export default function DesignEditModal() {
               )}
             </button>
           ))}
-          <ColorPicker color={selectedColor} onChange={setSelectedColor} />
+
+          {/* Custom Color */}
+          <div>
+            <h2 className="text-lg font-thin mb-3">Last Used Color</h2>
+            <button
+              onClick={() => handleColorSelect(prev_color)}
+              className={`relative w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-9 lg:h-9 rounded transition-transform hover:scale-110 ${
+                selectedColor.hex === prev_color
+                  ? "border-4 border-secondary"
+                  : "border-2 border-transparent"
+              }`}
+              style={{ backgroundColor: prev_color }}
+            >
+              {/* Mark */}
+              {selectedColor.hex === prev_color && (
+                <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white">
+                  <GrFormCheckmark />
+                </span>
+              )}
+            </button>
+          </div>
+
+          <div className=" shadow-xl overflow-hidden rounded-lg">
+            <ColorPicker color={selectedColor} onChange={setSelectedColor} />
+          </div>
         </div>
         {/* Color Picker */}
       </div>
@@ -92,6 +119,7 @@ export default function DesignEditModal() {
         </div>
       </div>
 
+      {/* Logo */}
       <div>
         <h2 className="text-2xl font-thin">Logo</h2>
         <div className="mt-4">

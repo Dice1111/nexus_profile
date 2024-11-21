@@ -42,7 +42,7 @@ export default function EditNavBar({ onEditPanelChange }: EditNavBarProps) {
           className={` transition ${
             activePanel === item.panel
               ? "border-b-2  font-bold"
-              : "hover:border-b-2 hover:border-gray-400"
+              : "font-thin hover:border-b-2 hover:border-gray-400"
           }`}
         >
           {item.label}
