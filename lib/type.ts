@@ -73,9 +73,13 @@ export type Contact = {
 };
 
 export enum CONTACT_TAG_TYPE {
-  FAMILY = "Family",
-  FRIEND = "Friend",
-  WORK = "Work",
-  COLLEAGUE = "Colleague",
+  FAMILY = "family",
+  FRIEND = "friend",
+  COLLEAGUE = "colleague",
+  CLIENT = "client",
+  SUPPLIER = "supplier",
+  EMPLOYEE = "empolyee",
+  INVESTOR = "investor",
+  VENDOR = "vendor",
   OTHER = "Other",
 }

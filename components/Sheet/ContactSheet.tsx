@@ -1,3 +1,4 @@
+import { Contact } from "@/lib/type";
 import {
   Sheet,
   SheetContent,
@@ -9,7 +10,7 @@ import {
 interface ContactSheetProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  rowData: any; // Receive row data as a prop
+  rowData: Contact | null; // Receive row data as a prop
 }
 
 export default function ContactSheet({
@@ -41,6 +42,9 @@ export default function ContactSheet({
           </p>
           <p>
             <strong>Tag:</strong> {rowData.tag}
+          </p>
+          <p>
+            <strong>Card Id:</strong> {rowData.connectedUserCardID}
           </p>
           <p>
             <strong>Connected Date:</strong>{" "}
