@@ -5,7 +5,7 @@ import { Contact, CONTACT_TAG_TYPE } from "@/lib/type";
 import { ColumnDef } from "@tanstack/react-table";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
-import { LuDot } from "react-icons/lu";
+import { LuDot } from "react-icons/lu"; // Import icon
 
 const TagColorScheme: Record<CONTACT_TAG_TYPE, string> = {
   [CONTACT_TAG_TYPE.COLLEAGUE]: "bg-red-200 text-primary",
@@ -19,19 +19,15 @@ const TagColorScheme: Record<CONTACT_TAG_TYPE, string> = {
   [CONTACT_TAG_TYPE.OTHER]: "bg-gray-200 text-primary",
 };
 
-const columnNameMap: Record<string, string> = {
-  connectedUsername: "Username",
-};
-
-export const columns: ColumnDef<Contact>[] = Object.entries(columnNameMap).map(
-  ([key, label]) => ({
-    accessorKey: key,
+export const columns: ColumnDef<Contact>[] = [
+  {
+    accessorKey: "connectedUsername",
     header: ({ column }) => (
       <button
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         className="flex justify-start items-center hover:text-secondary-foreground font-semibold text-base"
       >
-        {label}
+        Username
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
@@ -63,12 +59,20 @@ export const columns: ColumnDef<Contact>[] = Object.entries(columnNameMap).map(
             {/* Contact Details */}
             <div className="flex flex-col justify-between">
               <p className="text-lg sm:text-base">{name}</p>
+
+              {/* Occupation and Company: Responsive Layout */}
               <div className="flex items-center gap-2 text-sm sm:text-xs text-primary">
+                {/* Occupation: Always Visible */}
                 <p>{occupation}</p>
-                <LuDot />
-                <p>{company}</p>
+
+                {/* Icon and Company: Hidden on Extra-Small Screens */}
+                <div className="hidden sm:flex items-center gap-2">
+                  <LuDot />
+                  <p>{company}</p>
+                </div>
               </div>
-              {/* Badge Section */}
+
+              {/* Badge Section (shown for small screens) */}
               <div className="lg:hidden mt-2">
                 <span
                   className={`inline-block uppercase px-2 py-1 text-xs rounded-md ${tagClass}`}
@@ -91,5 +95,5 @@ export const columns: ColumnDef<Contact>[] = Object.entries(columnNameMap).map(
         </div>
       );
     },
-  })
-);
+  },
+];

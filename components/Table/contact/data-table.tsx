@@ -79,8 +79,9 @@ export function DataTable({ columns, data }: DataTableProps) {
 
   return (
     <div>
-      <div className="flex items-center gap-4 mb-4 flex-col md:flex-row justify-between">
-        {/* Search Input */}
+      {/* Search and Dropdown Menu Section */}
+      <div className="flex flex-row items-center gap-4 mb-4 justify-between ">
+        {/* Search Input - Adjusts for screen size */}
         <Input
           placeholder="Filter name..."
           value={
@@ -93,24 +94,27 @@ export function DataTable({ columns, data }: DataTableProps) {
               .getColumn("connectedUsername")
               ?.setFilterValue(event.target.value)
           }
-          className="w-full md:max-w-md h-12 bg-secondary text-secondary-foreground border-2 border-primary"
+          className="w-full md:max-w-md  h-12 bg-secondary text-secondary-foreground border-2 border-primary"
         />
+
+        {/* Dropdown to filter based on selected tag */}
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="outline"
               size="sm"
-              className="flex items-center gap-2 capitalize"
+              className="flex items-center gap-2  capitalize  "
             >
               {`View ${selectedTag}`} <ChevronDownIcon />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent align="end">
             {/* Add a "View All" option */}
             <DropdownMenuItem
               key="All"
               onClick={() => setSelectedTag("All")}
-              className="cursor-pointer "
+              className="cursor-pointer"
             >
               View All
             </DropdownMenuItem>
@@ -122,7 +126,7 @@ export function DataTable({ columns, data }: DataTableProps) {
                 onClick={() => setSelectedTag(tag)}
                 className="cursor-pointer"
               >
-                {`View ${tag.charAt(0).toUpperCase() + tag.slice(1)}`}{" "}
+                {`View ${tag.charAt(0).toUpperCase() + tag.slice(1)}`}
                 {/* Capitalize first letter */}
               </DropdownMenuItem>
             ))}
@@ -130,6 +134,7 @@ export function DataTable({ columns, data }: DataTableProps) {
         </DropdownMenu>
       </div>
 
+      {/* Table Section */}
       <div className="bg-secondary text-secondary-foreground rounded-md">
         <Table>
           <TableHeader>
@@ -152,7 +157,7 @@ export function DataTable({ columns, data }: DataTableProps) {
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className="border-gray-400 hover:bg-primary/20"
+                  className="border-gray-400 hover:bg-primary/20 cursor-pointer"
                   key={row.id}
                   onClick={() => {
                     handleRowClick(row.original as Contact);
@@ -182,6 +187,7 @@ export function DataTable({ columns, data }: DataTableProps) {
         </Table>
       </div>
 
+      {/* Pagination Section */}
       <div className="flex items-center justify-end space-x-2 py-4 text-primary-foreground">
         <Button
           variant="outline"
