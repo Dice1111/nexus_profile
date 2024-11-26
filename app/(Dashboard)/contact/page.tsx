@@ -8,7 +8,7 @@ export default async function Page() {
 
   return (
     <div className="container px-4 pt-4 mx-auto ">
-      <div className="bg-secondary text-secondary-foreground rounded-lg p-4 ">
+      <div>
         <DataTable columns={columns} data={data} />
       </div>
     </div>

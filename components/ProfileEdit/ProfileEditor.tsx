@@ -2,7 +2,7 @@ import { useState } from "react";
 import DesignEditModal from "./DesignEditModal";
 import EditNavBar from "./EditNavBar";
 
-export default function profileEditor() {
+export default function ProfileEditor() {
   const [editPanelModal, setEditPanelModal] = useState<JSX.Element>(
     <DesignEditModal />
   );

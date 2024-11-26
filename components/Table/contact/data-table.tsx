@@ -1,6 +1,8 @@
 "use client";
 
+import ContactSheet from "@/components/Sheet/ContactSheet";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -9,12 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"; // Adjust this path based on your setup
+import { Contact, CONTACT_TAG_TYPE } from "@/lib/type";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -25,30 +22,45 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
-  VisibilityState,
 } from "@tanstack/react-table";
-import React, { useState } from "react";
-import { Input } from "@/components/ui/input";
-import ContactSheet from "@/components/Sheet/ContactSheet";
+import { useMemo, useState } from "react";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ChevronDownIcon } from "lucide-react"; // Optional icon for the dropdown
+
+interface DataTableProps {
+  columns: ColumnDef<Contact>[];
+  data: Contact[];
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export function DataTable({ columns, data }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [selectedRowData, setSelectedRowData] = useState<any>(null); // Track selected row data
+  const [selectedRowData, setSelectedRowData] = useState<Contact | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false); // Track the sheet's open state
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+  const [selectedTag, setSelectedTag] = useState<CONTACT_TAG_TYPE | "All">(
+    "All"
+  );
 
+  const filteredData = useMemo(() => {
+    return selectedTag === "All"
+      ? data
+      : (data as Contact[]).filter((contact) => contact.tag === selectedTag);
+  }, [selectedTag, data]); // Recompute filteredData when selectedTag or data changes
+
+  const handleRowClick = (rowData: Contact) => {
+    setSelectedRowData(rowData);
+    setIsSheetOpen(true);
+  };
+
+  // Filtering logic based on the selected tag
   const table = useReactTable({
-    data,
+    data: filteredData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -56,23 +68,19 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
 
     state: {
       sorting,
       columnFilters,
-      columnVisibility,
     },
   });
-  const handleRowClick = (rowData: any) => {
-    setSelectedRowData(rowData); // Set the data of the clicked row
-    setIsSheetOpen(true); // Open the sheet
-  };
+
+  const tagOptions = Object.values(CONTACT_TAG_TYPE); // Get all enum values
 
   return (
     <div>
-      <div className="flex items-center py-4 ">
-        {/* search */}
+      <div className="flex items-center gap-4 mb-4 flex-col md:flex-row justify-between">
+        {/* Search Input */}
         <Input
           placeholder="Filter name..."
           value={
@@ -85,37 +93,44 @@ export function DataTable<TData, TValue>({
               .getColumn("connectedUsername")
               ?.setFilterValue(event.target.value)
           }
-          className="max-w-sm bg-secondary border-2 border-primary"
+          className="w-full md:max-w-md h-12 bg-secondary text-secondary-foreground border-2 border-primary"
         />
-        {/* Dropdown to toggle column visibility */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="outline"
-              className="ml-auto text-primary-foreground transition-colors   hover:border-primary"
+              size="sm"
+              className="flex items-center gap-2 capitalize"
             >
-              Columns
+              {`View ${selectedTag}`} <ChevronDownIcon />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  className="capitalize"
-                  checked={column.getIsVisible()}
-                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                >
-                  {/* {column.id} */}
-                  apple
-                </DropdownMenuCheckboxItem>
-              ))}
+          <DropdownMenuContent>
+            {/* Add a "View All" option */}
+            <DropdownMenuItem
+              key="All"
+              onClick={() => setSelectedTag("All")}
+              className="cursor-pointer "
+            >
+              View All
+            </DropdownMenuItem>
+
+            {/* Dynamically generate the dropdown items from CONTACT_TAG_TYPE enum */}
+            {tagOptions.map((tag) => (
+              <DropdownMenuItem
+                key={tag}
+                onClick={() => setSelectedTag(tag)}
+                className="cursor-pointer"
+              >
+                {`View ${tag.charAt(0).toUpperCase() + tag.slice(1)}`}{" "}
+                {/* Capitalize first letter */}
+              </DropdownMenuItem>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border-2 border-primary">
+
+      <div className="bg-secondary text-secondary-foreground rounded-md">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -137,10 +152,11 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className="border-primary hover:bg-primary/10 "
+                  className="border-gray-400 hover:bg-primary/20"
                   key={row.id}
-                  onClick={() => handleRowClick(row.original)}
-                  data-state={row.getIsSelected() && "selected"}
+                  onClick={() => {
+                    handleRowClick(row.original as Contact);
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -165,6 +181,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+
       <div className="flex items-center justify-end space-x-2 py-4 text-primary-foreground">
         <Button
           variant="outline"
@@ -183,6 +200,7 @@ export function DataTable<TData, TValue>({
           Next
         </Button>
       </div>
+
       {/* ContactSheet - Pass the selected row data */}
       {isSheetOpen && (
         <ContactSheet
