@@ -45,7 +45,7 @@ export default function DesignEditModal() {
   return (
     <div className="flex flex-col gap-10">
       {/* Title */}
-      <h2 className="text-2xl font-thin">Design</h2>
+      <h2 className=" text-2xl font-thin">Design</h2>
 
       {/* Color Preset Selection */}
       <div>

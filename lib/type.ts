@@ -1,13 +1,13 @@
 // types/itemTypes.ts
 
-export type Item = {
-  id: number;
-  title: string;
+export type ProfileComponent = {
+  id: number,
+  type: PROFILE_COMPONENT_TYPE,
+  category: PROFILE_COMPONENT_CATEGORY,
   value: string;
-  type: ITEM_TYPE;
 };
 
-export enum ITEM_TYPE {
+export enum PROFILE_COMPONENT_TYPE {
   PHONE = "phone",
   EMAIL = "email",
   IMAGE = "img",
@@ -16,8 +16,48 @@ export enum ITEM_TYPE {
   VIDEO = "video",
   MAP = "map",
   FILE = "file",
-  SOCIAL = "social",
+  FACEBOOK = "facebook",
+  TWITTER = "twitter",
+  INSTAGRAM = "instagram",
+  LINKEDIN = "linkedin",
+  TIKTOK = "tiktok",
+  SNAPCHAT = "snapchat",
+  PINTEREST = "pinterest",
+  DISCORD = "discord",
+  SLACK = "slack",
+  YOUTUBE = "youtube",
+  TWITCH = "twitch",
+  GITHUB = "github",
+  TELEGRAM = "telegram",
+  WHATSAPP = "whatsapp",
+  SPOTIFY = "spotify",
+  APPLE_MUSIC = "apple_music",
+  AMAZON_MUSIC = "amazon_music",
+  DRIBBBLE = "dribbble",
+  BEHANCE = "behance",
+  PAYPAL = "paypal",
+  STRIPE = "stripe",
+  AMAZON_PAY = "amazon_pay",
+  APPLE_PAY = "apple_pay",
+  GOOGLE_MEET = "google_meet",
+  MICROSOFT_TEAMS = "microsoft_teams",
 }
+
+export enum PROFILE_COMPONENT_CATEGORY {
+  MAIL = "mail",
+  LINK = "link",
+  VIDEO = "video",
+  MAP = "map",
+  FILE = "file",
+  PHONE = "phone",
+  PAYMENT = "payment",
+  MUSIC = "music",
+  IMAGE = "image",
+  TEXT = "text",
+}
+
+
+
 
 export type Contact = {
   UserCardID: number;

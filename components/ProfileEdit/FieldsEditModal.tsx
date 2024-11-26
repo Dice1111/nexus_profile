@@ -1,82 +1,63 @@
+import { PROFILE_COMPONENT_TYPE } from "@/lib/type";
 import { Button } from "../ui/button";
-import {
-  FaEnvelope,
-  FaLink,
-  FaGithub,
-  FaLinkedin,
-  FaFacebook,
-  FaInstagram,
-  FaTwitter,
-  FaTiktok,
-  FaSnapchat,
-  FaPinterest,
-  FaPhone,
-  FaWhatsapp,
-  FaTelegram,
-  FaVideo,
-  FaMusic,
-  FaPaypal,
-  FaGoogle,
-  FaAmazon,
-  FaSpotify,
-  FaYoutube,
-  FaApple,
-  FaDiscord,
-  FaSlack,
-  FaTwitch,
-  FaDribbble,
-  FaBehance,
-} from "react-icons/fa";
+import { typeIconMap } from "@/lib/icon";
 
 export default function FieldsEditModal() {
   const data = {
-    "Most Popular": [
-      { label: "Email", icon: <FaEnvelope /> },
-      { label: "Link", icon: <FaLink /> },
-      { label: "Github", icon: <FaGithub /> },
-      { label: "Website", icon: <FaLink /> },
-      { label: "Linkedin", icon: <FaLinkedin /> },
-      { label: "Facebook", icon: <FaFacebook /> },
-      { label: "Instagram", icon: <FaInstagram /> },
+    "General Use": [
+      { label: "Email", type: PROFILE_COMPONENT_TYPE.EMAIL },
+      { label: "Link", type: PROFILE_COMPONENT_TYPE.LINK },
+      { label: "Github", type: PROFILE_COMPONENT_TYPE.GITHUB },
+      { label: "Website", type: PROFILE_COMPONENT_TYPE.LINK },
+      { label: "Linkedin", type: PROFILE_COMPONENT_TYPE.LINKEDIN },
+      { label: "Facebook", type: PROFILE_COMPONENT_TYPE.FACEBOOK },
+      { label: "Instagram", type: PROFILE_COMPONENT_TYPE.INSTAGRAM },
+      { label: "Map", type: PROFILE_COMPONENT_TYPE.MAP },
     ],
     Social: [
-      { label: "Twitter", icon: <FaTwitter /> },
-      { label: "TikTok", icon: <FaTiktok /> },
-      { label: "Snapchat", icon: <FaSnapchat /> },
-      { label: "Pinterest", icon: <FaPinterest /> },
-      { label: "Discord", icon: <FaDiscord /> },
-      { label: "Slack", icon: <FaSlack /> },
+      { label: "Twitter", type: PROFILE_COMPONENT_TYPE.TWITTER },
+      { label: "TikTok", type: PROFILE_COMPONENT_TYPE.TIKTOK },
+      { label: "Snapchat", type: PROFILE_COMPONENT_TYPE.SNAPCHAT },
+      { label: "Pinterest", type: PROFILE_COMPONENT_TYPE.PINTEREST },
+      { label: "Discord", type: PROFILE_COMPONENT_TYPE.DISCORD },
+      { label: "Slack", type: PROFILE_COMPONENT_TYPE.SLACK },
+      { label: "Facebook", type: PROFILE_COMPONENT_TYPE.FACEBOOK },
+      { label: "Instagram", type: PROFILE_COMPONENT_TYPE.INSTAGRAM },
     ],
     Communication: [
-      { label: "Phone", icon: <FaPhone /> },
-      { label: "WhatsApp", icon: <FaWhatsapp /> },
-      { label: "Telegram", icon: <FaTelegram /> },
-      { label: "Zoom", icon: <FaVideo /> },
+      { label: "Email", type: PROFILE_COMPONENT_TYPE.EMAIL },
+      { label: "Phone", type: PROFILE_COMPONENT_TYPE.PHONE },
+      { label: "WhatsApp", type: PROFILE_COMPONENT_TYPE.WHATSAPP },
+      { label: "Telegram", type: PROFILE_COMPONENT_TYPE.TELEGRAM },
+      { label: "Zoom", type: PROFILE_COMPONENT_TYPE.VIDEO },
     ],
     Conferencing: [
-      { label: "Zoom", icon: <FaVideo /> },
-      { label: "Google Meet", icon: <FaGoogle /> },
-      { label: "Microsoft Teams", icon: <FaVideo /> },
+      { label: "Zoom", type: PROFILE_COMPONENT_TYPE.VIDEO },
+      { label: "Google Meet", type: PROFILE_COMPONENT_TYPE.GOOGLE_MEET },
+      {
+        label: "Microsoft Teams",
+        type: PROFILE_COMPONENT_TYPE.MICROSOFT_TEAMS,
+      },
     ],
     Payment: [
-      { label: "PayPal", icon: <FaPaypal /> },
-      { label: "Stripe", icon: <FaLink /> },
-      { label: "Amazon Pay", icon: <FaAmazon /> },
-      { label: "Apple Pay", icon: <FaApple /> },
+      { label: "PayPal", type: PROFILE_COMPONENT_TYPE.PAYPAL },
+      { label: "Stripe", type: PROFILE_COMPONENT_TYPE.STRIPE },
+      { label: "Amazon Pay", type: PROFILE_COMPONENT_TYPE.AMAZON_PAY },
+      { label: "Apple Pay", type: PROFILE_COMPONENT_TYPE.APPLE_PAY },
     ],
     Video: [
-      { label: "YouTube", icon: <FaYoutube /> },
-      { label: "Vimeo", icon: <FaVideo /> },
-      { label: "Twitch", icon: <FaTwitch /> },
+      { label: "YouTube", type: PROFILE_COMPONENT_TYPE.YOUTUBE },
+      { label: "Vimeo", type: PROFILE_COMPONENT_TYPE.VIDEO },
+      { label: "Twitch", type: PROFILE_COMPONENT_TYPE.TWITCH },
     ],
     Music: [
-      { label: "Spotify", icon: <FaSpotify /> },
-      { label: "Apple Music", icon: <FaMusic /> },
-      { label: "Amazon Music", icon: <FaAmazon /> },
+      { label: "Spotify", type: PROFILE_COMPONENT_TYPE.SPOTIFY },
+      { label: "Apple Music", type: PROFILE_COMPONENT_TYPE.APPLE_MUSIC },
+      { label: "Amazon Music", type: PROFILE_COMPONENT_TYPE.AMAZON_MUSIC },
     ],
     Design: [
-      { label: "Dribbble", icon: <FaDribbble /> },
-      { label: "Behance", icon: <FaBehance /> },
+      { label: "Dribbble", type: PROFILE_COMPONENT_TYPE.DRIBBBLE },
+      { label: "Behance", type: PROFILE_COMPONENT_TYPE.BEHANCE },
     ],
   };
 
@@ -89,12 +70,12 @@ export default function FieldsEditModal() {
         <div key={category}>
           <h2 className="text-lg font-medium">{category}</h2>
           <div className="flex flex-wrap gap-2">
-            {items.map(({ label, icon }) => (
+            {items.map(({ label, type }) => (
               <Button
                 key={label}
-                className="flex items-center gap-2 border p-2 hover:bg-secondary hover:text-secondary-foreground rounded-md shadow-md"
+                className="flex items-center gap-2 border bg-primary text-primary-foreground p-2 hover:bg-secondary hover:text-secondary-foreground rounded-md shadow-md"
               >
-                {icon}
+                {typeIconMap[type as keyof typeof typeIconMap]}
                 {label}
               </Button>
             ))}

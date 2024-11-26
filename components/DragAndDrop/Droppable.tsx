@@ -1,226 +1,190 @@
-import { TfiEmail } from "react-icons/tfi";
-import { PiPhoneCallLight } from "react-icons/pi";
-import { FaImage, FaLink, FaMapMarkerAlt, FaVideo } from "react-icons/fa";
-import { MdOutlineLink, MdTextFields } from "react-icons/md";
-import { Item } from "@/lib/type";
-import { useSortable } from "@dnd-kit/sortable";
-import React, { useContext } from "react";
-import { CSS } from "@dnd-kit/utilities";
 import { profileEditContext } from "@/lib/context";
-import { CiEdit } from "react-icons/ci";
-import { TiDelete, TiSocialYoutube } from "react-icons/ti";
+
+import { typeIconMap } from "@/lib/icon";
+import {
+  PROFILE_COMPONENT_CATEGORY,
+  PROFILE_COMPONENT_TYPE,
+  ProfileComponent,
+} from "@/lib/type";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import Image from "next/image";
-import { GoPeople } from "react-icons/go";
+import { useContext } from "react";
+import { CiEdit } from "react-icons/ci";
 import { IoCloudUploadOutline } from "react-icons/io5";
+import { TiDelete } from "react-icons/ti";
+
 interface DroppableProps {
-  item: Item;
+  item: ProfileComponent;
 }
 
-// // Map ITEM_TYPE to corresponding icons
-// const getItemIcon = (type: string) => {
-//   switch (type) {
-//     case "email":
-//       return;
-//     case "phone":
-//       return <PiPhoneCallLight />;
-//     case "img":
-//       return <FaImage />;
-//     case "textarea":
-//       return <MdTextFields />;
-//     case "link":
-//       return <FaLink />;
-//     case "video":
-//       return <FaVideo />;
-//     case "audio":
-//       return <FaVideo />;
-//     default:
-//       return null;
-//   }
-// };
+// Helper to render edit controls
+const EditControls = ({ isEditing }: { isEditing: boolean }) =>
+  isEditing ? (
+    <div className="absolute right-4 top-0 flex gap-4    items-center">
+      <CiEdit className="hover:scale-150 transition" />
+      <TiDelete className="text-red-500 hover:scale-150 transition" />
+    </div>
+  ) : null;
 
-const getItemFrame = (type: string, value: string, isEditing: boolean) => {
-  switch (type) {
-    case "email":
-      return (
-        <div className="flex items-center gap-5 relative p-2 bg-secondary mx-4 rounded">
-          <TfiEmail />
-          <div>
-            {!isEditing ? <a href={`mailto:${value}`}>{value}</a> : value}
-          </div>
-          {isEditing && (
-            <div className="absolute right-4 flex gap-4 h-full items-center">
-              <CiEdit className="hover:scale-150 transition" />
-              <TiDelete className="text-red-500 hover:scale-150 transition" />
-            </div>
-          )}
-        </div>
-      );
-    case "phone":
-      return (
-        <div className="flex items-center gap-5 relative p-2 bg-secondary mx-4 rounded">
-          <PiPhoneCallLight />
-          <div className="">{value}</div>
-          {isEditing && (
-            <div className="absolute right-4 flex gap-4 h-full items-center">
-              <CiEdit className="hover:scale-150 transition" />
-              <TiDelete className=" text-red-500 hover:scale-150 transition" />
-            </div>
-          )}
-        </div>
-      );
-    case "img":
-      return (
-        <div className="relative">
-          <Image
-            src={value}
-            width={500}
-            height={500}
-            alt="Picture of the author"
-            className=" w-full h-80 object-cover transition-transform duration-300 hover:scale-105"
-            priority
-          />
-          {isEditing && (
-            <div className="absolute right-4 top-8 flex gap-4  items-center">
-              <CiEdit className="hover:scale-150 transition " />
-              <TiDelete className=" text-red-500 hover:scale-150 transition" />
-            </div>
-          )}
-        </div>
-      );
-    case "text":
-      return (
-        <>
-          <div className="py-2 text-center text-secondary relative">
-            <p>{value}</p>
-            {isEditing && (
-              <div className="absolute right-4 top-1 flex gap-4 items-center">
-                <CiEdit className="hover:scale-150 transition" />
-                <TiDelete className=" text-red-500 hover:scale-150 transition" />
-              </div>
-            )}
-          </div>
-        </>
-      );
-    case "link":
-      return (
-        <div className="flex items-center gap-5 relative p-2 bg-secondary mx-4 rounded">
-          <MdOutlineLink />
-          <div>
-            {!isEditing ? (
-              <a
-                href="https://www.apple.com/sg/store?afid=p238%7CshGhc4OE7-dc_mtid_18707vxu38484_pcrid_719359532044_pgrid_15033774143_pntwk_g_pchan__pexid__ptid_kwd-10778630_&cid=aos-sg-kwgo-Brand--slid---product-"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {value}
-              </a>
-            ) : (
-              value
-            )}
-          </div>
-          {isEditing && (
-            <div className="absolute right-4 flex gap-4 h-full items-center">
-              <CiEdit className="hover:scale-150 transition" />
-              <TiDelete className="text-red-500 hover:scale-150 transition" />
-            </div>
-          )}
-        </div>
-      );
-    case "video":
-      return (
-        <div className="relative px-4">
-          {!isEditing ? (
-            <iframe
-              src={value}
-              className="w-full h-80 rounded-lg "
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          ) : (
-            <div className="w-full h-80 rounded-lg bg-gray-200 flex items-center justify-center">
-              <p className="text-gray-500">Editing mode: Video disabled</p>
-            </div>
-          )}
-          {isEditing && (
-            <div className="absolute right-4 top-8 flex gap-4 items-center">
-              <CiEdit className="hover:scale-150 transition" />
-              <TiDelete className="text-red-500 hover:scale-150 transition" />
-            </div>
-          )}
-        </div>
-      );
+// Reusable iframe component for map and video
+const IframeContent = ({
+  src,
+  isEditing,
+}: {
+  src: string;
+  isEditing: boolean;
+}) =>
+  !isEditing ? (
+    <iframe
+      src={src}
+      className="w-full h-80 rounded-lg"
+      allowFullScreen
+      loading="lazy"
+    ></iframe>
+  ) : (
+    <div className="w-full h-80 rounded-lg bg-gray-200 flex items-center justify-center">
+      <p className="text-gray-500">Editing mode: Disabled</p>
+    </div>
+  );
 
-    case "map":
-      return (
-        <div className="relative px-4">
-          {!isEditing ? (
-            <iframe
-              src={value}
-              className="w-full h-80 rounded-lg "
-              allowFullScreen
-              loading="lazy"
-            ></iframe>
-          ) : (
-            <div className="w-full h-80 rounded-lg bg-gray-200 flex items-center justify-center">
-              <p className="text-gray-500">Editing mode: Map disabled</p>
-            </div>
-          )}
-          {isEditing && (
-            <div className="absolute right-4 top-8 flex gap-4 items-center">
-              <CiEdit className="hover:scale-150 transition" />
-              <TiDelete className="text-red-500 hover:scale-150 transition" />
-            </div>
-          )}
-        </div>
-      );
-
-    case "file":
-      return <IoCloudUploadOutline />;
-
-    case "social":
-      return (
-        <div className="flex items-center gap-5 relative p-2 bg-secondary mx-4 rounded">
-          <GoPeople />
-          <div className="">{value}</div>
-          {isEditing && (
-            <div className="absolute right-4 flex gap-4 h-full items-center">
-              <CiEdit className="hover:scale-150 transition" />
-              <TiDelete className=" text-red-500 hover:scale-150 transition" />
-            </div>
-          )}
-        </div>
-      );
-    default:
-      return null;
-  }
+// Mapping for each type
+const frameComponents = {
+  [PROFILE_COMPONENT_CATEGORY.MAIL]: (
+    value: string,
+    type: PROFILE_COMPONENT_TYPE,
+    isEditing: boolean
+  ) => (
+    <div className="flex bg-secondary text-secondary-foreground items-center gap-5 relative p-2 mx-4 rounded">
+      {typeIconMap[type as keyof typeof typeIconMap]}
+      <div>{!isEditing ? <a href={`mailto:${value}`}>{value}</a> : value}</div>
+      <EditControls isEditing={isEditing} />
+    </div>
+  ),
+  [PROFILE_COMPONENT_CATEGORY.PHONE]: (
+    value: string,
+    type: PROFILE_COMPONENT_TYPE,
+    isEditing: boolean
+  ) => (
+    <div className="flex items-center gap-5 relative p-2 bg-secondary text-secondary-foreground mx-4 rounded">
+      {typeIconMap[type as keyof typeof typeIconMap]}
+      <div>{value}</div>
+      <EditControls isEditing={isEditing} />
+    </div>
+  ),
+  [PROFILE_COMPONENT_CATEGORY.IMAGE]: (
+    value: string,
+    type: PROFILE_COMPONENT_TYPE,
+    isEditing: boolean
+  ) => (
+    <div className="relative">
+      <Image
+        src={value}
+        width={500}
+        height={500}
+        alt="Uploaded image"
+        className="w-full h-80 object-cover transition-transform duration-300 hover:scale-105"
+        priority
+      />
+      <EditControls isEditing={isEditing} />
+    </div>
+  ),
+  [PROFILE_COMPONENT_CATEGORY.TEXT]: (
+    value: string,
+    type: PROFILE_COMPONENT_TYPE,
+    isEditing: boolean
+  ) => (
+    <div className="p-2 text-center relative">
+      <p>{value}</p>
+      <EditControls isEditing={isEditing} />
+    </div>
+  ),
+  [PROFILE_COMPONENT_CATEGORY.VIDEO]: (
+    value: string,
+    type: PROFILE_COMPONENT_TYPE,
+    isEditing: boolean
+  ) => (
+    <div className="relative px-4">
+      <IframeContent src={value} isEditing={isEditing} />
+      <EditControls isEditing={isEditing} />
+    </div>
+  ),
+  [PROFILE_COMPONENT_CATEGORY.MAP]: (
+    value: string,
+    type: PROFILE_COMPONENT_TYPE,
+    isEditing: boolean
+  ) => (
+    <div className="relative px-4">
+      <IframeContent src={value} isEditing={isEditing} />
+      <EditControls isEditing={isEditing} />
+    </div>
+  ),
+  [PROFILE_COMPONENT_CATEGORY.FILE]: (
+    _: string,
+    type: PROFILE_COMPONENT_TYPE,
+    isEditing: boolean
+  ) => (
+    <div className="flex items-center justify-center p-4 bg-gray-200 rounded">
+      <IoCloudUploadOutline className="text-xl" />
+      <EditControls isEditing={isEditing} />
+    </div>
+  ),
+  [PROFILE_COMPONENT_CATEGORY.LINK]: (
+    value: string,
+    type: PROFILE_COMPONENT_TYPE,
+    isEditing: boolean
+  ) => (
+    <div className="flex items-center gap-5 relative p-2 bg-secondary text-secondary-foreground mx-4 rounded">
+      {typeIconMap[type as keyof typeof typeIconMap]}
+      <div>{!isEditing ? <a href={value}>{value}</a> : value}</div>
+      <EditControls isEditing={isEditing} />
+    </div>
+  ),
 };
+
+// Get item frame based on type
+const getItemFrame = (
+  type: PROFILE_COMPONENT_TYPE,
+  catagory: PROFILE_COMPONENT_CATEGORY,
+  value: string,
+  isEditing: boolean
+) =>
+  frameComponents[catagory as keyof typeof frameComponents]
+    ? frameComponents[catagory as keyof typeof frameComponents](
+        value,
+        type,
+        isEditing
+      )
+    : null;
 
 export default function Droppable({ item }: DroppableProps) {
   const context = useContext(profileEditContext);
 
   if (!context) {
-    throw new Error("profileEditContext is null");
+    console.warn("profileEditContext is null");
+    return null;
   }
 
   const { isEditing } = context;
 
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: item.id, disabled: !isEditing });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: item.id, disabled: !isEditing });
 
   const style = {
-    transition: transition,
+    transition,
     transform: CSS.Translate.toString(transform),
+    zIndex: isDragging ? 10 : undefined,
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      {...attributes}
-      {...listeners}
-      style={style}
-      className="touch-none"
-    >
-      {getItemFrame(item.type, item.value, isEditing)}
+    <div ref={setNodeRef} {...attributes} {...listeners} style={style}>
+      {getItemFrame(item.type, item.category, item.value, isEditing)}
     </div>
   );
 }
