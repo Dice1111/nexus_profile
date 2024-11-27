@@ -1,5 +1,4 @@
-import { profileEditContext } from "@/lib/context";
-
+import { useProfileContext } from "@/context/profileContext";
 import { typeIconMap } from "@/lib/icon";
 import {
   PROFILE_COMPONENT_CATEGORY,
@@ -9,7 +8,6 @@ import {
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import Image from "next/image";
-import { useContext } from "react";
 import { CiEdit } from "react-icons/ci";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
@@ -158,7 +156,7 @@ const getItemFrame = (
     : null;
 
 export default function Droppable({ item }: DroppableProps) {
-  const context = useContext(profileEditContext);
+  const context = useProfileContext();
 
   if (!context) {
     console.warn("profileEditContext is null");
