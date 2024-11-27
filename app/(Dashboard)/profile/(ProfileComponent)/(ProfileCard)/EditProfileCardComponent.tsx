@@ -1,4 +1,4 @@
-import ProfileDroppable from "@/components/DragAndDrop/ProfileDroppable";
+import ProfileDroppable from "@/app/(Dashboard)/profile/(ProfileComponent)/(DragAndDrop)/ProfileDroppable";
 import { Button } from "@/components/ui/button";
 import { useProfileContext } from "@/context/profileContext";
 import {

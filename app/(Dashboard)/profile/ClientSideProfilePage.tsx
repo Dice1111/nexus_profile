@@ -6,6 +6,7 @@ import { ProfileComponent, ProfileCard } from "@/lib/type";
 import { useState } from "react";
 import EditProfileCardComponent from "./(ProfileComponent)/(ProfileCard)/EditProfileCardComponent";
 import ProfileEditor from "./(ProfileComponent)/(ProfileEditor)/ProfileEditor";
+import ProfileCardComponent from "@/components/ProfileCard/ProfileCardComponent";
 
 interface ProfileProps {
   profileComponentData: ProfileComponent[];
@@ -46,11 +47,7 @@ const ClientSideProfilePage = ({
       >
         <div className=" flex justify-space-between gap-4 w-full relative">
           {/* Profile Preview */}
-          {!isEditing ? (
-            <EditProfileCardComponent />
-          ) : (
-            <EditProfileCardComponent />
-          )}
+          {!isEditing ? <ProfileCardComponent /> : <EditProfileCardComponent />}
 
           <ProfileEditor />
         </div>
