@@ -1,13 +1,94 @@
-import { Contact, CONTACT_TAG_TYPE } from "@/lib/type";
+import {
+  CONNECTION_REQUEST_STATUS,
+  ConnectionRequest,
+  Contact,
+  CONTACT_TAG_TYPE,
+} from "@/lib/type";
 
 export async function fetchContactData(): Promise<Contact[]> {
   return data;
 }
 
+export interface ConnectionRequestWithDetails extends ConnectionRequest {
+  senderUsername: string;
+  senderOccupation: string;
+  senderCompany: string;
+  senderImage: string;
+}
+
+export async function fetchConnectionRequestData(): Promise<
+  ConnectionRequestWithDetails[]
+> {
+  return detailsContact;
+}
+
+// Create dummy data for the connection requests with sender details
+const detailsContact: ConnectionRequestWithDetails[] = [
+  {
+    requestID: 1,
+    senderCardID: 1012,
+    recieverCardID: 202,
+    status: CONNECTION_REQUEST_STATUS.PENDING,
+    created_at: new Date("2024-11-01T08:00:00Z"),
+    updated_at: new Date("2024-11-01T08:00:00Z"),
+    senderUsername: "John Doe",
+    senderOccupation: "Software Engineer",
+    senderCompany: "Tech Corp",
+    senderImage: "",
+  },
+  {
+    requestID: 2,
+    senderCardID: 102,
+    recieverCardID: 203,
+    status: CONNECTION_REQUEST_STATUS.ACCEPTED,
+    created_at: new Date("2024-11-02T09:30:00Z"),
+    updated_at: new Date("2024-11-02T09:35:00Z"),
+    senderUsername: "Jane Smith",
+    senderOccupation: "Product Manager",
+    senderCompany: "Innovate Inc.",
+    senderImage: "",
+  },
+  {
+    requestID: 3,
+    senderCardID: 103,
+    recieverCardID: 204,
+    status: CONNECTION_REQUEST_STATUS.REJECTED,
+    created_at: new Date("2024-11-03T10:00:00Z"),
+    updated_at: new Date("2024-11-03T10:05:00Z"),
+    senderUsername: "Mike Jones",
+    senderOccupation: "Data Scientist",
+    senderCompany: "DataLab",
+    senderImage: "",
+  },
+  {
+    requestID: 4,
+    senderCardID: 104,
+    recieverCardID: 205,
+    status: CONNECTION_REQUEST_STATUS.PENDING,
+    created_at: new Date("2024-11-04T11:00:00Z"),
+    updated_at: new Date("2024-11-04T11:05:00Z"),
+    senderUsername: "Alice Williams",
+    senderOccupation: "Marketing Lead",
+    senderCompany: "BrandCo",
+    senderImage: "",
+  },
+  {
+    requestID: 5,
+    senderCardID: 105,
+    recieverCardID: 206,
+    status: CONNECTION_REQUEST_STATUS.ACCEPTED,
+    created_at: new Date("2024-11-05T12:30:00Z"),
+    updated_at: new Date("2024-11-05T12:35:00Z"),
+    senderUsername: "Bob Miller",
+    senderOccupation: "UX Designer",
+    senderCompany: "Designify",
+    senderImage: "",
+  },
+];
 
 const data: Contact[] = [
   {
-    UserCardID: 1,
+    userCardID: 1,
     connectionID: 1,
     connectedUserCardID: 1,
     connectedUserID: 1,
@@ -20,7 +101,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.FAMILY,
   },
   {
-    UserCardID: 2,
+    userCardID: 2,
     connectionID: 3,
     connectedUserCardID: 1,
     connectedUserID: 1,
@@ -33,7 +114,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.FRIEND,
   },
   {
-    UserCardID: 3,
+    userCardID: 3,
     connectionID: 2,
     connectedUserCardID: 2,
     connectedUserID: 2,
@@ -46,7 +127,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.COLLEAGUE,
   },
   {
-    UserCardID: 4,
+    userCardID: 4,
     connectionID: 4,
     connectedUserCardID: 3,
     connectedUserID: 3,
@@ -58,7 +139,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.CLIENT,
   },
   {
-    UserCardID: 5,
+    userCardID: 5,
     connectionID: 5,
     connectedUserCardID: 4,
     connectedUserID: 4,
@@ -70,7 +151,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.SUPPLIER,
   },
   {
-    UserCardID: 6,
+    userCardID: 6,
     connectionID: 6,
     connectedUserCardID: 5,
     connectedUserID: 5,
@@ -82,7 +163,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.INVESTOR,
   },
   {
-    UserCardID: 7,
+    userCardID: 7,
     connectionID: 7,
     connectedUserCardID: 6,
     connectedUserID: 6,
@@ -94,7 +175,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.EMPLOYEE,
   },
   {
-    UserCardID: 8,
+    userCardID: 8,
     connectionID: 8,
     connectedUserCardID: 7,
     connectedUserID: 7,
@@ -106,7 +187,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.VENDOR,
   },
   {
-    UserCardID: 9,
+    userCardID: 9,
     connectionID: 9,
     connectedUserCardID: 8,
     connectedUserID: 8,
@@ -118,7 +199,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.FAMILY,
   },
   {
-    UserCardID: 10,
+    userCardID: 10,
     connectionID: 10,
     connectedUserCardID: 9,
     connectedUserID: 9,
@@ -130,7 +211,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.FRIEND,
   },
   {
-    UserCardID: 11,
+    userCardID: 11,
     connectionID: 11,
     connectedUserCardID: 10,
     connectedUserID: 10,
@@ -142,7 +223,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.COLLEAGUE,
   },
   {
-    UserCardID: 12,
+    userCardID: 12,
     connectionID: 12,
     connectedUserCardID: 11,
     connectedUserID: 11,
@@ -154,7 +235,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.CLIENT,
   },
   {
-    UserCardID: 13,
+    userCardID: 13,
     connectionID: 13,
     connectedUserCardID: 12,
     connectedUserID: 12,
@@ -166,7 +247,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.SUPPLIER,
   },
   {
-    UserCardID: 14,
+    userCardID: 14,
     connectionID: 14,
     connectedUserCardID: 13,
     connectedUserID: 13,
@@ -178,7 +259,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.INVESTOR,
   },
   {
-    UserCardID: 15,
+    userCardID: 15,
     connectionID: 15,
     connectedUserCardID: 14,
     connectedUserID: 14,
@@ -190,7 +271,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.EMPLOYEE,
   },
   {
-    UserCardID: 16,
+    userCardID: 16,
     connectionID: 16,
     connectedUserCardID: 15,
     connectedUserID: 15,
@@ -202,7 +283,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.VENDOR,
   },
   {
-    UserCardID: 17,
+    userCardID: 17,
     connectionID: 17,
     connectedUserCardID: 16,
     connectedUserID: 16,
@@ -214,7 +295,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.FAMILY,
   },
   {
-    UserCardID: 18,
+    userCardID: 18,
     connectionID: 18,
     connectedUserCardID: 17,
     connectedUserID: 17,
@@ -226,7 +307,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.FRIEND,
   },
   {
-    UserCardID: 19,
+    userCardID: 19,
     connectionID: 19,
     connectedUserCardID: 18,
     connectedUserID: 18,
@@ -238,7 +319,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.COLLEAGUE,
   },
   {
-    UserCardID: 20,
+    userCardID: 20,
     connectionID: 20,
     connectedUserCardID: 19,
     connectedUserID: 19,
@@ -250,7 +331,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.CLIENT,
   },
   {
-    UserCardID: 21,
+    userCardID: 21,
     connectionID: 21,
     connectedUserCardID: 20,
     connectedUserID: 20,
@@ -262,7 +343,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.SUPPLIER,
   },
   {
-    UserCardID: 22,
+    userCardID: 22,
     connectionID: 22,
     connectedUserCardID: 21,
     connectedUserID: 21,
@@ -274,7 +355,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.INVESTOR,
   },
   {
-    UserCardID: 23,
+    userCardID: 23,
     connectionID: 23,
     connectedUserCardID: 22,
     connectedUserID: 22,
@@ -286,7 +367,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.EMPLOYEE,
   },
   {
-    UserCardID: 24,
+    userCardID: 24,
     connectionID: 24,
     connectedUserCardID: 23,
     connectedUserID: 23,
@@ -298,7 +379,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.VENDOR,
   },
   {
-    UserCardID: 25,
+    userCardID: 25,
     connectionID: 25,
     connectedUserCardID: 24,
     connectedUserID: 24,
@@ -310,7 +391,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.FAMILY,
   },
   {
-    UserCardID: 26,
+    userCardID: 26,
     connectionID: 26,
     connectedUserCardID: 25,
     connectedUserID: 25,
@@ -322,7 +403,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.FRIEND,
   },
   {
-    UserCardID: 27,
+    userCardID: 27,
     connectionID: 27,
     connectedUserCardID: 26,
     connectedUserID: 26,
@@ -334,7 +415,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.COLLEAGUE,
   },
   {
-    UserCardID: 28,
+    userCardID: 28,
     connectionID: 28,
     connectedUserCardID: 27,
     connectedUserID: 27,
@@ -346,7 +427,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.CLIENT,
   },
   {
-    UserCardID: 29,
+    userCardID: 29,
     connectionID: 29,
     connectedUserCardID: 28,
     connectedUserID: 28,
@@ -358,7 +439,7 @@ const data: Contact[] = [
     tag: CONTACT_TAG_TYPE.SUPPLIER,
   },
   {
-    UserCardID: 30,
+    userCardID: 30,
     connectionID: 30,
     connectedUserCardID: 29,
     connectedUserID: 29,

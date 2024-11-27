@@ -14,7 +14,7 @@ const PanelComponents = {
   [Panel.Information]: <InformationEditModal />,
   [Panel.Fields]: <FieldsEditModal />,
 };
-const navItems: NavBarNavigation[] = [
+const navItems: NavBarNavigation<Panel>[] = [
   { label: "Display", panel: Panel.Design },
   { label: "Fields", panel: Panel.Fields },
   { label: "Information", panel: Panel.Information },

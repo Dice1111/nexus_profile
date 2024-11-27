@@ -1,6 +1,5 @@
 "use client";
 
-import ContactSheet from "@/components/Sheet/ContactSheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -25,6 +24,7 @@ import {
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
+import ProfileCardSheet from "@/components/Sheet/ProfileCardSheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,7 +41,7 @@ interface DataTableProps {
 export function DataTable({ columns, data }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [selectedRowData, setSelectedRowData] = useState<Contact | null>(null);
+  const [selectedRowData, setSelectedRowData] = useState<number | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false); // Track the sheet's open state
   const [selectedTag, setSelectedTag] = useState<CONTACT_TAG_TYPE | "All">(
     "All"
@@ -53,7 +53,7 @@ export function DataTable({ columns, data }: DataTableProps) {
       : (data as Contact[]).filter((contact) => contact.tag === selectedTag);
   }, [selectedTag, data]); // Recompute filteredData when selectedTag or data changes
 
-  const handleRowClick = (rowData: Contact) => {
+  const handleRowClick = (rowData: number) => {
     setSelectedRowData(rowData);
     setIsSheetOpen(true);
   };
@@ -160,7 +160,7 @@ export function DataTable({ columns, data }: DataTableProps) {
                   className="border-gray-400 hover:bg-primary/20 cursor-pointer"
                   key={row.id}
                   onClick={() => {
-                    handleRowClick(row.original as Contact);
+                    handleRowClick(row.original.connectedUserCardID);
                   }}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -209,10 +209,10 @@ export function DataTable({ columns, data }: DataTableProps) {
 
       {/* ContactSheet - Pass the selected row data */}
       {isSheetOpen && (
-        <ContactSheet
+        <ProfileCardSheet
           isOpen={isSheetOpen}
           setIsOpen={setIsSheetOpen}
-          rowData={selectedRowData} // Pass the row data to the sheet
+          cardId={selectedRowData} // Pass the row data to the sheet
         />
       )}
     </div>
