@@ -1,3 +1,4 @@
+import ProfileLayoutOne from "@/app/(Dashboard)/profile/(ProfileComponent)/(ProfileHeaderLayout)/ProfileLayoutOne";
 import { ThemeSchema } from "../type";
 
 const themeData: ThemeSchema = {
@@ -28,3 +29,15 @@ const themeData: ThemeSchema = {
 };
 
 export default themeData;
+
+export enum ProfileLayout {
+  layout_one = "layout_one",
+  layout_two = "layout_two",
+  layout_three = "layout_three",
+}
+
+export const profileLayoutData = {
+  [ProfileLayout.layout_one]: <ProfileLayoutOne />,
+  [ProfileLayout.layout_two]: <ProfileLayoutOne />,
+  [ProfileLayout.layout_three]: <ProfileLayoutOne />,
+};

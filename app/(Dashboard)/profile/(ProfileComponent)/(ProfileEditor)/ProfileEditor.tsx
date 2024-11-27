@@ -1,8 +1,8 @@
+import NavBar, { NavBarNavigation } from "@/components/NavBar/NavBar";
 import { useState } from "react";
 import DesignEditModal from "./DesignEditModal";
 import FieldsEditModal from "./FieldsEditModal";
 import InformationEditModal from "./InformationEditModal";
-import NavBar, { NavBarNavigation } from "../NavBar/NavBar";
 
 export enum Panel {
   Design,

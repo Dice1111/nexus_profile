@@ -155,7 +155,7 @@ const getItemFrame = (
       )
     : null;
 
-export default function Droppable({ item }: DroppableProps) {
+export default function ProfileDroppable({ item }: DroppableProps) {
   const context = useProfileContext();
 
   if (!context) {
