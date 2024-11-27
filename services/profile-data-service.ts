@@ -83,7 +83,7 @@ const profileComponents: ProfileComponent[] = [
 const profileCard: ProfileCard = {
     id: "1",
     icon_color: "#050505",
-    theme_schema: "theme_one",
+    layout: "layout_one",
     wave_type: "wave_one",
     wave_color: "#050505",
     image: "/image/profile.jpg",

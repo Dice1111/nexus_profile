@@ -1,4 +1,4 @@
-import { Panel } from "../ProfileEdit/ProfileEditor";
+import { Panel } from "../../app/(Dashboard)/(Profile)/profile/(ProfileComponent)/(ProfileEdit)/ProfileEditor";
 
 export interface NavBarNavigation {
   label: string;

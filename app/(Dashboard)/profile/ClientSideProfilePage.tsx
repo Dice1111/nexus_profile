@@ -1,12 +1,11 @@
 "use client";
-import ProfileEditor from "@/components/ProfileEdit/ProfileEditor";
 
-import { ProfileCard, ProfileComponent } from "@/lib/type";
-
-import ProfileCardComponent from "@/components/ProfileCardComponent/ProfileCardComponent";
 import { ProfileContext } from "@/context/profileContext";
-import themeData from "@/lib/profileCardTemplateData/ThemeData";
+import { profileLayoutData } from "@/lib/profileCardTemplateData/ThemeData";
+import { ProfileComponent, ProfileCard } from "@/lib/type";
 import { useState } from "react";
+import EditProfileCardComponent from "./(ProfileComponent)/(ProfileCard)/EditProfileCardComponent";
+import ProfileEditor from "./(ProfileComponent)/(ProfileEditor)/ProfileEditor";
 
 interface ProfileProps {
   profileComponentData: ProfileComponent[];
@@ -22,8 +21,11 @@ const ClientSideProfilePage = ({
     useState<ProfileComponent[]>(profileComponentData);
   const [profileData, setProfileData] = useState<ProfileCard>(profileCardData);
 
-  const theme: string = profileData.theme_schema;
-  const [themeSchemaData, setThemeSchemaData] = useState(themeData[theme]);
+  const layout: string = profileData.layout;
+
+  const [layoutData, setLayoutData] = useState<JSX.Element>(
+    profileLayoutData[layout as keyof typeof profileLayoutData]
+  );
 
   // State for editing
   const [isEditing, setEditing] = useState(false);
@@ -36,15 +38,20 @@ const ClientSideProfilePage = ({
           setComponents,
           profileData,
           setProfileData,
-          themeSchemaData,
-          setThemeSchemaData,
+          layoutData,
+          setLayoutData,
           isEditing,
           setEditing,
         }}
       >
         <div className=" flex justify-space-between gap-4 w-full relative">
           {/* Profile Preview */}
-          <ProfileCardComponent />
+          {!isEditing ? (
+            <EditProfileCardComponent />
+          ) : (
+            <EditProfileCardComponent />
+          )}
+
           <ProfileEditor />
         </div>
       </ProfileContext.Provider>

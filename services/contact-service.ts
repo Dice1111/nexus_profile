@@ -3,6 +3,8 @@ import { Contact, CONTACT_TAG_TYPE } from "@/lib/type";
 export async function fetchContactData(): Promise<Contact[]> {
   return data;
 }
+
+
 const data: Contact[] = [
   {
     UserCardID: 1,

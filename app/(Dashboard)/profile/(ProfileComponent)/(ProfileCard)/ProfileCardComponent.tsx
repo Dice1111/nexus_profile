@@ -1,25 +1,23 @@
+import ProfileDroppable from "@/components/DragAndDrop/ProfileDroppable";
+import { Button } from "@/components/ui/button";
+import { useProfileContext } from "@/context/profileContext";
 import {
-  DndContext,
   DragEndEvent,
+  useSensors,
+  useSensor,
   PointerSensor,
   TouchSensor,
+  DndContext,
   closestCorners,
-  useSensor,
-  useSensors,
 } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import React from "react";
 import { CiEdit } from "react-icons/ci";
 import { GiCheckMark } from "react-icons/gi";
-import Droppable from "../DragAndDrop/Droppable";
-import TemplateOne from "../ProfileSvgComponent/TemplateOne";
-import { Button } from "../ui/button";
-import { useProfileContext } from "@/context/profileContext";
-import Image from "next/image";
+
 const ProfileCardComponent = () => {
   const context = useProfileContext();
   if (!context) {
@@ -32,8 +30,8 @@ const ProfileCardComponent = () => {
     setComponents,
     profileData,
     setProfileData,
-    themeSchemaData,
-    setThemeSchemaData,
+    layoutData,
+    setLayoutData,
     isEditing,
     setEditing,
   } = context;
@@ -53,8 +51,6 @@ const ProfileCardComponent = () => {
     }
   };
 
-  console.log(themeSchemaData.logoWrapper);
-
   // Touch screen support for mobile
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
 
@@ -72,53 +68,7 @@ const ProfileCardComponent = () => {
       </Button>
 
       {/* header area */}
-
-      <div className={themeSchemaData.imageWrapper.trim()}>
-        {/* Profile Picture */}
-        <Image
-          src={profileData.image}
-          alt="Profile Picture"
-          width={1000}
-          height={1000}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-        />
-        <div className="absolute bottom-0 w-full ">
-          <TemplateOne />
-        </div>
-      </div>
-
-      {/* Profile Data */}
-      <div className=" relative px-7 py-10">
-        {/* Logo */}
-        {/* absolute bg-red-500 -top-10 right-2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg */}
-        <div className={themeSchemaData.logoWrapper.trim()}>
-          <Image
-            src={profileData.logo_icon}
-            alt="Logo Icon"
-            width={1000}
-            height={1000}
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        <h2 className={themeSchemaData.name.trim()}>
-          {profileData.prefix} {profileData.first_name}{" "}
-          {profileData.middle_name} {profileData.last_name} {profileData.suffix}
-        </h2>
-        <p className={themeSchemaData.title.trim()}>{profileData.title}</p>
-        <p className={themeSchemaData.occupation.trim()}>
-          {profileData.occupation}
-        </p>
-
-        <p className={themeSchemaData.company.trim()}>{profileData.company}</p>
-        <p className={themeSchemaData.quote.trim()}>{profileData.quote}</p>
-
-        <p className={themeSchemaData.preferredName.trim()}>
-          Goes by - {profileData.preferred_name.trim()} <br />
-          {profileData.pronouns}
-        </p>
-        <p className={themeSchemaData.message.trim()}>{profileData.message}</p>
-      </div>
+      {layoutData}
 
       {/* dnd area */}
 
@@ -134,7 +84,7 @@ const ProfileCardComponent = () => {
         >
           <div className="flex flex-col gap-3 pb-4  w-full">
             {components.map((item) => (
-              <Droppable key={item.id} item={item} />
+              <ProfileDroppable key={item.id} item={item} />
             ))}
           </div>
         </SortableContext>

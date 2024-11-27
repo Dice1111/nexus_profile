@@ -1,6 +1,7 @@
 import { PROFILE_COMPONENT_TYPE } from "@/lib/type";
-import { Button } from "../ui/button";
+
 import { typeIconMap } from "@/lib/icon";
+import { Button } from "@/components/ui/button";
 
 export default function FieldsEditModal() {
   const data = {

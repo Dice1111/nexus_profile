@@ -102,7 +102,7 @@ export type ThemeSchema = {
 export type ProfileCard = {
   id: string;
   icon_color: string;
-  theme_schema: string;
+  layout: string;
   wave_type: string;
   wave_color: string;
   image: string;
