@@ -1,18 +1,19 @@
 import { ProfileCard, ProfileComponent } from "@/lib/type";
 
-import {
-  fetchProfileCardData,
-  fetchProfileComponentsData,
-} from "@/services/profile-data-service";
 import ClientSideProfilePage from "./ClientSideProfilePage";
+import {
+  fetchUserProfileCardData,
+  fetchUserProfileComponentsData,
+} from "@/services/profile-data-service";
 
 const getProfileCardData = async (): Promise<ProfileCard> => {
-  const data = await fetchProfileCardData();
+  const data = await fetchUserProfileCardData(1);
+  if (!data) throw new Error("No data found");
   return data;
 };
 
 const getProfileComponentsData = async (): Promise<ProfileComponent[]> => {
-  const data = await fetchProfileComponentsData();
+  const data = await fetchUserProfileComponentsData(1);
   return data;
 };
 

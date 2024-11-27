@@ -5,9 +5,7 @@ import {
   ProfileComponent,
 } from "@/lib/type";
 import Image from "next/image";
-import { CiEdit } from "react-icons/ci";
 import { IoCloudUploadOutline } from "react-icons/io5";
-import { TiDelete } from "react-icons/ti";
 
 interface ItemProps {
   item: ProfileComponent;

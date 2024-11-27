@@ -2,6 +2,7 @@
 
 export type ProfileComponent = {
   id: number,
+  card_id: number;
   type: PROFILE_COMPONENT_TYPE,
   category: PROFILE_COMPONENT_CATEGORY,
   value: string;
@@ -100,7 +101,7 @@ export type ThemeSchema = {
 };
 
 export type ProfileCard = {
-  id: string;
+  card_id: number;
   icon_color: string;
   layout: string;
   wave_type: string;
