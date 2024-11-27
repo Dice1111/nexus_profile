@@ -1,13 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { useProfileContext } from "@/context/profileContext";
-import {
-  DragEndEvent,
-  PointerSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import { arrayMove } from "@dnd-kit/sortable";
 import { CiEdit } from "react-icons/ci";
 import { GiCheckMark } from "react-icons/gi";
 import ProfileBodyItem from "./ProfileBodyItem";
@@ -19,16 +11,7 @@ const ProfileCardComponent = () => {
     return null;
   }
 
-  const {
-    components,
-    setComponents,
-    profileData,
-    setProfileData,
-    layoutData,
-    setLayoutData,
-    isEditing,
-    setEditing,
-  } = context;
+  const { components, layoutData, isEditing, setEditing } = context;
 
   return (
     <div className="mt-10 relative mx-auto w-full max-w-[400px] flex flex-col bg-[#050505] text-primary-foreground overflow-hidden rounded-lg">
@@ -56,5 +39,4 @@ const ProfileCardComponent = () => {
     </div>
   );
 };
-
 export default ProfileCardComponent;

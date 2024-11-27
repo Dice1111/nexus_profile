@@ -47,9 +47,14 @@ const ClientSideProfilePage = ({
       >
         <div className=" flex justify-space-between gap-4 w-full relative">
           {/* Profile Preview */}
-          {!isEditing ? <ProfileCardComponent /> : <EditProfileCardComponent />}
-
-          <ProfileEditor />
+          {!isEditing ? (
+            <ProfileCardComponent />
+          ) : (
+            <>
+              <EditProfileCardComponent />
+              <ProfileEditor />
+            </>
+          )}
         </div>
       </ProfileContext.Provider>
       {/* <AddProfileComponentDrawer /> */}
