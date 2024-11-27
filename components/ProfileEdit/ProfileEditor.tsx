@@ -24,7 +24,10 @@ export default function ProfileEditor() {
   const [currentPanelType, setcurrentPanelType] = useState<Panel>(Panel.Design);
 
   return (
-    <div className=" w-[500px]  h-viewport shadow-2xl  overflow-auto p-4 flex flex-col gap-3">
+    <div
+      className=" w-[500px] sticky top-12 bg-background  shadow-2xl  overflow-auto p-4 flex flex-col gap-3"
+      style={{ height: `calc(100vh - 48px)` }}
+    >
       <NavBar
         data={navItems}
         onPanelChange={setcurrentPanelType}
