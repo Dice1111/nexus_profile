@@ -1,9 +1,9 @@
 // types/itemTypes.ts
 
 export type ProfileComponent = {
-  id: number,
-  type: PROFILE_COMPONENT_TYPE,
-  category: PROFILE_COMPONENT_CATEGORY,
+  id: number;
+  type: PROFILE_COMPONENT_TYPE;
+  category: PROFILE_COMPONENT_CATEGORY;
   value: string;
 };
 
@@ -56,11 +56,8 @@ export enum PROFILE_COMPONENT_CATEGORY {
   TEXT = "text",
 }
 
-
-
-
 export type Contact = {
-  UserCardID: number;
+  userCardID: number;
   connectionID: number;
   connectedUserCardID: number;
   connectedUserID: number;
@@ -71,6 +68,21 @@ export type Contact = {
   connectedDate: Date;
   tag: CONTACT_TAG_TYPE;
 };
+
+export type ConnectionRequest = {
+  requestID: number;
+  senderCardID: number;
+  recieverCardID: number;
+  status: CONNECTION_REQUEST_STATUS;
+  created_at: Date;
+  updated_at: Date;
+};
+
+export enum CONNECTION_REQUEST_STATUS {
+  PENDING = "pending",
+  ACCEPTED = "accepted",
+  REJECTED = "rejected",
+}
 
 export enum CONTACT_TAG_TYPE {
   FAMILY = "family",

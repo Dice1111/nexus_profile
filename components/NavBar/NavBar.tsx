@@ -1,30 +1,28 @@
-import { Panel } from "../ProfileEdit/ProfileEditor";
-
-export interface NavBarNavigation {
+export interface NavBarNavigation<T> {
   label: string;
-  panel: Panel;
+  panel: T;
 }
 
-interface NavBarProps {
-  data: NavBarNavigation[];
-  onPanelChange: (panel: Panel) => void;
-  currentPanel: Panel;
+interface NavBarProps<T> {
+  data: NavBarNavigation<T>[];
+  onPanelChange: (panel: T) => void;
+  currentPanel: T;
 }
 
-export default function NavBar({
+export default function NavBar<T>({
   data,
   onPanelChange,
   currentPanel,
-}: NavBarProps) {
+}: NavBarProps<T>) {
   return (
     <nav className="flex gap-4">
       {data.map((item) => (
         <button
-          key={item.panel}
+          key={String(item.panel)} // Ensure uniqueness by converting the panel to a string
           onClick={() => onPanelChange(item.panel)}
-          className={` transition ${
+          className={`transition ${
             currentPanel === item.panel
-              ? "border-b-2  font-bold"
+              ? "border-b-2 font-bold"
               : "font-thin hover:border-b-2 hover:border-gray-400"
           }`}
         >
