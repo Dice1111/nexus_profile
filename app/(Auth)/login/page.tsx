@@ -5,22 +5,26 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaGoogle, FaFacebook, FaApple } from "react-icons/fa";
+import { BiSolidShow,BiSolidHide } from "react-icons/bi";
+import { Separator } from "@radix-ui/react-separator";
+
 
 export default function LoginPage() {
   const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   return (
-    <div className="flex flex-col h-screen items-center justify-center  text-white">
+    <div className="flex flex-col h-screen items-center justify-center  text">
       <h1 className="text-2xl font-bold mb-6 ">Nexus Nova</h1>
       {/* Main Container */}
-      <div className=" p-8 rounded-lg flex w-[987px] shadow-lg">
+      <div className=" flex w-container justify-center gap-8 p-4">
+
         {/* Left Section */}
-        <div className="flex-1 pr-8 border-r bg-primary">
+        <div className="bg-primary">
           <h1 className="text-2xl font-bold mb-6">Log in</h1>
 
           {/* Email Input */}
-          <div className="mb-4">
+          <div className="w-64 mb-4">
             <label htmlFor="email" className="block mb-2 text-sm font-light">
               Email address
             </label>
@@ -43,13 +47,14 @@ export default function LoginPage() {
                 type={passwordVisible ? "text" : "password"}
                 placeholder="Enter your password"
               />
-              <button
+              <Button
+                style={{ backgroundColor: "transparent", border: "none" }}
                 type="button"
                 onClick={() => setPasswordVisible(!passwordVisible)}
-                className="absolute right-2 top-2 text-sm text-gray-400"
+                className="absolute right-2 top-0 text-sm text"
               >
-                {passwordVisible ? "Hide" : "Show"}
-              </button>
+                {passwordVisible ? <BiSolidHide size={20} /> : <BiSolidShow size={20} />}
+              </Button>
             </div>
           </div>
 
@@ -73,22 +78,25 @@ export default function LoginPage() {
           </p>
         </div>
 
+        <div className="border-r ">
+
+        </div>
         {/* Right Section */}
-        <div className="flex-1 pl-8 flex flex-col justify-center items-center">
+        <div className="flex justify-center items-center">
           
-          <div className="space-y-4  w-full">
-            <button className="w-full p-2 flex items-center justify-center gap-2 rounded bg-white text-black hover:bg-gray-200 font-light">
+          <div className="space-y-4  min-w-72">
+            <Button className="bg-foreground w-full p-2 flex items-center justify-center gap-2 rounded text-black hover:bg-gray-200 font-light">
               <FaGoogle />
               Continue with Google
-            </button>
-            <button className="w-full p-2 flex items-center justify-center gap-2 rounded bg-white text-black hover:bg-gray-200 font-light">
+            </Button>
+            <Button className="bg-foreground w-full p-2 flex items-center justify-center gap-2 rounded  text-black hover:bg-gray-200 font-light">
               <FaFacebook />
               Continue with Facebook
-            </button>
-            <button className="w-full p-2 flex items-center justify-center gap-2 rounded bg-white text-black hover:bg-gray-200 font-light">
+            </Button>
+            <Button className="bg-foreground w-full p-2 flex items-center justify-center gap-2 rounded text-black hover:bg-gray-200 font-light">
               <FaApple />
               Continue with Apple
-            </button>
+            </Button>
           </div>
         </div>
       </div>
