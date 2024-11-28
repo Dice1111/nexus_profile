@@ -5,6 +5,7 @@ export type ProfileComponent = {
   card_id: number;
   type: PROFILE_COMPONENT_TYPE;
   category: PROFILE_COMPONENT_CATEGORY;
+  display_text:string
   value: string;
 };
 
@@ -42,6 +43,7 @@ export enum PROFILE_COMPONENT_TYPE {
   APPLE_PAY = "apple_pay",
   GOOGLE_MEET = "google_meet",
   MICROSOFT_TEAMS = "microsoft_teams",
+  INFO = "info",
 }
 
 export enum PROFILE_COMPONENT_CATEGORY {

@@ -28,6 +28,8 @@ import {
   FaMapMarkerAlt,
 } from "react-icons/fa";
 import { PROFILE_COMPONENT_TYPE } from "./type";
+import { PiTextAaLight } from "react-icons/pi";
+import { TbInfoSquareRoundedFilled } from "react-icons/tb";
 
 export const typeIconMap = {
   [PROFILE_COMPONENT_TYPE.EMAIL]: <FaEnvelope />,
@@ -60,4 +62,8 @@ export const typeIconMap = {
   [PROFILE_COMPONENT_TYPE.AMAZON_MUSIC]: <FaAmazon />,
   [PROFILE_COMPONENT_TYPE.DRIBBBLE]: <FaDribbble />,
   [PROFILE_COMPONENT_TYPE.BEHANCE]: <FaBehance />,
+  [PROFILE_COMPONENT_TYPE.TEXT]: <PiTextAaLight />,
+  [PROFILE_COMPONENT_TYPE.FILE]: <FaLink />,
+  [PROFILE_COMPONENT_TYPE.IMAGE]: <FaLink />,
+  [PROFILE_COMPONENT_TYPE.INFO]: <TbInfoSquareRoundedFilled />,
 };
