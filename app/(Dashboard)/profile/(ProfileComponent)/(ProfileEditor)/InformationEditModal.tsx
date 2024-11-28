@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useProfileContext } from "@/context/profileContext";
 
 type Field = {
   id: string;
@@ -36,7 +37,6 @@ const fields: Field[] = [
     type: "textarea",
     placeholder: "Type your message here.",
   },
-  { id: "age", label: "Age", type: "text", placeholder: "Age" },
   {
     id: "preferred_name",
     label: "Preferred Name",
@@ -61,6 +61,21 @@ const fields: Field[] = [
 ];
 
 export default function InformationEditModal() {
+  const context = useProfileContext();
+  if (!context) {
+    console.warn("profileEditContext is null");
+    return null;
+  }
+
+  const { profileData, setProfileData } = context;
+
+  const handleChange = (id: string, value: string) => {
+    setProfileData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
+
   return (
     <div className="flex flex-col gap-10">
       {/* Title */}
@@ -73,12 +88,19 @@ export default function InformationEditModal() {
         >
           <Label htmlFor={field.id}>{field.label}</Label>
           {field.type === "textarea" ? (
-            <Textarea id={field.id} placeholder={field.placeholder} />
-          ) : (
-            <Input
-              type={field.type}
+            <Textarea
               id={field.id}
               placeholder={field.placeholder}
+              value={profileData[field.id as keyof typeof profileData] || ""}
+              onChange={(e) => handleChange(field.id, e.target.value)}
+            />
+          ) : (
+            <Input
+              type="text"
+              id={field.id}
+              placeholder={field.placeholder}
+              value={profileData[field.id as keyof typeof profileData] || ""}
+              onChange={(e) => handleChange(field.id, e.target.value)}
             />
           )}
         </div>

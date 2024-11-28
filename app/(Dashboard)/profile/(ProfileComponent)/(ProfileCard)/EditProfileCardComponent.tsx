@@ -1,4 +1,3 @@
-import ProfileDroppable from "@/app/(Dashboard)/profile/(ProfileComponent)/(DragAndDrop)/ProfileDroppable";
 import { Button } from "@/components/ui/button";
 import { useProfileContext } from "@/context/profileContext";
 import {
@@ -17,6 +16,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CiEdit } from "react-icons/ci";
 import { GiCheckMark } from "react-icons/gi";
+import ProfileDroppable from "../(DragAndDrop)/ProfileDroppable";
 
 const EditProfileCardComponent = () => {
   const context = useProfileContext();
@@ -25,16 +25,8 @@ const EditProfileCardComponent = () => {
     return null;
   }
 
-  const {
-    components,
-    setComponents,
-    profileData,
-    setProfileData,
-    layoutData,
-    setLayoutData,
-    isEditing,
-    setEditing,
-  } = context;
+  const { components, setComponents, layoutData, isEditing, setEditing } =
+    context;
 
   // Drag end handling
   const handleDragEnd = (event: DragEndEvent) => {
