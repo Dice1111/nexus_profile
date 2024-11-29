@@ -5,8 +5,8 @@ export type ProfileComponent = {
   card_id: number;
   type: PROFILE_COMPONENT_TYPE;
   category: PROFILE_COMPONENT_CATEGORY;
-  display_text:string
-  value: string;
+  display_text:string;
+  value?: string;
 };
 
 export enum PROFILE_COMPONENT_TYPE {

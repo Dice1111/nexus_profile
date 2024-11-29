@@ -1,6 +1,6 @@
 import React from "react";
 
-const TemplateThree = () => {
+const SvgWaveTemplateThree = () => {
   return (
     <div className="w-full h-full">
       <svg
@@ -22,4 +22,4 @@ const TemplateThree = () => {
   );
 };
 
-export default TemplateThree;
+export default SvgWaveTemplateThree;

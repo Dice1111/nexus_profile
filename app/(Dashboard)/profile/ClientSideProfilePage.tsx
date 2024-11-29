@@ -7,7 +7,7 @@ import { useState } from "react";
 import EditProfileCardComponent from "./(ProfileComponent)/(ProfileCard)/EditProfileCardComponent";
 import ProfileEditor from "./(ProfileComponent)/(ProfileEditor)/ProfileEditor";
 import ProfileCardComponent from "@/components/ProfileCard/ProfileCardComponent";
-import { profileLayoutData } from "@/lib/profileCardThemeData/ThemeData";
+import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
 
 interface ProfileProps {
   profileComponentData: ProfileComponent[];

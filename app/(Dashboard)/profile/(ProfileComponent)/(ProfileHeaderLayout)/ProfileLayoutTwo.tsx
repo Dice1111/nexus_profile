@@ -1,7 +1,7 @@
 import { useProfileContext } from "@/context/profileContext";
 import React from "react";
 import Image from "next/image";
-import TemplateOne from "@/components/ProfileSvgComponent/TemplateOne";
+import TemplateOne from "@/components/ProfileSvgComponent/SvgWaveTemplateOne";
 
 const ProfileLayoutTwo = () => {
   const context = useProfileContext();

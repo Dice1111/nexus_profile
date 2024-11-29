@@ -103,6 +103,14 @@ const profileComponents: ProfileComponent[] = [
     display_text:"my discord",
     value: "https://discord.com",
   },
+  {
+    id: 11,
+    card_id: 1,
+    type: PROFILE_COMPONENT_TYPE.IMAGE,
+    category: PROFILE_COMPONENT_CATEGORY.IMAGE,
+    display_text:"",
+    value:undefined,
+  },
 ];
 
 const profileCard: ProfileCard[] = [

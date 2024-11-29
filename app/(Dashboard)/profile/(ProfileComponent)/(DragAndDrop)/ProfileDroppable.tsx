@@ -80,7 +80,7 @@ const InputField = ({
 }: {
   type: string;
   placeholder: string;
-  value: string;
+  value?: string;
   icontype: string;
   onChange: (value: string) => void;
 }) => (

@@ -1,7 +1,6 @@
 import { useProfileContext } from "@/context/profileContext";
-import React from "react";
+import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
 import Image from "next/image";
-import TemplateOne from "@/components/ProfileSvgComponent/TemplateOne";
 
 const ProfileLayoutOne = () => {
   const context = useProfileContext();
@@ -33,7 +32,11 @@ const ProfileLayoutOne = () => {
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
         <div className="absolute bottom-0 w-full ">
-          <TemplateOne />
+          {
+            svgWaveLayoutData[
+              profileData.wave_type as keyof typeof svgWaveLayoutData
+            ]
+          }
         </div>
       </div>
 
@@ -41,7 +44,7 @@ const ProfileLayoutOne = () => {
       <div className=" relative px-7 py-10">
         {/* Logo */}
         {/* absolute bg-red-500 -top-10 right-2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg */}
-        <div className="absolute bg-red-500 -top-10 right-2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg">
+        <div className="absolute bg-transparent -top-10 right-2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg">
           <Image
             src={profileData.logo_icon}
             alt="Logo Icon"

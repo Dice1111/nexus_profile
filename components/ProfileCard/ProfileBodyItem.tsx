@@ -104,16 +104,20 @@ const frameComponents = {
 const getItemFrame = (
   type: PROFILE_COMPONENT_TYPE,
   catagory: PROFILE_COMPONENT_CATEGORY,
-  value: string,
-  display_text: string
-) =>
-  frameComponents[catagory as keyof typeof frameComponents]
+  value?: string,
+  display_text?: string
+) => {
+  console.log(value, display_text);
+  if (value === undefined || display_text === undefined) return null;
+
+  return frameComponents[catagory as keyof typeof frameComponents]
     ? frameComponents[catagory as keyof typeof frameComponents](
         value,
         type,
         display_text
       )
     : null;
+};
 
 export default function ProfileDroppable({ item }: ItemProps) {
   return (
