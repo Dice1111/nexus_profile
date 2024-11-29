@@ -1,8 +1,8 @@
 // types/itemTypes.ts
 
 export type ProfileComponent = {
-  id: number;
-  card_id: number;
+  id: string;
+  card_id: string;
   type: PROFILE_COMPONENT_TYPE;
   category: PROFILE_COMPONENT_CATEGORY;
   display_text:string;
@@ -59,6 +59,9 @@ export enum PROFILE_COMPONENT_CATEGORY {
   TEXT = "text",
 }
 
+
+
+
 export type Contact = {
   userCardID: number;
   connectionID: number;
@@ -114,7 +117,7 @@ export type ThemeSchema = {
 };
 
 export type ProfileCard = {
-  card_id: number;
+  card_id: string;
   icon_color: string;
   layout: string;
   wave_type: string;

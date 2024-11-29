@@ -1,5 +1,6 @@
 import ProfileLayoutOne from "@/app/(Dashboard)/profile/(ProfileComponent)/(ProfileHeaderLayout)/ProfileLayoutOne";
 import { ThemeSchema } from "../type";
+import ProfileLayoutTwo from "@/app/(Dashboard)/profile/(ProfileComponent)/(ProfileHeaderLayout)/ProfileLayoutTwo";
 
 // const themeData: ThemeSchema = {
 //   theme_one: {
@@ -31,9 +32,9 @@ import { ThemeSchema } from "../type";
 // export default themeData;
 
 export enum ProfileLayout {
-  layout_one = "layout_one",
-  layout_two = "layout_two",
-  layout_three = "layout_three",
+  layout_one = "classic",
+  layout_two = "modern",
+  layout_three = "minimal",
 }
 
 export const profileLayouts = [
@@ -44,6 +45,6 @@ export const profileLayouts = [
 
 export const profileLayoutData = {
   [ProfileLayout.layout_one]: <ProfileLayoutOne />,
-  [ProfileLayout.layout_two]: <ProfileLayoutOne />,
+  [ProfileLayout.layout_two]: <ProfileLayoutTwo />,
   [ProfileLayout.layout_three]: <ProfileLayoutOne />,
 };

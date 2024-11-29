@@ -45,3 +45,24 @@ export function hexToRgba(hex: string, alpha: number = 1){
       a: Math.round(a * 100) / 100,
     };
   };
+
+
+
+  export const colorPresets = [
+    { name: "Red", color: "#FF6347" },
+    { name: "Green", color: "#32CD32" },
+    { name: "Blue", color: "#1E90FF" },
+    { name: "Yellow", color: "#FFD700" },
+    { name: "Purple", color: "#800080" },
+    { name: "Orange", color: "#FFA500" },
+    { name: "Gray", color: "#808080" },
+    { name: "Gold", color: "#FFD900" },
+    { name: "Turquoise", color: "#40E0D0" },
+    { name: "Pink", color: "#FFC0CB" },
+    { name: "Teal", color: "#008080" },
+    { name: "Lavender", color: "#E6E6FA" },
+  ].map((preset) => {
+    const rgba = hexToRgba(preset.color);
+    const hsva = rgbaToHsva(rgba);
+    return { ...preset, rgba, hsva };
+  });

@@ -2,6 +2,7 @@ import { useProfileContext } from "@/context/profileContext";
 import React from "react";
 import Image from "next/image";
 import TemplateOne from "@/components/ProfileSvgComponent/SvgWaveTemplateOne";
+import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
 
 const ProfileLayoutTwo = () => {
   const context = useProfileContext();
@@ -14,7 +15,7 @@ const ProfileLayoutTwo = () => {
 
   return (
     <div>
-      <div className="w-full h-80 relative overflow-hidden">
+      <div className="w-full h-40 relative overflow-hidden">
         {/* Profile Picture */}
         <Image
           src={profileData.image}
@@ -23,8 +24,12 @@ const ProfileLayoutTwo = () => {
           height={1000}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
-        <div className="absolute bottom-0 w-full ">
-          <TemplateOne />
+        <div className="absolute -bottom-10 w-full ">
+          {
+            svgWaveLayoutData[
+              profileData.wave_type as keyof typeof svgWaveLayoutData
+            ]
+          }
         </div>
       </div>
 
@@ -32,7 +37,7 @@ const ProfileLayoutTwo = () => {
       <div className=" relative px-7 py-10">
         {/* Logo */}
         {/* absolute bg-red-500 -top-10 right-2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg */}
-        <div className="absolute bg-red-500 -top-10 right-2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg">
+        <div className="absolute  -top-10 right-1/2 translate-x-1/2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg">
           <Image
             src={profileData.logo_icon}
             alt="Logo Icon"

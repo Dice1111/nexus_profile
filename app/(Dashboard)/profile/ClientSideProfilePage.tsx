@@ -2,15 +2,14 @@
 
 import { ProfileContext } from "@/context/profileContext";
 
-import { ProfileComponent, ProfileCard } from "@/lib/type";
-import { useState } from "react";
-import EditProfileCardComponent from "./(ProfileComponent)/(ProfileCard)/EditProfileCardComponent";
-import ProfileEditor from "./(ProfileComponent)/(ProfileEditor)/ProfileEditor";
 import ProfileCardComponent from "@/components/ProfileCard/ProfileCardComponent";
-import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
 import { Button } from "@/components/ui/button";
+import { ProfileCard, ProfileComponent } from "@/lib/type";
+import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { GiCheckMark } from "react-icons/gi";
+import EditProfileCardComponent from "./(ProfileComponent)/(ProfileCard)/EditProfileCardComponent";
+import ProfileEditor from "./(ProfileComponent)/(ProfileEditor)/ProfileEditor";
 
 interface ProfileProps {
   profileComponentData: ProfileComponent[];
@@ -40,7 +39,7 @@ const ClientSideProfilePage = ({
           setEditing,
         }}
       >
-        <div className=" flex justify-center  gap-4 relative">
+        <div className=" flex justify-center  gap- relative">
           {/* Profile Preview */}
           <div className="mt-10 mx-auto gap-5 flex flex-col">
             <Button
