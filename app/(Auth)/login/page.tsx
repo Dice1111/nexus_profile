@@ -12,14 +12,14 @@
     const [passwordVisible, setPasswordVisible] = useState(false);
 
     return (
-      <div className="flex flex-col h-screen items-center justify-center px-4 sm:px-8">
-        <h1 className="text-2xl font-bold mb-6">Nexus Nova</h1>
+      <div className="flex flex-col h-screen items-center justify-center gap-10 px-4 sm:px-8">
+        <h1 className="text-2xl font-bold ">Nexus Nova</h1>
         {/* Main Container */}
-        <div className="flex flex-col sm:flex-row sm:justify-center gap-8 w-full max-w-4xl p-4 ">
+        <div className="flex flex-col sm:flex-row sm:justify-center gap-24 w-full max-w-4xl">
           {/* Left Section */}
-          <div className="bg-primary p-6  w-full sm:w-1/2 sm:border-r">
+          <div className="bg-primary  w-full sm:w-1/2">
 
-            <h1 className="text-2xl font-bold mb-6">Log in</h1>
+            <h1 className="text-2xl flex flex-col items-center font-bold mb-6">Log in</h1>
 
             {/* Email Input */}
             <div className="w-full mb-4">
@@ -59,7 +59,7 @@
             {/* Login Button */}
             <Button
               onClick={() => router.push("/profile")}
-              className="w-full mt-4 border-2 items-center justify-center space-x-2 text-base py-3 font-medium"
+              className="w-full mt-4 border-2 items-center justify-center space-x-2 text-base py-3 font-medium hover:scale-105 transition"
             >
               Login
             </Button>
@@ -73,18 +73,22 @@
             
           </div>
 
+          <div className="h-full border">
+
+          </div>
+
           {/* Right Section */}
-          <div className="flex justify-center p-6 items-center w-full sm:w-1/2">
-            <div className="space-y-4 min-w-full sm:min-w-72">
-              <Button className="bg-foreground w-full p-2 flex items-center justify-center rounded text-black hover:bg-gray-200 font-light">
+          <div className="bg-primary flex justify-center items-center w-full sm:w-1/2">
+            <div className="w-full flex flex-col gap-4">
+              <Button className="bg-secondary w-full p-2 flex items-center justify-center rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
                 <FaGoogle />
                 Continue with Google
               </Button>
-              <Button className="bg-foreground w-full p-2 flex items-center justify-center gap-2 rounded text-black hover:bg-gray-200 font-light">
+              <Button className="bg-secondary w-full p-2 flex items-center justify-center gap-2 rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
                 <FaFacebook />
                 Continue with Facebook
               </Button>
-              <Button className="bg-foreground w-full p-2 flex items-center justify-center gap-2 rounded text-black hover:bg-gray-200 font-light">
+              <Button className="bg-secondary w-full p-2 flex items-center justify-center gap-2 rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
                 <FaApple />
                 Continue with Apple
               </Button>
@@ -93,9 +97,9 @@
         </div>
 
         {/* Footer */}
-        <p className="absolute bottom-6 text-sm text-center w-full">
+        <p className="text-xs text-center w-full">
           Don’t have an account?{" "}
-          <Link className="text-blue-400 hover:underline" href="/signup">
+          <Link className="text hover:underline" href="/signup">
             Join Now.
           </Link>
         </p>
