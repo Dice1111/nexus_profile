@@ -72,21 +72,21 @@ export default function SignUp() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Button
             variant="outline"
-            className="bg-foreground flex items-center justify-center w-full space-x-2 text-primary p-4 "
+            className="bg-foreground flex items-center justify-center w-full space-x-2 text-primary p-4y hover:scale-105 transition"
           >
             <FaFacebook />
             <span>Facebook</span>
           </Button>
           <Button
             variant="outline"
-            className="bg-foreground flex items-center justify-center w-full space-x-2 text-primary"
+            className="bg-foreground flex items-center justify-center w-full space-x-2 text-primary hover:scale-105 transition"
           >
             <FaGoogle />
             <span>Google</span>
           </Button>
           <Button
             variant="outline"
-            className="bg-foreground flex items-center justify-center w-full space-x-2 text-primary"
+            className="bg-foreground flex items-center justify-center w-full space-x-2 text-primary hover:scale-105 transition"
           >
             <FaApple />
             <span>Apple</span>
