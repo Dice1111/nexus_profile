@@ -8,6 +8,9 @@ import EditProfileCardComponent from "./(ProfileComponent)/(ProfileCard)/EditPro
 import ProfileEditor from "./(ProfileComponent)/(ProfileEditor)/ProfileEditor";
 import ProfileCardComponent from "@/components/ProfileCard/ProfileCardComponent";
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
+import { Button } from "@/components/ui/button";
+import { CiEdit } from "react-icons/ci";
+import { GiCheckMark } from "react-icons/gi";
 
 interface ProfileProps {
   profileComponentData: ProfileComponent[];
@@ -22,13 +25,6 @@ const ClientSideProfilePage = ({
   const [components, setComponents] =
     useState<ProfileComponent[]>(profileComponentData);
   const [profileData, setProfileData] = useState<ProfileCard>(profileCardData);
-
-  const layout: string = profileData.layout;
-
-  const [layoutData, setLayoutData] = useState<JSX.Element>(
-    profileLayoutData[layout as keyof typeof profileLayoutData]
-  );
-
   // State for editing
   const [isEditing, setEditing] = useState(false);
 
@@ -40,25 +36,43 @@ const ClientSideProfilePage = ({
           setComponents,
           profileData,
           setProfileData,
-          layoutData,
-          setLayoutData,
           isEditing,
           setEditing,
         }}
       >
-        <div className=" flex justify-space-between gap-4 w-full relative">
+        <div className=" flex justify-center  gap-4 relative">
           {/* Profile Preview */}
-          {!isEditing ? (
-            <ProfileCardComponent />
-          ) : (
-            <>
+          <div className="mt-10 mx-auto gap-5 flex flex-col">
+            <Button
+              variant={"ghost"}
+              size="icon"
+              className=" bg-secondary text-secondary-foreground w-20  secondary-foreground hover:scale-105 rounded-lg transition "
+              onClick={() => {
+                setEditing(!isEditing);
+              }}
+            >
+              {isEditing ? (
+                <>
+                  <GiCheckMark />
+                  Save
+                </>
+              ) : (
+                <>
+                  <CiEdit />
+                  Edit
+                </>
+              )}
+            </Button>
+
+            {isEditing ? (
               <EditProfileCardComponent />
-              <ProfileEditor />
-            </>
-          )}
+            ) : (
+              <ProfileCardComponent />
+            )}
+          </div>
+          {isEditing && <ProfileEditor />}
         </div>
       </ProfileContext.Provider>
-      {/* <AddProfileComponentDrawer /> */}
     </>
   );
 };

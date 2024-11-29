@@ -10,16 +10,7 @@ const ProfileLayoutTwo = () => {
     return null;
   }
 
-  const {
-    components,
-    setComponents,
-    profileData,
-    setProfileData,
-    layoutData,
-    setLayoutData,
-    isEditing,
-    setEditing,
-  } = context;
+  const { profileData } = context;
 
   return (
     <div>

@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { useProfileContext } from "@/context/profileContext";
-import { CiEdit } from "react-icons/ci";
-import { GiCheckMark } from "react-icons/gi";
+import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
 import ProfileBodyItem from "./ProfileBodyItem";
 
 const ProfileCardComponent = () => {
@@ -11,23 +9,15 @@ const ProfileCardComponent = () => {
     return null;
   }
 
-  const { components, layoutData, isEditing, setEditing } = context;
+  const { components, profileData } = context;
+
+  const layout =
+    profileLayoutData[profileData.layout as keyof typeof profileLayoutData];
 
   return (
-    <div className="mt-10 relative mx-auto w-full max-w-[400px] flex flex-col bg-[#050505] text-primary-foreground overflow-hidden rounded-lg">
-      <Button
-        variant={"ghost"}
-        size="icon"
-        className="absolute top-4 left-4 bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground rounded-lg transition z-10"
-        onClick={() => {
-          setEditing(!isEditing);
-        }}
-      >
-        {isEditing ? <GiCheckMark /> : <CiEdit />}
-      </Button>
-
+    <div className="  relative  max-w-[400px] flex flex-col bg-[#050505] text-primary-foreground overflow-hidden rounded-lg">
       {/* header area */}
-      {layoutData}
+      {layout}
 
       {/* item area */}
 

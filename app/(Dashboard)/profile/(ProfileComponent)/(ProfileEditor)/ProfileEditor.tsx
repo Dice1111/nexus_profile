@@ -25,7 +25,7 @@ export default function ProfileEditor() {
 
   return (
     <div
-      className=" w-[500px] sticky top-12 bg-background  shadow-2xl  overflow-auto p-4 flex flex-col gap-3"
+      className=" w-[500px]  sticky top-12 bg-background  shadow-2xl  overflow-auto p-4 flex flex-col gap-3"
       style={{ height: `calc(100vh - 48px)` }}
     >
       <NavBar

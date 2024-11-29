@@ -1,22 +1,20 @@
-import { Button } from "@/components/ui/button";
 import { useProfileContext } from "@/context/profileContext";
 import {
+  closestCorners,
+  DndContext,
   DragEndEvent,
-  useSensors,
-  useSensor,
   PointerSensor,
   TouchSensor,
-  DndContext,
-  closestCorners,
+  useSensor,
+  useSensors,
 } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { CiEdit } from "react-icons/ci";
-import { GiCheckMark } from "react-icons/gi";
 import ProfileDroppable from "../(DragAndDrop)/ProfileDroppable";
+import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
 
 const EditProfileCardComponent = () => {
   const context = useProfileContext();
@@ -25,8 +23,10 @@ const EditProfileCardComponent = () => {
     return null;
   }
 
-  const { components, setComponents, layoutData, isEditing, setEditing } =
-    context;
+  const { components, profileData, setComponents, isEditing } = context;
+
+  const layout =
+    profileLayoutData[profileData.layout as keyof typeof profileLayoutData];
 
   // Drag end handling
   const handleDragEnd = (event: DragEndEvent) => {
@@ -47,20 +47,9 @@ const EditProfileCardComponent = () => {
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
 
   return (
-    <div className="mt-10 relative mx-auto w-full max-w-[400px] flex flex-col bg-[#050505] text-primary-foreground overflow-hidden rounded-lg">
-      <Button
-        variant={"ghost"}
-        size="icon"
-        className="absolute top-4 left-4 bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground rounded-lg transition z-10"
-        onClick={() => {
-          setEditing(!isEditing);
-        }}
-      >
-        {isEditing ? <GiCheckMark /> : <CiEdit />}
-      </Button>
-
+    <div className="relative max-w-[400px] flex flex-col bg-[#050505] text-primary-foreground overflow-hidden rounded-lg">
       {/* header area */}
-      {layoutData}
+      {layout}
 
       {/* dnd area */}
 

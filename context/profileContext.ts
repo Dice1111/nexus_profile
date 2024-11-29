@@ -7,10 +7,6 @@ export interface ProfileContextType {
   setComponents: React.Dispatch<React.SetStateAction<ProfileComponent[]>>;
   profileData: ProfileCard;
   setProfileData: React.Dispatch<React.SetStateAction<ProfileCard>>;
-  layoutData: JSX.Element;
-  setLayoutData: React.Dispatch<
-    React.SetStateAction<JSX.Element>
-  >;
   isEditing: boolean;
   setEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
