@@ -4,7 +4,11 @@ import { ProfileContext } from "@/context/profileContext";
 
 import ProfileCardComponent from "@/components/ProfileCard/ProfileCardComponent";
 import { Button } from "@/components/ui/button";
-import { ProfileCard, ProfileComponent } from "@/lib/type";
+import {
+  PROFILE_COMPONENT_CATEGORY,
+  ProfileCard,
+  ProfileComponent,
+} from "@/lib/type";
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { GiCheckMark } from "react-icons/gi";
@@ -25,7 +29,7 @@ const ClientSideProfilePage = ({
     useState<ProfileComponent[]>(profileComponentData);
   const [profileData, setProfileData] = useState<ProfileCard>(profileCardData);
   // State for editing
-  const [isEditing, setEditing] = useState(false);
+  const [isEditing, setEditing] = useState(true);
 
   return (
     <>
@@ -42,26 +46,34 @@ const ClientSideProfilePage = ({
         <div className=" flex justify-center  gap- relative">
           {/* Profile Preview */}
           <div className="mt-10 mx-auto gap-5 flex flex-col">
-            <Button
-              variant={"ghost"}
-              size="icon"
-              className=" bg-secondary text-secondary-foreground w-20  secondary-foreground hover:scale-105 rounded-lg transition "
-              onClick={() => {
-                setEditing(!isEditing);
-              }}
-            >
-              {isEditing ? (
-                <>
-                  <GiCheckMark />
-                  Save
-                </>
-              ) : (
-                <>
-                  <CiEdit />
-                  Edit
-                </>
-              )}
-            </Button>
+            {!isEditing ? (
+              <Button
+                variant={"ghost"}
+                size="icon"
+                type="button"
+                className=" bg-secondary text-secondary-foreground w-20  secondary-foreground hover:scale-105 rounded-lg transition "
+                onClick={() => {
+                  setEditing(true);
+                }}
+              >
+                <CiEdit />
+                Edit
+              </Button>
+            ) : (
+              <Button
+                variant={"ghost"}
+                size="icon"
+                type="submit"
+                form="profileForm"
+                className=" bg-secondary text-secondary-foreground w-20  secondary-foreground hover:scale-105 rounded-lg transition "
+                onClick={() => {
+                  setEditing(true);
+                }}
+              >
+                <GiCheckMark />
+                Save
+              </Button>
+            )}
 
             {isEditing ? (
               <EditProfileCardComponent />

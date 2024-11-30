@@ -19,6 +19,7 @@ export async function fetchUserProfileCardData(
   const card = profileCard.find((card) => card.card_id === id);
   return card || null; // Return null if no card is found
 }
+
 const profileComponents: ProfileComponent[] = [
   {
     id: "1",
@@ -80,7 +81,7 @@ const profileComponents: ProfileComponent[] = [
   {
     id: "8",
     card_id: "1",
-    type: PROFILE_COMPONENT_TYPE.VIDEO,
+    type: PROFILE_COMPONENT_TYPE.YOUTUBE,
     category: PROFILE_COMPONENT_CATEGORY.VIDEO,
     display_text: "video",
     value: "https://www.youtube.com/embed/ekr2nIex040?si=ip9BjeIhkp30ejcS",
@@ -101,14 +102,6 @@ const profileComponents: ProfileComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "my discord",
     value: "https://discord.com",
-  },
-  {
-    id: "11",
-    card_id: "1",
-    type: PROFILE_COMPONENT_TYPE.IMAGE,
-    category: PROFILE_COMPONENT_CATEGORY.IMAGE,
-    display_text: "",
-    value: undefined,
   },
 ];
 

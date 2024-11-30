@@ -1,4 +1,5 @@
 import { useProfileContext } from "@/context/profileContext";
+import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
 import {
   closestCorners,
   DndContext,
@@ -13,10 +14,16 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
 import ProfileDroppable from "../(DragAndDrop)/ProfileDroppable";
-import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
 
 const EditProfileCardComponent = () => {
+  function onSubmit() {
+    console.log("hello");
+  }
+
   const context = useProfileContext();
   if (!context) {
     console.warn("profileEditContext is null");
@@ -53,23 +60,31 @@ const EditProfileCardComponent = () => {
 
       {/* dnd area */}
 
-      <DndContext
-        id="dnd-context"
-        sensors={sensors}
-        onDragEnd={isEditing ? handleDragEnd : undefined}
-        collisionDetection={closestCorners}
+      <form
+        id="profileForm"
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit();
+        }}
       >
-        <SortableContext
-          items={components}
-          strategy={verticalListSortingStrategy}
+        <DndContext
+          id="dnd-context"
+          sensors={sensors}
+          onDragEnd={isEditing ? handleDragEnd : undefined}
+          collisionDetection={closestCorners}
         >
-          <div className="flex flex-col gap-3 pb-4  w-full">
-            {components.map((item) => (
-              <ProfileDroppable key={item.id} item={item} />
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
+          <SortableContext
+            items={components}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className="flex flex-col gap-3 pb-4  w-full">
+              {components.map((item) => (
+                <ProfileDroppable key={item.id} item={item} />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
+      </form>
     </div>
   );
 };

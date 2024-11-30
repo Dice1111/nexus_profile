@@ -9,6 +9,16 @@ export default function FieldsEditModal() {
   const data = {
     "General Use": [
       {
+        label: "Image",
+        type: PROFILE_COMPONENT_TYPE.IMAGE,
+        category: PROFILE_COMPONENT_CATEGORY.IMAGE,
+      },
+      {
+        label: "Text",
+        type: PROFILE_COMPONENT_TYPE.TEXT,
+        category: PROFILE_COMPONENT_CATEGORY.TEXT,
+      },
+      {
         label: "Email",
         type: PROFILE_COMPONENT_TYPE.EMAIL,
         category: PROFILE_COMPONENT_CATEGORY.MAIL,
@@ -43,7 +53,11 @@ export default function FieldsEditModal() {
         type: PROFILE_COMPONENT_TYPE.INSTAGRAM,
         category: PROFILE_COMPONENT_CATEGORY.LINK,
       },
-      { label: "Map", type: PROFILE_COMPONENT_TYPE.MAP },
+      {
+        label: "Map",
+        type: PROFILE_COMPONENT_TYPE.MAP,
+        category: PROFILE_COMPONENT_CATEGORY.MAP,
+      },
     ],
     Social: [
       {
@@ -157,17 +171,12 @@ export default function FieldsEditModal() {
       {
         label: "YouTube",
         type: PROFILE_COMPONENT_TYPE.YOUTUBE,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
-      },
-      {
-        label: "Vimeo",
-        type: PROFILE_COMPONENT_TYPE.VIDEO,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
+        category: PROFILE_COMPONENT_CATEGORY.VIDEO,
       },
       {
         label: "Twitch",
         type: PROFILE_COMPONENT_TYPE.TWITCH,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
+        category: PROFILE_COMPONENT_CATEGORY.VIDEO,
       },
     ],
     Music: [
@@ -210,7 +219,7 @@ export default function FieldsEditModal() {
 
   const { components, setComponents } = context;
 
-  const card_id = components[0].card_id;
+  const card_id = components[0].card_id; //
 
   // Function to create a new metadata component
   const createMetadataComponents = (

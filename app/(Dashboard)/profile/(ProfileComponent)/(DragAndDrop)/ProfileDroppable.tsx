@@ -6,31 +6,18 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import Image from "next/image";
 import { RxCross1, RxDragHandleHorizontal } from "react-icons/rx";
-import { TbInfoSquareRoundedFilled } from "react-icons/tb";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
+import { z } from "zod";
+import { profileComponentSchema } from "./zodDndInputSchema";
 
 interface DroppableProps {
   item: ProfileComponent;
 }
 
-// Utility function to handle updates to `value` or `display_text`
-const handleChange = (
-  components: ProfileComponent[],
-  item: ProfileComponent,
-  setComponents: Dispatch<SetStateAction<ProfileComponent[]>>,
-  field: "value" | "display_text",
-  value: string
-) => {
-  const updatedComponents = components.map((component) =>
-    component.id === item.id ? { ...component, [field]: value } : component
-  );
-  setComponents(updatedComponents);
-};
-
 // Utility function to handle deletion of an item
 const handleDelete = (
-  id: number,
+  id: string,
   components: ProfileComponent[],
   setComponents: Dispatch<SetStateAction<ProfileComponent[]>>
 ) => {
@@ -41,7 +28,7 @@ const handleDelete = (
 };
 
 // Reusable component for header with drag handle and delete button
-const ComponentHeader = ({
+const DndComponentHeader = ({
   item,
   components,
   setComponents,
@@ -71,18 +58,20 @@ const ComponentHeader = ({
 );
 
 // Reusable component for input fields
-const InputField = ({
+const DndInputField = ({
   type,
   placeholder,
   value,
   icontype,
-  onChange,
+  inputType,
+  onValueChange,
 }: {
   type: string;
   placeholder: string;
   value?: string;
   icontype: string;
-  onChange: (value: string) => void;
+  inputType: string;
+  onValueChange: (type: string, value: string) => void;
 }) => (
   <div className="flex px-2 w-full max-w-sm items-center gap-1.5 bg-transparent  rounded">
     {typeIconMap[icontype as keyof typeof typeIconMap]}
@@ -91,13 +80,13 @@ const InputField = ({
       type={type}
       placeholder={placeholder}
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => onValueChange(inputType, e.target.value)}
     />
   </div>
 );
 
 // Main profile component renderer
-const ProfileComponentRenderer = ({
+const DndInputFieldBuilder = ({
   item,
   components,
   setComponents,
@@ -110,11 +99,33 @@ const ProfileComponentRenderer = ({
   attributes: any;
   listeners: any;
 }) => {
+  const [error, setError] = useState<string | null>(null);
+
+  const onValueChange = (type: string, value: string) => {
+    try {
+      const updatedItem = { ...item, [type]: value };
+
+      const updatedComponents = components.map((component) =>
+        component.id === item.id ? updatedItem : component
+      );
+
+      setComponents(updatedComponents);
+
+      profileComponentSchema.parse(updatedItem);
+
+      setError(null); // Clear error if valid
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setError(error.errors[0].message); // Set validation error
+      }
+    }
+  };
+
   switch (item.category) {
     case PROFILE_COMPONENT_CATEGORY.TEXT:
       return (
         <div className="flex flex-col items-center gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
-          <ComponentHeader
+          <DndComponentHeader
             item={item}
             components={components}
             setComponents={setComponents}
@@ -122,26 +133,21 @@ const ProfileComponentRenderer = ({
             listeners={listeners}
           />
           <Textarea
-            className=" bg-transparent border border-primary"
+            className={`bg-transparent border ${
+              error ? "border-red-500" : "border-primary"
+            }`}
             placeholder="Type your message here."
             value={item.value}
-            onChange={(e) =>
-              handleChange(
-                components,
-                item,
-                setComponents,
-                "value",
-                e.target.value
-              )
-            }
+            onChange={(e) => onValueChange("value", e.target.value)}
           />
+          {error && <p className="text-red-500 text-sm">{error}</p>}
         </div>
       );
 
     case PROFILE_COMPONENT_CATEGORY.IMAGE:
       return (
         <div className="flex flex-col items-center gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
-          <ComponentHeader
+          <DndComponentHeader
             item={item}
             components={components}
             setComponents={setComponents}
@@ -182,19 +188,9 @@ const ProfileComponentRenderer = ({
                 accept="image/*"
                 onChange={(e) => {
                   if (e.target.files && e.target.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                      if (reader.result) {
-                        handleChange(
-                          components,
-                          item,
-                          setComponents,
-                          "value",
-                          reader.result as string
-                        );
-                      }
-                    };
-                    reader.readAsDataURL(e.target.files[0]);
+                    const file = e.target.files[0];
+                    const objectUrl = URL.createObjectURL(file); // Generate a temporary URL
+                    onValueChange("value", objectUrl);
                   }
                 }}
               />
@@ -206,37 +202,29 @@ const ProfileComponentRenderer = ({
     default:
       return (
         <div className="flex flex-col gap-2 bg-secondary text-secondary-foreground p-4 rounded">
-          <ComponentHeader
+          <DndComponentHeader
             item={item}
             components={components}
             setComponents={setComponents}
             attributes={attributes}
             listeners={listeners}
           />
-          <InputField
-            type="text"
+          <DndInputField
+            type={item.type}
             placeholder={item.type}
             value={item.value}
             icontype={item.type}
-            onChange={(value) =>
-              handleChange(components, item, setComponents, "value", value)
-            }
+            inputType="value"
+            onValueChange={onValueChange}
           />
-          {}
-          <InputField
-            type="text"
+          {error && <p className="text-red-500 text-sm px-7">{error}</p>}
+          <DndInputField
+            type="display_text"
             placeholder={item.type}
             value={item.display_text}
             icontype="info"
-            onChange={(value) =>
-              handleChange(
-                components,
-                item,
-                setComponents,
-                "display_text",
-                value
-              )
-            }
+            inputType="display_text"
+            onValueChange={onValueChange}
           />
         </div>
       );
@@ -272,7 +260,7 @@ export default function ProfileDroppable({ item }: DroppableProps) {
 
   return (
     <div ref={setNodeRef} style={style} className="px-4">
-      <ProfileComponentRenderer
+      <DndInputFieldBuilder
         item={item}
         components={components}
         setComponents={setComponents}

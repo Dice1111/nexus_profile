@@ -55,7 +55,7 @@ export enum PROFILE_COMPONENT_CATEGORY {
   PHONE = "phone",
   PAYMENT = "payment",
   MUSIC = "music",
-  IMAGE = "image",
+  IMAGE = "img",
   TEXT = "text",
 }
 
