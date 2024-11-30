@@ -66,9 +66,6 @@ const ClientSideProfilePage = ({
                 type="submit"
                 form="profileForm"
                 className=" bg-secondary text-secondary-foreground w-20  secondary-foreground hover:scale-105 rounded-lg transition "
-                onClick={() => {
-                  setEditing(true);
-                }}
               >
                 <GiCheckMark />
                 Save

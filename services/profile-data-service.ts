@@ -60,7 +60,7 @@ const profileComponents: ProfileComponent[] = [
     type: PROFILE_COMPONENT_TYPE.PHONE,
     category: PROFILE_COMPONENT_CATEGORY.PHONE,
     display_text: "Home",
-    value: "58385936",
+    value: "58385936111",
   },
   {
     id: "6",
@@ -76,7 +76,7 @@ const profileComponents: ProfileComponent[] = [
     type: PROFILE_COMPONENT_TYPE.LINK,
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Check out my website",
-    value: "www.apple@gmail.com",
+    value: "https://.apple@gmail.com",
   },
   {
     id: "8",

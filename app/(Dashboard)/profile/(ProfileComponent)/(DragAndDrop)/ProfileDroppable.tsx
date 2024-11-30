@@ -9,10 +9,12 @@ import { RxCross1, RxDragHandleHorizontal } from "react-icons/rx";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { z } from "zod";
-import { profileComponentSchema } from "./zodDndInputSchema";
 
 interface DroppableProps {
   item: ProfileComponent;
+  index: number;
+  formRegister: any;
+  formErrors: any;
 }
 
 // Utility function to handle deletion of an item
@@ -61,17 +63,17 @@ const DndComponentHeader = ({
 const DndInputField = ({
   type,
   placeholder,
-  value,
+  index: index,
   icontype,
   inputType,
-  onValueChange,
+  formRegister,
 }: {
   type: string;
   placeholder: string;
-  value?: string;
+  index: number;
   icontype: string;
   inputType: string;
-  onValueChange: (type: string, value: string) => void;
+  formRegister: any;
 }) => (
   <div className="flex px-2 w-full max-w-sm items-center gap-1.5 bg-transparent  rounded">
     {typeIconMap[icontype as keyof typeof typeIconMap]}
@@ -79,8 +81,7 @@ const DndInputField = ({
       className="bg-transparent border border-primary focus:border-red-500 focus:border-2 transition-colors"
       type={type}
       placeholder={placeholder}
-      value={value}
-      onChange={(e) => onValueChange(inputType, e.target.value)}
+      {...formRegister(`components.${index}.${inputType}` as const)}
     />
   </div>
 );
@@ -88,39 +89,23 @@ const DndInputField = ({
 // Main profile component renderer
 const DndInputFieldBuilder = ({
   item,
+  index,
   components,
   setComponents,
   attributes,
   listeners,
+  formRegister,
+  formErrors,
 }: {
   item: ProfileComponent;
+  index: number;
   components: ProfileComponent[];
   setComponents: Dispatch<SetStateAction<ProfileComponent[]>>;
   attributes: any;
   listeners: any;
+  formRegister: any;
+  formErrors: any;
 }) => {
-  const [error, setError] = useState<string | null>(null);
-
-  const onValueChange = (type: string, value: string) => {
-    try {
-      const updatedItem = { ...item, [type]: value };
-
-      const updatedComponents = components.map((component) =>
-        component.id === item.id ? updatedItem : component
-      );
-
-      setComponents(updatedComponents);
-
-      profileComponentSchema.parse(updatedItem);
-
-      setError(null); // Clear error if valid
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        setError(error.errors[0].message); // Set validation error
-      }
-    }
-  };
-
   switch (item.category) {
     case PROFILE_COMPONENT_CATEGORY.TEXT:
       return (
@@ -134,13 +119,12 @@ const DndInputFieldBuilder = ({
           />
           <Textarea
             className={`bg-transparent border ${
-              error ? "border-red-500" : "border-primary"
+              formErrors ? "border-red-500" : "border-primary"
             }`}
             placeholder="Type your message here."
-            value={item.value}
-            onChange={(e) => onValueChange("value", e.target.value)}
+            {...formRegister(`components.${index}.value` as const)}
           />
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {formErrors && <p className="text-red-500 text-sm">{formErrors}</p>}
         </div>
       );
 
@@ -186,13 +170,7 @@ const DndInputFieldBuilder = ({
                 className="hidden"
                 type="file"
                 accept="image/*"
-                onChange={(e) => {
-                  if (e.target.files && e.target.files[0]) {
-                    const file = e.target.files[0];
-                    const objectUrl = URL.createObjectURL(file); // Generate a temporary URL
-                    onValueChange("value", objectUrl);
-                  }
-                }}
+                {...formRegister(`components.${index}.value` as const)}
               />
             </div>
           </div>
@@ -211,20 +189,22 @@ const DndInputFieldBuilder = ({
           />
           <DndInputField
             type={item.type}
+            index={index}
             placeholder={item.type}
-            value={item.value}
             icontype={item.type}
             inputType="value"
-            onValueChange={onValueChange}
+            formRegister={formRegister}
           />
-          {error && <p className="text-red-500 text-sm px-7">{error}</p>}
+          {formErrors && (
+            <p className="text-red-500 text-sm px-7">{formErrors}</p>
+          )}
           <DndInputField
             type="display_text"
+            index={index}
             placeholder={item.type}
-            value={item.display_text}
             icontype="info"
             inputType="display_text"
-            onValueChange={onValueChange}
+            formRegister={formRegister}
           />
         </div>
       );
@@ -232,7 +212,12 @@ const DndInputFieldBuilder = ({
 };
 
 // Main ProfileDroppable Component
-export default function ProfileDroppable({ item }: DroppableProps) {
+export default function ProfileDroppable({
+  item,
+  index,
+  formRegister,
+  formErrors,
+}: DroppableProps) {
   const context = useProfileContext();
 
   if (!context) {
@@ -262,10 +247,13 @@ export default function ProfileDroppable({ item }: DroppableProps) {
     <div ref={setNodeRef} style={style} className="px-4">
       <DndInputFieldBuilder
         item={item}
+        index={index}
         components={components}
         setComponents={setComponents}
         attributes={attributes}
         listeners={listeners}
+        formRegister={formRegister}
+        formErrors={formErrors}
       />
     </div>
   );
