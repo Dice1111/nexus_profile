@@ -21,24 +21,7 @@ export async function fetchUserProfileCardData(
 }
 
 const profileComponents: ProfileComponent[] = [
-  // Image
-  {
-    id: "101",
-    card_id: "1",
-    type: "img",
-    category: "img",
-    display_text: "",
-    value: "/image/profile.jpg",
-  },
-  // Text
-  {
-    id: "102",
-    card_id: "1",
-    type: "text",
-    category: "text",
-    display_text: "Name",
-    value: "John Doe",
-  },
+  
   // Email
   {
     id: "103",
@@ -57,15 +40,7 @@ const profileComponents: ProfileComponent[] = [
     display_text: "Personal Website",
     value: "https://johndoe.com",
   },
-  // Map
-  {
-    id: "105",
-    card_id: "1",
-    type: "map",
-    category: "map",
-    display_text: "Address",
-    value: "Central Park, New York",
-  },
+  
   // Phone
   {
     id: "106",
@@ -93,6 +68,43 @@ const profileComponents: ProfileComponent[] = [
     display_text: "Telegram Handle",
     value: "@johndoe",
   },
+  // Text
+  {
+    id: "102",
+    card_id: "1",
+    type: "text",
+    category: "text",
+    display_text: "Name",
+    value: "My Best Image!",
+  },
+  // Image
+  {
+    id: "101",
+    card_id: "1",
+    type: "img",
+    category: "img",
+    display_text: "",
+    value: "/image/profile.jpg",
+  },
+
+  {
+    id: "200",
+    card_id: "1",
+    type: "text",
+    category: "text",
+    display_text: "Name",
+    value: "My Address",
+  },
+  
+  // Map
+  {
+    id: "105",
+    card_id: "1",
+    type: "map",
+    category: "map",
+    display_text: "Address",
+    value: "Central Park, New York",
+  },
   // YouTube
   {
     id: "109",
@@ -100,7 +112,16 @@ const profileComponents: ProfileComponent[] = [
     type: "youtube",
     category: "video",
     display_text: "YouTube Channel",
-    value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    value: "https://www.youtube.com/watch?v=ekr2nIex040",
+  },
+
+  {
+    id: "201",
+    card_id: "1",
+    type: "text",
+    category: "text",
+    display_text: "Name",
+    value: "My Social Media Links",
   },
   // Discord
   {

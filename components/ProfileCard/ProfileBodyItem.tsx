@@ -15,7 +15,7 @@ const frameComponents = {
     display_text: string
   ) => (
     <a href={`mailto:${value}`}>
-      <div className="flex  items-center gap-5 relative p-2 mx-4 rounded hover:scale-105 transition">
+      <div className="flex  items-center gap-5 relative p-2 mx-4 rounded hover:scale-105  hover:bg-black transition">
         <div className="bg-secondary text-secondary-foreground rounded-full p-2">
           {typeIconMap[type as keyof typeof typeIconMap]}
         </div>
@@ -32,7 +32,7 @@ const frameComponents = {
     type: string,
     display_text: string
   ) => (
-    <div className="flex items-center gap-5 relative p-2  mx-4 rounded hover:scale-105 transition">
+    <div className="flex items-center gap-5 relative p-2  mx-4 rounded hover:scale-105  hover:bg-black transition">
       <div className="bg-secondary text-secondary-foreground rounded-full p-2">
         {typeIconMap[type as keyof typeof typeIconMap]}
       </div>
@@ -55,7 +55,7 @@ const frameComponents = {
     </div>
   ),
   [PROFILE_COMPONENT_CATEGORY.TEXT]: (value: string, display_text: string) => (
-    <div className="p-2 text-center relative">
+    <div className="px-8 pt-8 text-lg font-thin relative">
       <p>{value}</p>
     </div>
   ),
@@ -124,7 +124,7 @@ const frameComponents = {
     display_text: string
   ) => (
     <a href={value}>
-      <div className="flex items-center gap-5 relative p-2  mx-4 rounded hover:scale-105 transition">
+      <div className="flex items-center gap-5 relative p-2  mx-4 rounded hover:scale-105 hover:bg-black transition">
         <div className="bg-secondary text-secondary-foreground rounded-full p-2">
           {typeIconMap[type as keyof typeof typeIconMap]}
         </div>

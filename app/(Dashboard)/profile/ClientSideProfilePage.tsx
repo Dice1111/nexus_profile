@@ -58,7 +58,6 @@ const ClientSideProfilePage = ({
                   }}
                 >
                   <CiEdit />
-                  Edit
                 </Button>
               </div>
             ) : (
@@ -70,7 +69,6 @@ const ClientSideProfilePage = ({
                 className=" bg-secondary text-secondary-foreground w-20  secondary-foreground hover:scale-105 rounded-lg transition "
               >
                 <GiCheckMark />
-                Save
               </Button>
             )}
 
