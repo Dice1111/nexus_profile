@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { useProfileContext } from "@/context/profileContext";
 import { colorPresets, hexToRgba, rgbaToHsva } from "@/lib/color_utils";

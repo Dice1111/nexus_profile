@@ -24,7 +24,10 @@ import {
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
-import ProfileCardSheet from "@/components/Sheet/ProfileCardSheet";
+import ProfileCardSheet, {
+  ConnectionSheetVarient,
+  SHEET_VARIENT,
+} from "@/components/Sheet/ProfileCardSheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,7 +44,8 @@ interface DataTableProps {
 export function DataTable({ columns, data }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [selectedRowData, setSelectedRowData] = useState<number | null>(null);
+  const [selectedRowData, setSelectedRowData] =
+    useState<ConnectionSheetVarient | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false); // Track the sheet's open state
   const [selectedTag, setSelectedTag] = useState<CONTACT_TAG_TYPE | "All">(
     "All"
@@ -53,8 +57,15 @@ export function DataTable({ columns, data }: DataTableProps) {
       : (data as Contact[]).filter((contact) => contact.tag === selectedTag);
   }, [selectedTag, data]); // Recompute filteredData when selectedTag or data changes
 
-  const handleRowClick = (rowData: number) => {
-    setSelectedRowData(rowData);
+  const handleRowClick = (rowData: Contact) => {
+    const data: ConnectionSheetVarient = {
+      cardId: rowData.connectedUserCardID,
+      name: rowData.connectedUsername,
+      tag: rowData.tag,
+      note: rowData.note,
+      date: rowData.created_at,
+    };
+    setSelectedRowData(data);
     setIsSheetOpen(true);
   };
 
@@ -79,6 +90,7 @@ export function DataTable({ columns, data }: DataTableProps) {
 
   return (
     <div>
+      <h2 className="text-xl font-bold mb-4">My Connections</h2>
       {/* Search and Dropdown Menu Section */}
       <div className="flex flex-row items-center gap-4 mb-4 justify-between ">
         {/* Search Input - Adjusts for screen size */}
@@ -160,7 +172,7 @@ export function DataTable({ columns, data }: DataTableProps) {
                   className="border-gray-400 hover:bg-primary/20 cursor-pointer"
                   key={row.id}
                   onClick={() => {
-                    handleRowClick(row.original.connectedUserCardID);
+                    handleRowClick(row.original);
                   }}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -208,11 +220,12 @@ export function DataTable({ columns, data }: DataTableProps) {
       </div>
 
       {/* ContactSheet - Pass the selected row data */}
-      {isSheetOpen && (
+      {isSheetOpen && selectedRowData && (
         <ProfileCardSheet
           isOpen={isSheetOpen}
           setIsOpen={setIsSheetOpen}
-          cardId={selectedRowData} // Pass the row data to the sheet
+          sheetData={selectedRowData}
+          sheetVarient={SHEET_VARIENT.CONNECTION}
         />
       )}
     </div>

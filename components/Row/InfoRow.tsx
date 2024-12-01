@@ -2,18 +2,7 @@ import { LuDot } from "react-icons/lu"; // Assuming you're using this icon for s
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "@/components/ui/button"; // Import Button from shadcn
 import { CONTACT_TAG_TYPE } from "@/lib/type";
-
-const TagColorScheme: Record<CONTACT_TAG_TYPE, string> = {
-  [CONTACT_TAG_TYPE.COLLEAGUE]: "red",
-  [CONTACT_TAG_TYPE.FAMILY]: "green",
-  [CONTACT_TAG_TYPE.FRIEND]: "yellow",
-  [CONTACT_TAG_TYPE.CLIENT]: "blue",
-  [CONTACT_TAG_TYPE.SUPPLIER]: "orange",
-  [CONTACT_TAG_TYPE.EMPLOYEE]: "indigo",
-  [CONTACT_TAG_TYPE.INVESTOR]: "cyan",
-  [CONTACT_TAG_TYPE.VENDOR]: "pink",
-  [CONTACT_TAG_TYPE.OTHER]: "gray",
-};
+import PillShapeTag from "../Tag/PillShapeTag";
 
 interface InfoRowProps {
   name: string;
@@ -38,16 +27,7 @@ export default function InfoRow({
   onAccept,
   onReject,
 }: InfoRowProps) {
-  const tagClass = tag ? TagColorScheme[tag] : "";
-
-  const RenderBadge = () =>
-    tag && (
-      <span
-        className={`inline-block uppercase text-xs rounded-full px-2 py-1 bg-${tagClass}-400 text-primary`}
-      >
-        {tag}
-      </span>
-    );
+  const RenderBadge = () => tag && <PillShapeTag tag={tag} />;
 
   const RenderActionButtons = () => (
     <div className="flex gap-3">
@@ -75,8 +55,12 @@ export default function InfoRow({
       {/* Left Section: Avatar and Contact Details */}
       <div className="flex items-center gap-4">
         {/* Avatar */}
-        <Avatar className="w-12 h-12 sm:w-14 sm:h-14">
-          <AvatarImage src={image || undefined} alt={name} />
+        <Avatar className="w-12 h-12  sm:w-14 sm:h-14">
+          <AvatarImage
+            className="object-cover"
+            src={image || undefined}
+            alt={name}
+          />
           <AvatarFallback className="bg-primary text-primary-foreground w-full h-full flex items-center justify-center">
             {name?.slice(0, 2).toUpperCase()}
           </AvatarFallback>

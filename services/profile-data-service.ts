@@ -1,7 +1,4 @@
-import {
-  ProfileCard,
-  ProfileComponent
-} from "@/lib/type";
+import { ProfileCard, ProfileComponent } from "@/lib/type";
 
 // Fetch profile components by card ID
 export async function fetchUserProfileComponentsData(
@@ -19,7 +16,6 @@ export async function fetchUserProfileCardData(
 }
 
 const profileComponents: ProfileComponent[] = [
-  
   // Email
   {
     id: "103",
@@ -38,7 +34,7 @@ const profileComponents: ProfileComponent[] = [
     display_text: "Personal Website",
     value: "https://johndoe.com",
   },
-  
+
   // Phone
   {
     id: "106",
@@ -93,7 +89,7 @@ const profileComponents: ProfileComponent[] = [
     display_text: "Name",
     value: "My Address",
   },
-  
+
   // Map
   {
     id: "105",
@@ -257,7 +253,6 @@ const profileComponents: ProfileComponent[] = [
     value: "https://www.behance.net/johndoe",
   },
 ];
-
 
 const profileCard: ProfileCard[] = [
   {
