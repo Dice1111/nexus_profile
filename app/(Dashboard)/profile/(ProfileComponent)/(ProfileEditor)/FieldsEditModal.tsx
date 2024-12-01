@@ -1,3 +1,5 @@
+"use client";
+
 import { PROFILE_COMPONENT_CATEGORY, PROFILE_COMPONENT_TYPE } from "@/lib/type";
 import { typeIconMap } from "@/lib/icon";
 import { Button } from "@/components/ui/button";

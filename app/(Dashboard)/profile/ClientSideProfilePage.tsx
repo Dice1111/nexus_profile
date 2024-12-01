@@ -14,11 +14,13 @@ import ProfileEditor from "./(ProfileComponent)/(ProfileEditor)/ProfileEditor";
 interface ProfileProps {
   profileComponentData: ProfileComponent[];
   profileCardData: ProfileCard;
+  children?: React.ReactNode;
 }
 
 const ClientSideProfilePage = ({
   profileComponentData,
   profileCardData,
+  children,
 }: ProfileProps) => {
   // Fetch from database
   const [components, setComponents] =
@@ -77,7 +79,7 @@ const ClientSideProfilePage = ({
               />
             )}
           </div>
-          {isEditing && <ProfileEditor />}
+          {isEditing && children}
         </div>
       </ProfileContext.Provider>
     </>
