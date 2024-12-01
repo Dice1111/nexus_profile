@@ -21,89 +21,224 @@ export async function fetchUserProfileCardData(
 }
 
 const profileComponents: ProfileComponent[] = [
+  // Image
   {
-    id: "1",
+    id: "101",
     card_id: "1",
-    type: PROFILE_COMPONENT_TYPE.IMAGE,
-    category: PROFILE_COMPONENT_CATEGORY.IMAGE,
-    display_text: "profile image",
+    type: "img",
+    category: "img",
+    display_text: "",
     value: "/image/profile.jpg",
   },
+  // Text
   {
-    id: "2",
+    id: "102",
     card_id: "1",
-    type: PROFILE_COMPONENT_TYPE.TEXT,
-    category: PROFILE_COMPONENT_CATEGORY.TEXT,
-    display_text: "",
+    type: "text",
+    category: "text",
+    display_text: "Name",
     value: "John Doe",
   },
+  // Email
   {
-    id: "3",
+    id: "103",
     card_id: "1",
-    type: PROFILE_COMPONENT_TYPE.TEXT,
-    category: PROFILE_COMPONENT_CATEGORY.TEXT,
-    display_text: "",
-    value: "Web Developer",
+    type: "email",
+    category: "mail",
+    display_text: "Work Email",
+    value: "john.doe@example.com",
   },
+  // Link
   {
-    id: "4",
+    id: "104",
     card_id: "1",
-    type: PROFILE_COMPONENT_TYPE.TEXT,
-    category: PROFILE_COMPONENT_CATEGORY.TEXT,
-    display_text: "",
-    value:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis labore, beatae expedita, odio dolor minus totam doloremque incidunt explicabo omnis asperiores recusandae atque suscipit repellendus, voluptatem in ducimus modi sint!",
+    type: "link",
+    category: "link",
+    display_text: "Personal Website",
+    value: "https://johndoe.com",
   },
+  // Map
   {
-    id: "5",
+    id: "105",
     card_id: "1",
-    type: PROFILE_COMPONENT_TYPE.PHONE,
-    category: PROFILE_COMPONENT_CATEGORY.PHONE,
-    display_text: "Home",
-    value: "58385936111",
+    type: "map",
+    category: "map",
+    display_text: "Address",
+    value: "Central Park, New York",
   },
+  // Phone
   {
-    id: "6",
+    id: "106",
     card_id: "1",
-    type: PROFILE_COMPONENT_TYPE.EMAIL,
-    category: PROFILE_COMPONENT_CATEGORY.MAIL,
-    display_text: "gmail",
-    value: "apple@gmail.com",
+    type: "phone",
+    category: "phone",
+    display_text: "Mobile",
+    value: "1234567890",
   },
+  // WhatsApp
   {
-    id: "7",
+    id: "107",
     card_id: "1",
-    type: PROFILE_COMPONENT_TYPE.LINK,
-    category: PROFILE_COMPONENT_CATEGORY.LINK,
-    display_text: "Check out my website",
-    value: "https://.apple@gmail.com",
+    type: "whatsapp",
+    category: "phone",
+    display_text: "WhatsApp Number",
+    value: "+1234567890",
   },
+  // Telegram
   {
-    id: "8",
+    id: "108",
     card_id: "1",
-    type: PROFILE_COMPONENT_TYPE.YOUTUBE,
-    category: PROFILE_COMPONENT_CATEGORY.VIDEO,
-    display_text: "video",
-    value: "https://www.youtube.com/embed/ekr2nIex040?si=ip9BjeIhkp30ejcS",
+    type: "telegram",
+    category: "phone",
+    display_text: "Telegram Handle",
+    value: "@johndoe",
   },
+  // YouTube
   {
-    id: "9",
+    id: "109",
     card_id: "1",
-    type: PROFILE_COMPONENT_TYPE.MAP,
-    category: PROFILE_COMPONENT_CATEGORY.MAP,
-    display_text: "map",
-    value:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5641.033400395882!2d103.85507134698486!3d1.2862602131934748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da19ee4cc09203%3A0x26c9afefa555dd7!2sMarina%20Bay%20Sands%20Singapore!5e0!3m2!1sen!2ssg!4v1732018272377!5m2!1sen!2ssg",
+    type: "youtube",
+    category: "video",
+    display_text: "YouTube Channel",
+    value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
+  // Discord
   {
-    id: "10",
+    id: "110",
     card_id: "1",
-    type: PROFILE_COMPONENT_TYPE.DISCORD,
-    category: PROFILE_COMPONENT_CATEGORY.LINK,
-    display_text: "my discord",
-    value: "https://discord.com",
+    type: "discord",
+    category: "link",
+    display_text: "Discord Server",
+    value: "https://discord.com/channels/123456789/987654321",
+  },
+  // GitHub
+  {
+    id: "111",
+    card_id: "1",
+    type: "github",
+    category: "link",
+    display_text: "GitHub Profile",
+    value: "https://github.com/johndoe",
+  },
+  // LinkedIn
+  {
+    id: "112",
+    card_id: "1",
+    type: "linkedin",
+    category: "link",
+    display_text: "LinkedIn Profile",
+    value: "https://www.linkedin.com/in/johndoe",
+  },
+  // Facebook
+  {
+    id: "113",
+    card_id: "1",
+    type: "facebook",
+    category: "link",
+    display_text: "Facebook Page",
+    value: "https://www.facebook.com/johndoe",
+  },
+  // Instagram
+  {
+    id: "114",
+    card_id: "1",
+    type: "instagram",
+    category: "link",
+    display_text: "Instagram Profile",
+    value: "https://www.instagram.com/johndoe",
+  },
+  // Twitter
+  {
+    id: "115",
+    card_id: "1",
+    type: "twitter",
+    category: "link",
+    display_text: "Twitter Profile",
+    value: "https://twitter.com/johndoe",
+  },
+  // TikTok
+  {
+    id: "116",
+    card_id: "1",
+    type: "tiktok",
+    category: "link",
+    display_text: "TikTok Profile",
+    value: "https://www.tiktok.com/@johndoe",
+  },
+  // Pinterest
+  {
+    id: "117",
+    card_id: "1",
+    type: "pinterest",
+    category: "link",
+    display_text: "Pinterest Board",
+    value: "https://www.pinterest.com/johndoe/myboard",
+  },
+  // Spotify
+  {
+    id: "118",
+    card_id: "1",
+    type: "spotify",
+    category: "link",
+    display_text: "Spotify Playlist",
+    value: "https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M",
+  },
+  // PayPal
+  {
+    id: "119",
+    card_id: "1",
+    type: "paypal",
+    category: "link",
+    display_text: "PayPal Link",
+    value: "https://www.paypal.com/paypalme/johndoe",
+  },
+  // Zoom
+  {
+    id: "120",
+    card_id: "1",
+    type: "zoom",
+    category: "link",
+    display_text: "Zoom Meeting",
+    value: "https://zoom.us/j/1234567890",
+  },
+  // Google Meet
+  {
+    id: "121",
+    card_id: "1",
+    type: "google_meet",
+    category: "link",
+    display_text: "Google Meet",
+    value: "https://meet.google.com/abc-defg-hij",
+  },
+  // Microsoft Teams
+  {
+    id: "122",
+    card_id: "1",
+    type: "microsoft_teams",
+    category: "link",
+    display_text: "Microsoft Teams Meeting",
+    value: "https://teams.microsoft.com/l/meetup-join/abc123",
+  },
+  // Dribbble
+  {
+    id: "123",
+    card_id: "1",
+    type: "dribbble",
+    category: "link",
+    display_text: "Dribbble Profile",
+    value: "https://dribbble.com/johndoe",
+  },
+  // Behance
+  {
+    id: "124",
+    card_id: "1",
+    type: "behance",
+    category: "link",
+    display_text: "Behance Portfolio",
+    value: "https://www.behance.net/johndoe",
   },
 ];
+
 
 const profileCard: ProfileCard[] = [
   {

@@ -29,7 +29,7 @@ const ClientSideProfilePage = ({
     useState<ProfileComponent[]>(profileComponentData);
   const [profileData, setProfileData] = useState<ProfileCard>(profileCardData);
   // State for editing
-  const [isEditing, setEditing] = useState(true);
+  const [isEditing, setEditing] = useState(false);
 
   return (
     <>
@@ -47,18 +47,20 @@ const ClientSideProfilePage = ({
           {/* Profile Preview */}
           <div className="mt-10 mx-auto gap-5 flex flex-col">
             {!isEditing ? (
-              <Button
-                variant={"ghost"}
-                size="icon"
-                type="button"
-                className=" bg-secondary text-secondary-foreground w-20  secondary-foreground hover:scale-105 rounded-lg transition "
-                onClick={() => {
-                  setEditing(true);
-                }}
-              >
-                <CiEdit />
-                Edit
-              </Button>
+              <div className="w-full flex justify-end">
+                <Button
+                  variant={"ghost"}
+                  size="icon"
+                  type="button"
+                  className=" bg-secondary text-secondary-foreground w-20  secondary-foreground hover:scale-105 rounded-lg transition "
+                  onClick={() => {
+                    setEditing(true);
+                  }}
+                >
+                  <CiEdit />
+                  Edit
+                </Button>
+              </div>
             ) : (
               <Button
                 variant={"ghost"}
@@ -75,7 +77,10 @@ const ClientSideProfilePage = ({
             {isEditing ? (
               <EditProfileCardComponent />
             ) : (
-              <ProfileCardComponent />
+              <ProfileCardComponent
+                components={components}
+                profileData={profileData}
+              />
             )}
           </div>
           {isEditing && <ProfileEditor />}

@@ -16,106 +16,100 @@ import {
 } from "@dnd-kit/sortable";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
-import ProfileDroppable from "../(DragAndDrop)/ProfileDroppable";
-
 import { z } from "zod";
 import { ProfileComponent } from "@/lib/type";
 import { profileDndInputSchema } from "../(DragAndDrop)/ProfileDndInputSchema";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import ProfileDroppable from "../(DragAndDrop)/ProfileDroppable";
 
 const EditProfileCardComponent = () => {
   const context = useProfileContext();
+
   if (!context) {
     console.warn("profileEditContext is null");
     return null;
   }
 
-  const { components, profileData, setComponents, isEditing } = context;
+  const { components, profileData, setComponents, isEditing, setEditing } =
+    context;
 
   const layout =
     profileLayoutData[profileData.layout as keyof typeof profileLayoutData];
 
-  // Touch screen support for mobile
+  // Touchscreen and pointer support for drag-and-drop
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
 
-  // State for schema
+  // Dynamic validation schema
   const [validationSchema, setValidationSchema] = useState(
     z.object({
       components: z.array(profileDndInputSchema),
     })
   );
 
-  // Drag end handling
+  // Form setup
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<{
+    components: ProfileComponent[];
+  }>({
+    mode: "onChange",
+    resolver: zodResolver(validationSchema),
+    defaultValues: { components },
+  });
+
+  // Update schema and reset form when components change
+  useEffect(() => {
+    setValidationSchema(
+      z.object({
+        components: z.array(profileDndInputSchema),
+      })
+    );
+    reset({ components });
+  }, [components, reset]);
+
+  // Handle drag end
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
+
     if (active.id !== over?.id) {
       setComponents((prevItems) => {
         const activeIndex = prevItems.findIndex(
           (item) => item.id === active.id
         );
         const overIndex = prevItems.findIndex((item) => item.id === over?.id);
-        // Resort the items
-        return arrayMove(components, activeIndex, overIndex);
+        return arrayMove(prevItems, activeIndex, overIndex);
       });
     }
   };
 
-  // Update the schema when components change
-  useEffect(() => {
-    setValidationSchema(
-      z.object({
-        components: z.array(profileDndInputSchema), // Update if needed dynamically
-      })
-    );
-  }, [components]);
-
-  // Form setup
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset, // Reset the form values dynamically
-  } = useForm<{
-    components: ProfileComponent[];
-  }>({
-    mode: "onChange",
-    resolver: zodResolver(validationSchema), // Use updated schema
-    defaultValues: {
-      components: components,
-    },
-  });
-
-  // Reset the form values when components change
-  useEffect(() => {
-    if (components) {
-      reset({ components });
-    }
-  }, [components, reset]);
-
+  // Handle form submission
   const onSubmit = (data: { components: ProfileComponent[] }) => {
-    console.log("hello");
-    console.log("Form Submitted:", data);
+    console.log("Submitted Data:", data);
+    setComponents(data.components);
+    // Add logic to save data to the database
     reset();
+    setEditing(false);
   };
 
   return (
     <div className="relative max-w-[400px] flex flex-col bg-[#050505] text-primary-foreground overflow-hidden rounded-lg">
-      {/* header area */}
+      {/* Header area */}
       {layout}
 
-      {/* dnd area */}
+      {/* Drag-and-drop area */}
       <form
         id="profileForm"
         onSubmit={(e) => {
-          console.log("Components Array:", components);
+          console.log("Components Array Before Submit:", components);
           console.log(errors);
           handleSubmit(onSubmit)(e);
         }}
       >
         <DndContext
-          id="dnd-context"
           sensors={sensors}
           onDragEnd={isEditing ? handleDragEnd : undefined}
           collisionDetection={closestCorners}
@@ -137,7 +131,7 @@ const EditProfileCardComponent = () => {
             </div>
           </SortableContext>
         </DndContext>
-        <Button type="submit" className="w-full bg-red-500">
+        <Button type="submit" className="bg-red-500 mx-4 mb-4">
           Submit
         </Button>
       </form>

@@ -29,13 +29,15 @@ export default function FieldsEditModal() {
         category: PROFILE_COMPONENT_CATEGORY.LINK,
       },
       {
+        label: "Map",
+        type: PROFILE_COMPONENT_TYPE.MAP,
+        category: PROFILE_COMPONENT_CATEGORY.MAP,
+      },
+    ],
+    Social: [
+      {
         label: "Github",
         type: PROFILE_COMPONENT_TYPE.GITHUB,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
-      },
-      {
-        label: "Website",
-        type: PROFILE_COMPONENT_TYPE.LINK,
         category: PROFILE_COMPONENT_CATEGORY.LINK,
       },
       {
@@ -53,13 +55,6 @@ export default function FieldsEditModal() {
         type: PROFILE_COMPONENT_TYPE.INSTAGRAM,
         category: PROFILE_COMPONENT_CATEGORY.LINK,
       },
-      {
-        label: "Map",
-        type: PROFILE_COMPONENT_TYPE.MAP,
-        category: PROFILE_COMPONENT_CATEGORY.MAP,
-      },
-    ],
-    Social: [
       {
         label: "Twitter",
         type: PROFILE_COMPONENT_TYPE.TWITTER,
@@ -85,28 +80,8 @@ export default function FieldsEditModal() {
         type: PROFILE_COMPONENT_TYPE.DISCORD,
         category: PROFILE_COMPONENT_CATEGORY.LINK,
       },
-      {
-        label: "Slack",
-        type: PROFILE_COMPONENT_TYPE.SLACK,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
-      },
-      {
-        label: "Facebook",
-        type: PROFILE_COMPONENT_TYPE.FACEBOOK,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
-      },
-      {
-        label: "Instagram",
-        type: PROFILE_COMPONENT_TYPE.INSTAGRAM,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
-      },
     ],
     Communication: [
-      {
-        label: "Email",
-        type: PROFILE_COMPONENT_TYPE.EMAIL,
-        category: PROFILE_COMPONENT_CATEGORY.MAIL,
-      },
       {
         label: "Phone",
         type: PROFILE_COMPONENT_TYPE.PHONE,
@@ -121,11 +96,6 @@ export default function FieldsEditModal() {
         label: "Telegram",
         type: PROFILE_COMPONENT_TYPE.TELEGRAM,
         category: PROFILE_COMPONENT_CATEGORY.PHONE,
-      },
-      {
-        label: "Zoom",
-        type: PROFILE_COMPONENT_TYPE.VIDEO,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
       },
     ],
     Conferencing: [
@@ -152,11 +122,6 @@ export default function FieldsEditModal() {
         category: PROFILE_COMPONENT_CATEGORY.LINK,
       },
       {
-        label: "Stripe",
-        type: PROFILE_COMPONENT_TYPE.STRIPE,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
-      },
-      {
         label: "Amazon Pay",
         type: PROFILE_COMPONENT_TYPE.AMAZON_PAY,
         category: PROFILE_COMPONENT_CATEGORY.LINK,
@@ -176,7 +141,7 @@ export default function FieldsEditModal() {
       {
         label: "Twitch",
         type: PROFILE_COMPONENT_TYPE.TWITCH,
-        category: PROFILE_COMPONENT_CATEGORY.VIDEO,
+        category: PROFILE_COMPONENT_CATEGORY.LINK,
       },
     ],
     Music: [

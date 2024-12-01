@@ -3,8 +3,8 @@
 export type ProfileComponent = {
   id: string;
   card_id: string;
-  type: PROFILE_COMPONENT_TYPE;
-  category: PROFILE_COMPONENT_CATEGORY;
+  type: string;
+  category: string;
   display_text:string;
   value?: string;
 };
@@ -44,6 +44,7 @@ export enum PROFILE_COMPONENT_TYPE {
   GOOGLE_MEET = "google_meet",
   MICROSOFT_TEAMS = "microsoft_teams",
   INFO = "info",
+  ZOOM = "zoom",
 }
 
 export enum PROFILE_COMPONENT_CATEGORY {

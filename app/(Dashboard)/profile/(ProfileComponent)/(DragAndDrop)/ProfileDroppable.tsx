@@ -8,7 +8,6 @@ import Image from "next/image";
 import { RxCross1, RxDragHandleHorizontal } from "react-icons/rx";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { z } from "zod";
 
 interface DroppableProps {
   item: ProfileComponent;
@@ -67,6 +66,7 @@ const DndInputField = ({
   icontype,
   inputType,
   formRegister,
+  formErrors,
 }: {
   type: string;
   placeholder: string;
@@ -74,16 +74,23 @@ const DndInputField = ({
   icontype: string;
   inputType: string;
   formRegister: any;
+  formErrors?: any;
 }) => (
-  <div className="flex px-2 w-full max-w-sm items-center gap-1.5 bg-transparent  rounded">
-    {typeIconMap[icontype as keyof typeof typeIconMap]}
-    <Input
-      className="bg-transparent border border-primary focus:border-red-500 focus:border-2 transition-colors"
-      type={type}
-      placeholder={placeholder}
-      {...formRegister(`components.${index}.${inputType}` as const)}
-    />
-  </div>
+  <>
+    <div className="flex px-2 w-full max-w-sm items-center gap-1.5 bg-transparent  rounded">
+      {typeIconMap[icontype as keyof typeof typeIconMap]}
+      <Input
+        className={`bg-transparent border border-primary  focus:border-2 transition-colors ${
+          formErrors ? "border-red-500" : "border-primary"
+        }`}
+        type={type}
+        placeholder={placeholder}
+        {...formRegister(`components.${index}.${inputType}` as const)}
+      />
+    </div>
+
+    {formErrors && <p className="text-red-500 text-sm pl-8  ">{formErrors}</p>}
+  </>
 );
 
 // Main profile component renderer
@@ -109,7 +116,7 @@ const DndInputFieldBuilder = ({
   switch (item.category) {
     case PROFILE_COMPONENT_CATEGORY.TEXT:
       return (
-        <div className="flex flex-col items-center gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
+        <div className="flex flex-col gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
           <DndComponentHeader
             item={item}
             components={components}
@@ -124,11 +131,23 @@ const DndInputFieldBuilder = ({
             placeholder="Type your message here."
             {...formRegister(`components.${index}.value` as const)}
           />
-          {formErrors && <p className="text-red-500 text-sm">{formErrors}</p>}
+          {formErrors && <p className="text-red-500   text-sm">{formErrors}</p>}
         </div>
       );
 
     case PROFILE_COMPONENT_CATEGORY.IMAGE:
+      const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+          const previewURL = URL.createObjectURL(file);
+          const updatedComponents = components.map((component) =>
+            component.id === item.id
+              ? { ...component, value: previewURL }
+              : component
+          );
+          setComponents(updatedComponents);
+        }
+      };
       return (
         <div className="flex flex-col items-center gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
           <DndComponentHeader
@@ -170,9 +189,14 @@ const DndInputFieldBuilder = ({
                 className="hidden"
                 type="file"
                 accept="image/*"
-                {...formRegister(`components.${index}.value` as const)}
+                onChange={handleFileChange}
               />
             </div>
+            {formErrors && (
+              <p className="text-red-500 text-sm px-7 text-center">
+                {formErrors}
+              </p>
+            )}
           </div>
         </div>
       );
@@ -194,10 +218,9 @@ const DndInputFieldBuilder = ({
             icontype={item.type}
             inputType="value"
             formRegister={formRegister}
+            formErrors={formErrors}
           />
-          {formErrors && (
-            <p className="text-red-500 text-sm px-7">{formErrors}</p>
-          )}
+
           <DndInputField
             type="display_text"
             index={index}

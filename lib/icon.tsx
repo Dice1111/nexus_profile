@@ -67,4 +67,5 @@ export const typeIconMap = {
   [PROFILE_COMPONENT_TYPE.FILE]: <FaLink />,
   [PROFILE_COMPONENT_TYPE.IMAGE]: <LuImagePlus />,
   [PROFILE_COMPONENT_TYPE.INFO]: <TbInfoSquareRoundedFilled />,
+  [PROFILE_COMPONENT_TYPE.ZOOM]: <FaVideo />,
 };

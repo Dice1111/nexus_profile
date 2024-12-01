@@ -1,16 +1,17 @@
 import { useProfileContext } from "@/context/profileContext";
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
 import ProfileBodyItem from "./ProfileBodyItem";
+import { ProfileComponent, ProfileCard } from "@/lib/type";
 
-const ProfileCardComponent = () => {
-  const context = useProfileContext();
-  if (!context) {
-    console.warn("profileEditContext is null");
-    return null;
-  }
+interface ProfileCardComponentProps {
+  components: ProfileComponent[];
+  profileData: ProfileCard;
+}
 
-  const { components, profileData } = context;
-
+const ProfileCardComponent = ({
+  components,
+  profileData,
+}: ProfileCardComponentProps) => {
   const layout =
     profileLayoutData[profileData.layout as keyof typeof profileLayoutData];
 
