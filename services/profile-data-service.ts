@@ -1,8 +1,6 @@
 import {
-  ProfileComponent,
-  PROFILE_COMPONENT_TYPE,
-  PROFILE_COMPONENT_CATEGORY,
   ProfileCard,
+  ProfileComponent
 } from "@/lib/type";
 
 // Fetch profile components by card ID
