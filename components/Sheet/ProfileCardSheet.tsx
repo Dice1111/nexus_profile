@@ -1,4 +1,7 @@
-import { fetchWithTryCatch } from "@/lib/utils";
+// ProfileCardSheet.tsx
+"use client";
+
+import { CONTACT_TAG_TYPE } from "@/lib/type";
 import {
   Sheet,
   SheetContent,
@@ -6,36 +9,74 @@ import {
   SheetHeader,
   SheetTitle,
 } from "../ui/sheet";
+import TagAndNote from "./SubComponents/TagAndNote";
+
+export enum SHEET_VARIENT {
+  CONNECTION,
+  REQUEST,
+}
+
+export interface ConnectionSheetVarient {
+  cardId: number;
+  name: string;
+  tag: CONTACT_TAG_TYPE;
+  note?: string;
+  date: Date;
+}
+
+export interface RequestSheetVarient {
+  cardId: number;
+  name: string;
+  date: Date;
+}
 
 interface ProfileCardSheetProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  cardId: number | null;
+  sheetData: ConnectionSheetVarient | RequestSheetVarient;
+  sheetVarient: SHEET_VARIENT;
 }
+
+const displayDateFormat = (date: Date, sheetVarient: SHEET_VARIENT) => {
+  switch (sheetVarient) {
+    case SHEET_VARIENT.CONNECTION:
+      return `Connected on ${new Date(date).toLocaleDateString()}`;
+    case SHEET_VARIENT.REQUEST:
+      return `Requested on ${new Date(date).toLocaleDateString()}`;
+  }
+};
+
+const handleSaveChanges = (updatedTag: string, updatedNotes: string) => {
+  console.log("Saved changes:", updatedTag, updatedNotes);
+};
 
 export default function ProfileCardSheet({
   isOpen,
   setIsOpen,
-  cardId,
+  sheetData,
+  sheetVarient,
 }: ProfileCardSheetProps) {
-  if (!cardId) return null;
-
-  // const CardData = fetchWithTryCatch(?)
-
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Row Details</SheetTitle>
-          <SheetDescription>
-            Here are the details for the selected row.
+      <SheetContent className="max-w-md px-6 py-4 overflow-y-auto">
+        <SheetHeader className="mb-4">
+          <SheetTitle className="text-xl font-semibold text-primary-foreground">
+            {sheetData.name}
+          </SheetTitle>
+          <SheetDescription className="text-sm text-primary-foreground">
+            {displayDateFormat(sheetData.date, sheetVarient)}
           </SheetDescription>
         </SheetHeader>
-        <div className="p-4">
-          {/* Render row data here */}
-          <p>
-            <strong>Card Id:</strong> {cardId}
-          </p>
+
+        {sheetVarient === SHEET_VARIENT.CONNECTION && (
+          <TagAndNote
+            tag={(sheetData as ConnectionSheetVarient).tag}
+            note={(sheetData as ConnectionSheetVarient).note}
+            onSaveChanges={handleSaveChanges}
+          />
+        )}
+        <div className="w-full h-[1000px] bg-blue-700">
+          This is card component{" "}
         </div>
       </SheetContent>
     </Sheet>

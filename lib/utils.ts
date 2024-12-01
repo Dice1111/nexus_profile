@@ -7,11 +7,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export async function fetchWithTryCatch<T>(
-  fetchFunction: () => Promise<T>
+export async function fetchWithTryCatch<T, A>(
+  fetchFunction: (arg?: A) => Promise<T>,
+  argument?: A
 ): Promise<T> {
   try {
-    return await fetchFunction();
+    return await fetchFunction(argument);
   } catch (error) {
     if (error instanceof Error) {
       throw error;

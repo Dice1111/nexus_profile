@@ -4,11 +4,7 @@ import { ProfileContext } from "@/context/profileContext";
 
 import ProfileCardComponent from "@/components/ProfileCard/ProfileCardComponent";
 import { Button } from "@/components/ui/button";
-import {
-  PROFILE_COMPONENT_CATEGORY,
-  ProfileCard,
-  ProfileComponent,
-} from "@/lib/type";
+import { ProfileCard, ProfileComponent } from "@/lib/type";
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { GiCheckMark } from "react-icons/gi";
