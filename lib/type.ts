@@ -114,10 +114,12 @@ export type ThemeSchema = {
 
 export type ProfileCard = {
   card_id: string;
-  icon_color: string;
+  user_id: string;
+  foreground_color: string;
+  background_color: string;
+  wave_color: string;
   layout: string;
   wave_type: string;
-  wave_color: string;
   image: string;
   logo_icon: string;
   prefix: string;
