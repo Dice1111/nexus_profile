@@ -2,17 +2,16 @@
 
 import { ProfileContext } from "@/context/profileContext";
 
-import ProfileCardComponent from "@/components/ProfileCard/ProfileCardComponent";
+import ProfileCardComponent from "@/components/ProfileComponent/ProfileCard/ProfileCardComponent";
 import { Button } from "@/components/ui/button";
-import { ProfileCard, ProfileComponent } from "@/lib/type";
+import { ProfileCard, ProfileDndComponent } from "@/lib/type";
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { GiCheckMark } from "react-icons/gi";
-import EditProfileCardComponent from "./(ProfileComponent)/(ProfileCard)/EditProfileCardComponent";
-import ProfileEditor from "./(ProfileComponent)/(ProfileEditor)/ProfileEditor";
+import EditProfileCardComponent from "@/components/ProfileComponent/EditProfileCard/EditProfileCardComponent";
 
 interface ProfileProps {
-  profileComponentData: ProfileComponent[];
+  profileComponentData: ProfileDndComponent[];
   profileCardData: ProfileCard;
   children?: React.ReactNode;
 }
@@ -24,7 +23,7 @@ const ClientSideProfilePage = ({
 }: ProfileProps) => {
   // Fetch from database
   const [components, setComponents] =
-    useState<ProfileComponent[]>(profileComponentData);
+    useState<ProfileDndComponent[]>(profileComponentData);
   const [profileData, setProfileData] = useState<ProfileCard>(profileCardData);
   // State for editing
   const [isEditing, setEditing] = useState(false);
@@ -42,7 +41,6 @@ const ClientSideProfilePage = ({
         }}
       >
         <div className=" flex justify-center  gap- relative">
-          {/* Profile Preview */}
           <div className="mt-10 mx-auto gap-5 flex flex-col">
             {!isEditing ? (
               <div className="w-full flex justify-end">

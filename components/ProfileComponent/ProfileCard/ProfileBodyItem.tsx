@@ -1,10 +1,10 @@
 import { typeIconMap } from "@/lib/icon";
-import { PROFILE_COMPONENT_CATEGORY, ProfileComponent } from "@/lib/type";
+import { PROFILE_COMPONENT_CATEGORY, ProfileDndComponent } from "@/lib/type";
 import Image from "next/image";
 import { IoCloudUploadOutline } from "react-icons/io5";
 
 interface ItemProps {
-  item: ProfileComponent;
+  item: ProfileDndComponent;
 }
 
 // Mapping for each type

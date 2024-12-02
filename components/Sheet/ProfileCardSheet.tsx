@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
-import { CONTACT_TAG_TYPE, ProfileCard, ProfileComponent } from "@/lib/type";
+import { CONTACT_TAG_TYPE, ProfileCard, ProfileDndComponent } from "@/lib/type";
 import {
   Sheet,
   SheetContent,
@@ -13,7 +13,7 @@ import {
 import TagAndNote from "./SubComponents/TagAndNote";
 import {
   fetchUserProfileCardData,
-  fetchUserProfileComponentsData,
+  fetchUserProfileDndComponentsData,
 } from "@/services/profile-data-service";
 
 // Enum for Sheet Variants
@@ -46,7 +46,7 @@ interface ProfileCardSheetProps {
 
 // Dynamic import of ProfileCardComponent
 const ProfileCardComponent = dynamic(
-  () => import("../ProfileCard/ProfileCardComponent"),
+  () => import("../ProfileComponent/ProfileCard/ProfileCardComponent"),
   { ssr: false } // Client-side rendering only
 );
 
@@ -67,8 +67,8 @@ export default function ProfileCardSheet({
   const [profileCardData, setProfileCardData] = useState<ProfileCard | null>(
     null
   );
-  const [profileComponents, setProfileComponents] = useState<
-    ProfileComponent[]
+  const [profileDndComponents, setProfileDndComponents] = useState<
+    ProfileDndComponent[]
   >([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -84,10 +84,10 @@ export default function ProfileCardSheet({
     try {
       const [profileData, componentsData] = await Promise.all([
         fetchUserProfileCardData(cardId),
-        fetchUserProfileComponentsData(cardId),
+        fetchUserProfileDndComponentsData(cardId),
       ]);
       setProfileCardData(profileData);
-      setProfileComponents(componentsData);
+      setProfileDndComponents(componentsData);
     } finally {
       setIsLoading(false);
     }
@@ -115,15 +115,14 @@ export default function ProfileCardSheet({
           />
         )}
 
-        {profileCardData && profileComponents ? (
+        {profileCardData && profileDndComponents ? (
           isLoading ? (
             <div className="text-primary-foreground">Loading Profile...</div>
           ) : (
-            // <ProfileCardComponent
-            //   profileData={profileCardData}
-            //   components={profileComponents}
-            // />
-            <p>This is card</p>
+            <ProfileCardComponent
+              profileData={profileCardData}
+              components={profileDndComponents}
+            />
           )
         ) : (
           <div className="text-muted-foreground text-center text-sm mt-5">

@@ -1,6 +1,6 @@
 // types/itemTypes.ts
 
-export type ProfileComponent = {
+export type ProfileDndComponent = {
   id: string;
   card_id: string;
   type: string;

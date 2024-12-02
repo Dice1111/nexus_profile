@@ -1,10 +1,10 @@
 
-import { ProfileComponent, ProfileCard, ThemeSchema } from "@/lib/type";
-import React, { createContext, useContext, useState } from "react";
+import { ProfileCard, ProfileDndComponent } from "@/lib/type";
+import React, { createContext, useContext } from "react";
 
 export interface ProfileContextType {
-  components: ProfileComponent[];
-  setComponents: React.Dispatch<React.SetStateAction<ProfileComponent[]>>;
+  components: ProfileDndComponent[];
+  setComponents: React.Dispatch<React.SetStateAction<ProfileDndComponent[]>>;
   profileData: ProfileCard;
   setProfileData: React.Dispatch<React.SetStateAction<ProfileCard>>;
   isEditing: boolean;

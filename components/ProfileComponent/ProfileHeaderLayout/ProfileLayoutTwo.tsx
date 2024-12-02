@@ -1,19 +1,26 @@
 import { useProfileContext } from "@/context/profileContext";
-import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
+import React from "react";
 import Image from "next/image";
+import TemplateOne from "@/components/ProfileSvgComponent/SvgWaveTemplateOne";
+import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
+import { ProfileCard } from "@/lib/type";
 
-const ProfileLayoutOne = () => {
-  const context = useProfileContext();
-  if (!context) {
-    console.warn("profileEditContext is null");
-    return null;
-  }
+interface ProfileLayoutTwoProps {
+  profileData: ProfileCard;
+}
 
-  const { profileData } = context;
+const ProfileLayoutTwo = ({ profileData }: ProfileLayoutTwoProps) => {
+  // const context = useProfileContext();
+  // if (!context) {
+  //   console.warn("profileEditContext is null");
+  //   return null;
+  // }
+
+  // const { profileData } = context;
 
   return (
     <div>
-      <div className="w-full h-80 relative overflow-hidden">
+      <div className="w-full h-40 relative overflow-hidden">
         {/* Profile Picture */}
         <Image
           src={profileData.image}
@@ -22,7 +29,7 @@ const ProfileLayoutOne = () => {
           height={1000}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
-        <div className="absolute bottom-0 w-full ">
+        <div className="absolute -bottom-10 w-full ">
           {
             svgWaveLayoutData[
               profileData.wave_type as keyof typeof svgWaveLayoutData
@@ -35,7 +42,7 @@ const ProfileLayoutOne = () => {
       <div className=" relative px-7 py-10">
         {/* Logo */}
         {/* absolute bg-red-500 -top-10 right-2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg */}
-        <div className="absolute bg-transparent -top-10 right-2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg">
+        <div className="absolute  -top-10 right-1/2 translate-x-1/2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg">
           <Image
             src={profileData.logo_icon}
             alt="Logo Icon"
@@ -65,4 +72,4 @@ const ProfileLayoutOne = () => {
   );
 };
 
-export default ProfileLayoutOne;
+export default ProfileLayoutTwo;
