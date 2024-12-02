@@ -84,6 +84,11 @@ export default function DesignEditModal() {
     profileData.layout
   );
 
+  //color state
+  const [backgroundColor, setBackgroundColor] = useState<string>(prev_color);
+  const [waveColor, setWaveColor] = useState<string>(prev_color);
+  const [foregroundColor, setForegroundColor] = useState<string>(prev_color);
+
   const handleColorSelect = (color: string) => {
     const rgba = hexToRgba(color);
     const hsva = rgbaToHsva(rgba);
@@ -165,6 +170,26 @@ export default function DesignEditModal() {
                 </span>
               )}
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Colorable Components */}
+
+      <div>
+        <h1 className="text-lg font-thin">Change Color</h1>
+
+        <div className="flex flex-box gap-4 mt-4">
+          {profileLayouts.map((layout) => (
+            <Button
+              key={layout}
+              onClick={() => handleProfileLayoutSelect(layout)}
+              className={`relative  rounded transition-transform hover:scale-105 ${
+                selectedProfileLayout === layout ? "border-2 border-white" : ""
+              }`}
+            >
+              {layout}
+            </Button>
           ))}
         </div>
       </div>
