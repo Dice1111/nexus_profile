@@ -36,8 +36,6 @@ const EditProfileCardComponent = dynamic(
   }
 );
 
-EditProfileCardComponent;
-
 export default function ClientSideProfilePage({
   profileComponentData,
   profileCardData,
