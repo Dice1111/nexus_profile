@@ -1,15 +1,20 @@
 import { useProfileContext } from "@/context/profileContext";
 import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
+import { ProfileCard } from "@/lib/type";
 import Image from "next/image";
 
-const ProfileLayoutOne = () => {
-  const context = useProfileContext();
-  if (!context) {
-    console.warn("profileEditContext is null");
-    return null;
-  }
+interface ProfileLayoutOneProps {
+  profileData: ProfileCard;
+}
 
-  const { profileData } = context;
+const ProfileLayoutOne = ({ profileData }: ProfileLayoutOneProps) => {
+  // const context = useProfileContext();
+  // if (!context) {
+  //   console.warn("profileEditContext is null");
+  //   return null;
+  // }
+
+  // const { profileData } = context;
 
   return (
     <div>

@@ -17,11 +17,11 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { ProfileComponent } from "@/lib/type";
-import { profileDndInputSchema } from "../DragAndDrop/ProfileDndInputSchema";
+import { ProfileDndComponent } from "@/lib/type";
+import { profileDndInputSchema } from "./DragAndDropComponent/ProfileDndInputSchema";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import ProfileDroppable from "../DragAndDrop/ProfileDroppable";
+import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
 
 const EditProfileCardComponent = () => {
   const context = useProfileContext();
@@ -34,8 +34,10 @@ const EditProfileCardComponent = () => {
   const { components, profileData, setComponents, isEditing, setEditing } =
     context;
 
-  const layout =
-    profileLayoutData[profileData.layout as keyof typeof profileLayoutData];
+  const layoutComponent =
+    profileLayoutData(profileData)[
+      profileData.layout as keyof typeof profileLayoutData
+    ];
 
   // Touchscreen and pointer support for drag-and-drop
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
@@ -54,7 +56,7 @@ const EditProfileCardComponent = () => {
     formState: { errors },
     reset,
   } = useForm<{
-    components: ProfileComponent[];
+    components: ProfileDndComponent[];
   }>({
     mode: "onChange",
     resolver: zodResolver(validationSchema),
@@ -87,7 +89,7 @@ const EditProfileCardComponent = () => {
   };
 
   // Handle form submission
-  const onSubmit = (data: { components: ProfileComponent[] }) => {
+  const onSubmit = (data: { components: ProfileDndComponent[] }) => {
     console.log("Submitted Data:", data);
     setComponents(data.components);
     // Add logic to save data to the database
@@ -101,7 +103,7 @@ const EditProfileCardComponent = () => {
       style={{ backgroundColor: profileData.background_color }}
     >
       {/* Header area */}
-      {layout}
+      {layoutComponent}
 
       {/* Drag-and-drop area */}
       <form

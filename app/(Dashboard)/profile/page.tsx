@@ -1,9 +1,9 @@
-import { ProfileCard, ProfileComponent } from "@/lib/type";
+import { ProfileCard, ProfileDndComponent } from "@/lib/type";
 
 import ClientSideProfilePage from "./ClientSideProfilePage";
 import {
   fetchUserProfileCardData,
-  fetchUserProfileComponentsData,
+  fetchUserProfileDndComponentsData,
 } from "@/services/profile-data-service";
 import ProfileEditor from "@/components/ProfileComponent/ProfileEditor/ProfileEditor";
 
@@ -13,8 +13,8 @@ const getProfileCardData = async (): Promise<ProfileCard> => {
   return data;
 };
 
-const getProfileComponentsData = async (): Promise<ProfileComponent[]> => {
-  const data = await fetchUserProfileComponentsData("1");
+const getProfileComponentsData = async (): Promise<ProfileDndComponent[]> => {
+  const data = await fetchUserProfileDndComponentsData("1");
   return data;
 };
 

@@ -3,15 +3,20 @@ import React from "react";
 import Image from "next/image";
 import TemplateOne from "@/components/ProfileSvgComponent/SvgWaveTemplateOne";
 import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
+import { ProfileCard } from "@/lib/type";
 
-const ProfileLayoutTwo = () => {
-  const context = useProfileContext();
-  if (!context) {
-    console.warn("profileEditContext is null");
-    return null;
-  }
+interface ProfileLayoutTwoProps {
+  profileData: ProfileCard;
+}
 
-  const { profileData } = context;
+const ProfileLayoutTwo = ({ profileData }: ProfileLayoutTwoProps) => {
+  // const context = useProfileContext();
+  // if (!context) {
+  //   console.warn("profileEditContext is null");
+  //   return null;
+  // }
+
+  // const { profileData } = context;
 
   return (
     <div>

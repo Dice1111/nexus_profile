@@ -1,10 +1,10 @@
-import { ProfileCard, ProfileComponent } from "@/lib/type";
+import { ProfileCard, ProfileDndComponent } from "@/lib/type";
 
 // Fetch profile components by card ID
-export async function fetchUserProfileComponentsData(
+export async function fetchUserProfileDndComponentsData(
   id: string
-): Promise<ProfileComponent[]> {
-  return profileComponents.filter((component) => component.card_id === id);
+): Promise<ProfileDndComponent[]> {
+  return profileDndComponents.filter((component) => component.card_id === id);
 }
 
 // Fetch a profile card by card ID
@@ -15,7 +15,7 @@ export async function fetchUserProfileCardData(
   return card || null; // Return null if no card is found
 }
 
-const profileComponents: ProfileComponent[] = [
+const profileDndComponents: ProfileDndComponent[] = [
   // Email
   {
     id: "103",

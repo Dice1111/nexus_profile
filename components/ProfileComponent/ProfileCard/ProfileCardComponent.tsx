@@ -1,9 +1,9 @@
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
-import { ProfileCard, ProfileComponent } from "@/lib/type";
+import { ProfileCard, ProfileDndComponent } from "@/lib/type";
 import ProfileBodyItem from "./ProfileBodyItem";
 
 interface ProfileCardComponentProps {
-  components: ProfileComponent[];
+  components: ProfileDndComponent[];
   profileData: ProfileCard;
 }
 
@@ -11,13 +11,15 @@ const ProfileCardComponent = ({
   components,
   profileData,
 }: ProfileCardComponentProps) => {
-  const layout =
-    profileLayoutData[profileData.layout as keyof typeof profileLayoutData];
+  const layoutComponent =
+    profileLayoutData(profileData)[
+      profileData.layout as keyof typeof profileLayoutData
+    ];
 
   return (
     <div className="  relative  max-w-[400px] flex flex-col bg-[#050505] text-primary-foreground overflow-hidden rounded-lg">
       {/* header area */}
-      {layout}
+      {layoutComponent}
 
       {/* item area */}
 

@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { useProfileContext } from "@/context/profileContext";
 import { typeIconMap } from "@/lib/icon";
-import { PROFILE_COMPONENT_CATEGORY, ProfileComponent } from "@/lib/type";
+import { PROFILE_COMPONENT_CATEGORY, ProfileDndComponent } from "@/lib/type";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import Image from "next/image";
@@ -10,7 +10,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 
 interface DroppableProps {
-  item: ProfileComponent;
+  item: ProfileDndComponent;
   index: number;
   formRegister: any;
   formErrors: any;
@@ -19,8 +19,8 @@ interface DroppableProps {
 // Utility function to handle deletion of an item
 const handleDelete = (
   id: string,
-  components: ProfileComponent[],
-  setComponents: Dispatch<SetStateAction<ProfileComponent[]>>
+  components: ProfileDndComponent[],
+  setComponents: Dispatch<SetStateAction<ProfileDndComponent[]>>
 ) => {
   const updatedComponents = components.filter(
     (component) => component.id !== id
@@ -36,9 +36,9 @@ const DndComponentHeader = ({
   attributes,
   listeners,
 }: {
-  item: ProfileComponent;
-  components: ProfileComponent[];
-  setComponents: Dispatch<SetStateAction<ProfileComponent[]>>;
+  item: ProfileDndComponent;
+  components: ProfileDndComponent[];
+  setComponents: Dispatch<SetStateAction<ProfileDndComponent[]>>;
   attributes: any;
   listeners: any;
 }) => (
@@ -104,10 +104,10 @@ const DndInputFieldBuilder = ({
   formRegister,
   formErrors,
 }: {
-  item: ProfileComponent;
+  item: ProfileDndComponent;
   index: number;
-  components: ProfileComponent[];
-  setComponents: Dispatch<SetStateAction<ProfileComponent[]>>;
+  components: ProfileDndComponent[];
+  setComponents: Dispatch<SetStateAction<ProfileDndComponent[]>>;
   attributes: any;
   listeners: any;
   formRegister: any;

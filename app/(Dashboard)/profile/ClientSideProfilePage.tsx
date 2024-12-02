@@ -2,16 +2,16 @@
 
 import { ProfileContext } from "@/context/profileContext";
 
-import ProfileCardComponent from "@/components/ProfileCard/ProfileCardComponent";
+import ProfileCardComponent from "@/components/ProfileComponent/ProfileCard/ProfileCardComponent";
 import { Button } from "@/components/ui/button";
-import { ProfileCard, ProfileComponent } from "@/lib/type";
+import { ProfileCard, ProfileDndComponent } from "@/lib/type";
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { GiCheckMark } from "react-icons/gi";
-import EditProfileCardComponent from "@/components/ProfileComponent/ProfileCard/EditProfileCardComponent";
+import EditProfileCardComponent from "@/components/ProfileComponent/EditProfileCard/EditProfileCardComponent";
 
 interface ProfileProps {
-  profileComponentData: ProfileComponent[];
+  profileComponentData: ProfileDndComponent[];
   profileCardData: ProfileCard;
   children?: React.ReactNode;
 }
@@ -23,7 +23,7 @@ const ClientSideProfilePage = ({
 }: ProfileProps) => {
   // Fetch from database
   const [components, setComponents] =
-    useState<ProfileComponent[]>(profileComponentData);
+    useState<ProfileDndComponent[]>(profileComponentData);
   const [profileData, setProfileData] = useState<ProfileCard>(profileCardData);
   // State for editing
   const [isEditing, setEditing] = useState(false);
