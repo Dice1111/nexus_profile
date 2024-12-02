@@ -8,23 +8,13 @@ import {
   fetchViewCount,
 } from "@/services/analytic-service";
 
-// ****
-//   OVerview Page
-// ****
-const Page = async () => {
-  // ****
-  //   Fetch Data with utility function
-  // ****
+export default async function Page() {
   const viewCount = await fetchWithTryCatch(fetchViewCount);
   const contactSavedCount = await fetchWithTryCatch(fetchContactSavedCount);
   const connectionCount = await fetchWithTryCatch(fetchConnectionCount);
   const connectionAndVisitorChartData = await fetchWithTryCatch(
     fetchConnectionAndVisitorChartData
   );
-
-  // ****
-  //   Construct obj to pass InfoBox as props to display
-  // ****
   const TotalViewCountData: InfoBoxProps = {
     title: "Views",
     description: "Total Profile Views",
@@ -72,6 +62,4 @@ const Page = async () => {
       </div>
     </>
   );
-};
-
-export default Page;
+}

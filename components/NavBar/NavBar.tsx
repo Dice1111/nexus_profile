@@ -1,13 +1,7 @@
 "use client";
-import { useState, ReactNode } from "react";
-export interface NavBarNavigation<T> {
-  label: string;
-  panel: T;
-}
-interface NavBarProps<T> {
-  data: NavBarNavigation<T>[]; // Navigation items
-  children: ReactNode[];
-}
+import { NavBarProps } from "@/lib/navbar/type";
+import { useState } from "react";
+
 export default function NavBar<T>({ data, children }: NavBarProps<T>) {
   const [currentPanel, setCurrentPanel] = useState<T>(data[0].panel);
 

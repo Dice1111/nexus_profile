@@ -1,19 +1,14 @@
-import NavBar, { NavBarNavigation } from "@/components/NavBar/NavBar";
+import NavBar from "@/components/NavBar/NavBar";
+import { PROFILE_PANEL } from "@/lib/navbar/enum";
+import { NavBarNavigation } from "@/lib/navbar/type";
 import DesignEditModal from "./DesignEditModal";
 import FieldsEditModal from "./FieldsEditModal";
 import InformationEditModal from "./InformationEditModal";
 
-//this page in running on server
-enum Panel {
-  Design = "design",
-  Information = "information",
-  Fields = "fields",
-}
-
-const navItems: NavBarNavigation<Panel>[] = [
-  { label: "Display", panel: Panel.Design },
-  { label: "Fields", panel: Panel.Fields },
-  { label: "Information", panel: Panel.Information },
+const navItems: NavBarNavigation<PROFILE_PANEL>[] = [
+  { label: "Display", panel: PROFILE_PANEL.Design },
+  { label: "Fields", panel: PROFILE_PANEL.Fields },
+  { label: "Information", panel: PROFILE_PANEL.Information },
 ];
 
 export default async function ProfileEditor() {
@@ -23,13 +18,13 @@ export default async function ProfileEditor() {
       style={{ height: `calc(100vh - 48px)` }}
     >
       <NavBar data={navItems}>
-        <div id={Panel.Design}>
+        <div id={PROFILE_PANEL.Design}>
           <DesignEditModal />
         </div>
-        <div id={Panel.Information}>
+        <div id={PROFILE_PANEL.Information}>
           <InformationEditModal />
         </div>
-        <div id={Panel.Fields}>
+        <div id={PROFILE_PANEL.Fields}>
           <FieldsEditModal />
         </div>
       </NavBar>
