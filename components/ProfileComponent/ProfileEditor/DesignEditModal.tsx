@@ -17,7 +17,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import { GrFormCheckmark } from "react-icons/gr";
-import debounce from "debounce";
+import _throttle from "lodash/throttle";
 
 /** Reusable Image Upload Component */
 function ImageUpload({
@@ -137,10 +137,13 @@ export default function DesignEditModal() {
     }
   }, [selectedElement]);
 
-  useEffect(() => {
-    console.log("run");
-    updateElementColor(selectedColor.hex);
-  }, [selectedColor]);
+  const throttledUpdate = useCallback(
+    _throttle((newColor) => {
+      setSelectedColor(newColor);
+      updateElementColor(newColor.hex);
+    }, 50),
+    []
+  );
 
   const updateElementColor = (color: string) => {
     setProfileData((prevProfileData) => {
@@ -170,13 +173,6 @@ export default function DesignEditModal() {
       return newUpdateProfile;
     });
   };
-
-  const debouncedUpdateElementColor = useCallback(
-    debounce((color) => {
-      updateElementColor(color);
-    }, 200), // Adjust delay (200ms) as needed
-    [updateElementColor]
-  );
 
   return (
     <div className="flex flex-col gap-10">
@@ -287,8 +283,7 @@ export default function DesignEditModal() {
             <ColorPicker
               color={selectedColor}
               onChange={(newColor) => {
-                setSelectedColor(newColor);
-                debouncedUpdateElementColor(newColor.hex);
+                throttledUpdate(newColor); // Throttled update
               }}
             />
           </div>
