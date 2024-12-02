@@ -13,10 +13,11 @@ import {
   svgWaveLayoutData,
   svgWaveLayouts,
 } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import { GrFormCheckmark } from "react-icons/gr";
+import debounce from "debounce";
 
 /** Reusable Image Upload Component */
 function ImageUpload({
@@ -84,9 +85,8 @@ export default function DesignEditModal() {
 
   //selection state
 
-  const [selectedColor, setSelectedColor] = useColor(
-    profileData.background_color
-  );
+  const [selectedColor, setSelectedColor] = useColor("ffffff");
+
   const [selectedWaveLayout, setSelectedWaveLayout] =
     useState<string>(prev_wave);
   const [selectedProfileLayout, setSelectedProfileLayout] = useState<string>(
@@ -112,37 +112,71 @@ export default function DesignEditModal() {
   const handleElementSelect = (element: ColorableElement) => {
     setSelectedElement(element);
 
-    if (element === ColorableElement.BACKGROUND) {
-      handleColorSelect(profileData.background_color);
-    } else if (element === ColorableElement.FOREGROUND) {
-      handleColorSelect(profileData.foreground_color);
-    } else if (element === ColorableElement.WAVE) {
-      handleColorSelect(profileData.wave_color);
-    }
+    console.log(element);
   };
 
   const handleColorSelect = (color: string) => {
-    const rgba = hexToRgba(color);
-    const hsva = rgbaToHsva(rgba);
-    setSelectedColor({
-      hex: color,
-      rgb: rgba,
-      hsv: hsva,
-    });
-    updateElementColor(color);
+    if (selectedColor.hex !== color) {
+      const rgba = hexToRgba(color);
+      const hsva = rgbaToHsva(rgba);
+      setSelectedColor({
+        hex: color,
+        rgb: rgba,
+        hsv: hsva,
+      });
+    }
   };
 
-  const updateElementColor = (color: string) => {
-    const updateProfileData = { ...profileData };
+  useEffect(() => {
     if (selectedElement === ColorableElement.BACKGROUND) {
-      updateProfileData.background_color = color;
+      handleColorSelect(profileData.background_color);
     } else if (selectedElement === ColorableElement.FOREGROUND) {
-      updateProfileData.foreground_color = color;
+      handleColorSelect(profileData.foreground_color);
     } else if (selectedElement === ColorableElement.WAVE) {
-      updateProfileData.wave_color = color;
+      handleColorSelect(profileData.wave_color);
     }
-    setProfileData(updateProfileData);
+  }, [selectedElement]);
+
+  useEffect(() => {
+    console.log("run");
+    updateElementColor(selectedColor.hex);
+  }, [selectedColor]);
+
+  const updateElementColor = (color: string) => {
+    setProfileData((prevProfileData) => {
+      const newUpdateProfile = { ...prevProfileData };
+
+      // Update only if the color has changed for the selected element
+      if (
+        selectedElement === ColorableElement.BACKGROUND &&
+        newUpdateProfile.background_color !== color
+      ) {
+        newUpdateProfile.background_color = color;
+      } else if (
+        selectedElement === ColorableElement.FOREGROUND &&
+        newUpdateProfile.foreground_color !== color
+      ) {
+        newUpdateProfile.foreground_color = color;
+      } else if (
+        selectedElement === ColorableElement.WAVE &&
+        newUpdateProfile.wave_color !== color
+      ) {
+        newUpdateProfile.wave_color = color;
+      } else {
+        // If no changes, return the same object to avoid unnecessary updates
+        return prevProfileData;
+      }
+
+      return newUpdateProfile;
+    });
   };
+
+  const debouncedUpdateElementColor = useCallback(
+    debounce((color) => {
+      updateElementColor(color);
+    }, 200), // Adjust delay (200ms) as needed
+    [updateElementColor]
+  );
 
   return (
     <div className="flex flex-col gap-10">
@@ -254,8 +288,7 @@ export default function DesignEditModal() {
               color={selectedColor}
               onChange={(newColor) => {
                 setSelectedColor(newColor);
-                const colorHex = newColor.hex; // Extract the final hex value
-                updateElementColor(colorHex); // Update the element color in `profileData`
+                debouncedUpdateElementColor(newColor.hex);
               }}
             />
           </div>
