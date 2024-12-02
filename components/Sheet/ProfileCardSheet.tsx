@@ -1,7 +1,8 @@
-// ProfileCardSheet.tsx
 "use client";
 
-import { CONTACT_TAG_TYPE } from "@/lib/type";
+import dynamic from "next/dynamic";
+import React, { useEffect, useState } from "react";
+import { CONTACT_TAG_TYPE, ProfileCard, ProfileComponent } from "@/lib/type";
 import {
   Sheet,
   SheetContent,
@@ -10,23 +11,29 @@ import {
   SheetTitle,
 } from "../ui/sheet";
 import TagAndNote from "./SubComponents/TagAndNote";
+import {
+  fetchUserProfileCardData,
+  fetchUserProfileComponentsData,
+} from "@/services/profile-data-service";
 
+// Enum for Sheet Variants
 export enum SHEET_VARIENT {
-  CONNECTION,
-  REQUEST,
+  CONNECTION = "CONNECTION",
+  REQUEST = "REQUEST",
 }
 
+// Props for Connection and Request Sheet Variants
 export interface ConnectionSheetVarient {
-  cardId: number;
-  name: string;
+  cardId: string;
+  fullname: string;
   tag: CONTACT_TAG_TYPE;
   note?: string;
   date: Date;
 }
 
 export interface RequestSheetVarient {
-  cardId: number;
-  name: string;
+  cardId: string;
+  fullname: string;
   date: Date;
 }
 
@@ -37,34 +44,64 @@ interface ProfileCardSheetProps {
   sheetVarient: SHEET_VARIENT;
 }
 
-const displayDateFormat = (date: Date, sheetVarient: SHEET_VARIENT) => {
-  switch (sheetVarient) {
-    case SHEET_VARIENT.CONNECTION:
-      return `Connected on ${new Date(date).toLocaleDateString()}`;
-    case SHEET_VARIENT.REQUEST:
-      return `Requested on ${new Date(date).toLocaleDateString()}`;
-  }
+// Dynamic import of ProfileCardComponent
+const ProfileCardComponent = dynamic(
+  () => import("../ProfileCard/ProfileCardComponent"),
+  { ssr: false } // Client-side rendering only
+);
+
+const formatDisplayDate = (date: Date, sheetVarient: SHEET_VARIENT): string => {
+  const formattedDate = new Date(date).toLocaleDateString();
+  return sheetVarient === SHEET_VARIENT.CONNECTION
+    ? `Connected on ${formattedDate}`
+    : `Requested on ${formattedDate}`;
 };
 
-const handleSaveChanges = (updatedTag: string, updatedNotes: string) => {
-  console.log("Saved changes:", updatedTag, updatedNotes);
-};
-
+// Main Component
 export default function ProfileCardSheet({
   isOpen,
   setIsOpen,
   sheetData,
   sheetVarient,
 }: ProfileCardSheetProps) {
+  const [profileCardData, setProfileCardData] = useState<ProfileCard | null>(
+    null
+  );
+  const [profileComponents, setProfileComponents] = useState<
+    ProfileComponent[]
+  >([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // Fetch profile and component data when cardId changes
+  useEffect(() => {
+    if (sheetData.cardId) {
+      loadProfileData(sheetData.cardId);
+    }
+  }, [sheetData.cardId]);
+
+  const loadProfileData = async (cardId: string) => {
+    setIsLoading(true);
+    try {
+      const [profileData, componentsData] = await Promise.all([
+        fetchUserProfileCardData(cardId),
+        fetchUserProfileComponentsData(cardId),
+      ]);
+      setProfileCardData(profileData);
+      setProfileComponents(componentsData);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetContent className="max-w-md px-6 py-4 overflow-y-auto">
         <SheetHeader className="mb-4">
           <SheetTitle className="text-xl font-semibold text-primary-foreground">
-            {sheetData.name}
+            {sheetData.fullname}
           </SheetTitle>
           <SheetDescription className="text-sm text-primary-foreground">
-            {displayDateFormat(sheetData.date, sheetVarient)}
+            {formatDisplayDate(sheetData.date, sheetVarient)}
           </SheetDescription>
         </SheetHeader>
 
@@ -72,12 +109,27 @@ export default function ProfileCardSheet({
           <TagAndNote
             tag={(sheetData as ConnectionSheetVarient).tag}
             note={(sheetData as ConnectionSheetVarient).note}
-            onSaveChanges={handleSaveChanges}
+            onSaveChanges={(updatedTag, updatedNotes) =>
+              console.log("Saved changes:", updatedTag, updatedNotes)
+            }
           />
         )}
-        <div className="w-full h-[1000px] bg-blue-700">
-          This is card component{" "}
-        </div>
+
+        {profileCardData && profileComponents ? (
+          isLoading ? (
+            <div className="text-primary-foreground">Loading Profile...</div>
+          ) : (
+            // <ProfileCardComponent
+            //   profileData={profileCardData}
+            //   components={profileComponents}
+            // />
+            <p>This is card</p>
+          )
+        ) : (
+          <div className="text-muted-foreground text-center text-sm mt-5">
+            No Card to show
+          </div>
+        )}
       </SheetContent>
     </Sheet>
   );

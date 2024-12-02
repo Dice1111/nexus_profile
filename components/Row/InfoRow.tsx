@@ -5,7 +5,7 @@ import { CONTACT_TAG_TYPE } from "@/lib/type";
 import PillShapeTag from "../Tag/PillShapeTag";
 
 interface InfoRowProps {
-  name: string;
+  fullname: string;
   occupation: string;
   company: string;
   image?: string;
@@ -17,7 +17,7 @@ interface InfoRowProps {
 }
 
 export default function InfoRow({
-  name,
+  fullname,
   occupation,
   company,
   image,
@@ -59,16 +59,16 @@ export default function InfoRow({
           <AvatarImage
             className="object-cover"
             src={image || undefined}
-            alt={name}
+            alt={fullname}
           />
           <AvatarFallback className="bg-primary text-primary-foreground w-full h-full flex items-center justify-center">
-            {name?.slice(0, 2).toUpperCase()}
+            {fullname?.slice(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
 
         {/* Contact Details */}
         <div className="flex flex-col justify-between">
-          <p className="text-md sm:text-base font-semibold">{name}</p>
+          <p className="text-md sm:text-base font-semibold">{fullname}</p>
           <div className="flex items-center gap-2 text-xs font-light text-primary">
             <p>{occupation}</p>
             <div className="hidden sm:flex items-center gap-2">

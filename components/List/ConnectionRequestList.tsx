@@ -22,14 +22,14 @@ export default function ConnectionRequestList({
   const handleRowClick = (rowData: ConnectionRequestWithDetails) => {
     const data: RequestSheetVarient = {
       cardId: rowData.senderCardID,
-      name: rowData.senderUsername,
+      fullname: rowData.senderFullname,
       date: new Date(rowData.created_at),
     };
     setSheetData(data);
     setIsSheetOpen(true);
   };
 
-  const updateRequestList = (requestID: number) => {
+  const updateRequestList = (requestID: string) => {
     const updatedRequests = requests.filter(
       (request) => request.requestID !== requestID
     );
@@ -38,7 +38,7 @@ export default function ConnectionRequestList({
 
   const handleAccept = (
     event: React.MouseEvent<HTMLButtonElement>,
-    requestID: number
+    requestID: string
   ) => {
     event.stopPropagation();
     updateRequestList(requestID);
@@ -46,7 +46,7 @@ export default function ConnectionRequestList({
 
   const handleReject = (
     event: React.MouseEvent<HTMLButtonElement>,
-    requestID: number
+    requestID: string
   ) => {
     event.stopPropagation();
     updateRequestList(requestID);
@@ -63,7 +63,7 @@ export default function ConnectionRequestList({
           >
             <InfoRow
               key={request.requestID}
-              name={request.senderUsername}
+              fullname={request.senderFullname}
               occupation={request.senderOccupation}
               company={request.senderCompany}
               image={request.senderImage}
