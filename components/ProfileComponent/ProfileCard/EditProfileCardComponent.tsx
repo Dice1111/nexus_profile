@@ -18,10 +18,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ProfileComponent } from "@/lib/type";
-import { profileDndInputSchema } from "../(DragAndDrop)/ProfileDndInputSchema";
+import { profileDndInputSchema } from "../DragAndDrop/ProfileDndInputSchema";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import ProfileDroppable from "../(DragAndDrop)/ProfileDroppable";
+import ProfileDroppable from "../DragAndDrop/ProfileDroppable";
 
 const EditProfileCardComponent = () => {
   const context = useProfileContext();
@@ -96,7 +96,10 @@ const EditProfileCardComponent = () => {
   };
 
   return (
-    <div className="relative max-w-[400px] flex flex-col bg-[#050505] text-primary-foreground overflow-hidden rounded-lg">
+    <div
+      className={`relative max-w-[400px] flex flex-col  text-primary-foreground overflow-hidden rounded-lg`}
+      style={{ backgroundColor: profileData.background_color }}
+    >
       {/* Header area */}
       {layout}
 

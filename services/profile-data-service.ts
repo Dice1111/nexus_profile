@@ -258,9 +258,9 @@ const profileCard: ProfileCard[] = [
   {
     card_id: "1",
     user_id: "1",
-    foreground_color: "#050505",
-    background_color: "#ffffff",
-    wave_color: "#050505",
+    foreground_color: "#E6E6FA",
+    background_color: "#d43b20",
+    wave_color: "#FF6347",
     layout: "classic",
     wave_type: "wave_one",
     image: "/image/profile.jpg",

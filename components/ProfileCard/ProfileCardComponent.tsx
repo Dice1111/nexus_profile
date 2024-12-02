@@ -1,7 +1,6 @@
-import { useProfileContext } from "@/context/profileContext";
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
+import { ProfileCard, ProfileComponent } from "@/lib/type";
 import ProfileBodyItem from "./ProfileBodyItem";
-import { ProfileComponent, ProfileCard } from "@/lib/type";
 
 interface ProfileCardComponentProps {
   components: ProfileComponent[];

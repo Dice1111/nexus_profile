@@ -8,8 +8,7 @@ import { ProfileCard, ProfileComponent } from "@/lib/type";
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { GiCheckMark } from "react-icons/gi";
-import EditProfileCardComponent from "./(ProfileComponent)/(ProfileCard)/EditProfileCardComponent";
-import ProfileEditor from "./(ProfileComponent)/(ProfileEditor)/ProfileEditor";
+import EditProfileCardComponent from "@/components/ProfileComponent/ProfileCard/EditProfileCardComponent";
 
 interface ProfileProps {
   profileComponentData: ProfileComponent[];
@@ -42,7 +41,6 @@ const ClientSideProfilePage = ({
         }}
       >
         <div className=" flex justify-center  gap- relative">
-          {/* Profile Preview */}
           <div className="mt-10 mx-auto gap-5 flex flex-col">
             {!isEditing ? (
               <div className="w-full flex justify-end">

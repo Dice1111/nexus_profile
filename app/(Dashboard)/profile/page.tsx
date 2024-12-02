@@ -5,7 +5,7 @@ import {
   fetchUserProfileCardData,
   fetchUserProfileComponentsData,
 } from "@/services/profile-data-service";
-import ProfileEditor from "./(ProfileComponent)/(ProfileEditor)/ProfileEditor";
+import ProfileEditor from "@/components/ProfileComponent/ProfileEditor/ProfileEditor";
 
 const getProfileCardData = async (): Promise<ProfileCard> => {
   const data = await fetchUserProfileCardData("1");

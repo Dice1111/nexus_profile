@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { useProfileContext } from "@/context/profileContext";
 import { colorPresets, hexToRgba, rgbaToHsva } from "@/lib/color_utils";
 import {
+  ColorableElement,
+  colorableElements,
   ProfileLayout,
   profileLayouts,
 } from "@/lib/profileCardLayoutData/LayoutData";
@@ -77,30 +79,24 @@ export default function DesignEditModal() {
   }
 
   const { profileData, setProfileData } = context;
-  const prev_color = "#ffffff";
+
   const prev_wave = profileData.wave_type;
-  const [selectedColor, setSelectedColor] = useColor(prev_color);
+
+  //selection state
+
+  const [selectedColor, setSelectedColor] = useColor(
+    profileData.background_color
+  );
   const [selectedWaveLayout, setSelectedWaveLayout] =
     useState<string>(prev_wave);
   const [selectedProfileLayout, setSelectedProfileLayout] = useState<string>(
     profileData.layout
   );
+  const [selectedElement, setSelectedElement] = useState<ColorableElement>(
+    ColorableElement.BACKGROUND
+  );
 
-  //color state
-  const [backgroundColor, setBackgroundColor] = useState<string>(prev_color);
-  const [waveColor, setWaveColor] = useState<string>(prev_color);
-  const [foregroundColor, setForegroundColor] = useState<string>(prev_color);
-
-  const handleColorSelect = (color: string) => {
-    const rgba = hexToRgba(color);
-    const hsva = rgbaToHsva(rgba);
-    setSelectedColor({
-      hex: color,
-      rgb: rgba,
-      hsv: hsva,
-    });
-  };
-
+  //Selection handler
   const handleWaveLayoutSelect = (layout: string) => {
     const updateProfileData = { ...profileData, ["wave_type"]: layout };
     setProfileData(updateProfileData);
@@ -111,6 +107,41 @@ export default function DesignEditModal() {
     const updateProfileData = { ...profileData, ["layout"]: layout };
     setProfileData(updateProfileData);
     setSelectedProfileLayout(layout);
+  };
+
+  const handleElementSelect = (element: ColorableElement) => {
+    setSelectedElement(element);
+
+    if (element === ColorableElement.BACKGROUND) {
+      handleColorSelect(profileData.background_color);
+    } else if (element === ColorableElement.FOREGROUND) {
+      handleColorSelect(profileData.foreground_color);
+    } else if (element === ColorableElement.WAVE) {
+      handleColorSelect(profileData.wave_color);
+    }
+  };
+
+  const handleColorSelect = (color: string) => {
+    const rgba = hexToRgba(color);
+    const hsva = rgbaToHsva(rgba);
+    setSelectedColor({
+      hex: color,
+      rgb: rgba,
+      hsv: hsva,
+    });
+    updateElementColor(color);
+  };
+
+  const updateElementColor = (color: string) => {
+    const updateProfileData = { ...profileData };
+    if (selectedElement === ColorableElement.BACKGROUND) {
+      updateProfileData.background_color = color;
+    } else if (selectedElement === ColorableElement.FOREGROUND) {
+      updateProfileData.foreground_color = color;
+    } else if (selectedElement === ColorableElement.WAVE) {
+      updateProfileData.wave_color = color;
+    }
+    setProfileData(updateProfileData);
   };
 
   return (
@@ -176,21 +207,20 @@ export default function DesignEditModal() {
         </div>
       </div>
 
-      {/* Colorable Components */}
-
+      {/* Colorable Element Selection */}
       <div>
         <h1 className="text-lg font-thin">Change Color</h1>
 
         <div className="flex flex-box gap-4 mt-4">
-          {profileLayouts.map((layout) => (
+          {colorableElements.map((element) => (
             <Button
-              key={layout}
-              onClick={() => handleProfileLayoutSelect(layout)}
+              key={element}
+              onClick={() => handleElementSelect(element)}
               className={`relative  rounded transition-transform hover:scale-105 ${
-                selectedProfileLayout === layout ? "border-2 border-white" : ""
+                selectedElement === element ? "border-2 border-white" : ""
               }`}
             >
-              {layout}
+              {element}
             </Button>
           ))}
         </div>
@@ -219,28 +249,15 @@ export default function DesignEditModal() {
             </Button>
           ))}
 
-          {/* Custom Color */}
-          <div>
-            <h1 className="text-lg font-thin mb-3">Last Used Color</h1>
-            <Button
-              onClick={() => handleColorSelect(prev_color)}
-              className={`relative w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-9 lg:h-9 rounded transition-transform hover:scale-110 ${
-                selectedColor.hex === prev_color
-                  ? "border-4 border-secondary"
-                  : "border-2 border-transparent"
-              }`}
-              style={{ backgroundColor: prev_color }}
-            >
-              {selectedColor.hex === prev_color && (
-                <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white">
-                  <GrFormCheckmark />
-                </span>
-              )}
-            </Button>
-          </div>
-
           <div className="shadow-xl overflow-hidden rounded-lg">
-            <ColorPicker color={selectedColor} onChange={setSelectedColor} />
+            <ColorPicker
+              color={selectedColor}
+              onChange={(newColor) => {
+                setSelectedColor(newColor);
+                const colorHex = newColor.hex; // Extract the final hex value
+                updateElementColor(colorHex); // Update the element color in `profileData`
+              }}
+            />
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
-import ProfileLayoutOne from "@/app/(Dashboard)/profile/(ProfileComponent)/(ProfileHeaderLayout)/ProfileLayoutOne";
+import ProfileLayoutOne from "@/components/ProfileComponent/ProfileHeaderLayout/ProfileLayoutOne";
 import { ThemeSchema } from "../type";
-import ProfileLayoutTwo from "@/app/(Dashboard)/profile/(ProfileComponent)/(ProfileHeaderLayout)/ProfileLayoutTwo";
+import ProfileLayoutTwo from "@/components/ProfileComponent/ProfileHeaderLayout/ProfileLayoutTwo";
 
 // const themeData: ThemeSchema = {
 //   theme_one: {
@@ -48,3 +48,15 @@ export const profileLayoutData = {
   [ProfileLayout.layout_two]: <ProfileLayoutTwo />,
   [ProfileLayout.layout_three]: <ProfileLayoutOne />,
 };
+
+export enum ColorableElement {
+  BACKGROUND = "background",
+  FOREGROUND = "foreground",
+  WAVE = "wave",
+}
+
+export const colorableElements = [
+  ColorableElement.BACKGROUND,
+  ColorableElement.FOREGROUND,
+  ColorableElement.WAVE,
+];

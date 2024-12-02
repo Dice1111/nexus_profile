@@ -78,7 +78,7 @@ const DndInputField = ({
 }) => (
   <>
     <div className="flex px-2 w-full max-w-sm items-center gap-1.5 bg-transparent  rounded">
-      {typeIconMap[icontype as keyof typeof typeIconMap]}
+      <div>{typeIconMap[icontype as keyof typeof typeIconMap]}</div>
       <Input
         className={`bg-transparent border border-primary  focus:border-2 transition-colors ${
           formErrors ? "border-red-500" : "border-primary"
