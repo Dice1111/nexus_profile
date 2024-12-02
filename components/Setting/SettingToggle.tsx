@@ -1,15 +1,8 @@
 "use client";
-
-import { TOGGLE_TYPE } from "@/app/(Dashboard)/setting/GeneralSettingPage";
 import React, { useState } from "react";
 import { Switch } from "../ui/switch";
-
-interface SettingToggleProps {
-  label: string;
-  description?: string; // Optional description
-  initialState?: boolean;
-  purpose: TOGGLE_TYPE;
-}
+import { TOGGLE_TYPE } from "@/lib/setting/enum";
+import { SettingToggleProps } from "@/lib/setting/type";
 
 const handleChangeDevicePushNotificationStatus = (newState: boolean) => {
   console.log("Device Push Notification status changed to ", newState);
@@ -19,24 +12,31 @@ const handleChangeEmailNotificationStatus = (newState: boolean) => {
   console.log("Email Notification status changed to ", newState);
 };
 
+const handleChangeReceieveNewsStatus = (newState: boolean) => {
+  console.log("Receive news status changed to ", newState);
+};
+
 export default function SettingToggle({
   label,
-  description, // Accepting description as a prop
-  initialState = false, // Default initialState to false
+  description,
+  initialState = false,
   purpose,
 }: SettingToggleProps) {
   const [isToggled, setIsToggled] = useState(initialState);
 
   const handleToggle = () => {
     const newState = !isToggled;
-    setIsToggled(newState); // Update the local toggle state
+    setIsToggled(newState);
 
     switch (purpose) {
       case TOGGLE_TYPE.CHANGE_DEVICE_PUSH_NOTIFICATION_STATUS:
-        handleChangeDevicePushNotificationStatus(newState); // Calling the function correctly
+        handleChangeDevicePushNotificationStatus(newState);
         break;
       case TOGGLE_TYPE.CHANGE_EMAIL_NOTIFICATION_STATUS:
-        handleChangeEmailNotificationStatus(newState); // Calling the function correctly
+        handleChangeEmailNotificationStatus(newState);
+        break;
+      case TOGGLE_TYPE.CHANGE_NEWS_STATUS:
+        handleChangeReceieveNewsStatus(newState);
         break;
       default:
         console.log("Unhandled toggle purpose");

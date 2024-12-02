@@ -55,13 +55,14 @@ export default function InfoRow({
       {/* Left Section: Avatar and Contact Details */}
       <div className="flex items-center gap-4">
         {/* Avatar */}
-        <Avatar className="w-12 h-12  sm:w-14 sm:h-14">
+
+        <Avatar className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden">
           <AvatarImage
-            className="object-cover"
+            className="object-cover w-full h-full"
             src={image || undefined}
             alt={fullname}
           />
-          <AvatarFallback className="bg-primary text-primary-foreground w-full h-full flex items-center justify-center">
+          <AvatarFallback className="bg-primary text-primary-foreground w-full h-full flex items-center justify-center rounded-full">
             {fullname?.slice(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>

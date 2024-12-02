@@ -1,11 +1,9 @@
-import NavBar, { NavBarNavigation } from "@/components/NavBar/NavBar";
 import GeneralSettingPage from "./GeneralSettingPage";
 import AccountSettingsPage from "./AccountSettingPage";
-
-enum SETTING_PANEL {
-  GENERAL = "general",
-  ACCOUNT = "account",
-}
+import { SETTING_PANEL } from "@/lib/navbar/enum";
+import NavBar from "@/components/NavBar/NavBar";
+import { NavBarNavigation } from "@/lib/navbar/type";
+import LoadingCircle from "@/components/test/LoadingCircle";
 
 const navItems: NavBarNavigation<SETTING_PANEL>[] = [
   { label: "General", panel: SETTING_PANEL.GENERAL },
@@ -20,13 +18,7 @@ export default async function Page() {
           <GeneralSettingPage />
         </div>
         <div id={SETTING_PANEL.ACCOUNT}>
-          <AccountSettingsPage
-            profileData={{
-              name: "John Doe",
-              email: "johndoe@example.com",
-              profilePicture: null, // Replace with URL if available
-            }}
-          />
+          <AccountSettingsPage />
         </div>
       </NavBar>
     </div>
