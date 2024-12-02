@@ -5,7 +5,7 @@ export type ProfileComponent = {
   card_id: string;
   type: string;
   category: string;
-  display_text:string;
+  display_text: string;
   value?: string;
 };
 
@@ -60,9 +60,6 @@ export enum PROFILE_COMPONENT_CATEGORY {
   TEXT = "text",
 }
 
-
-
-
 export type Contact = {
   userCardID: number;
   connectionID: number;
@@ -72,8 +69,10 @@ export type Contact = {
   connectedUserOccupation: string;
   connectedUserCompany: string;
   connectedUserImage: string;
-  connectedDate: Date;
+  created_at: Date;
+  updated_at: Date;
   tag: CONTACT_TAG_TYPE;
+  note?: string;
 };
 
 export type ConnectionRequest = {

@@ -3,7 +3,10 @@
 import { ConnectionRequestWithDetails } from "@/services/contact-service";
 import { useState } from "react";
 import InfoRow from "../Row/InfoRow";
-import ProfileCardSheet from "../Sheet/ProfileCardSheet";
+import ProfileCardSheet, {
+  RequestSheetVarient,
+  SHEET_VARIENT,
+} from "../Sheet/ProfileCardSheet";
 
 interface ConnectionRequestListProps {
   data: ConnectionRequestWithDetails[];
@@ -13,11 +16,16 @@ export default function ConnectionRequestList({
   data,
 }: ConnectionRequestListProps) {
   const [requests, setRequests] = useState(data);
-  const [selectedRowData, setSelectedRowData] = useState<number | null>(null);
+  const [SheetData, setSheetData] = useState<RequestSheetVarient | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  const handleRowClick = (rowData: number) => {
-    setSelectedRowData(rowData);
+  const handleRowClick = (rowData: ConnectionRequestWithDetails) => {
+    const data: RequestSheetVarient = {
+      cardId: rowData.senderCardID,
+      name: rowData.senderUsername,
+      date: new Date(rowData.created_at),
+    };
+    setSheetData(data);
     setIsSheetOpen(true);
   };
 
@@ -50,7 +58,7 @@ export default function ConnectionRequestList({
         {requests.map((request) => (
           <div
             key={request.requestID}
-            onClick={() => handleRowClick(request.senderCardID)}
+            onClick={() => handleRowClick(request)}
             className="border-gray-400 border-b p-4 hover:bg-primary/20 cursor-pointer"
           >
             <InfoRow
@@ -78,11 +86,12 @@ export default function ConnectionRequestList({
     <div>
       <h2 className="text-xl font-bold mb-4">Connection Requests</h2>
       {renderRequestList()}
-      {isSheetOpen && (
+      {isSheetOpen && SheetData && (
         <ProfileCardSheet
           isOpen={isSheetOpen}
           setIsOpen={setIsSheetOpen}
-          cardId={selectedRowData} // Pass the selected row data
+          sheetData={SheetData}
+          sheetVarient={SHEET_VARIENT.REQUEST} // Pass the selected row data
         />
       )}
     </div>

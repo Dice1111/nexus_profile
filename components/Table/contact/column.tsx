@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowUpDown } from "lucide-react";
 import { Contact, CONTACT_TAG_TYPE } from "@/lib/type";
 import { ColumnDef } from "@tanstack/react-table";
@@ -22,7 +24,7 @@ export const columns: ColumnDef<Contact>[] = [
         connectedUserOccupation: occupation,
         connectedUserCompany: company,
         tag,
-        connectedDate: date,
+        created_at: date,
       } = row.original;
 
       return (

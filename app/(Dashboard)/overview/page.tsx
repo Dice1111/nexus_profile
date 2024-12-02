@@ -49,6 +49,7 @@ const Page = async () => {
   return (
     <>
       <div className="grid grid-cols-1 gap-4 container mx-auto px-4 pt-4">
+        <h2 className="text-xl font-bold mb-4">Overview</h2>
         <div className="grid grid-cols-1 xl:grid-cols-6 gap-4">
           <div className="col-span-1 xl:col-span-2 ">
             <InfoBox {...TotalViewCountData} />
