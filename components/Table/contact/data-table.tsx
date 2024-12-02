@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Contact, CONTACT_TAG_TYPE } from "@/lib/type";
+import { CONTACT_TAG_TYPE } from "@/lib/type";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -34,11 +34,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ContactWithDetails } from "@/services/contact-service";
 import { ChevronDownIcon } from "lucide-react"; // Optional icon for the dropdown
 
 interface DataTableProps {
-  columns: ColumnDef<Contact>[];
-  data: Contact[];
+  columns: ColumnDef<ContactWithDetails>[];
+  data: ContactWithDetails[];
 }
 
 export function DataTable({ columns, data }: DataTableProps) {
@@ -54,13 +55,15 @@ export function DataTable({ columns, data }: DataTableProps) {
   const filteredData = useMemo(() => {
     return selectedTag === "All"
       ? data
-      : (data as Contact[]).filter((contact) => contact.tag === selectedTag);
+      : (data as ContactWithDetails[]).filter(
+          (contact) => contact.tag === selectedTag
+        );
   }, [selectedTag, data]); // Recompute filteredData when selectedTag or data changes
 
-  const handleRowClick = (rowData: Contact) => {
+  const handleRowClick = (rowData: ContactWithDetails) => {
     const data: ConnectionSheetVarient = {
-      cardId: rowData.connectedUserCardID,
-      name: rowData.connectedUsername,
+      cardId: rowData.contactPersonCardID,
+      fullname: rowData.contactPersonFullname,
       tag: rowData.tag,
       note: rowData.note,
       date: rowData.created_at,
@@ -98,12 +101,12 @@ export function DataTable({ columns, data }: DataTableProps) {
           placeholder="Filter name..."
           value={
             (table
-              .getColumn("connectedUsername")
+              .getColumn("contactPersonFullname")
               ?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
             table
-              .getColumn("connectedUsername")
+              .getColumn("contactPersonFullname")
               ?.setFilterValue(event.target.value)
           }
           className="w-full md:max-w-md  h-12 bg-secondary text-secondary-foreground border-2 border-primary"

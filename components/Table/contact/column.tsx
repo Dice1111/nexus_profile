@@ -1,13 +1,13 @@
 "use client";
 
-import { ArrowUpDown } from "lucide-react";
-import { Contact, CONTACT_TAG_TYPE } from "@/lib/type";
-import { ColumnDef } from "@tanstack/react-table";
 import InfoRow from "@/components/Row/InfoRow";
+import { ContactWithDetails } from "@/services/contact-service";
+import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
 
-export const columns: ColumnDef<Contact>[] = [
+export const columns: ColumnDef<ContactWithDetails>[] = [
   {
-    accessorKey: "connectedUsername",
+    accessorKey: "contactPersonFullname",
     header: ({ column }) => (
       <button
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -19,17 +19,17 @@ export const columns: ColumnDef<Contact>[] = [
     ),
     cell: ({ row }) => {
       const {
-        connectedUsername: name,
-        connectedUserImage: image,
-        connectedUserOccupation: occupation,
-        connectedUserCompany: company,
+        contactPersonFullname: fullname,
+        contactPersonImage: image,
+        contactPersonOccupation: occupation,
+        contactPersonCompany: company,
         tag,
         created_at: date,
       } = row.original;
 
       return (
         <InfoRow
-          name={name}
+          fullname={fullname}
           occupation={occupation}
           company={company}
           image={image}

@@ -61,24 +61,20 @@ export enum PROFILE_COMPONENT_CATEGORY {
 }
 
 export type Contact = {
-  userCardID: number;
-  connectionID: number;
-  connectedUserCardID: number;
-  connectedUserID: number;
-  connectedUsername: string;
-  connectedUserOccupation: string;
-  connectedUserCompany: string;
-  connectedUserImage: string;
-  created_at: Date;
-  updated_at: Date;
+  contactID: string;
+  userCardID: string;
+  contactPersonCardID: string;
+  contactPersonID: string;
   tag: CONTACT_TAG_TYPE;
   note?: string;
+  created_at: Date;
+  updated_at: Date;
 };
 
 export type ConnectionRequest = {
-  requestID: number;
-  senderCardID: number;
-  recieverCardID: number;
+  requestID: string;
+  senderCardID: string;
+  recieverCardID: string;
   status: CONNECTION_REQUEST_STATUS;
   created_at: Date;
   updated_at: Date;
