@@ -1,8 +1,13 @@
 "use client";
 
+import { CONTACT_TAG_TYPE, ProfileCard, ProfileDndComponent } from "@/lib/type";
+import {
+  fetchUserProfileCardData,
+  fetchUserProfileDndComponentsData,
+} from "@/services/profile-data-service";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
-import { CONTACT_TAG_TYPE, ProfileCard, ProfileDndComponent } from "@/lib/type";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 import {
   Sheet,
   SheetContent,
@@ -11,10 +16,6 @@ import {
   SheetTitle,
 } from "../ui/sheet";
 import TagAndNote from "./SubComponents/TagAndNote";
-import {
-  fetchUserProfileCardData,
-  fetchUserProfileDndComponentsData,
-} from "@/services/profile-data-service";
 
 // Enum for Sheet Variants
 export enum SHEET_VARIENT {
@@ -47,7 +48,10 @@ interface ProfileCardSheetProps {
 // Dynamic import of ProfileCardComponent
 const ProfileCardComponent = dynamic(
   () => import("../ProfileComponent/ProfileCard/ProfileCardComponent"),
-  { ssr: false } // Client-side rendering only
+  {
+    ssr: false,
+    loading: () => <LoadingSpinner />,
+  }
 );
 
 const formatDisplayDate = (date: Date, sheetVarient: SHEET_VARIENT): string => {
@@ -70,7 +74,6 @@ export default function ProfileCardSheet({
   const [profileDndComponents, setProfileDndComponents] = useState<
     ProfileDndComponent[]
   >([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Fetch profile and component data when cardId changes
   useEffect(() => {
@@ -80,7 +83,6 @@ export default function ProfileCardSheet({
   }, [sheetData.cardId]);
 
   const loadProfileData = async (cardId: string) => {
-    setIsLoading(true);
     try {
       const [profileData, componentsData] = await Promise.all([
         fetchUserProfileCardData(cardId),
@@ -88,8 +90,8 @@ export default function ProfileCardSheet({
       ]);
       setProfileCardData(profileData);
       setProfileDndComponents(componentsData);
-    } finally {
-      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
     }
   };
 
@@ -114,21 +116,18 @@ export default function ProfileCardSheet({
             }
           />
         )}
-
-        {profileCardData && profileDndComponents ? (
-          isLoading ? (
-            <div className="text-primary-foreground">Loading Profile...</div>
-          ) : (
+        <div className="mt-4">
+          {profileCardData && profileDndComponents ? (
             <ProfileCardComponent
               profileData={profileCardData}
               components={profileDndComponents}
             />
-          )
-        ) : (
-          <div className="text-muted-foreground text-center text-sm mt-5">
-            No Card to show
-          </div>
-        )}
+          ) : (
+            <div className="text-muted-foreground text-center text-sm mt-5">
+              No Card to show
+            </div>
+          )}
+        </div>
       </SheetContent>
     </Sheet>
   );

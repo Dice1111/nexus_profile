@@ -1,26 +1,47 @@
 "use client";
 
 import { ProfileContext } from "@/context/profileContext";
-
-import ProfileCardComponent from "@/components/ProfileComponent/ProfileCard/ProfileCardComponent";
 import { Button } from "@/components/ui/button";
 import { ProfileCard, ProfileDndComponent } from "@/lib/type";
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { GiCheckMark } from "react-icons/gi";
-import EditProfileCardComponent from "@/components/ProfileComponent/EditProfileCard/EditProfileCardComponent";
+
+import LoadingSpinner from "@/components/Loading/LoadingSpinner";
+import dynamic from "next/dynamic";
+import ProfileEditor from "@/components/ProfileComponent/ProfileEditor/ProfileEditor";
 
 interface ProfileProps {
   profileComponentData: ProfileDndComponent[];
   profileCardData: ProfileCard;
-  children?: React.ReactNode;
 }
 
-const ClientSideProfilePage = ({
+const ProfileCardComponent = dynamic(
+  () =>
+    import("@/components/ProfileComponent/ProfileCard/ProfileCardComponent"),
+  {
+    ssr: false,
+    loading: () => <LoadingSpinner />,
+  }
+);
+
+const EditProfileCardComponent = dynamic(
+  () =>
+    import(
+      "@/components/ProfileComponent/EditProfileCard/EditProfileCardComponent"
+    ),
+  {
+    ssr: false,
+    loading: () => <LoadingSpinner />,
+  }
+);
+
+EditProfileCardComponent;
+
+export default function ClientSideProfilePage({
   profileComponentData,
   profileCardData,
-  children,
-}: ProfileProps) => {
+}: ProfileProps) {
   // Fetch from database
   const [components, setComponents] =
     useState<ProfileDndComponent[]>(profileComponentData);
@@ -77,11 +98,9 @@ const ClientSideProfilePage = ({
               />
             )}
           </div>
-          {isEditing && children}
+          {isEditing && <ProfileEditor />}
         </div>
       </ProfileContext.Provider>
     </>
   );
-};
-
-export default ClientSideProfilePage;
+}

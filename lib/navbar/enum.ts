@@ -9,7 +9,8 @@ export enum CONTACT_PANEL {
 }
 
 export enum PROFILE_PANEL {
-  Design = "design",
-  Information = "information",
-  Fields = "fields",
+  DESIGN = "design",
+  INFORMATION = "information",
+  FIELDS = "fields",
+  PREVIEW = "preivew",
 }
