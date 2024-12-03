@@ -4,20 +4,57 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { z } from "zod";
 import { FaGoogle, FaFacebook, FaApple } from "react-icons/fa";
 import { BiSolidShow, BiSolidHide } from "react-icons/bi";
+
+// Define the Zod schema for validation
+const loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+});
 
 export default function LoginPage() {
   const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    // Validate using Zod
+    const result = loginSchema.safeParse({ email, password });
+
+    if (!result.success) {
+      // Map errors to state
+      const fieldErrors: { email?: string; password?: string } = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0] === "email") fieldErrors.email = err.message;
+        if (err.path[0] === "password") fieldErrors.password = err.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+
+    // Clear errors on successful validation
+    setErrors({});
+    console.log("Validated Email:", email);
+    console.log("Validated Password:", password);
+
+    // Simulate successful login and redirect
+    router.push("/profile");
+  };
 
   return (
     <div className="flex flex-col h-screen items-center justify-center gap-10 px-4 sm:px-8">
       <h1 className="text-2xl font-bold ">Nexus Nova</h1>
-      {/* Main Container */}
       <div className="flex flex-col sm:flex-row sm:justify-center gap-24 w-full max-w-4xl">
-        {/* Left Section */}
-        <div className="bg-primary  w-full sm:w-1/2">
+        {/* Form Section */}
+        <form onSubmit={handleSubmit} className="bg-primary w-full sm:w-1/2" noValidate>
           <h1 className="text-2xl flex flex-col items-center font-bold mb-6">
             Log in
           </h1>
@@ -29,10 +66,15 @@ export default function LoginPage() {
             </label>
             <Input
               id="email"
-              type="email"
+              name="email"
               placeholder="Enter your email"
-              className="w-full p-2 rounded border"
+              className={`w-full p-2 rounded border ${
+                errors.email ? "border-red-500" : "border-gray-300"
+              }`}
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           {/* Password Input */}
@@ -43,8 +85,12 @@ export default function LoginPage() {
             <div className="relative">
               <Input
                 id="password"
+                name="password"
                 type={passwordVisible ? "text" : "password"}
                 placeholder="Enter your password"
+                className={`w-full p-2 rounded border ${
+                  errors.password ? "border-red-500" : "border-gray-300"
+                }`}
               />
               <Button
                 style={{ backgroundColor: "transparent", border: "none" }}
@@ -59,14 +105,13 @@ export default function LoginPage() {
                 )}
               </Button>
             </div>
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
           </div>
 
           {/* Login Button */}
-          <Button
-            className="w-full mt-4"
-            variant="outline"
-            onClick={() => router.push("/profile")}
-          >
+          <Button type="submit" className="w-full mt-4" variant="outline">
             Login
           </Button>
 
@@ -76,11 +121,11 @@ export default function LoginPage() {
               Forget Password?
             </a>
           </p>
-        </div>
+        </form>
 
         <div className="h-full border"></div>
 
-        {/* Right Section */}
+        {/* Social Login Section */}
         <div className="bg-primary flex justify-center items-center w-full sm:w-1/2">
           <div className="w-full flex flex-col gap-4">
             <Button className="bg-secondary w-full p-2 flex items-center justify-center rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">

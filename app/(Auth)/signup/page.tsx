@@ -1,13 +1,64 @@
-// pages/register.js
 "use client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FaFacebook, FaGoogle, FaApple } from "react-icons/fa";
 import { BiSolidShow, BiSolidHide } from "react-icons/bi";
 import { useState } from "react";
+import { z } from "zod";
+
+// Zod schema for validation
+const signUpSchema = z.object({
+  username: z
+    .string()
+    .min(2, "Username must be at least 2 characters long")
+    .max(30, "Username cannot exceed 30 characters"),
+  email: z.string().email("Invalid email address"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters long")
+    .regex(/[A-Z]/, "Password must include at least one uppercase letter")
+    .regex(/[a-z]/, "Password must include at least one lowercase letter")
+    .regex(/\d/, "Password must include at least one number")
+    .regex(/[@$!%*?&]/, "Password must include at least one special character"),
+});
 
 export default function SignUp() {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [errors, setErrors] = useState<{
+    username?: string;
+    email?: string;
+    password?: string;
+  }>({});
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const username = formData.get("username") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    // Validate form data with Zod
+    const result = signUpSchema.safeParse({ username, email, password });
+
+    if (!result.success) {
+      const fieldErrors: { username?: string; email?: string; password?: string } = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0] === "username") fieldErrors.username = err.message;
+        if (err.path[0] === "email") fieldErrors.email = err.message;
+         if (err.path[0] === "password" && !fieldErrors.password) {
+        fieldErrors.password = err.message; // Capture only the first password error
+      }
+    });
+      setErrors(fieldErrors);
+      return;
+    }
+
+    // Clear errors and proceed
+    setErrors({});
+    console.log("Validated data:", { username, email, password });
+    alert("Account created successfully!");
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-primary text px-4">
@@ -15,21 +66,44 @@ export default function SignUp() {
         <h1 className="text-2xl font-semibold text-center">
           Create an account
         </h1>
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+          {/* Username Input */}
           <div className="mb-4">
             <label htmlFor="username" className="block text-sm font-light">
               What should we call you?
             </label>
-            <Input id="username" type="text" className="w-full" />
+            <Input
+              id="username"
+              name="username"
+              type="text"
+              className={`w-full ${
+                errors.username ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.username && (
+              <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+            )}
           </div>
 
+          {/* Email Input */}
           <div>
             <label htmlFor="email" className="block text-sm font-light">
               What is your email?
             </label>
-            <Input id="email" type="email" className="w-full" />
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              className={`w-full ${
+                errors.email ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
+          {/* Password Input */}
           <div className="mb-4">
             <label htmlFor="password" className="block mb-2 text-sm font-light">
               Password
@@ -37,8 +111,12 @@ export default function SignUp() {
             <div className="relative">
               <Input
                 id="password"
+                name="password"
                 type={passwordVisible ? "text" : "password"}
                 placeholder="Enter your password"
+                className={`w-full ${
+                  errors.password ? "border-red-500" : "border-gray-300"
+                }`}
               />
               <Button
                 style={{ backgroundColor: "transparent", border: "none" }}
@@ -53,10 +131,15 @@ export default function SignUp() {
                 )}
               </Button>
             </div>
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
             <p className="text-[10px] my-2 ">
               Use 8 or more characters with a mix of letters, numbers & symbols.
             </p>
           </div>
+
+          {/* Submit Button */}
           <Button
             type="submit"
             className="w-full mt-4 border-2 items-center justify-center space-x-2 text-base py-5 font-medium"
@@ -69,6 +152,7 @@ export default function SignUp() {
           <span>OR Continue with</span>
         </div>
 
+        {/* Social Login Buttons */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Button
             variant="outline"
