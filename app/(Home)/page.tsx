@@ -11,7 +11,7 @@ export default async function Home() {
         {/* Left Section */}
         <div className="max-w-md text-center md:text-left flex flex-col gap-6">
           <div className="flex items-center justify-center md:justify-start">
-            <div className="w-16 h-16 relative ">
+            <div className="w-20 h-14 relative ">
               <Image
                 src={Logo}
                 alt="Uploaded image"
@@ -22,12 +22,12 @@ export default async function Home() {
             </div>
           </div>
 
-          <h1 className="text-5xl font-bold ">
+          <h1 className="text-6xl font-bold ">
             Nexus
             <br />
             Nova.
           </h1>
-          <p className="text-base md:text-lg">
+          <p className="text-sm md:text-lg">
             Customize colors, patterns, and layouts to create a design that
             truly represents your unique style or brand!
           </p>
@@ -39,8 +39,9 @@ export default async function Home() {
         {/* Right Section */}
         <div className="flex flex-col gap-4 items-center ">
           {/* Top Image */}
-          <div className="w-52 h-52  relative">
+          <div className="w-60 h-64  relative">
             <Image
+            
               src={TopCard}
               alt="Uploaded image"
               className="object-cover border border-primary rounded-xl transition-transform duration-300 hover:scale-105"
@@ -50,11 +51,12 @@ export default async function Home() {
           </div>
 
           {/* Bottom Image */}
-          <div className="w-52 h-52  relative">
+          <div className="w-60 h-64  relative">
             <Image
+              
               src={BottomCard}
               alt="Uploaded image"
-              className="object-cover border border-primary rounded-xl transition-transform duration-300 hover:scale-105"
+              className="object-cover scale-100 border border-primary rounded-xl transition-transform duration-300 hover:scale-105"
               fill // Dynamically fills the parent container
               priority
             />
