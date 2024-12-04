@@ -13,9 +13,10 @@ export const svgWaveLayouts = [
   SvgWaveLayoutType.WAVE_TWO,
   SvgWaveLayoutType.WAVE_THREE,
 ];
-
-export const svgWaveLayoutData = {
-  [SvgWaveLayoutType.WAVE_ONE]: <SvgWaveTemplateOne />,
-  [SvgWaveLayoutType.WAVE_TWO]: <SvgWaveTemplateTwo />,
-  [SvgWaveLayoutType.WAVE_THREE]: <SvgWaveTemplateThree />,
-};
+export const svgWaveLayoutData = (wave_color: string) => ({
+  [SvgWaveLayoutType.WAVE_ONE]: <SvgWaveTemplateOne wave_color={wave_color} />,
+  [SvgWaveLayoutType.WAVE_TWO]: <SvgWaveTemplateTwo wave_color={wave_color} />,
+  [SvgWaveLayoutType.WAVE_THREE]: (
+    <SvgWaveTemplateThree wave_color={wave_color} />
+  ),
+});

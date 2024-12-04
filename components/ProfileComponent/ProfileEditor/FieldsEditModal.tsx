@@ -184,9 +184,9 @@ export default function FieldsEditModal() {
     return null;
   }
 
-  const { components, setComponents } = context;
+  const { profileData, setComponents } = context;
 
-  const card_id = components[0].card_id; //
+  const card_id = profileData.card_id; //
 
   // Function to create a new metadata component
   const createMetadataComponents = (

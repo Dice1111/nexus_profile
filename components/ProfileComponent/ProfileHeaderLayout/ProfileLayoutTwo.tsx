@@ -10,20 +10,14 @@ interface ProfileLayoutTwoProps {
 }
 
 const ProfileLayoutTwo = ({ profileData }: ProfileLayoutTwoProps) => {
-  // const context = useProfileContext();
-  // if (!context) {
-  //   console.warn("profileEditContext is null");
-  //   return null;
-  // }
-
-  // const { profileData } = context;
+  const default_profile = "/image/default-profile.jpg";
 
   return (
     <div>
       <div className="w-full h-40 relative overflow-hidden">
         {/* Profile Picture */}
         <Image
-          src={profileData.image}
+          src={profileData.image || default_profile}
           alt="Profile Picture"
           width={1000}
           height={1000}
@@ -31,7 +25,7 @@ const ProfileLayoutTwo = ({ profileData }: ProfileLayoutTwoProps) => {
         />
         <div className="absolute -bottom-10 w-full ">
           {
-            svgWaveLayoutData[
+            svgWaveLayoutData(profileData.wave_color)[
               profileData.wave_type as keyof typeof svgWaveLayoutData
             ]
           }
@@ -41,10 +35,10 @@ const ProfileLayoutTwo = ({ profileData }: ProfileLayoutTwoProps) => {
       {/* Profile Data */}
       <div className=" relative px-7 py-10">
         {/* Logo */}
-        {/* absolute bg-red-500 -top-10 right-2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg */}
+        {/* absoluopacity-80 -top-10 right-2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg */}
         <div className="absolute  -top-10 right-1/2 translate-x-1/2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg">
           <Image
-            src={profileData.logo_icon}
+            src={profileData.logo_icon || default_profile}
             alt="Logo Icon"
             width={1000}
             height={1000}
@@ -59,10 +53,10 @@ const ProfileLayoutTwo = ({ profileData }: ProfileLayoutTwoProps) => {
         <p className="text-xl font-thin mt-2">{profileData.title}</p>
         <p className="text-xl font-thin">{profileData.occupation}</p>
 
-        <p className="text-md text-gray-500 mt-2">{profileData.company}</p>
-        <p className="text-sm text-gray-500">{profileData.quote}</p>
+        <p className="text-md opacity-80 mt-2">{profileData.company}</p>
+        <p className="text-sm opacity-80">{profileData.quote}</p>
 
-        <p className="text-sm text-end mt-2 font-thin italic text-gray-500">
+        <p className="text-sm text-end mt-2 font-thin italic opacity-80">
           Goes by - {profileData.preferred_name} <br />
           {profileData.pronouns}
         </p>

@@ -45,7 +45,7 @@ export enum PROFILE_COMPONENT_TYPE {
   MICROSOFT_TEAMS = "microsoft_teams",
   INFO = "info",
   ZOOM = "zoom",
-}
+};
 
 export enum PROFILE_COMPONENT_CATEGORY {
   MAIL = "mail",
@@ -58,7 +58,7 @@ export enum PROFILE_COMPONENT_CATEGORY {
   MUSIC = "music",
   IMAGE = "img",
   TEXT = "text",
-}
+};
 
 export type Contact = {
   contactID: string;
@@ -84,7 +84,7 @@ export enum CONNECTION_REQUEST_STATUS {
   PENDING = "pending",
   ACCEPTED = "accepted",
   REJECTED = "rejected",
-}
+};
 
 export enum CONTACT_TAG_TYPE {
   FAMILY = "family",
@@ -96,9 +96,9 @@ export enum CONTACT_TAG_TYPE {
   INVESTOR = "investor",
   VENDOR = "vendor",
   OTHER = "Other",
-}
+};
 
-export type ThemeSchema = {
+export interface ThemeSchema {
   [key: string]: {
     imageWrapper: string;
     logoWrapper: string;

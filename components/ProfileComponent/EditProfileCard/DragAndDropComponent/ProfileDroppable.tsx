@@ -67,6 +67,8 @@ const DndInputField = ({
   inputType,
   formRegister,
   formErrors,
+  components,
+  setComponents,
 }: {
   type: string;
   placeholder: string;
@@ -75,6 +77,8 @@ const DndInputField = ({
   inputType: string;
   formRegister: any;
   formErrors?: any;
+  components: ProfileDndComponent[];
+  setComponents: Dispatch<SetStateAction<ProfileDndComponent[]>>;
 }) => (
   <>
     <div className="flex px-2 w-full max-w-sm items-center gap-1.5 bg-transparent  rounded">
@@ -85,7 +89,17 @@ const DndInputField = ({
         }`}
         type={type}
         placeholder={placeholder}
-        {...formRegister(`components.${index}.${inputType}` as const)}
+        {...(formRegister(`components.${index}.${inputType}` as const),
+        {
+          onChange: (e) => {
+            const newValue = e.target.value;
+            components[index] = {
+              ...components[index],
+              value: newValue,
+            };
+            setComponents([...components]);
+          },
+        })}
       />
     </div>
 
@@ -97,8 +111,7 @@ const DndInputField = ({
 const DndInputFieldBuilder = ({
   item,
   index,
-  components,
-  setComponents,
+
   attributes,
   listeners,
   formRegister,
@@ -106,13 +119,21 @@ const DndInputFieldBuilder = ({
 }: {
   item: ProfileDndComponent;
   index: number;
-  components: ProfileDndComponent[];
-  setComponents: Dispatch<SetStateAction<ProfileDndComponent[]>>;
+
   attributes: any;
   listeners: any;
   formRegister: any;
   formErrors: any;
 }) => {
+  const context = useProfileContext();
+
+  if (!context) {
+    console.warn("profileEditContext is null");
+    return null;
+  }
+
+  const { components, setComponents } = context;
+
   switch (item.category) {
     case PROFILE_COMPONENT_CATEGORY.TEXT:
       return (
@@ -129,7 +150,17 @@ const DndInputFieldBuilder = ({
               formErrors ? "border-red-500" : "border-primary"
             }`}
             placeholder="Type your message here."
-            {...formRegister(`components.${index}.value` as const)}
+            {...(formRegister(`components.${index}.value` as const),
+            {
+              onChange: (e) => {
+                const newValue = e.target.value;
+                components[index] = {
+                  ...components[index],
+                  value: newValue,
+                };
+                setComponents([...components]);
+              },
+            })}
           />
           {formErrors && <p className="text-red-500   text-sm">{formErrors}</p>}
         </div>
@@ -219,6 +250,8 @@ const DndInputFieldBuilder = ({
             inputType="value"
             formRegister={formRegister}
             formErrors={formErrors}
+            components={components}
+            setComponents={setComponents}
           />
 
           <DndInputField
@@ -228,6 +261,8 @@ const DndInputFieldBuilder = ({
             icontype="info"
             inputType="display_text"
             formRegister={formRegister}
+            components={components}
+            setComponents={setComponents}
           />
         </div>
       );
@@ -241,15 +276,6 @@ export default function ProfileDroppable({
   formRegister,
   formErrors,
 }: DroppableProps) {
-  const context = useProfileContext();
-
-  if (!context) {
-    console.warn("profileEditContext is null");
-    return null;
-  }
-
-  const { components, setComponents } = context;
-
   const {
     attributes,
     listeners,
@@ -271,8 +297,6 @@ export default function ProfileDroppable({
       <DndInputFieldBuilder
         item={item}
         index={index}
-        components={components}
-        setComponents={setComponents}
         attributes={attributes}
         listeners={listeners}
         formRegister={formRegister}

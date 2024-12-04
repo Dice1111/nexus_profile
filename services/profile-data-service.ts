@@ -2,16 +2,16 @@ import { ProfileCard, ProfileDndComponent } from "@/lib/type";
 
 // Fetch profile components by card ID
 export async function fetchUserProfileDndComponentsData(
-  id: string
+  card_id: string
 ): Promise<ProfileDndComponent[]> {
-  return profileDndComponents.filter((component) => component.card_id === id);
+  return profileDndComponents.filter((component) => component.card_id === card_id);
 }
 
 // Fetch a profile card by card ID
 export async function fetchUserProfileCardData(
-  id: string
+  card_id: string
 ): Promise<ProfileCard | null> {
-  const card = profileCard.find((card) => card.card_id === id);
+  const card = profileCard.find((card) => card.card_id === card_id);
   return card || null; // Return null if no card is found
 }
 
@@ -323,5 +323,31 @@ const profileCard: ProfileCard[] = [
     occupation: "Software Engineer",
     company: "Tesla",
     message: "Driving the future of tech!",
+  },
+
+
+  //INITIAL DATA
+  {
+    card_id: "4",
+    user_id: "4",
+    foreground_color: "#E6E6FA",
+    background_color: "#050505",
+    wave_color: "#050505",
+    layout: "classic",
+    wave_type: "wave_one",
+    image: "",
+    logo_icon: "",
+    prefix: "",
+    first_name: "",
+    middle_name: "",
+    last_name: "",
+    suffix: "",
+    quote: "",
+    preferred_name: "",
+    pronouns: "",
+    title: "",
+    occupation: "",
+    company: "",
+    message: "",
   },
 ];

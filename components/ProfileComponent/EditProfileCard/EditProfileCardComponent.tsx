@@ -99,8 +99,11 @@ const EditProfileCardComponent = () => {
 
   return (
     <div
-      className={`relative max-w-[400px] flex flex-col  text-primary-foreground overflow-hidden rounded-lg`}
-      style={{ backgroundColor: profileData.background_color }}
+      className={`relative w-[400px]  flex flex-col  overflow-hidden rounded-lg`}
+      style={{
+        backgroundColor: profileData.background_color,
+        color: profileData.foreground_color,
+      }}
     >
       {/* Header area */}
       {layoutComponent}
@@ -109,8 +112,6 @@ const EditProfileCardComponent = () => {
       <form
         id="profileForm"
         onSubmit={(e) => {
-          console.log("Components Array Before Submit:", components);
-          console.log(errors);
           handleSubmit(onSubmit)(e);
         }}
       >

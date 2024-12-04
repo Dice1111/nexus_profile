@@ -7,6 +7,7 @@ import {
   ColorableElement,
   colorableElements,
   ProfileLayout,
+  profileLayoutData,
   profileLayouts,
 } from "@/lib/profileCardLayoutData/LayoutData";
 import {
@@ -23,17 +24,17 @@ import _throttle from "lodash/throttle";
 function ImageUpload({
   label,
   keyName,
-  defaultImage,
 }: {
   label: string;
   keyName: "image" | "logo_icon";
-  defaultImage: string;
 }) {
   const context = useProfileContext();
   if (!context) {
     console.warn("profileEditContext is null");
     return null;
   }
+
+  const default_profile = "/image/default-profile.jpg";
 
   const { profileData, setProfileData } = context;
 
@@ -55,7 +56,7 @@ function ImageUpload({
           className="relative flex flex-col items-center justify-center w-32 h-32 rounded-full cursor-pointer transition-all"
         >
           <img
-            src={profileData[keyName] || defaultImage}
+            src={profileData[keyName] || default_profile}
             alt={label}
             className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-300 hover:opacity-80"
           />
@@ -111,8 +112,6 @@ export default function DesignEditModal() {
 
   const handleElementSelect = (element: ColorableElement) => {
     setSelectedElement(element);
-
-    console.log(element);
   };
 
   const handleColorSelect = (color: string) => {
@@ -124,10 +123,13 @@ export default function DesignEditModal() {
         rgb: rgba,
         hsv: hsva,
       });
+
+      updateElementColor(color, selectedElement);
     }
   };
 
   useEffect(() => {
+    console.log(selectedElement);
     if (selectedElement === ColorableElement.BACKGROUND) {
       handleColorSelect(profileData.background_color);
     } else if (selectedElement === ColorableElement.FOREGROUND) {
@@ -138,14 +140,17 @@ export default function DesignEditModal() {
   }, [selectedElement]);
 
   const throttledUpdate = useCallback(
-    _throttle((newColor) => {
+    _throttle((newColor, selectedElement) => {
       setSelectedColor(newColor);
-      updateElementColor(newColor.hex);
-    }, 50),
+      updateElementColor(newColor.hex, selectedElement);
+    }, 20),
     []
   );
 
-  const updateElementColor = (color: string) => {
+  const updateElementColor = (
+    color: string,
+    selectedElement: ColorableElement
+  ) => {
     setProfileData((prevProfileData) => {
       const newUpdateProfile = { ...prevProfileData };
 
@@ -180,18 +185,10 @@ export default function DesignEditModal() {
       <h1 className="text-2xl font-thin">Design</h1>
 
       {/* Profile Photo */}
-      <ImageUpload
-        label="Profile Photo"
-        keyName="image"
-        defaultImage="/placeholder/profile.png"
-      />
+      <ImageUpload label="Profile Photo" keyName="image" />
 
       {/* Logo */}
-      <ImageUpload
-        label="Logo"
-        keyName="logo_icon"
-        defaultImage="/placeholder/logo.png"
-      />
+      <ImageUpload label="Logo" keyName="logo_icon" />
 
       {/* Profile Layout */}
       <div>
@@ -225,7 +222,11 @@ export default function DesignEditModal() {
               }`}
             >
               <div className="absolute w-full bottom-0">
-                {svgWaveLayoutData[wave]}
+                {
+                  svgWaveLayoutData(profileData.wave_color)[
+                    wave as keyof typeof svgWaveLayoutData
+                  ]
+                }
               </div>
               {selectedWaveLayout === wave && (
                 <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white">
@@ -283,7 +284,8 @@ export default function DesignEditModal() {
             <ColorPicker
               color={selectedColor}
               onChange={(newColor) => {
-                throttledUpdate(newColor); // Throttled update
+                console.log(selectedElement);
+                throttledUpdate(newColor, selectedElement); // Throttled update
               }}
             />
           </div>
