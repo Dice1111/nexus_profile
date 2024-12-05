@@ -1,7 +1,7 @@
 import NavBar from "@/components/NavBar/NavBar";
 import { SETTING_PANEL } from "@/lib/navbar/enum";
 import { NavBarNavigation } from "@/lib/navbar/type";
-import AccountSettingsPage from "./AccountSettingPage";
+import AccountSettingPage from "./AccountSettingPage";
 import GeneralSettingPage from "./GeneralSettingPage";
 
 const navItems: NavBarNavigation<SETTING_PANEL>[] = [
@@ -17,7 +17,7 @@ export default async function Page() {
           <GeneralSettingPage />
         </div>
         <div id={SETTING_PANEL.ACCOUNT}>
-          <AccountSettingsPage />
+          <AccountSettingPage />
         </div>
       </NavBar>
     </div>
