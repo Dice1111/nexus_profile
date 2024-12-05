@@ -14,7 +14,7 @@ import {
   svgWaveLayouts,
 } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
 import _throttle from "lodash/throttle";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import { GrFormCheckmark } from "react-icons/gr";
@@ -108,19 +108,54 @@ export default function DesignEditModal() {
     setSelectedElement(element);
   };
 
-  const handleColorSelect = (color: string) => {
-    if (selectedColor.hex !== color) {
-      const rgba = hexToRgba(color);
-      const hsva = rgbaToHsva(rgba);
-      setSelectedColor({
-        hex: color,
-        rgb: rgba,
-        hsv: hsva,
-      });
+  const updateElementColor = useCallback(
+    (color: string, selectedElement: ColorableElement) => {
+      setProfileData((prevProfileData) => {
+        const newUpdateProfile = { ...prevProfileData };
 
-      updateElementColor(color, selectedElement);
-    }
-  };
+        // Update only if the color has changed for the selected element
+        if (
+          selectedElement === ColorableElement.BACKGROUND &&
+          newUpdateProfile.background_color !== color
+        ) {
+          newUpdateProfile.background_color = color;
+        } else if (
+          selectedElement === ColorableElement.FOREGROUND &&
+          newUpdateProfile.foreground_color !== color
+        ) {
+          newUpdateProfile.foreground_color = color;
+        } else if (
+          selectedElement === ColorableElement.WAVE &&
+          newUpdateProfile.wave_color !== color
+        ) {
+          newUpdateProfile.wave_color = color;
+        } else {
+          // If no changes, return the same object to avoid unnecessary updates
+          return prevProfileData;
+        }
+
+        return newUpdateProfile;
+      });
+    },
+    [setProfileData]
+  );
+
+  const handleColorSelect = useCallback(
+    (color: string) => {
+      if (selectedColor.hex !== color) {
+        const rgba = hexToRgba(color);
+        const hsva = rgbaToHsva(rgba);
+        setSelectedColor({
+          hex: color,
+          rgb: rgba,
+          hsv: hsva,
+        });
+
+        updateElementColor(color, selectedElement);
+      }
+    },
+    [selectedColor.hex, selectedElement, updateElementColor, setSelectedColor]
+  );
 
   useEffect(() => {
     console.log(selectedElement);
@@ -131,47 +166,16 @@ export default function DesignEditModal() {
     } else if (selectedElement === ColorableElement.WAVE) {
       handleColorSelect(profileData.wave_color);
     }
-  }, [selectedElement]);
+  }, [selectedElement, profileData, handleColorSelect]);
 
-  const throttledUpdate = useCallback(
-    _throttle((newColor, selectedElement) => {
-      setSelectedColor(newColor);
-      updateElementColor(newColor.hex, selectedElement);
-    }, 20),
-    []
+  const throttledUpdate = useMemo(
+    () =>
+      _throttle((newColor, selectedElement) => {
+        setSelectedColor(newColor);
+        updateElementColor(newColor.hex, selectedElement);
+      }, 20),
+    [updateElementColor, setSelectedColor]
   );
-
-  const updateElementColor = (
-    color: string,
-    selectedElement: ColorableElement
-  ) => {
-    setProfileData((prevProfileData) => {
-      const newUpdateProfile = { ...prevProfileData };
-
-      // Update only if the color has changed for the selected element
-      if (
-        selectedElement === ColorableElement.BACKGROUND &&
-        newUpdateProfile.background_color !== color
-      ) {
-        newUpdateProfile.background_color = color;
-      } else if (
-        selectedElement === ColorableElement.FOREGROUND &&
-        newUpdateProfile.foreground_color !== color
-      ) {
-        newUpdateProfile.foreground_color = color;
-      } else if (
-        selectedElement === ColorableElement.WAVE &&
-        newUpdateProfile.wave_color !== color
-      ) {
-        newUpdateProfile.wave_color = color;
-      } else {
-        // If no changes, return the same object to avoid unnecessary updates
-        return prevProfileData;
-      }
-
-      return newUpdateProfile;
-    });
-  };
 
   return (
     <div className="flex flex-col gap-10">
