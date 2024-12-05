@@ -26,18 +26,8 @@ import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
 const EditProfileCardComponent = () => {
   const context = useProfileContext();
 
-  if (!context) {
-    console.warn("profileEditContext is null");
-    return null;
-  }
-
   const { components, profileData, setComponents, isEditing, setEditing } =
     context;
-
-  const layoutComponent =
-    profileLayoutData(profileData)[
-      profileData.layout as keyof typeof profileLayoutData
-    ];
 
   // Touchscreen and pointer support for drag-and-drop
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
@@ -48,6 +38,10 @@ const EditProfileCardComponent = () => {
       components: z.array(profileDndInputSchema),
     })
   );
+  const layoutComponent =
+    profileLayoutData(profileData)[
+      profileData.layout as keyof typeof profileLayoutData
+    ];
 
   // Form setup
   const {

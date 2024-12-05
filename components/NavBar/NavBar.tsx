@@ -1,13 +1,16 @@
 "use client";
 import { NavBarProps } from "@/lib/navbar/type";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function NavBar<T>({ data, children }: NavBarProps<T>) {
   const [currentPanel, setCurrentPanel] = useState<T>(data[0].panel);
 
-  const renderContent = children.find(
-    (child: any) => child.props.id === currentPanel
-  );
+  const renderContent = Array.isArray(children)
+    ? children.find(
+        (child) =>
+          React.isValidElement(child) && child.props.id === currentPanel
+      )
+    : null;
 
   return (
     <>

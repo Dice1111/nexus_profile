@@ -1,15 +1,15 @@
 "use client";
 
-import { ProfileContext } from "@/context/profileContext";
 import { Button } from "@/components/ui/button";
+import { ProfileContext } from "@/context/profileContext";
 import { ProfileCard, ProfileDndComponent } from "@/lib/type";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { GiCheckMark } from "react-icons/gi";
 
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
-import dynamic from "next/dynamic";
 import ProfileEditor from "@/components/ProfileComponent/ProfileEditor/ProfileEditor";
+import dynamic from "next/dynamic";
 import { RxCross2 } from "react-icons/rx";
 
 interface ProfileProps {

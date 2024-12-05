@@ -7,13 +7,13 @@ import {
 import ClientSideProfilePage from "./ClientSideProfilePage";
 
 const getProfileCardData = async (): Promise<ProfileCard> => {
-  const data = await fetchUserProfileCardData("4");
+  const data = await fetchUserProfileCardData("1");
   if (!data) throw new Error("No data found");
   return data;
 };
 
 const getProfileComponentsData = async (): Promise<ProfileDndComponent[]> => {
-  const data = await fetchUserProfileDndComponentsData("4");
+  const data = await fetchUserProfileDndComponentsData("1");
   return data;
 };
 

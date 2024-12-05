@@ -7,18 +7,18 @@ import {
   ColorableElement,
   colorableElements,
   ProfileLayout,
-  profileLayoutData,
   profileLayouts,
 } from "@/lib/profileCardLayoutData/LayoutData";
 import {
   svgWaveLayoutData,
   svgWaveLayouts,
 } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
+import _throttle from "lodash/throttle";
 import { useCallback, useEffect, useState } from "react";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import { GrFormCheckmark } from "react-icons/gr";
-import _throttle from "lodash/throttle";
+import Image from "next/image";
 
 /** Reusable Image Upload Component */
 function ImageUpload({
@@ -29,10 +29,6 @@ function ImageUpload({
   keyName: "image" | "logo_icon";
 }) {
   const context = useProfileContext();
-  if (!context) {
-    console.warn("profileEditContext is null");
-    return null;
-  }
 
   const default_profile = "/image/default-profile.jpg";
 
@@ -55,9 +51,11 @@ function ImageUpload({
           htmlFor={`upload-${keyName}`}
           className="relative flex flex-col items-center justify-center w-32 h-32 rounded-full cursor-pointer transition-all"
         >
-          <img
+          <Image
             src={profileData[keyName] || default_profile}
             alt={label}
+            width={1000}
+            height={1000}
             className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-300 hover:opacity-80"
           />
           <input
@@ -75,10 +73,6 @@ function ImageUpload({
 
 export default function DesignEditModal() {
   const context = useProfileContext();
-  if (!context) {
-    console.warn("profileEditContext is null");
-    return null;
-  }
 
   const { profileData, setProfileData } = context;
 

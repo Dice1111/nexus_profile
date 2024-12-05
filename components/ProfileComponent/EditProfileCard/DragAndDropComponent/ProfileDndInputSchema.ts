@@ -426,3 +426,5 @@ z.object({
 
 ]);
 
+export type ProfileDndComponentSchemaType = z.infer<typeof profileDndInputSchema>;
+

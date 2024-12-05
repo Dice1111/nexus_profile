@@ -1,9 +1,8 @@
-import GeneralSettingPage from "./GeneralSettingPage";
-import AccountSettingsPage from "./AccountSettingPage";
-import { SETTING_PANEL } from "@/lib/navbar/enum";
 import NavBar from "@/components/NavBar/NavBar";
+import { SETTING_PANEL } from "@/lib/navbar/enum";
 import { NavBarNavigation } from "@/lib/navbar/type";
-import LoadingCircle from "@/components/test/LoadingCircle";
+import AccountSettingsPage from "./AccountSettingPage";
+import GeneralSettingPage from "./GeneralSettingPage";
 
 const navItems: NavBarNavigation<SETTING_PANEL>[] = [
   { label: "General", panel: SETTING_PANEL.GENERAL },

@@ -1,10 +1,19 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@radix-ui/react-dialog";
 import { CiPhone } from "react-icons/ci";
+import { FaMapMarkerAlt } from "react-icons/fa";
 import { GoPeople, GoPlus } from "react-icons/go";
+import { IoCloudUploadOutline } from "react-icons/io5";
 import { MdOutlineLink } from "react-icons/md";
-import { PiImageLight, PiTextAaLight, PiTextTLight } from "react-icons/pi";
+import { PiImageLight, PiTextAaLight } from "react-icons/pi";
 import { TfiEmail } from "react-icons/tfi";
 import { TiSocialYoutube } from "react-icons/ti";
-import { IoCloudUploadOutline } from "react-icons/io5";
+import { DialogHeader } from "../ui/dialog";
 import {
   Drawer,
   DrawerContent,
@@ -14,15 +23,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "../ui/drawer";
-import { FaMapMarkerAlt } from "react-icons/fa";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-  DialogTrigger,
-} from "@radix-ui/react-dialog";
-import { DialogHeader } from "../ui/dialog";
 
 export default function AddProfileComponentDrawer() {
   return (

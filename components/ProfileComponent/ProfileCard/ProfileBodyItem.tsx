@@ -66,12 +66,12 @@ const frameComponents = {
       />
     </div>
   ),
-  [PROFILE_COMPONENT_CATEGORY.TEXT]: (value: string, display_text: string) => (
+  [PROFILE_COMPONENT_CATEGORY.TEXT]: (value: string) => (
     <div className="px-8 pt-8 text-lg font-thin relative">
       <p>{value}</p>
     </div>
   ),
-  [PROFILE_COMPONENT_CATEGORY.VIDEO]: (value: string, display_text: string) => {
+  [PROFILE_COMPONENT_CATEGORY.VIDEO]: (value: string) => {
     const getEmbedURL = (url: string) => {
       try {
         const urlObj = new URL(url);
@@ -105,7 +105,7 @@ const frameComponents = {
       </div>
     );
   },
-  [PROFILE_COMPONENT_CATEGORY.MAP]: (value: string, display_text: string) => {
+  [PROFILE_COMPONENT_CATEGORY.MAP]: (value: string) => {
     const getEmbedURL = (address: string) => {
       const encodedAddress = encodeURIComponent(address.trim());
       return `https://www.google.com/maps?q=${encodedAddress}&output=embed`;

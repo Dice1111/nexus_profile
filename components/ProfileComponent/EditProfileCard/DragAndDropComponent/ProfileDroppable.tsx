@@ -1,19 +1,24 @@
+"use client";
+
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useProfileContext } from "@/context/profileContext";
 import { typeIconMap } from "@/lib/icon";
 import { PROFILE_COMPONENT_CATEGORY, ProfileDndComponent } from "@/lib/type";
+import { DraggableAttributes } from "@dnd-kit/core";
+import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import Image from "next/image";
+import { Dispatch, SetStateAction } from "react";
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { RxCross1, RxDragHandleHorizontal } from "react-icons/rx";
-import { Dispatch, SetStateAction, useState } from "react";
-import { Textarea } from "@/components/ui/textarea";
 
-interface DroppableProps {
+interface DroppableProps<T extends FieldValues> {
   item: ProfileDndComponent;
   index: number;
-  formRegister: any;
-  formErrors: any;
+  formRegister: UseFormRegister<T>;
+  formErrors?: string;
 }
 
 // Utility function to handle deletion of an item
@@ -39,8 +44,8 @@ const DndComponentHeader = ({
   item: ProfileDndComponent;
   components: ProfileDndComponent[];
   setComponents: Dispatch<SetStateAction<ProfileDndComponent[]>>;
-  attributes: any;
-  listeners: any;
+  attributes: DraggableAttributes;
+  listeners?: SyntheticListenerMap;
 }) => (
   <div className="flex justify-between w-full items-center">
     <div
@@ -59,10 +64,10 @@ const DndComponentHeader = ({
 );
 
 // Reusable component for input fields
-const DndInputField = ({
+const DndInputField = <T extends FieldValues>({
   type,
   placeholder,
-  index: index,
+  index,
   icontype,
   inputType,
   formRegister,
@@ -74,44 +79,44 @@ const DndInputField = ({
   placeholder: string;
   index: number;
   icontype: string;
-  inputType: string;
-  formRegister: any;
-  formErrors?: any;
+  inputType: keyof T;
+  formRegister: UseFormRegister<T>;
+  formErrors?: string;
   components: ProfileDndComponent[];
   setComponents: Dispatch<SetStateAction<ProfileDndComponent[]>>;
 }) => (
   <>
-    <div className="flex px-2 w-full max-w-sm items-center gap-1.5 bg-transparent  rounded">
+    <div className="flex px-2 w-full max-w-sm items-center gap-1.5 bg-transparent rounded">
       <div>{typeIconMap[icontype as keyof typeof typeIconMap]}</div>
       <Input
-        className={`bg-transparent border border-primary  focus:border-2 transition-colors ${
+        className={`bg-transparent border border-primary focus:border-2 transition-colors ${
           formErrors ? "border-red-500" : "border-primary"
         }`}
         type={type}
         placeholder={placeholder}
-        {...(formRegister(`components.${index}.${inputType}` as const),
-        {
-          onChange: (e) => {
-            const newValue = e.target.value;
-            components[index] = {
-              ...components[index],
-              value: newValue,
-            };
-            setComponents([...components]);
-          },
-        })}
+        {...formRegister(
+          `components.${index}.${String(inputType)}` as Path<T>,
+          {
+            onChange: (e) => {
+              const newValue = e.target.value;
+              components[index] = {
+                ...components[index],
+                value: newValue,
+              };
+              setComponents([...components]);
+            },
+          }
+        )}
       />
     </div>
-
-    {formErrors && <p className="text-red-500 text-sm pl-8  ">{formErrors}</p>}
+    {formErrors && <p className="text-red-500 text-sm pl-8">{formErrors}</p>}
   </>
 );
 
 // Main profile component renderer
-const DndInputFieldBuilder = ({
+const DndInputFieldBuilder = <T extends FieldValues>({
   item,
   index,
-
   attributes,
   listeners,
   formRegister,
@@ -119,11 +124,10 @@ const DndInputFieldBuilder = ({
 }: {
   item: ProfileDndComponent;
   index: number;
-
-  attributes: any;
-  listeners: any;
-  formRegister: any;
-  formErrors: any;
+  attributes: DraggableAttributes;
+  listeners?: SyntheticListenerMap;
+  formRegister: UseFormRegister<T>;
+  formErrors?: string;
 }) => {
   const context = useProfileContext();
 
@@ -150,8 +154,7 @@ const DndInputFieldBuilder = ({
               formErrors ? "border-red-500" : "border-primary"
             }`}
             placeholder="Type your message here."
-            {...(formRegister(`components.${index}.value` as const),
-            {
+            {...formRegister(`components.${index}.value` as Path<T>, {
               onChange: (e) => {
                 const newValue = e.target.value;
                 components[index] = {
@@ -162,7 +165,7 @@ const DndInputFieldBuilder = ({
               },
             })}
           />
-          {formErrors && <p className="text-red-500   text-sm">{formErrors}</p>}
+          {formErrors && <p className="text-red-500 text-sm">{formErrors}</p>}
         </div>
       );
 
@@ -188,46 +191,33 @@ const DndInputFieldBuilder = ({
             attributes={attributes}
             listeners={listeners}
           />
-
           <div>
-            {/* Image Preview */}
             {item.value ? (
-              <div className="relative group w-[300px] h-[300px]">
-                <Image
-                  src={item.value}
-                  alt={item.display_text || "Uploaded Image"}
-                  width={300}
-                  height={300}
-                  className="rounded-lg w-full h-full object-cover shadow-md"
-                />
-              </div>
+              <Image
+                src={item.value}
+                alt={item.display_text || "Uploaded Image"}
+                width={300}
+                height={300}
+                className="rounded-lg w-full h-full object-cover shadow-md"
+              />
             ) : (
-              <div className="w-[300px] h-[300px] flex items-center justify-center border border-dashed border-secondary-foreground rounded-lg text-sm text-secondary-foreground bg-secondary hover:bg-secondary-hover transition-colors">
+              <div className="w-[300px] h-[300px] flex items-center justify-center border border-dashed rounded-lg text-sm">
                 No image uploaded
               </div>
             )}
-
-            {/* File Upload Input */}
-            <div className="relative mt-4">
-              <label
-                htmlFor={`upload-${item.id}`}
-                className="block cursor-pointer bg-primary text-primary-foreground py-2 px-4 rounded-lg shadow hover:bg-primary-hover transition-colors text-center"
-              >
-                Upload Image
-              </label>
-              <Input
-                id={`upload-${item.id}`}
-                className="hidden"
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-              />
-            </div>
-            {formErrors && (
-              <p className="text-red-500 text-sm px-7 text-center">
-                {formErrors}
-              </p>
-            )}
+            <label
+              htmlFor={`upload-${item.id}`}
+              className="block bg-primary text-primary-foreground py-2 px-4 mt-2 text-center   rounded-lg cursor-pointer hover:bg-primary/90"
+            >
+              Upload Image
+            </label>
+            <Input
+              id={`upload-${item.id}`}
+              className="hidden "
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
           </div>
         </div>
       );
@@ -253,29 +243,18 @@ const DndInputFieldBuilder = ({
             components={components}
             setComponents={setComponents}
           />
-
-          <DndInputField
-            type="display_text"
-            index={index}
-            placeholder={item.type}
-            icontype="info"
-            inputType="display_text"
-            formRegister={formRegister}
-            components={components}
-            setComponents={setComponents}
-          />
         </div>
       );
   }
 };
 
 // Main ProfileDroppable Component
-export default function ProfileDroppable({
+export default function ProfileDroppable<T extends FieldValues>({
   item,
   index,
   formRegister,
   formErrors,
-}: DroppableProps) {
+}: DroppableProps<T>) {
   const {
     attributes,
     listeners,

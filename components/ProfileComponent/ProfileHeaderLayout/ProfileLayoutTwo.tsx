@@ -1,9 +1,6 @@
-import { useProfileContext } from "@/context/profileContext";
-import React from "react";
-import Image from "next/image";
-import TemplateOne from "@/components/ProfileSvgComponent/SvgWaveTemplateOne";
 import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
 import { ProfileCard } from "@/lib/type";
+import Image from "next/image";
 
 interface ProfileLayoutTwoProps {
   profileData: ProfileCard;
