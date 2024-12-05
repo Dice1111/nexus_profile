@@ -1,8 +1,8 @@
 import NavBar from "@/components/NavBar/NavBar";
 import { SETTING_PANEL } from "@/lib/navbar/enum";
 import { NavBarNavigation } from "@/lib/navbar/type";
-import AccountSettingPage from "@/app/(Dashboard)/setting/AccountSettingPage";
-import GeneralSettingPage from "@/app/(Dashboard)/setting/GeneralSettingPage";
+import GeneralSettingPage from "./GeneralSettingPage";
+import AccountSettingPage from "./AccountSettingPage";
 
 const navItems: NavBarNavigation<SETTING_PANEL>[] = [
   { label: "General", panel: SETTING_PANEL.GENERAL },
