@@ -1,7 +1,6 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Collapsible } from "@/components/ui/collapsible";
-import { RiContactsBook2Fill } from "react-icons/ri";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,14 +20,12 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import {
-  BookOpen,
-  Bot,
-  ChevronsUpDown,
-  GalleryVerticalEnd,
-} from "lucide-react";
+import { ChevronsUpDown, GalleryVerticalEnd } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
+import { BsFillPersonVcardFill } from "react-icons/bs";
+import { IoMdContacts } from "react-icons/io";
+import { IoBarChart, IoSettings } from "react-icons/io5";
 
 const data = {
   user: {
@@ -47,23 +44,23 @@ const data = {
     {
       title: "Profile",
       url: "/profile",
-      icon: Bot,
+      icon: BsFillPersonVcardFill,
       isActive: true,
     },
     {
       title: "Contact",
       url: "/contact",
-      icon: RiContactsBook2Fill,
+      icon: IoMdContacts,
     },
     {
       title: "Overview",
       url: "/overview",
-      icon: BookOpen,
+      icon: IoBarChart,
     },
     {
       title: "Setting",
       url: "/setting",
-      icon: BookOpen,
+      icon: IoSettings,
     },
   ],
 };
