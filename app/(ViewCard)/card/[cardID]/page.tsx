@@ -7,11 +7,13 @@ import {
 } from "@/services/profile-data-service";
 
 interface Props {
-  params: { cardID: string };
+  params: Promise<{ cardID: string }>;
 }
 
-export default async function Page({ params: { cardID } }: Props) {
+export default async function Page({ params }: Props) {
   try {
+    const searchParams = await params;
+    const { cardID } = searchParams;
     const [profileData, componentsData] = await Promise.all([
       fetchUserProfileCardData(cardID),
       fetchUserProfileDndComponentsData(cardID),
