@@ -61,7 +61,7 @@ export default function ClientSideProfilePage({
         }}
       >
         <div className=" flex justify-center  gap- relative">
-          <div className="mt-10 mx-auto gap-5 flex flex-col">
+          <div className="mt-10 mx-auto gap-5 flex flex-col p-4">
             {!isEditing ? (
               <Button
                 variant="outline"
