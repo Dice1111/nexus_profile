@@ -35,7 +35,7 @@ const CardPreviewPage = dynamic(() => import("./CardPreviewPage"), {
 export default function ProfileEditor() {
   return (
     <div
-      className=" w-[500px]  sticky top-12 bg-background  shadow-2xl  overflow-auto p-4 flex flex-col gap-3"
+      className=" sm:max-w-[500px] w-full border-t-2 sm:border-t-0  sm:sticky sm:top-12 bg-background  sm:shadow-2xl  sm:overflow-auto p-4 flex flex-col gap-3"
       style={{ height: `calc(100vh - 48px)` }}
     >
       <NavBar data={navItems}>
@@ -48,7 +48,7 @@ export default function ProfileEditor() {
         <div id={PROFILE_PANEL.FIELDS}>
           <FieldsEditModal />
         </div>
-        <div id={PROFILE_PANEL.PREVIEW}>
+        <div id={PROFILE_PANEL.PREVIEW} className="flex justify-center">
           <CardPreviewPage />
         </div>
       </NavBar>

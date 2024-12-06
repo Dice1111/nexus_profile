@@ -60,8 +60,8 @@ export default function ClientSideProfilePage({
           setEditing,
         }}
       >
-        <div className=" flex justify-center  gap- relative">
-          <div className="mt-10 mx-auto gap-5 flex flex-col p-4">
+        <div className=" flex flex-col p-4 sm:p-0 gap-5 sm:flex-row justify-center relative">
+          <div className="mt-10  gap-5 flex flex-col mx-auto">
             {!isEditing ? (
               <Button
                 variant="outline"

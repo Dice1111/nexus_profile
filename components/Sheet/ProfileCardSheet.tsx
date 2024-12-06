@@ -97,7 +97,7 @@ export default function ProfileCardSheet({
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetContent className="px-4 py-4 min-w-96  overflow-y-auto">
+      <SheetContent className="px-4 py-4 min-w-[360px]  overflow-y-auto">
         <SheetHeader className="mb-4">
           <SheetTitle className="text-xl font-semibold text-primary-foreground">
             {sheetData.fullname}

@@ -93,7 +93,7 @@ const EditProfileCardComponent = () => {
 
   return (
     <div
-      className={`relative w-[400px]  flex flex-col  overflow-hidden rounded-lg`}
+      className={`relative max-w-[400px]  flex flex-col  overflow-hidden rounded-lg`}
       style={{
         backgroundColor: profileData.background_color,
         color: profileData.foreground_color,
