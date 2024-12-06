@@ -8,7 +8,7 @@ import {
   getNewsStatus,
 } from "@/services/setting-service";
 
-export default async function GeneralSettingPage() {
+export default async function GeneralSetting() {
   const initialDevicePushNotificationStatus = await fetchWithTryCatch(
     getDevicePushNotificationStatus
   );

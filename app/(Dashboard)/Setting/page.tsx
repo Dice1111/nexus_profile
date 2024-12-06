@@ -1,8 +1,8 @@
 import NavBar from "@/components/NavBar/NavBar";
 import { SETTING_PANEL } from "@/lib/navbar/enum";
 import { NavBarNavigation } from "@/lib/navbar/type";
-import GeneralSettingPage from "@/app/(Dashboard)/setting/GeneralSettingPage";
-import AccountSettingPage from "@/app/(Dashboard)/setting/AccountSettingPage";
+import AccountSetting from "./AccountSetting";
+import GeneralSetting from "./GeneralSetting";
 
 const navItems: NavBarNavigation<SETTING_PANEL>[] = [
   { label: "General", panel: SETTING_PANEL.GENERAL },
@@ -14,10 +14,10 @@ export default async function Page() {
     <div className="container px-4 pt-4 mx-auto">
       <NavBar data={navItems}>
         <div id={SETTING_PANEL.GENERAL}>
-          <GeneralSettingPage />
+          <GeneralSetting />
         </div>
         <div id={SETTING_PANEL.ACCOUNT}>
-          <AccountSettingPage />
+          <AccountSetting />
         </div>
       </NavBar>
     </div>
