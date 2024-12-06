@@ -52,6 +52,7 @@ const DndComponentHeader = ({
       className="flex gap-2 items-center cursor-move"
       {...attributes}
       {...listeners}
+      style={{ touchAction: "none" }}
     >
       <RxDragHandleHorizontal size={30} />
       <h1 className="text-lg font-bold">{item.type}</h1>
