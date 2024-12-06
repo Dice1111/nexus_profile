@@ -1,4 +1,4 @@
-import SettingAccount from "@/components/Setting/SettingAccount";
+import SettingAccount from "@/components/SettingComponent/SettingAccount";
 import { fetchWithTryCatch } from "@/lib/utils";
 import { getSettingAccountData } from "@/services/setting-service";
 
