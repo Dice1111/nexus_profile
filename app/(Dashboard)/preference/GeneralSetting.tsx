@@ -1,4 +1,4 @@
-import SettingToggle from "@/components/Setting/SettingToggle";
+import SettingToggle from "@/components/SettingComponent/SettingToggle";
 import { TOGGLE_TYPE } from "@/lib/setting/enum";
 import { SettingToggleProps } from "@/lib/setting/type";
 import { fetchWithTryCatch } from "@/lib/utils";
@@ -8,7 +8,7 @@ import {
   getNewsStatus,
 } from "@/services/setting-service";
 
-export default async function GeneralSettingPage() {
+export default async function GeneralSetting() {
   const initialDevicePushNotificationStatus = await fetchWithTryCatch(
     getDevicePushNotificationStatus
   );

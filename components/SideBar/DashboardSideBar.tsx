@@ -59,7 +59,7 @@ const data = {
     },
     {
       title: "Setting",
-      url: "/setting",
+      url: "/preference",
       icon: IoSettings,
     },
   ],
