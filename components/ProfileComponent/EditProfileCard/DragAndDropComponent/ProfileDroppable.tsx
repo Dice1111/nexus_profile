@@ -68,7 +68,6 @@ const DndComponentHeader = ({
 // Reusable component for input fields
 const DndInputField = <T extends FieldValues>({
   type,
-  placeholder,
   index,
   inputType,
   formRegister,
@@ -77,7 +76,6 @@ const DndInputField = <T extends FieldValues>({
   setComponents,
 }: {
   type: string;
-  placeholder: string;
   index: number;
 
   inputType: keyof T;
@@ -243,7 +241,6 @@ const DndInputFieldBuilder = <T extends FieldValues>({
           <DndInputField
             type={item.type}
             index={index}
-            placeholder={item.type}
             inputType="value"
             formRegister={formRegister}
             formErrors={formErrors}
@@ -254,7 +251,6 @@ const DndInputFieldBuilder = <T extends FieldValues>({
           <DndInputField
             type="text"
             index={index}
-            placeholder="title"
             inputType="display_text"
             formRegister={formRegister}
             formErrors={formErrors}

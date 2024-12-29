@@ -42,7 +42,7 @@ const profileDndComponents: ProfileDndComponent[] = [
     type: "phone",
     category: "phone",
     display_text: "Mobile",
-    value: "1234567890",
+    value: "6594832945",
   },
   // WhatsApp
   {
