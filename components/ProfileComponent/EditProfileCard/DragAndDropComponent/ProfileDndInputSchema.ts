@@ -171,10 +171,9 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
     display_text: z.string().optional(),
     value: z
       .string()
-      .url("Invalid Discord URL")
-      .refine((url) => /^https:\/\/discord\.com\/channels\/[a-zA-Z0-9/]+$/.test(url), {
+      .refine((handle) => /^.{3,32}#[0-9]{4}$/.test(handle), {
         message:
-          "Discord URL must be in the format: https://discord.com/channels/{serverId}/{channelId}",
+          "Discord handle must be in the format: username#1234, where 'username' is 3-32 characters and the discriminator is 4 digits.",
       }),
   }),
 

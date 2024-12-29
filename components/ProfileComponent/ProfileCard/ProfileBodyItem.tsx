@@ -39,20 +39,39 @@ const frameComponents = {
     display_text: string,
     background_color: string,
     foreground_color: string
-  ) => (
-    <div className="flex items-center gap-5 relative p-2  mx-4 rounded hover:scale-105   transition">
+  ) => {
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIPhone = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    const handleClick = () => {
+      if (isAndroid || isIPhone) {
+        // Open the phone dialer on Android or iPhone
+        window.location.href = `tel:${value}`;
+      } else {
+        // Copy the phone number to clipboard on other devices
+        navigator.clipboard.writeText(value);
+        alert("Phone number copied to clipboard!");
+      }
+    };
+
+    return (
       <div
-        className=" rounded-full p-2"
-        style={{ backgroundColor: foreground_color, color: background_color }}
+        onClick={handleClick}
+        className="flex items-center gap-5 relative p-2 mx-4 rounded hover:scale-105 transition cursor-pointer"
       >
-        {typeIconMap[type as keyof typeof typeIconMap]}
+        <div
+          className="rounded-full p-2"
+          style={{ backgroundColor: foreground_color, color: background_color }}
+        >
+          {typeIconMap[type as keyof typeof typeIconMap]}
+        </div>
+        <div>
+          {value} <br />
+          <div className="font-thin text-sm">{display_text}</div>
+        </div>
       </div>
-      <div>
-        {value} <br />
-        <div className="font-thin text-sm">{display_text}</div>
-      </div>
-    </div>
-  ),
+    );
+  },
 
   [PROFILE_COMPONENT_CATEGORY.IMAGE]: (value: string) => (
     <div className="relative">

@@ -89,9 +89,12 @@ const DndInputField = <T extends FieldValues>({
   <>
     <div className="flex px-2 w-full max-w-sm items-center gap-1.5 bg-transparent rounded">
       <div>{typeIconMap[icontype as keyof typeof typeIconMap]}</div>
+
       <Input
         className={`bg-transparent border border-primary focus:border-2 transition-colors ${
-          formErrors ? "border-red-500" : "border-primary"
+          inputType === "value" && formErrors
+            ? "border-red-500"
+            : "border-primary"
         }`}
         type={type}
         placeholder={placeholder}
@@ -102,7 +105,9 @@ const DndInputField = <T extends FieldValues>({
               const newValue = e.target.value;
               components[index] = {
                 ...components[index],
-                value: newValue,
+                ...(inputType === "value"
+                  ? { value: newValue }
+                  : { display_text: newValue }),
               };
               setComponents([...components]);
             },
@@ -110,7 +115,9 @@ const DndInputField = <T extends FieldValues>({
         )}
       />
     </div>
-    {formErrors && <p className="text-red-500 text-sm pl-8">{formErrors}</p>}
+    {inputType === "value" && formErrors && (
+      <p className="text-red-500 text-sm pl-8">{formErrors}</p>
+    )}
   </>
 );
 
@@ -239,6 +246,18 @@ const DndInputFieldBuilder = <T extends FieldValues>({
             placeholder={item.type}
             icontype={item.type}
             inputType="value"
+            formRegister={formRegister}
+            formErrors={formErrors}
+            components={components}
+            setComponents={setComponents}
+          />
+
+          <DndInputField
+            type="text"
+            index={index}
+            placeholder="title"
+            icontype="text"
+            inputType="display_text"
             formRegister={formRegister}
             formErrors={formErrors}
             components={components}

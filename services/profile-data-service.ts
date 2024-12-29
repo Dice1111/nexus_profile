@@ -123,8 +123,8 @@ const profileDndComponents: ProfileDndComponent[] = [
     card_id: "1",
     type: "discord",
     category: "link",
-    display_text: "Discord Server",
-    value: "https://discord.com/channels/123456789/987654321",
+    display_text: "Discord Account",
+    value: "dice#3040",
   },
   // GitHub
   {

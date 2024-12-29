@@ -36,7 +36,7 @@ export default function FieldsEditModal() {
         category: PROFILE_COMPONENT_CATEGORY.MAP,
       },
     ],
-    Social: [
+    "Social Accounts": [
       {
         label: "Github",
         type: PROFILE_COMPONENT_TYPE.GITHUB,
@@ -134,7 +134,7 @@ export default function FieldsEditModal() {
         category: PROFILE_COMPONENT_CATEGORY.LINK,
       },
     ],
-    Video: [
+    "Embed Video": [
       {
         label: "YouTube",
         type: PROFILE_COMPONENT_TYPE.YOUTUBE,
