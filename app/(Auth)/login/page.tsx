@@ -30,7 +30,6 @@ export default function LoginPage() {
     const result = loginSchema.safeParse({ email, password });
 
     if (!result.success) {
-      // Map errors to state
       const fieldErrors: { email?: string; password?: string } = {};
       result.error.errors.forEach((err) => {
         if (err.path[0] === "email") fieldErrors.email = err.message;
@@ -40,7 +39,6 @@ export default function LoginPage() {
       return;
     }
 
-    // Clear errors on successful validation
     setErrors({});
     console.log("Validated Email:", email);
     console.log("Validated Password:", password);
@@ -50,12 +48,16 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen items-center justify-center gap-10 px-4 sm:px-8">
-      <h1 className="text-2xl font-bold ">Nexus Nova</h1>
-      <div className="flex flex-col sm:flex-row sm:justify-center gap-24 w-full max-w-4xl">
+    <div className="flex flex-col h-screen items-center justify-center gap-10 bg-primary sm:p-4 ">
+      <h1 className="text-2xl font-bold">Nexus Nova</h1>
+      <div className="flex flex-col sm:flex-row justify-center  gap-10 sm:w-full  ">
         {/* Form Section */}
-        <form onSubmit={handleSubmit} className="bg-primary w-full sm:w-1/2" noValidate>
-          <h1 className="text-2xl flex flex-col items-center font-bold mb-6">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-primary sm:w-[400px] w-96"
+          noValidate
+        >
+          <h1 className="text-2xl text-center font-bold">
             Log in
           </h1>
 
@@ -96,7 +98,7 @@ export default function LoginPage() {
                 style={{ backgroundColor: "transparent", border: "none" }}
                 type="button"
                 onClick={() => setPasswordVisible(!passwordVisible)}
-                className="absolute right-2 top-0 text-sm"
+                className="absolute right-2 top-2 text-sm"
               >
                 {passwordVisible ? (
                   <BiSolidHide size={20} />
@@ -123,29 +125,27 @@ export default function LoginPage() {
           </p>
         </form>
 
-        <div className="h-full border"></div>
+        <div className="h-full border hidden sm:block "></div>
 
         {/* Social Login Section */}
-        <div className="bg-primary flex justify-center items-center w-full sm:w-1/2">
-          <div className="w-full flex flex-col gap-4">
-            <Button className="bg-secondary w-full p-2 flex items-center justify-center rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
+        <div className="bg-primary flex flex-col gap-5 justify-center sm:w-[400px]">
+            <Button className="bg-secondary  p-2 flex items-center justify-center rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
               <FaGoogle />
               Continue with Google
             </Button>
-            <Button className="bg-secondary w-full p-2 flex items-center justify-center gap-2 rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
+            <Button className="bg-secondary p-2 flex items-center justify-center gap-2 rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
               <FaFacebook />
               Continue with Facebook
             </Button>
-            <Button className="bg-secondary w-full p-2 flex items-center justify-center gap-2 rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
+            <Button className="bg-secondary  p-2 flex items-center justify-center gap-2 rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
               <FaApple />
               Continue with Apple
             </Button>
-          </div>
         </div>
       </div>
 
       {/* Footer */}
-      <p className="text-xs text-center w-full">
+      <p className="text-xs text-center">
         Don’t have an account?{" "}
         <Link className="text hover:underline" href="/signup">
           Join Now.
