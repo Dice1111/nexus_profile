@@ -38,26 +38,28 @@ export default async function Page() {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 container mx-auto px-4 pt-4">
-        <h2 className="text-xl font-bold mb-4">Overview</h2>
-        <div className="grid grid-cols-1 xl:grid-cols-6 gap-4">
-          <div className="col-span-1 xl:col-span-2 ">
-            <InfoBox {...TotalViewCountData} />
+      <div className="container mx-auto px-4 pt-4">
+        <h2 className="text-xl font-bold  ">Overview</h2>
+        <div className="grid grid-cols-1 gap-4">
+          <div className="mt-4 grid grid-cols-1 xl:grid-cols-6 gap-4">
+            <div className="col-span-1 xl:col-span-2 ">
+              <InfoBox {...TotalViewCountData} />
+            </div>
+
+            <div className=" col-span-1 xl:col-span-2 ">
+              <InfoBox {...TotalContactSavedCountData} />
+            </div>
+
+            <div className="col-span-1  xl:col-span-2">
+              <InfoBox {...TotalFollowerData} />
+            </div>
           </div>
 
-          <div className=" col-span-1 xl:col-span-2 ">
-            <InfoBox {...TotalContactSavedCountData} />
+          <div>
+            <ConnectionAndVisitorChart
+              chartData={connectionAndVisitorChartData}
+            />
           </div>
-
-          <div className="col-span-1  xl:col-span-2">
-            <InfoBox {...TotalFollowerData} />
-          </div>
-        </div>
-
-        <div>
-          <ConnectionAndVisitorChart
-            chartData={connectionAndVisitorChartData}
-          />
         </div>
       </div>
     </>

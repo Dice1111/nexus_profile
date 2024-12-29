@@ -1,8 +1,13 @@
 "use client";
 import { NavBarProps } from "@/lib/navbar/type";
+import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 
-export default function NavBar<T>({ data, children }: NavBarProps<T>) {
+export default function NavBar<T>({
+  data,
+  children,
+  wrapperClassName,
+}: NavBarProps<T>) {
   const [currentPanel, setCurrentPanel] = useState<T>(data[0].panel);
 
   const renderContent = Array.isArray(children)
@@ -14,7 +19,12 @@ export default function NavBar<T>({ data, children }: NavBarProps<T>) {
 
   return (
     <>
-      <nav className="flex gap-4">
+      <nav
+        className={cn(
+          "flex gap-4 py-4 bg-primary sticky z-10",
+          wrapperClassName ? wrapperClassName : "top-12"
+        )}
+      >
         {data.map((item) => (
           <button
             key={String(item.panel)} // Ensure uniqueness by converting the panel to a string
@@ -29,8 +39,9 @@ export default function NavBar<T>({ data, children }: NavBarProps<T>) {
           </button>
         ))}
       </nav>
+
       {/* Render the content based on the selected panel */}
-      <div className="mt-6">{renderContent}</div>
+      <section className="mt">{renderContent}</section>
     </>
   );
 }

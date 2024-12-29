@@ -32,7 +32,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       <SidebarProvider>
         <DashboardSideBar />
         <SidebarInset className="">
-          <header className="sticky shadow-md z-10  flex h-12 top-0 shrink-0 items-center bg-background ">
+          <header className="sticky shadow-md z-10 flex h-12 top-0 shrink-0 items-center bg-background ">
             <div className="flex items-center gap-2 px-4">
               <SidebarTrigger className="-ml-1" />
             </div>

@@ -63,7 +63,7 @@ export default function SettingAccount({
   };
 
   return (
-    <div>
+    <section>
       <h2 className="text-xl font-bold mb-4">Account Settings</h2>
       <div className="p-6 mx-auto bg-secondary text-secondary-foreground rounded-lg">
         {/* Profile Picture Section */}
@@ -226,6 +226,6 @@ export default function SettingAccount({
           </Button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
