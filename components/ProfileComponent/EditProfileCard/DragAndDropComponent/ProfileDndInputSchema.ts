@@ -191,16 +191,20 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
       .regex(/^\d{10,15}$/, "Phone number must be between 10 and 15 digits"),
   }),
 
+ 
   // WhatsApp
   z.object({
     id: z.string().min(1, "ID cannot be empty"),
     card_id: z.string().min(1, "Card ID cannot be empty"),
     type: z.literal("whatsapp"),
-    category: z.literal("phone"),
+    category: z.literal("link"),
     display_text: z.string().optional(),
     value: z
       .string()
-      .regex(/^\+\d{1,15}$/, "WhatsApp number must be in the format: +{countryCode}{number}"),
+      .regex(
+        /^https:\/\/wa\.me\/\d{1,15}$/,
+        "WhatsApp number must be in the format: https://wa.me/{number}"
+      ),
   }),
 
   // Telegram
@@ -208,13 +212,15 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
     id: z.string().min(1, "ID cannot be empty"),
     card_id: z.string().min(1, "Card ID cannot be empty"),
     type: z.literal("telegram"),
-    category: z.literal("phone"),
+    category: z.literal("link"),
     display_text: z.string().optional(),
     value: z
       .string()
-      .regex(/^@[a-zA-Z0-9_]{1,32}$/, "Telegram username must start with @ and be 1-32 characters long, containing only alphanumeric characters or underscores"),
+      .regex(
+        /^https:\/\/t\.me\/[a-zA-Z0-9_]{1,32}$/,
+        "Telegram username must be in the format: https://t.me/{username} (1-32 characters, alphanumeric or underscores)"
+      ),
   }),
-
   //...........CONFERENCING..................
 // Zoom
 z.object({
