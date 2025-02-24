@@ -16,7 +16,7 @@ import {
   LinkedInEmbed,
   XEmbed,
 } from "react-social-media-embed";
-import { text } from "stream/consumers";
+// import { text } from "stream/consumers";
 
 interface ItemProps {
   item: ProfileDndComponent;

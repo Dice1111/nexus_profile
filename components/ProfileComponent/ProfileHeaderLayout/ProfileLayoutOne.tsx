@@ -1,4 +1,4 @@
-import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
+// import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
 import { ProfileCard } from "@/types/types";
 import Image from "next/image";
 
