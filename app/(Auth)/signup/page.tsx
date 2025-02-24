@@ -15,7 +15,7 @@ const signUpSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z
     .string()
-    .min(8, "Password must be at least 8 characters long")
+    .min(6, "Password must be at least 6 characters long")
     .regex(/[A-Z]/, "Password must include at least one uppercase letter")
     .regex(/[a-z]/, "Password must include at least one lowercase letter")
     .regex(/\d/, "Password must include at least one number")
@@ -42,14 +42,18 @@ export default function SignUp() {
     const result = signUpSchema.safeParse({ username, email, password });
 
     if (!result.success) {
-      const fieldErrors: { username?: string; email?: string; password?: string } = {};
+      const fieldErrors: {
+        username?: string;
+        email?: string;
+        password?: string;
+      } = {};
       result.error.errors.forEach((err) => {
         if (err.path[0] === "username") fieldErrors.username = err.message;
         if (err.path[0] === "email") fieldErrors.email = err.message;
-         if (err.path[0] === "password" && !fieldErrors.password) {
-        fieldErrors.password = err.message; // Capture only the first password error
-      }
-    });
+        if (err.path[0] === "password" && !fieldErrors.password) {
+          fieldErrors.password = err.message; // Capture only the first password error
+        }
+      });
       setErrors(fieldErrors);
       return;
     }
@@ -134,8 +138,9 @@ export default function SignUp() {
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">{errors.password}</p>
             )}
-            <p className="text-[10px] my-2 ">
-              Use 8 or more characters with a mix of letters, numbers & symbols.
+            <p className="text-sm my-2 ">
+              Please include one uppercase letter, one number and one special
+              character.
             </p>
           </div>
 
@@ -148,12 +153,12 @@ export default function SignUp() {
           </Button>
         </form>
 
-        <div className="flex items-center justify-center space-x-2 text-lg">
+        {/* <div className="flex items-center justify-center space-x-2 text-lg">
           <span>OR Continue with</span>
-        </div>
+        </div> */}
 
         {/* Social Login Buttons */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Button
             variant="outline"
             className="bg-foreground flex items-center justify-center w-full space-x-2 text-primary p-4y hover:scale-105 transition"
@@ -175,7 +180,7 @@ export default function SignUp() {
             <FaApple />
             <span>Apple</span>
           </Button>
-        </div>
+        </div> */}
 
         <p className="text-center text-sm">
           Already Have an Account?{" "}

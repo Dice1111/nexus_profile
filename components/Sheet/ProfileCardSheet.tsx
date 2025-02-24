@@ -17,6 +17,7 @@ import {
 import TagAndNote from "./SubComponents/TagAndNote";
 import { CONTACT_TAG_TYPE } from "@/types/enums";
 import { ProfileCard, ProfileDndComponent } from "@/types/types";
+import QRButton from "../QRCodeButton/QRButton";
 
 // Enum for Sheet Variants
 export enum SHEET_VARIENT {
@@ -117,6 +118,10 @@ export default function ProfileCardSheet({
             }
           />
         )}
+        <div className="mt-4">
+          <QRButton profileID={sheetData.cardId} />
+        </div>
+
         <div className="mt-4">
           {profileCardData && profileDndComponents ? (
             <ProfileCardComponent
