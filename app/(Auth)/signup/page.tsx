@@ -1,9 +1,8 @@
 "use client";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FaFacebook, FaGoogle, FaApple } from "react-icons/fa";
-import { BiSolidShow, BiSolidHide } from "react-icons/bi";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { BiSolidHide, BiSolidShow } from "react-icons/bi";
 import { z } from "zod";
 
 // Zod schema for validation

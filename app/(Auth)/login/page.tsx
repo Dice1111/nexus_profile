@@ -4,9 +4,8 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { BiSolidHide, BiSolidShow } from "react-icons/bi";
 import { z } from "zod";
-import { FaGoogle, FaFacebook, FaApple } from "react-icons/fa";
-import { BiSolidShow, BiSolidHide } from "react-icons/bi";
 
 // Define the Zod schema for validation
 const loginSchema = z.object({
