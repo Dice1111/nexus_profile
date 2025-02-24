@@ -7,7 +7,7 @@ import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 import dynamic from "next/dynamic";
 
 const navItems: NavBarNavigation<PROFILE_PANEL>[] = [
-  { label: "Display", panel: PROFILE_PANEL.DESIGN },
+  { label: "Design", panel: PROFILE_PANEL.DESIGN },
   { label: "Fields", panel: PROFILE_PANEL.FIELDS },
   { label: "Information", panel: PROFILE_PANEL.INFORMATION },
   { label: "Preview", panel: PROFILE_PANEL.PREVIEW },

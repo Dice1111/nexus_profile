@@ -11,11 +11,20 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   display_text: z.string().optional(),
   value: z.string().min(1, "Value cannot be empty"), // Ensures `value` is not null or empty
   }),
-  // Text
+  // Heading Text
   z.object({
     id: z.string().min(1, "ID cannot be empty"),
     card_id: z.string().min(1, "Card ID cannot be empty"),
-    type: z.literal("text"),
+    type: z.literal("heading"),
+    category: z.literal("text"),
+    display_text: z.string().optional(),
+    value: z.string().min(1, "Text cannot be empty"),
+  }),
+  // Paragraph Text
+  z.object({
+    id: z.string().min(1, "ID cannot be empty"),
+    card_id: z.string().min(1, "Card ID cannot be empty"),
+    type: z.literal("paragraph"),
     category: z.literal("text"),
     display_text: z.string().optional(),
     value: z.string().min(1, "Text cannot be empty"),

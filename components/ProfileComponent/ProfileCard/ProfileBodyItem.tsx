@@ -16,6 +16,7 @@ import {
   LinkedInEmbed,
   XEmbed,
 } from "react-social-media-embed";
+import { text } from "stream/consumers";
 
 interface ItemProps {
   item: ProfileDndComponent;
@@ -100,11 +101,36 @@ const frameComponents = {
       />
     </div>
   ),
-  [PROFILE_COMPONENT_CATEGORY.TEXT]: (value: string) => (
-    <div className="px-8 pt-8 text-lg font-thin relative">
-      <p>{value}</p>
-    </div>
-  ),
+  [PROFILE_COMPONENT_CATEGORY.TEXT]: (value: string, type: string) => {
+    let text_component = null; // Declare text_component outside the switch
+    switch (type) {
+      case PROFILE_COMPONENT_TYPE.PARAGRAPH:
+        text_component = (
+          <div className="px-8 py-4 text-sm font-thin relative">
+            <p>{value}</p>
+          </div>
+        );
+        break;
+
+      case PROFILE_COMPONENT_TYPE.HEADING:
+        text_component = (
+          <div className="px-8 py-2 text-lg font-thin relative">
+            <p>{value}</p>
+          </div>
+        );
+        break;
+
+      default:
+        text_component = (
+          <div className="px-8 py-4 text-sm font-thin relative">
+            <p>{value}</p>
+          </div>
+        );
+        break;
+    }
+
+    return text_component;
+  },
 
   [PROFILE_COMPONENT_CATEGORY.MAP]: (value: string) => {
     const getEmbedURL = (address: string) => {

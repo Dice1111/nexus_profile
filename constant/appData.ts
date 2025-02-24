@@ -57,7 +57,7 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "102",
     card_id: "1",
-    type: "text",
+    type: "heading",
     category: "text",
     display_text: "Name",
     value: "My Best Image!",
@@ -75,7 +75,7 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "200",
     card_id: "1",
-    type: "text",
+    type: "heading",
     category: "text",
     display_text: "Name",
     value: "My Address",
@@ -103,7 +103,7 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "201",
     card_id: "1",
-    type: "text",
+    type: "heading",
     category: "text",
     display_text: "Name",
     value: "My Social Media Links",

@@ -19,7 +19,7 @@ const ProfileCardComponent = ({
 
   return (
     <div
-      className="  relative  max-w-[400px]  flex flex-col  overflow-hidden rounded-lg"
+      className="relative max-w-[400px] md:w-[400px] flex flex-col overflow-hidden rounded-lg bg-red-300 "
       style={{
         backgroundColor: profileData.background_color,
         color: profileData.foreground_color,
@@ -29,8 +29,7 @@ const ProfileCardComponent = ({
       {layoutComponent}
 
       {/* item area */}
-
-      <div className="flex flex-col gap-3 pb-4  w-full">
+      <div className="flex flex-col gap-3 pb-4 w-full">
         {components.map((item) => (
           <ProfileBodyItem
             key={item.id}

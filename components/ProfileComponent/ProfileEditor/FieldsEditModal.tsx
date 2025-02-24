@@ -19,8 +19,13 @@ export default function FieldsEditModal() {
         category: PROFILE_COMPONENT_CATEGORY.IMAGE,
       },
       {
-        label: "Text",
-        type: PROFILE_COMPONENT_TYPE.TEXT,
+        label: "Heading",
+        type: PROFILE_COMPONENT_TYPE.HEADING,
+        category: PROFILE_COMPONENT_CATEGORY.TEXT,
+      },
+      {
+        label: "Paragraph",
+        type: PROFILE_COMPONENT_TYPE.PARAGRAPH,
         category: PROFILE_COMPONENT_CATEGORY.TEXT,
       },
       {
@@ -28,6 +33,7 @@ export default function FieldsEditModal() {
         type: PROFILE_COMPONENT_TYPE.EMAIL,
         category: PROFILE_COMPONENT_CATEGORY.MAIL,
       },
+
       {
         label: "Link",
         type: PROFILE_COMPONENT_TYPE.LINK,
