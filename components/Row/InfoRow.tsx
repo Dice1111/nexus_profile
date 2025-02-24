@@ -1,8 +1,9 @@
 import { LuDot } from "react-icons/lu"; // Assuming you're using this icon for separator
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "@/components/ui/button"; // Import Button from shadcn
-import { CONTACT_TAG_TYPE } from "@/lib/type";
+
 import PillShapeTag from "../Tag/PillShapeTag";
+import { CONTACT_TAG_TYPE } from "@/types/enums";
 
 interface InfoRowProps {
   fullname: string;

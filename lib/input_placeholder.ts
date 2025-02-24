@@ -1,4 +1,4 @@
-import { PROFILE_COMPONENT_TYPE } from "./type";
+import { PROFILE_COMPONENT_TYPE } from "@/types/enums";
 
 
 export const InputPlaceholder = {
@@ -9,7 +9,6 @@ export const InputPlaceholder = {
     [PROFILE_COMPONENT_TYPE.LINK]: "https://www.example.com", // Example website URL
     [PROFILE_COMPONENT_TYPE.VIDEO]: "https://youtube/dQw4w9WgXcQ", // Example video URL
     [PROFILE_COMPONENT_TYPE.MAP]: "https://goo.gl/maps/XxXXxXxX", // Example Google Maps embed URL
-    [PROFILE_COMPONENT_TYPE.FILE]: "Upload your CV or document here", // Example for file upload
     [PROFILE_COMPONENT_TYPE.FACEBOOK]: "https://facebook.com/username", // Example Facebook profile link
     [PROFILE_COMPONENT_TYPE.TWITTER]: "https://twitter.com/username", // Example Twitter profile link
     [PROFILE_COMPONENT_TYPE.INSTAGRAM]: "https://instagram.com/username", // Example Instagram profile link
@@ -35,6 +34,12 @@ export const InputPlaceholder = {
     [PROFILE_COMPONENT_TYPE.APPLE_PAY]: "Enter Apple Pay details", // Apple Pay (doesn’t have a public link format)
     [PROFILE_COMPONENT_TYPE.GOOGLE_MEET]: "Singapore", // Example Google Meet link
     [PROFILE_COMPONENT_TYPE.MICROSOFT_TEAMS]: "https://teams.microsoft.com/l/meetup-join/abc123", // Example Teams meeting link
-    [PROFILE_COMPONENT_TYPE.INFO]: "Additional information goes here", // Example generic info
+    [PROFILE_COMPONENT_TYPE.INFO]: "Title", // Example generic info
     [PROFILE_COMPONENT_TYPE.ZOOM]: "https://zoom.us/j/123456789", // Example Zoom meeting link
+    [PROFILE_COMPONENT_TYPE.LINKEDIN_POST]: "https://www.linkedin.com/posts/username", // Example LinkedIn post link
+    [PROFILE_COMPONENT_TYPE.FACEBOOK_POST]: "https://www.facebook.com/username/posts/123456789", // Example Facebook post link
+    [PROFILE_COMPONENT_TYPE.INSTAGRAM_POST]: "https://www.instagram.com/username/posts/123456789", // Example Instagram post link
+    [PROFILE_COMPONENT_TYPE.YOUTUBE_POST]: "https://www.youtube.com/watch?v=123456789", // Example YouTube post link
+    [PROFILE_COMPONENT_TYPE.TWITTER_POST]: "https://twitter.com/username/status/123456789", // Example Twitter post link
+    [PROFILE_COMPONENT_TYPE.TIKTOK_POST]: "https://www.tiktok.com/@username/video/123456789", // Example TikTok post link
   };

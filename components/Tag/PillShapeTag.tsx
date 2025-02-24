@@ -1,5 +1,5 @@
+import { CONTACT_TAG_TYPE } from "@/types/enums";
 import React from "react";
-import { CONTACT_TAG_TYPE } from "@/lib/type";
 
 // Define the color scheme for tags
 const TagColorScheme: Record<CONTACT_TAG_TYPE, string> = {

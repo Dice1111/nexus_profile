@@ -1,10 +1,13 @@
 "use client";
 
-import { PROFILE_COMPONENT_CATEGORY, PROFILE_COMPONENT_TYPE } from "@/lib/type";
 import { typeIconMap } from "@/lib/icon";
 import { Button } from "@/components/ui/button";
 import { useProfileContext } from "@/context/profileContext";
 import { v4 as uuidv4 } from "uuid"; // Import uuid for generating unique IDs
+import {
+  PROFILE_COMPONENT_TYPE,
+  PROFILE_COMPONENT_CATEGORY,
+} from "@/types/enums";
 
 export default function FieldsEditModal() {
   // Data categorized by type
@@ -36,7 +39,7 @@ export default function FieldsEditModal() {
         category: PROFILE_COMPONENT_CATEGORY.MAP,
       },
     ],
-    "Social Accounts": [
+    Accounts: [
       {
         label: "Github",
         type: PROFILE_COMPONENT_TYPE.GITHUB,
@@ -80,6 +83,26 @@ export default function FieldsEditModal() {
       {
         label: "Discord",
         type: PROFILE_COMPONENT_TYPE.DISCORD,
+        category: PROFILE_COMPONENT_CATEGORY.LINK,
+      },
+      {
+        label: "YouTube",
+        type: PROFILE_COMPONENT_TYPE.YOUTUBE,
+        category: PROFILE_COMPONENT_CATEGORY.LINK,
+      },
+      {
+        label: "Twitch",
+        type: PROFILE_COMPONENT_TYPE.TWITCH,
+        category: PROFILE_COMPONENT_CATEGORY.LINK,
+      },
+      {
+        label: "Dribbble",
+        type: PROFILE_COMPONENT_TYPE.DRIBBBLE,
+        category: PROFILE_COMPONENT_CATEGORY.LINK,
+      },
+      {
+        label: "Behance",
+        type: PROFILE_COMPONENT_TYPE.BEHANCE,
         category: PROFILE_COMPONENT_CATEGORY.LINK,
       },
     ],
@@ -134,47 +157,68 @@ export default function FieldsEditModal() {
         category: PROFILE_COMPONENT_CATEGORY.LINK,
       },
     ],
-    "Embed Video": [
+    Posts: [
       {
-        label: "YouTube",
-        type: PROFILE_COMPONENT_TYPE.YOUTUBE,
-        category: PROFILE_COMPONENT_CATEGORY.VIDEO,
+        label: "YouTube Video",
+        type: PROFILE_COMPONENT_TYPE.YOUTUBE_POST,
+        category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
       },
       {
-        label: "Twitch",
-        type: PROFILE_COMPONENT_TYPE.TWITCH,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
-      },
-    ],
-    Music: [
-      {
-        label: "Spotify",
-        type: PROFILE_COMPONENT_TYPE.SPOTIFY,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
+        label: "Facebook Post",
+        type: PROFILE_COMPONENT_TYPE.FACEBOOK_POST,
+        category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
       },
       {
-        label: "Apple Music",
-        type: PROFILE_COMPONENT_TYPE.APPLE_MUSIC,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
+        label: "Twitter Post",
+        type: PROFILE_COMPONENT_TYPE.TWITTER_POST,
+        category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
       },
       {
-        label: "Amazon Music",
-        type: PROFILE_COMPONENT_TYPE.AMAZON_MUSIC,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
-      },
-    ],
-    Design: [
-      {
-        label: "Dribbble",
-        type: PROFILE_COMPONENT_TYPE.DRIBBBLE,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
+        label: "Instagram Post",
+        type: PROFILE_COMPONENT_TYPE.INSTAGRAM_POST,
+        category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
       },
       {
-        label: "Behance",
-        type: PROFILE_COMPONENT_TYPE.BEHANCE,
-        category: PROFILE_COMPONENT_CATEGORY.LINK,
+        label: "LinkedIn Post",
+        type: PROFILE_COMPONENT_TYPE.LINKEDIN_POST,
+        category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
+      },
+      {
+        label: "TikTok Post",
+        type: PROFILE_COMPONENT_TYPE.TIKTOK_POST,
+        category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
       },
     ],
+
+    Files: [
+      {
+        label: "Word",
+        type: PROFILE_COMPONENT_TYPE.MICROSOFT_WORD,
+        category: PROFILE_COMPONENT_CATEGORY.FILE,
+      },
+      {
+        label: "PDF",
+        type: PROFILE_COMPONENT_TYPE.PDF,
+        category: PROFILE_COMPONENT_CATEGORY.FILE,
+      },
+    ],
+    // Music: [
+    //   {
+    //     label: "Spotify",
+    //     type: PROFILE_COMPONENT_TYPE.SPOTIFY,
+    //     category: PROFILE_COMPONENT_CATEGORY.LINK,
+    //   },
+    //   {
+    //     label: "Apple Music",
+    //     type: PROFILE_COMPONENT_TYPE.APPLE_MUSIC,
+    //     category: PROFILE_COMPONENT_CATEGORY.LINK,
+    //   },
+    //   {
+    //     label: "Amazon Music",
+    //     type: PROFILE_COMPONENT_TYPE.AMAZON_MUSIC,
+    //     category: PROFILE_COMPONENT_CATEGORY.LINK,
+    //   },
+    // ],
   };
 
   // Context for managing profile components
@@ -204,6 +248,13 @@ export default function FieldsEditModal() {
 
     // Update the context with the new component
     setComponents((prevComponents) => [...prevComponents, { ...newComponent }]);
+
+    setTimeout(() => {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight, // Scroll to bottom of the page
+        behavior: "smooth", // Smooth scrolling effect
+      });
+    }, 100);
   };
 
   return (

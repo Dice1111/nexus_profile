@@ -1,5 +1,6 @@
 import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
-import { ProfileCard } from "@/lib/type";
+import { ProfileCard } from "@/types/types";
+
 import Image from "next/image";
 
 interface ProfileLayoutTwoProps {

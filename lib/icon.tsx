@@ -1,36 +1,38 @@
+import { PROFILE_COMPONENT_TYPE } from "@/types/enums";
+import { BsFiletypePdf } from "react-icons/bs";
 import {
+  FaAmazon,
+  FaApple,
+  FaBehance,
+  FaDiscord,
+  FaDribbble,
   FaEnvelope,
-  FaLink,
-  FaGithub,
-  FaLinkedin,
   FaFacebook,
+  FaGithub,
+  FaGoogle,
   FaInstagram,
-  FaTwitter,
-  FaTiktok,
-  FaSnapchat,
-  FaPinterest,
-  FaPhone,
-  FaWhatsapp,
-  FaTelegram,
-  FaVideo,
+  FaLink,
+  FaLinkedin,
+  FaMapMarkerAlt,
   FaMusic,
   FaPaypal,
-  FaGoogle,
-  FaAmazon,
-  FaSpotify,
-  FaYoutube,
-  FaApple,
-  FaDiscord,
+  FaPhone,
+  FaPinterest,
   FaSlack,
+  FaSnapchat,
+  FaSpotify,
+  FaTelegram,
+  FaTiktok,
   FaTwitch,
-  FaDribbble,
-  FaBehance,
-  FaMapMarkerAlt,
+  FaTwitter,
+  FaVideo,
+  FaWhatsapp,
+  FaYoutube,
 } from "react-icons/fa";
-import { PROFILE_COMPONENT_TYPE } from "./type";
-import { PiTextAaLight } from "react-icons/pi";
-import { TbInfoSquareRoundedFilled } from "react-icons/tb";
+import { HiInformationCircle } from "react-icons/hi";
 import { LuImagePlus } from "react-icons/lu";
+import { PiTextAaLight } from "react-icons/pi";
+import { RiFileWord2Fill } from "react-icons/ri";
 
 export const typeIconMap = {
   [PROFILE_COMPONENT_TYPE.EMAIL]: <FaEnvelope />,
@@ -64,8 +66,15 @@ export const typeIconMap = {
   [PROFILE_COMPONENT_TYPE.DRIBBBLE]: <FaDribbble />,
   [PROFILE_COMPONENT_TYPE.BEHANCE]: <FaBehance />,
   [PROFILE_COMPONENT_TYPE.TEXT]: <PiTextAaLight />,
-  [PROFILE_COMPONENT_TYPE.FILE]: <FaLink />,
   [PROFILE_COMPONENT_TYPE.IMAGE]: <LuImagePlus />,
-  [PROFILE_COMPONENT_TYPE.INFO]: <TbInfoSquareRoundedFilled />,
   [PROFILE_COMPONENT_TYPE.ZOOM]: <FaVideo />,
+  [PROFILE_COMPONENT_TYPE.LINKEDIN_POST]: <FaLinkedin />,
+  [PROFILE_COMPONENT_TYPE.FACEBOOK_POST]: <FaFacebook />,
+  [PROFILE_COMPONENT_TYPE.INSTAGRAM_POST]: <FaInstagram />,
+  [PROFILE_COMPONENT_TYPE.YOUTUBE_POST]: <FaYoutube />,
+  [PROFILE_COMPONENT_TYPE.TWITTER_POST]: <FaTwitter />,
+  [PROFILE_COMPONENT_TYPE.TIKTOK_POST]: <FaTiktok />,
+  [PROFILE_COMPONENT_TYPE.MICROSOFT_WORD]: <RiFileWord2Fill />,
+  [PROFILE_COMPONENT_TYPE.PDF]: <BsFiletypePdf />,
+  [PROFILE_COMPONENT_TYPE.INFO]: <HiInformationCircle />,
 };

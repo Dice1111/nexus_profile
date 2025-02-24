@@ -1,6 +1,5 @@
 "use client";
 
-import { CONTACT_TAG_TYPE, ProfileCard, ProfileDndComponent } from "@/lib/type";
 import {
   fetchUserProfileCardData,
   fetchUserProfileDndComponentsData,
@@ -16,6 +15,8 @@ import {
   SheetTitle,
 } from "../ui/sheet";
 import TagAndNote from "./SubComponents/TagAndNote";
+import { CONTACT_TAG_TYPE } from "@/types/enums";
+import { ProfileCard, ProfileDndComponent } from "@/types/types";
 
 // Enum for Sheet Variants
 export enum SHEET_VARIENT {

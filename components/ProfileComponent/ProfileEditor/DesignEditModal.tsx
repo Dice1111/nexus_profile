@@ -19,6 +19,7 @@ import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import { GrFormCheckmark } from "react-icons/gr";
 import Image from "next/image";
+import { ProfileCard } from "@/types/types";
 
 /** Reusable Image Upload Component */
 function ImageUpload({
@@ -110,7 +111,7 @@ export default function DesignEditModal() {
 
   const updateElementColor = useCallback(
     (color: string, selectedElement: ColorableElement) => {
-      setProfileData((prevProfileData) => {
+      setProfileData((prevProfileData: ProfileCard) => {
         const newUpdateProfile = { ...prevProfileData };
 
         // Update only if the color has changed for the selected element

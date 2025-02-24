@@ -10,7 +10,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CONTACT_TAG_TYPE } from "@/lib/type";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -34,8 +33,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ContactWithDetails } from "@/services/contact-service";
 import { ChevronDownIcon } from "lucide-react"; // Optional icon for the dropdown
+import { CONTACT_TAG_TYPE } from "@/types/enums";
+import { ContactWithDetails } from "@/types/types";
 
 interface DataTableProps {
   columns: ColumnDef<ContactWithDetails>[];

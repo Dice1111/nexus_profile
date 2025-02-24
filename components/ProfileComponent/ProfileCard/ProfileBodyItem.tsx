@@ -1,6 +1,21 @@
+"use client";
+
 import { typeIconMap } from "@/lib/icon";
-import { PROFILE_COMPONENT_CATEGORY, ProfileDndComponent } from "@/lib/type";
+import {
+  PROFILE_COMPONENT_CATEGORY,
+  PROFILE_COMPONENT_TYPE,
+} from "@/types/enums";
+import { ProfileDndComponent } from "@/types/types";
+
 import Image from "next/image";
+import {
+  FacebookEmbed,
+  InstagramEmbed,
+  TikTokEmbed,
+  YouTubeEmbed,
+  LinkedInEmbed,
+  XEmbed,
+} from "react-social-media-embed";
 
 interface ItemProps {
   item: ProfileDndComponent;
@@ -90,40 +105,7 @@ const frameComponents = {
       <p>{value}</p>
     </div>
   ),
-  [PROFILE_COMPONENT_CATEGORY.VIDEO]: (value: string) => {
-    const getEmbedURL = (url: string) => {
-      try {
-        const urlObj = new URL(url);
-        if (
-          urlObj.hostname === "www.youtube.com" ||
-          urlObj.hostname === "youtube.com"
-        ) {
-          const videoId = urlObj.searchParams.get("v");
-          return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
-        }
-        if (urlObj.hostname === "youtu.be") {
-          const videoId = urlObj.pathname.substring(1);
-          return `https://www.youtube.com/embed/${videoId}`;
-        }
-        return url; // Return original if it's not a recognized YouTube URL
-      } catch {
-        return url; // Fallback for invalid URLs
-      }
-    };
 
-    const embedURL = getEmbedURL(value);
-
-    return (
-      <div className="relative px-4">
-        <iframe
-          src={embedURL}
-          className="w-full h-80 rounded-lg"
-          allowFullScreen
-          loading="lazy"
-        ></iframe>
-      </div>
-    );
-  },
   [PROFILE_COMPONENT_CATEGORY.MAP]: (value: string) => {
     const getEmbedURL = (address: string) => {
       const encodedAddress = encodeURIComponent(address.trim());
@@ -144,7 +126,65 @@ const frameComponents = {
     );
   },
 
+  [PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED]: (value: string, type: string) => {
+    let embedComponent = null; // Declare embedComponent outside the switch
+
+    switch (type) {
+      case PROFILE_COMPONENT_TYPE.FACEBOOK_POST:
+        embedComponent = <FacebookEmbed url={value} width="100%" />;
+        break;
+      case PROFILE_COMPONENT_TYPE.INSTAGRAM_POST:
+        embedComponent = <InstagramEmbed url={value} width="100%" />;
+        break;
+      case PROFILE_COMPONENT_TYPE.YOUTUBE_POST:
+        embedComponent = (
+          <div className="rounded-lg overflow-hidden h-[350px] w-full ">
+            <YouTubeEmbed url={value} width="100%" />;
+          </div>
+        );
+        break;
+      case PROFILE_COMPONENT_TYPE.TIKTOK_POST:
+        embedComponent = <TikTokEmbed url={value} />;
+        break;
+      case PROFILE_COMPONENT_TYPE.TWITTER_POST:
+        embedComponent = <XEmbed url={value} width="100%" />;
+        break;
+      case PROFILE_COMPONENT_TYPE.LINKEDIN_POST:
+        embedComponent = <LinkedInEmbed url={value} width="100%" />;
+        break;
+      default:
+        embedComponent = <div>Unsupported social media type</div>;
+        break;
+    }
+
+    return (
+      <div className="relative px-4 flex justify-center">{embedComponent}</div>
+    );
+  },
+
   [PROFILE_COMPONENT_CATEGORY.LINK]: (
+    value: string,
+    type: string,
+    display_text: string,
+    background_color: string,
+    foreground_color: string
+  ) => (
+    <a href={value}>
+      <div className="flex items-center gap-5 relative p-2  mx-4 rounded hover:scale-105  transition">
+        <div
+          className=" rounded-full p-2"
+          style={{ backgroundColor: foreground_color, color: background_color }}
+        >
+          {typeIconMap[type as keyof typeof typeIconMap]}
+        </div>
+        <div>
+          <p>{display_text}</p>
+        </div>
+      </div>
+    </a>
+  ),
+
+  [PROFILE_COMPONENT_CATEGORY.FILE]: (
     value: string,
     type: string,
     display_text: string,

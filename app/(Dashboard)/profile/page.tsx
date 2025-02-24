@@ -1,10 +1,9 @@
-import { ProfileCard, ProfileDndComponent } from "@/lib/type";
-
 import {
   fetchUserProfileCardData,
   fetchUserProfileDndComponentsData,
 } from "@/services/profile-data-service";
 import ClientSideProfilePage from "./ClientSideProfilePage";
+import { ProfileCard, ProfileDndComponent } from "@/types/types";
 
 const getProfileCardData = async (): Promise<ProfileCard> => {
   const data = await fetchUserProfileCardData("1");

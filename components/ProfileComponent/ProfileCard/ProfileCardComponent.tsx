@@ -1,6 +1,7 @@
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
-import { ProfileCard, ProfileDndComponent } from "@/lib/type";
+
 import ProfileBodyItem from "./ProfileBodyItem";
+import { ProfileDndComponent, ProfileCard } from "@/types/types";
 
 interface ProfileCardComponentProps {
   components: ProfileDndComponent[];

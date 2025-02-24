@@ -177,6 +177,58 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
       }),
   }),
 
+  // Dribbble
+  z.object({
+    id: z.string().min(1, "ID cannot be empty"),
+    card_id: z.string().min(1, "Card ID cannot be empty"),
+    type: z.literal("dribbble"),
+    category: z.literal("link"),
+    display_text: z.string().optional(),
+    value: z
+      .string()
+      .url("Invalid Dribbble URL")
+      .refine((url) => /^https:\/\/dribbble\.com\/[a-zA-Z0-9_-]+$/.test(url), {
+        message: "Dribbble URL must be in the format: https://dribbble.com/{username}",
+      }),
+  }),
+  // Behance
+  z.object({
+    id: z.string().min(1, "ID cannot be empty"),
+    card_id: z.string().min(1, "Card ID cannot be empty"),
+    type: z.literal("behance"),
+    category: z.literal("link"),
+    display_text: z.string().optional(),
+    value: z
+      .string()
+      .url("Invalid Behance URL")
+      .refine((url) => /^https:\/\/www\.behance\.net\/[a-zA-Z0-9_-]+$/.test(url), {
+        message: "Behance URL must be in the format: https://www.behance.net/{username}",
+      }),
+  }),
+
+  // YouTube
+  z.object({
+    id: z.string().min(1, "ID cannot be empty"),
+    card_id: z.string().min(1, "Card ID cannot be empty"),
+    type: z.literal("youtube"),
+    category: z.literal("link"),
+    display_text: z.string().optional(),
+    value: z
+      .string()
+      .url("Invalid YouTube URL")
+      .refine(
+        (url) =>
+          /^https:\/\/(www\.)?youtube\.com\/(@[\w-]+|channel\/[a-zA-Z0-9_-]+)$/.test(
+            url
+          ),
+        {
+          message:
+            "YouTube URL must be in the format: https://www.youtube.com/@username or https://www.youtube.com/channel/{channelId}",
+        }
+      ),
+  }),
+  
+
 
   //.............COMMUNICATION..................
   // Phone
@@ -317,25 +369,7 @@ z.object({
   }),
 
   //.............VIDEOS.......................
-  // YouTube
-  z.object({
-    id: z.string().min(1, "ID cannot be empty"),
-    card_id: z.string().min(1, "Card ID cannot be empty"),
-    type: z.literal("youtube"),
-    category: z.literal("video"),
-    display_text: z.string().optional(),
-    value: z
-      .string()
-      .url("Invalid YouTube URL")
-      .refine(
-        (url) =>
-          /^https:\/\/(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[a-zA-Z0-9_-]+$/.test(url),
-        {
-          message:
-            "YouTube URL must be in the format: https://www.youtube.com/watch?v={videoId} or https://youtu.be/{videoId}",
-        }
-      ),
-  }),
+
 
   // Twitch
   z.object({
@@ -354,79 +388,197 @@ z.object({
 
   //...............MUSIC......................
   // Spotify
+  // z.object({
+  //   id: z.string().min(1, "ID cannot be empty"),
+  //   card_id: z.string().min(1, "Card ID cannot be empty"),
+  //   type: z.literal("spotify"),
+  //   category: z.literal("link"),
+  //   display_text: z.string().optional(),
+  //   value: z
+  //     .string()
+  //     .url("Invalid Spotify URL")
+  //     .refine((url) => /^https:\/\/open\.spotify\.com\/.+/.test(url), {
+  //       message: "Spotify URL must be in the format: https://open.spotify.com/{resource}",
+  //     }),
+  // }),
+
+  // // Apple Music
+  // z.object({
+  //   id: z.string().min(1, "ID cannot be empty"),
+  //   card_id: z.string().min(1, "Card ID cannot be empty"),
+  //   type: z.literal("apple_music"),
+  //   category: z.literal("link"),
+  //   display_text: z.string().optional(),
+  //   value: z
+  //     .string()
+  //     .url("Invalid Apple Music URL")
+  //     .refine((url) => /^https:\/\/music\.apple\.com\/.+/.test(url), {
+  //       message: "Apple Music URL must be in the format: https://music.apple.com/{resource}",
+  //     }),
+  // }),
+
+  // // Amazon Music
+  // z.object({
+  //   id: z.string().min(1, "ID cannot be empty"),
+  //   card_id: z.string().min(1, "Card ID cannot be empty"),
+  //   type: z.literal("amazon_music"),
+  //   category: z.literal("link"),
+  //   display_text: z.string().optional(),
+  //   value: z
+  //     .string()
+  //     .url("Invalid Amazon Music URL")
+  //     .refine((url) => /^https:\/\/music\.amazon\.com\/.+/.test(url), {
+  //       message: "Amazon Music URL must be in the format: https://music.amazon.com/{resource}",
+  //     }),
+  // }),
+
+  // Posts
+
+  // Facebook Post
   z.object({
     id: z.string().min(1, "ID cannot be empty"),
     card_id: z.string().min(1, "Card ID cannot be empty"),
-    type: z.literal("spotify"),
-    category: z.literal("link"),
+    type: z.literal("facebook_post"),
+    category: z.literal("social_embed"),
     display_text: z.string().optional(),
     value: z
       .string()
-      .url("Invalid Spotify URL")
-      .refine((url) => /^https:\/\/open\.spotify\.com\/.+/.test(url), {
-        message: "Spotify URL must be in the format: https://open.spotify.com/{resource}",
-      }),
+      .url("Invalid Facebook URL")
+      .refine(
+        (url) =>
+          /^https:\/\/www\.facebook\.com\/[a-zA-Z0-9./-]+\/posts\/[a-zA-Z0-9]+(\/)?$/.test(url) ||
+          /^https:\/\/www\.facebook\.com\/[a-zA-Z0-9./-]+\/posts\/pfbid[a-zA-Z0-9]+(\/)?$/.test(url),
+        {
+          message:
+            "Facebook URL must be in the format: https://www.facebook.com/{pageName}/posts/{postId} or include a valid pfbid.",
+        }
+      ),
+  }),
+  
+
+  // Instagram Post
+  z.object({
+    id: z.string().min(1, "ID cannot be empty"),
+    card_id: z.string().min(1, "Card ID cannot be empty"),
+    type: z.literal("instagram_post"),
+    category: z.literal("social_embed"),
+    display_text: z.string().optional(),
+    value: z
+      .string()
+      .url("Invalid Instagram URL")
+      .refine(
+        (url) =>
+          /^https:\/\/www\.instagram\.com\/p\/[a-zA-Z0-9_-]+\/?(\?.*)?$/.test(url),
+        {
+          message:
+            "Instagram URL must be in the format: https://www.instagram.com/p/{postId}/, optionally including query parameters.",
+        }
+      ),
   }),
 
-  // Apple Music
+  // Twitter Post
   z.object({
     id: z.string().min(1, "ID cannot be empty"),
     card_id: z.string().min(1, "Card ID cannot be empty"),
-    type: z.literal("apple_music"),
-    category: z.literal("link"),
+    type: z.literal("twitter_post"),
+    category: z.literal("social_embed"),
     display_text: z.string().optional(),
     value: z
       .string()
-      .url("Invalid Apple Music URL")
-      .refine((url) => /^https:\/\/music\.apple\.com\/.+/.test(url), {
-        message: "Apple Music URL must be in the format: https://music.apple.com/{resource}",
-      }),
+      .url("Invalid Twitter URL")
+      .refine(
+        (url) => /^https:\/\/twitter\.com\/[a-zA-Z0-9_]+\/status\/[0-9]+$/.test(url),
+        {
+          message:
+            "Twitter URL must be in the format: https://twitter.com/{username}/status/{tweetId}",
+        }
+      ),
   }),
 
-  // Amazon Music
+  // TikTok Post
   z.object({
     id: z.string().min(1, "ID cannot be empty"),
     card_id: z.string().min(1, "Card ID cannot be empty"),
-    type: z.literal("amazon_music"),
-    category: z.literal("link"),
+    type: z.literal("tiktok_post"),
+    category: z.literal("social_embed"),
     display_text: z.string().optional(),
     value: z
       .string()
-      .url("Invalid Amazon Music URL")
-      .refine((url) => /^https:\/\/music\.amazon\.com\/.+/.test(url), {
-        message: "Amazon Music URL must be in the format: https://music.amazon.com/{resource}",
-      }),
+      .url("Invalid TikTok URL")
+      .refine(
+        (url) =>
+          /^https:\/\/www\.tiktok\.com\/@[a-zA-Z0-9_.-]+\/video\/[0-9]+(\?.*)?$/.test(url),
+        {
+          message:
+            "TikTok URL must be in the format: https://www.tiktok.com/@{username}/video/{videoId}",
+        }
+      ),
   }),
 
-  //...................DESIGN.................
-  // Dribbble
+  // LinkedIn Post
   z.object({
     id: z.string().min(1, "ID cannot be empty"),
     card_id: z.string().min(1, "Card ID cannot be empty"),
-    type: z.literal("dribbble"),
-    category: z.literal("link"),
+    type: z.literal("linkedin_post"),
+    category: z.literal("social_embed"),
     display_text: z.string().optional(),
     value: z
       .string()
-      .url("Invalid Dribbble URL")
-      .refine((url) => /^https:\/\/dribbble\.com\/[a-zA-Z0-9_-]+$/.test(url), {
-        message: "Dribbble URL must be in the format: https://dribbble.com/{username}",
-      }),
+      .url("Invalid LinkedIn URL")
+      .refine(
+        (url) =>
+          /^https:\/\/www\.linkedin\.com\/embed\/feed\/update\/urn:li:share:[0-9]+$/.test(
+            url
+          ),
+        {
+          message:
+            "LinkedIn URL must be in the format: https://www.linkedin.com/embed/feed/update/urn:li:share:{postId}",
+        }
+      ),
   }),
-  // Behance
+
+  // YouTube Post
   z.object({
     id: z.string().min(1, "ID cannot be empty"),
     card_id: z.string().min(1, "Card ID cannot be empty"),
-    type: z.literal("behance"),
-    category: z.literal("link"),
+    type: z.literal("youtube_post"),
+    category: z.literal("social_embed"),
     display_text: z.string().optional(),
     value: z
       .string()
-      .url("Invalid Behance URL")
-      .refine((url) => /^https:\/\/www\.behance\.net\/[a-zA-Z0-9_-]+$/.test(url), {
-        message: "Behance URL must be in the format: https://www.behance.net/{username}",
-      }),
+      .url("Invalid YouTube URL")
+      .refine(
+        (url) => /^https:\/\/www\.youtube\.com\/watch\?v=[a-zA-Z0-9_-]+$/.test(url),
+        {
+          message:
+            "YouTube URL must be in the format: https://www.youtube.com/watch?v={videoId}",
+        }
+      ),
   }),
+
+  //....................................FILE.........................
+
+  //WORD
+  z.object({
+    id: z.string().min(1, "ID cannot be empty"),
+    card_id: z.string().min(1, "Card ID cannot be empty"),
+    type: z.literal("microsoft_word"),
+    category: z.literal("file"),
+    display_text: z.string().optional(),
+    value: z.string().min(1, "Value cannot be empty"),
+  }),
+
+  //PDF
+  z.object({
+    id: z.string().min(1, "ID cannot be empty"),
+    card_id: z.string().min(1, "Card ID cannot be empty"),
+    type: z.literal("pdf"),
+    category: z.literal("file"),
+    display_text: z.string().optional(),
+    value: z.string().min(1, "Value cannot be empty"),
+  }),
+
+  
 
 
 ]);

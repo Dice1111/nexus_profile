@@ -1,7 +1,8 @@
 "use client";
 
 import InfoRow from "@/components/Row/InfoRow";
-import { ContactWithDetails } from "@/services/contact-service";
+import { ContactWithDetails } from "@/types/types";
+
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 

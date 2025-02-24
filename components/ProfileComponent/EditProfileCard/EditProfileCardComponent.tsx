@@ -17,11 +17,12 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { ProfileDndComponent } from "@/lib/type";
+
 import { profileDndInputSchema } from "./DragAndDropComponent/ProfileDndInputSchema";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
+import { ProfileDndComponent } from "@/types/types";
 
 const EditProfileCardComponent = () => {
   const context = useProfileContext();

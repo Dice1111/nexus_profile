@@ -1,5 +1,5 @@
 
-import { ProfileCard, ProfileDndComponent } from "@/lib/type";
+import { ProfileDndComponent, ProfileCard } from "@/types/types";
 import React, { createContext, useContext } from "react";
 
 export interface ProfileContextType {
