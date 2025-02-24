@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CONTACT_TAG_TYPE } from "@/lib/type";
+
 import { Button } from "../../ui/button";
 import {
   DropdownMenu,
@@ -12,6 +12,7 @@ import {
 import { Input } from "../../ui/input";
 import PillShapeTag from "../../Tag/PillShapeTag";
 import { ChevronDownIcon } from "lucide-react";
+import { CONTACT_TAG_TYPE } from "@/types/enums";
 
 interface TagAndNoteProps {
   tag: CONTACT_TAG_TYPE;

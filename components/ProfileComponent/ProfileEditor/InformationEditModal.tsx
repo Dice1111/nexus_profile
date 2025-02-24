@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useProfileContext } from "@/context/profileContext";
+import { ProfileCard } from "@/types/types";
 
 type Field = {
   id: string;
@@ -72,7 +73,7 @@ export default function InformationEditModal() {
   const { profileData, setProfileData } = context;
 
   const handleChange = (id: string, value: string) => {
-    setProfileData((prevData) => ({
+    setProfileData((prevData: ProfileCard) => ({
       ...prevData,
       [id]: value,
     }));

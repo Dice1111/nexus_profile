@@ -1,12 +1,12 @@
 "use client";
 
-import { ConnectionRequestWithDetails } from "@/services/contact-service";
 import { useState } from "react";
 import InfoRow from "../Row/InfoRow";
 import ProfileCardSheet, {
   RequestSheetVarient,
   SHEET_VARIENT,
 } from "../Sheet/ProfileCardSheet";
+import { ConnectionRequestWithDetails } from "@/types/types";
 
 interface ConnectionRequestListProps {
   data: ConnectionRequestWithDetails[];

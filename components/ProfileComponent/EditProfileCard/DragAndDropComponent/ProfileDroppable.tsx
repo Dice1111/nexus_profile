@@ -5,11 +5,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { useProfileContext } from "@/context/profileContext";
 import { typeIconMap } from "@/lib/icon";
 import { InputPlaceholder } from "@/lib/input_placeholder";
-import { PROFILE_COMPONENT_CATEGORY, ProfileDndComponent } from "@/lib/type";
+import { PROFILE_COMPONENT_CATEGORY } from "@/types/enums";
+import { ProfileDndComponent } from "@/types/types";
+
+import { UploadButton } from "@/util/uploadthing";
+
 import { DraggableAttributes } from "@dnd-kit/core";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+
 import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
@@ -56,7 +61,7 @@ const DndComponentHeader = ({
       style={{ touchAction: "none" }}
     >
       <RxDragHandleHorizontal size={30} />
-      <h1 className="text-lg font-bold">{item.type}</h1>
+      <h1 className="text-lg font-bold capitalize">{item.type}</h1>
     </div>
     <RxCross1
       onClick={() => handleDelete(item.id, components, setComponents)}
@@ -85,7 +90,7 @@ const DndInputField = <T extends FieldValues>({
   setComponents: Dispatch<SetStateAction<ProfileDndComponent[]>>;
 }) => (
   <>
-    <div className="flex px-2 w-full max-w-sm items-center gap-1.5 bg-transparent rounded">
+    <div className="flex px-2 w-full max-w-sm items-center gap-3 bg-transparent rounded">
       <div>{typeIconMap[type as keyof typeof typeIconMap]}</div>
 
       <Input
@@ -211,6 +216,9 @@ const DndInputFieldBuilder = <T extends FieldValues>({
                 No image uploaded
               </div>
             )}
+            {formErrors && (
+              <p className="text-red-500 text-sm pl-8">{formErrors}</p>
+            )}
             <label
               htmlFor={`upload-${item.id}`}
               className="block bg-primary text-primary-foreground py-2 px-4 mt-2 text-center   rounded-lg cursor-pointer hover:bg-primary/90"
@@ -225,6 +233,72 @@ const DndInputFieldBuilder = <T extends FieldValues>({
               onChange={handleFileChange}
             />
           </div>
+        </div>
+      );
+
+    case PROFILE_COMPONENT_CATEGORY.FILE:
+      return (
+        <div className="flex flex-col items-center gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
+          <DndComponentHeader
+            item={item}
+            components={components}
+            setComponents={setComponents}
+            attributes={attributes}
+            listeners={listeners}
+          />
+          {/* display intital value and updated value */}
+
+          {item.value ? (
+            <a
+              href={item.value}
+              download
+              className="text-blue-500 underline mt-2"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {item.value.slice(0, 30) + (item.value.length > 30 ? "..." : "")}
+            </a>
+          ) : (
+            "No File Uploaded."
+          )}
+          <UploadButton
+            endpoint="pdfUploader"
+            appearance={{
+              allowedContent: {
+                display: "none",
+              },
+              button: {},
+            }}
+            onClientUploadComplete={(res) => {
+              // Do something with the response
+              console.log("Files: ", res);
+
+              const updatedComponents = components.map((component) =>
+                component.id === item.id
+                  ? { ...component, value: res[0].url }
+                  : component
+              );
+              setComponents(updatedComponents);
+
+              alert("Upload Completed");
+            }}
+            onUploadError={(error: Error) => {
+              // Do something with the error.
+              alert(`ERROR! ${error.message}`);
+            }}
+          />
+
+          {formErrors && <p className="text-red-500 text-sm">{formErrors}</p>}
+
+          <DndInputField
+            type="info"
+            index={index}
+            inputType="display_text"
+            formRegister={formRegister}
+            formErrors={formErrors}
+            components={components}
+            setComponents={setComponents}
+          />
         </div>
       );
 
@@ -249,7 +323,7 @@ const DndInputFieldBuilder = <T extends FieldValues>({
           />
 
           <DndInputField
-            type="text"
+            type="info"
             index={index}
             inputType="display_text"
             formRegister={formRegister}

@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ProfileContext } from "@/context/profileContext";
-import { ProfileCard, ProfileDndComponent } from "@/lib/type";
+
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { GiCheckMark } from "react-icons/gi";
@@ -11,6 +11,8 @@ import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 import ProfileEditor from "@/components/ProfileComponent/ProfileEditor/ProfileEditor";
 import dynamic from "next/dynamic";
 import { RxCross2 } from "react-icons/rx";
+import { ProfileDndComponent, ProfileCard } from "@/types/types";
+import QRButton from "@/components/QRCodeButton/QRButton";
 
 interface ProfileProps {
   profileComponentData: ProfileDndComponent[];
@@ -63,46 +65,44 @@ export default function ClientSideProfilePage({
         <div className=" flex flex-col p-4 sm:p-0 gap-5 sm:flex-row justify-center relative">
           <div className="mt-10  gap-5 flex flex-col mx-auto">
             {!isEditing ? (
-              <Button
-                variant="outline"
-                size="icon"
-                type="button"
-                className=" w-20 "
-                onClick={(e) => {
-                  e.preventDefault();
-                  setEditing(true);
-                }}
-              >
-                <CiEdit />
-                Edit
-              </Button>
+              <div className="flex gap-2 justify-end">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setEditing(true);
+                  }}
+                >
+                  <CiEdit />
+                </Button>
+
+                <QRButton profileID={profileData.card_id} />
+              </div>
             ) : (
-              <div className="flex gap-2">
+              <div className="flex gap-2 justify-end">
                 <Button
                   variant="outline"
                   size="icon"
                   type="submit"
                   form="profileForm"
-                  className="w-20"
                   onClick={() => {
                     console.log("save");
                   }}
                 >
                   <GiCheckMark />
-                  Save
                 </Button>
 
                 <Button
                   variant="outline"
                   size="icon"
                   type="button"
-                  className="w-20"
                   onClick={() => {
                     window.location.reload();
                   }}
                 >
                   <RxCross2 />
-                  Cancel
                 </Button>
               </div>
             )}
