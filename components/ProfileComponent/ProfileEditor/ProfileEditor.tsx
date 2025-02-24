@@ -35,7 +35,10 @@ const CardPreviewPage = dynamic(() => import("./CardPreviewPage"), {
 export default function ProfileEditor() {
   return (
     <div
-      className=" sm:max-w-[500px] w-full border-t-2 sm:border-t-0  sm:sticky sm:top-12 bg-background  sm:shadow-2xl  sm:overflow-auto px-4 flex flex-col gap-3 pb-4"
+      className=" w-full sm:max-w-[500px]  border-t-8 sm:border-t-0 
+      mt-10   sm:mt-0 sm:sticky sm:top-12 bg-background 
+      sm:shadow-2xl overflow-auto px-0 sm:px-4  pb-4 scrollbar-hide
+      "
       style={{ height: `calc(100vh - 48px)` }}
     >
       <NavBar wrapperClassName="top-0" data={navItems}>

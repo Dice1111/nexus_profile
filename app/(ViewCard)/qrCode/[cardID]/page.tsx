@@ -20,7 +20,7 @@ const QRPage = async ({ params }: Props) => {
     const qrCodeUrl = `${DOMAIN_URL}/card/${cardID}`;
 
     return (
-      <div className="flex flex-col justify-center items-center h-screen w-full bg-gradient-to-br from-blue-500 to-indigo-700 p-6">
+      <div className="flex flex-col justify-center items-center h-screen w-full bg-primary p-6">
         {/* QR Code Icon with Animation */}
         <div className="animate-bounce">
           <BsQrCodeScan size={60} className="text-white" />
@@ -39,14 +39,14 @@ const QRPage = async ({ params }: Props) => {
         {/* QR Code Card */}
         <div className="bg-white p-6 mt-6 rounded-xl shadow-xl flex flex-col items-center">
           <QRCodeSVG value={qrCodeUrl} size={180} />
-          <p className="text-gray-600 mt-2 font-semibold text-sm">
+          {/* <p className="text-gray-600 mt-2 font-semibold text-sm">
             {qrCodeUrl}
-          </p>
+          </p> */}
         </div>
 
         {/* Footer */}
         <p className="text-gray-300 text-sm mt-6">
-          Powered by <span className="font-bold">YourApp</span>
+          Powered by <span className="font-bold">Nexus Nova</span>
         </p>
       </div>
     );
