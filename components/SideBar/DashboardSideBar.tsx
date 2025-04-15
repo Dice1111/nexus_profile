@@ -145,7 +145,7 @@ export default function DashboardSideBar() {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg bg-primary text-sidebar-primary-foreground"
+                className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg bg-primary text-sidebar-primary-foreground"
                 side="bottom"
                 align="end"
                 sideOffset={4}

@@ -19,7 +19,7 @@ const QRPage = async ({ params }: Props) => {
     const qrCodeUrl = `${baseUrl}/card/${cardID}`;
 
     return (
-      <div className="flex flex-col justify-center items-center h-screen w-full bg-gradient-to-br from-blue-500 to-indigo-800 p-6">
+      <div className="flex flex-col justify-center items-center h-screen w-full bg-linear-to-br from-blue-500 to-indigo-800 p-6">
         {/* QR Code Icon with Animation */}
         <div className="animate-bounce">
           <BsQrCodeScan size={60} className="text-white" />

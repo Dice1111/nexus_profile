@@ -14,7 +14,7 @@ const QrCode: React.FC<QrCodeButtonProps> = ({ qrCodeUrl }) => {
   return (
     <button
       onClick={handleClick}
-      className="transition-all duration-300 ease-in-out hover:ring-4 hover:ring-red-400 hover:rounded-xl hover:shadow-lg focus:outline-none"
+      className="transition-all duration-300 ease-in-out hover:ring-4 hover:ring-red-400 hover:rounded-xl hover:shadow-lg focus:outline-hidden"
     >
       <div className="bg-white p-6 rounded-xl shadow-md flex flex-col items-center transition-all duration-300">
         <QRCodeSVG value={qrCodeUrl} size={180} />
