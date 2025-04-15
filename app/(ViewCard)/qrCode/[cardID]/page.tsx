@@ -39,9 +39,9 @@ const QRPage = async ({ params }: Props) => {
         {/* QR Code Card */}
         <div className="bg-white p-6 mt-6 rounded-xl shadow-xl flex flex-col items-center">
           <QRCodeSVG value={qrCodeUrl} size={180} />
-          {/* <p className="text-gray-600 mt-2 font-semibold text-sm">
+          <p className="text-gray-600 mt-2 font-semibold text-sm">
             {qrCodeUrl}
-          </p> */}
+          </p>
         </div>
 
         {/* Footer */}
