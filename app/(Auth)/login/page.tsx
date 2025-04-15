@@ -4,9 +4,8 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { BiSolidHide, BiSolidShow } from "react-icons/bi";
 import { z } from "zod";
-import { FaGoogle, FaFacebook, FaApple } from "react-icons/fa";
-import { BiSolidShow, BiSolidHide } from "react-icons/bi";
 
 // Define the Zod schema for validation
 const loginSchema = z.object({
@@ -17,7 +16,9 @@ const loginSchema = z.object({
 export default function LoginPage() {
   const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {}
+  );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,9 +41,6 @@ export default function LoginPage() {
     }
 
     setErrors({});
-    console.log("Validated Email:", email);
-    console.log("Validated Password:", password);
-
     // Simulate successful login and redirect
     router.push("/profile");
   };
@@ -57,9 +55,7 @@ export default function LoginPage() {
           className="bg-primary sm:w-[400px] w-96"
           noValidate
         >
-          <h1 className="text-2xl text-center font-bold">
-            Log in
-          </h1>
+          <h1 className="text-2xl text-center font-bold">Log in</h1>
 
           {/* Email Input */}
           <div className="w-full mb-4">
@@ -94,19 +90,15 @@ export default function LoginPage() {
                   errors.password ? "border-red-500" : "border-gray-300"
                 }`}
               />
-              <Button
-                style={{ backgroundColor: "transparent", border: "none" }}
+              <button
                 type="button"
                 onClick={() => setPasswordVisible(!passwordVisible)}
-                className="absolute right-2 top-2 text-sm"
+                className="absolute inset-y-0 right-3 flex items-center p-0 bg-transparent"
               >
-                {passwordVisible ? (
-                  <BiSolidHide size={20} />
-                ) : (
-                  <BiSolidShow size={20} />
-                )}
-              </Button>
+                {passwordVisible ? <BiSolidHide /> : <BiSolidShow />}
+              </button>
             </div>
+
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">{errors.password}</p>
             )}
@@ -125,23 +117,23 @@ export default function LoginPage() {
           </p>
         </form>
 
-        <div className="h-full border hidden sm:block "></div>
+        {/* <div className="h-full border hidden sm:block "></div> */}
 
         {/* Social Login Section */}
-        <div className="bg-primary flex flex-col gap-5 justify-center sm:w-[400px]">
-            <Button className="bg-secondary  p-2 flex items-center justify-center rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
-              <FaGoogle />
-              Continue with Google
-            </Button>
-            <Button className="bg-secondary p-2 flex items-center justify-center gap-2 rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
-              <FaFacebook />
-              Continue with Facebook
-            </Button>
-            <Button className="bg-secondary  p-2 flex items-center justify-center gap-2 rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
-              <FaApple />
-              Continue with Apple
-            </Button>
-        </div>
+        {/* <div className="bg-primary flex flex-col gap-5 justify-center sm:w-[400px]">
+          <Button className="bg-secondary  p-2 flex items-center justify-center rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
+            <FaGoogle />
+            Continue with Google
+          </Button>
+          <Button className="bg-secondary p-2 flex items-center justify-center gap-2 rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
+            <FaFacebook />
+            Continue with Facebook
+          </Button>
+          <Button className="bg-secondary  p-2 flex items-center justify-center gap-2 rounded text-secondary-foreground hover:bg-gray-200 font-light hover:scale-105 transition">
+            <FaApple />
+            Continue with Apple
+          </Button>
+        </div> */}
       </div>
 
       {/* Footer */}

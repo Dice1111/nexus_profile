@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ChevronsUpDown, GalleryVerticalEnd } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 import { BsFillPersonVcardFill } from "react-icons/bs";
 import { IoMdContacts } from "react-icons/io";
@@ -67,6 +68,11 @@ const data = {
 
 export default function DashboardSideBar() {
   const [activeTeam] = React.useState(data.teams[0]);
+  const router = useRouter();
+
+  const handleSignout = () => {
+    router.push("/login");
+  };
 
   return (
     <Sidebar collapsible="icon" className="shadow-xl">
@@ -139,7 +145,7 @@ export default function DashboardSideBar() {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg bg-primary text-sidebar-primary-foreground"
+                className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg bg-primary text-sidebar-primary-foreground"
                 side="bottom"
                 align="end"
                 sideOffset={4}
@@ -163,7 +169,10 @@ export default function DashboardSideBar() {
                     </div>
                   </div>
                 </DropdownMenuLabel>
-                <DropdownMenuItem className=" flex justify-center items-center border border-primary-foreground rounded-lg py-2 px-2 hover:bg-accent">
+                <DropdownMenuItem
+                  onClick={() => handleSignout()}
+                  className=" flex justify-center items-center border border-primary-foreground rounded-lg py-2 px-2 hover:bg-accent"
+                >
                   Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>

@@ -2,17 +2,14 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { BsQrCodeScan } from "react-icons/bs";
-import { useRouter } from "next/navigation";
 
 interface QRButtonProps {
   profileID: string;
 }
 
 const QRButton = ({ profileID }: QRButtonProps) => {
-  const router = useRouter(); // Move useRouter inside the component
-
   const routeToQRCode = () => {
-    router.push(`/qrCode/${profileID}`); // Use dynamic routing
+    window.open(`/qrCode/${profileID}`, "_blank"); // Opens in a new tab
   };
 
   return (
