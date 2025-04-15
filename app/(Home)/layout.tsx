@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { baseUrl } from "@/lib/utils";
+import { baseUrl } from "@/util/utils";
 
 export const metadata: Metadata = {
   title: "Nexus Nova",

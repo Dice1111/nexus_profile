@@ -892,16 +892,19 @@ export namespace Prisma {
   export type TestMinAggregateOutputType = {
     id: number | null
     name: string | null
+    color: string | null
   }
 
   export type TestMaxAggregateOutputType = {
     id: number | null
     name: string | null
+    color: string | null
   }
 
   export type TestCountAggregateOutputType = {
     id: number
     name: number
+    color: number
     _all: number
   }
 
@@ -917,16 +920,19 @@ export namespace Prisma {
   export type TestMinAggregateInputType = {
     id?: true
     name?: true
+    color?: true
   }
 
   export type TestMaxAggregateInputType = {
     id?: true
     name?: true
+    color?: true
   }
 
   export type TestCountAggregateInputType = {
     id?: true
     name?: true
+    color?: true
     _all?: true
   }
 
@@ -1019,6 +1025,7 @@ export namespace Prisma {
   export type TestGroupByOutputType = {
     id: number
     name: string
+    color: string
     _count: TestCountAggregateOutputType | null
     _avg: TestAvgAggregateOutputType | null
     _sum: TestSumAggregateOutputType | null
@@ -1043,24 +1050,28 @@ export namespace Prisma {
   export type testSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    color?: boolean
   }, ExtArgs["result"]["test"]>
 
   export type testSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    color?: boolean
   }, ExtArgs["result"]["test"]>
 
   export type testSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    color?: boolean
   }, ExtArgs["result"]["test"]>
 
   export type testSelectScalar = {
     id?: boolean
     name?: boolean
+    color?: boolean
   }
 
-  export type testOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["test"]>
+  export type testOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "color", ExtArgs["result"]["test"]>
 
   export type $testPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "test"
@@ -1068,6 +1079,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
+      color: string
     }, ExtArgs["result"]["test"]>
     composites: {}
   }
@@ -1493,6 +1505,7 @@ export namespace Prisma {
   interface testFieldRefs {
     readonly id: FieldRef<"test", 'Int'>
     readonly name: FieldRef<"test", 'String'>
+    readonly color: FieldRef<"test", 'String'>
   }
     
 
@@ -1875,7 +1888,8 @@ export namespace Prisma {
 
   export const TestScalarFieldEnum: {
     id: 'id',
-    name: 'name'
+    name: 'name',
+    color: 'color'
   };
 
   export type TestScalarFieldEnum = (typeof TestScalarFieldEnum)[keyof typeof TestScalarFieldEnum]
@@ -1953,11 +1967,13 @@ export namespace Prisma {
     NOT?: testWhereInput | testWhereInput[]
     id?: IntFilter<"test"> | number
     name?: StringFilter<"test"> | string
+    color?: StringFilter<"test"> | string
   }
 
   export type testOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    color?: SortOrder
   }
 
   export type testWhereUniqueInput = Prisma.AtLeast<{
@@ -1966,11 +1982,13 @@ export namespace Prisma {
     OR?: testWhereInput[]
     NOT?: testWhereInput | testWhereInput[]
     name?: StringFilter<"test"> | string
+    color?: StringFilter<"test"> | string
   }, "id">
 
   export type testOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    color?: SortOrder
     _count?: testCountOrderByAggregateInput
     _avg?: testAvgOrderByAggregateInput
     _max?: testMaxOrderByAggregateInput
@@ -1984,41 +2002,46 @@ export namespace Prisma {
     NOT?: testScalarWhereWithAggregatesInput | testScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"test"> | number
     name?: StringWithAggregatesFilter<"test"> | string
+    color?: StringWithAggregatesFilter<"test"> | string
   }
 
   export type testCreateInput = {
-    id: number
     name: string
+    color: string
   }
 
   export type testUncheckedCreateInput = {
-    id: number
+    id?: number
     name: string
+    color: string
   }
 
   export type testUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
   }
 
   export type testUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
   }
 
   export type testCreateManyInput = {
-    id: number
+    id?: number
     name: string
+    color: string
   }
 
   export type testUpdateManyMutationInput = {
-    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
   }
 
   export type testUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -2050,6 +2073,7 @@ export namespace Prisma {
   export type testCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    color?: SortOrder
   }
 
   export type testAvgOrderByAggregateInput = {
@@ -2059,11 +2083,13 @@ export namespace Prisma {
   export type testMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    color?: SortOrder
   }
 
   export type testMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    color?: SortOrder
   }
 
   export type testSumOrderByAggregateInput = {
@@ -2104,16 +2130,16 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {

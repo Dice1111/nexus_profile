@@ -16,6 +16,7 @@ datasource db {
 }
 
 model test {
-  id   Int    @unique
-  name String
+  id    Int    @id @default(autoincrement())
+  name  String
+  color String
 }
