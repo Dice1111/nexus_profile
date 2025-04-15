@@ -1,6 +1,6 @@
 import QrCode from "@/components/QRCodeButton/QrCode";
 import ShareButton from "@/components/QRCodeButton/ShareButton";
-import { baseUrl } from "@/lib/utils";
+import { baseUrl } from "@/util/utils";
 import { notFound } from "next/navigation";
 import { BsQrCodeScan } from "react-icons/bs";
 
