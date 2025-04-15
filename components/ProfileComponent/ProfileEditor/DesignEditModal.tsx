@@ -9,10 +9,10 @@ import {
   ProfileLayout,
   profileLayouts,
 } from "@/lib/profileCardLayoutData/LayoutData";
-import {
-  svgWaveLayoutData,
-  svgWaveLayouts,
-} from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
+// import {
+//   svgWaveLayoutData,
+//   svgWaveLayouts,
+// } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
 import _throttle from "lodash/throttle";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ColorPicker, useColor } from "react-color-palette";
@@ -77,14 +77,15 @@ export default function DesignEditModal() {
 
   const { profileData, setProfileData } = context;
 
-  const prev_wave = profileData.wave_type;
+  // const prev_wave = profileData.wave_type;
 
   //selection state
 
   const [selectedColor, setSelectedColor] = useColor("ffffff");
 
-  const [selectedWaveLayout, setSelectedWaveLayout] =
-    useState<string>(prev_wave);
+  // const [selectedWaveLayout, setSelectedWaveLayout] =
+  //   useState<string>(prev_wave);
+
   const [selectedProfileLayout, setSelectedProfileLayout] = useState<string>(
     profileData.layout
   );
@@ -93,11 +94,11 @@ export default function DesignEditModal() {
   );
 
   //Selection handler
-  const handleWaveLayoutSelect = (layout: string) => {
-    const updateProfileData = { ...profileData, ["wave_type"]: layout };
-    setProfileData(updateProfileData);
-    setSelectedWaveLayout(layout);
-  };
+  // const handleWaveLayoutSelect = (layout: string) => {
+  //   const updateProfileData = { ...profileData, ["wave_type"]: layout };
+  //   setProfileData(updateProfileData);
+  //   setSelectedWaveLayout(layout);
+  // };
 
   const handleProfileLayoutSelect = (layout: ProfileLayout) => {
     const updateProfileData = { ...profileData, ["layout"]: layout };
@@ -209,7 +210,7 @@ export default function DesignEditModal() {
       </div>
 
       {/* WaveLayouts */}
-      <div>
+      {/* <div>
         <h1 className="text-lg font-thin">Select a WaveLayout</h1>
         <div className="flex flex-wrap gap-4 mt-4">
           {svgWaveLayouts.map((wave) => (
@@ -235,7 +236,7 @@ export default function DesignEditModal() {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Colorable Element Selection */}
       <div>

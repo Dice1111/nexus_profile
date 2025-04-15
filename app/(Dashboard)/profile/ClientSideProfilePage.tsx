@@ -64,6 +64,7 @@ export default function ClientSideProfilePage({
       >
         <div className=" flex flex-col p-4 sm:p-0 gap-5 sm:flex-row justify-center relative">
           <div className="mt-10  gap-5 flex flex-col mx-auto">
+            {/* MANAGE BUTTON */}
             {!isEditing ? (
               <div className="flex gap-2 justify-end">
                 <Button
@@ -107,6 +108,7 @@ export default function ClientSideProfilePage({
               </div>
             )}
 
+            {/* MANAGE MAIN CARD */}
             {isEditing ? (
               <EditProfileCardComponent key="edit" />
             ) : (

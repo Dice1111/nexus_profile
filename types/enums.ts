@@ -3,6 +3,8 @@ export enum PROFILE_COMPONENT_TYPE {
     EMAIL = "email",
     IMAGE = "img",
     TEXT = "text",
+    HEADING = "heading",
+    PARAGRAPH = "paragraph",
     LINK = "link",
     VIDEO = "video",
     MAP = "map",

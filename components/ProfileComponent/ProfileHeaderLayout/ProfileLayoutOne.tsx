@@ -1,4 +1,4 @@
-import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
+// import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
 import { ProfileCard } from "@/types/types";
 import Image from "next/image";
 
@@ -20,13 +20,13 @@ const ProfileLayoutOne = ({ profileData }: ProfileLayoutOneProps) => {
           height={1000}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
-        <div className="absolute bottom-0 w-full ">
+        {/* <div className="absolute bottom-0 w-full ">
           {
             svgWaveLayoutData(profileData.wave_color)[
               profileData.wave_type as keyof typeof svgWaveLayoutData
             ]
           }
-        </div>
+        </div> */}
       </div>
 
       {/* Profile Data */}

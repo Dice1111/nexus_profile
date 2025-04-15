@@ -1,6 +1,6 @@
 import QrCode from "@/components/QRCodeButton/QrCode";
 import ShareButton from "@/components/QRCodeButton/ShareButton";
-import { baseUrl } from "@/lib/utils";
+import { baseUrl } from "@/util/utils";
 import { notFound } from "next/navigation";
 import { BsQrCodeScan } from "react-icons/bs";
 
@@ -19,7 +19,7 @@ const QRPage = async ({ params }: Props) => {
     const qrCodeUrl = `${baseUrl}/card/${cardID}`;
 
     return (
-      <div className="flex flex-col justify-center items-center h-screen w-full bg-linear-to-br from-blue-500 to-indigo-800 p-6">
+      <div className="flex flex-col justify-center items-center h-screen w-full bg-primary p-6">
         {/* QR Code Icon with Animation */}
         <div className="animate-bounce">
           <BsQrCodeScan size={60} className="text-white" />
@@ -45,7 +45,7 @@ const QRPage = async ({ params }: Props) => {
 
         {/* Footer */}
         <p className="text-gray-300 text-sm mt-6">
-          Powered by <span className="font-bold">YourApp</span>
+          Powered by <span className="font-bold">Nexus Nova</span>
         </p>
       </div>
     );

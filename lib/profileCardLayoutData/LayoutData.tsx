@@ -36,5 +36,5 @@ export enum ColorableElement {
 export const colorableElements = [
   ColorableElement.BACKGROUND,
   ColorableElement.FOREGROUND,
-  ColorableElement.WAVE,
+  //ColorableElement.WAVE,
 ];
