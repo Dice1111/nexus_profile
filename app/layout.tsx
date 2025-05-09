@@ -1,8 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 
-import { baseUrl } from "@/lib/utils";
 import { ThemeProvider } from "@/components/ThemeProvider/ThemeProvider";
+import { baseUrl } from "@/util/utils";
 
 export const metadata: Metadata = {
   title: "Nexus Nova",
@@ -25,14 +25,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <main>{children}</main>
-        </ThemeProvider>
+        <main>{children}</main>
       </body>
     </html>
   );

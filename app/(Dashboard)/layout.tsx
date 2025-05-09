@@ -5,9 +5,10 @@ import {
   SidebarInset,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { baseUrl } from "@/lib/utils";
+
 import { Metadata } from "next";
 import { ReactNode } from "react";
+import { baseUrl } from "@/util/utils";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -36,7 +37,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <div className="flex items-center gap-2 px-4">
               <SidebarTrigger className="-ml-1" />
             </div>
-            <LightModeDarkModeButton />
           </header>
           <main>{children}</main>
         </SidebarInset>
