@@ -11,15 +11,13 @@ const navItems: NavBarNavigation<SETTING_PANEL>[] = [
 
 export default async function Page() {
   return (
-    <div className="container px-4 mx-auto">
-      <NavBar data={navItems}>
-        <div id={SETTING_PANEL.GENERAL}>
-          <GeneralSetting />
-        </div>
-        <div id={SETTING_PANEL.ACCOUNT}>
-          <AccountSetting />
-        </div>
-      </NavBar>
-    </div>
+    <NavBar data={navItems}>
+      <div id={SETTING_PANEL.GENERAL}>
+        <GeneralSetting />
+      </div>
+      <div id={SETTING_PANEL.ACCOUNT}>
+        <AccountSetting />
+      </div>
+    </NavBar>
   );
 }

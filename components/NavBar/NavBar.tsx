@@ -21,27 +21,30 @@ export default function NavBar<T>({
     <>
       <nav
         className={cn(
-          "flex gap-4 py-4 bg-primary  sticky z-1",
+          "py-4 sticky bg-primary z-1",
           wrapperClassName ? wrapperClassName : "top-12"
         )}
       >
-        {data.map((item) => (
-          <button
-            key={String(item.panel)} // Ensure uniqueness by converting the panel to a string
-            onClick={() => setCurrentPanel(item.panel)} // Update the selected panel
-            className={`transition ${
-              currentPanel === item.panel
-                ? "border-b-2 font-bold"
-                : "font-thin hover:border-b-2 hover:border-gray-400"
-            }`}
-          >
-            {item.label}
-          </button>
-        ))}
+        <div className="container mx-auto flex gap-4 ">
+          {" "}
+          {data.map((item) => (
+            <button
+              key={String(item.panel)} // Ensure uniqueness by converting the panel to a string
+              onClick={() => setCurrentPanel(item.panel)} // Update the selected panel
+              className={`transition ${
+                currentPanel === item.panel
+                  ? "border-b-2 font-bold"
+                  : "font-thin hover:border-b-2 hover:border-gray-400"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
       </nav>
 
       {/* Render the content based on the selected panel */}
-      <section className="mt-4">{renderContent}</section>
+      <section className="mt-4 container mx-auto">{renderContent}</section>
     </>
   );
 }
