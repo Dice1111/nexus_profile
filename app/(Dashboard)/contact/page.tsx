@@ -11,7 +11,7 @@ const navItems: NavBarNavigation<CONTACT_PANEL>[] = [
 
 export default async function Page() {
   return (
-    <div className="container  px-4 mx-auto">
+    <div className=" container mx-auto   ">
       <NavBar data={navItems}>
         <div id={CONTACT_PANEL.CONNECTION}>
           <ContactPage />
@@ -20,6 +20,9 @@ export default async function Page() {
           <RequestPage />
         </div>
       </NavBar>
+      {/* <div className="bg-yellow-500 h-36 sticky top-12 w-full"></div> */}
+      {/* <ContactPage /> */}
+      {/* <div className="bg-green-900 h-[2000px] w-full"></div> */}
     </div>
   );
 }

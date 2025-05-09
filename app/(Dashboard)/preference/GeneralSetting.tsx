@@ -47,6 +47,18 @@ export default async function GeneralSetting() {
         <SettingToggle {...emailNotification} />
         <div className="border-secondary-foreground/20 border-b"></div>
         <SettingToggle {...news} />
+        <div className="border-secondary-foreground/20 border-b"></div>
+        <SettingToggle {...news} />
+        <div className="border-secondary-foreground/20 border-b"></div>
+        <SettingToggle {...news} />
+        <div className="border-secondary-foreground/20 border-b"></div>
+        <SettingToggle {...news} />
+        <div className="border-secondary-foreground/20 border-b"></div>
+        <SettingToggle {...news} />
+        <div className="border-secondary-foreground/20 border-b"></div>
+        <SettingToggle {...news} />
+        <div className="border-secondary-foreground/20 border-b"></div>
+        <SettingToggle {...news} />
       </div>
     </div>
   );

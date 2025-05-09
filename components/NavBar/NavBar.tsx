@@ -21,7 +21,7 @@ export default function NavBar<T>({
     <>
       <nav
         className={cn(
-          "flex gap-4 py-4 bg-primary sticky z-10",
+          "flex gap-4 py-4 bg-primary  sticky z-1",
           wrapperClassName ? wrapperClassName : "top-12"
         )}
       >
@@ -41,7 +41,7 @@ export default function NavBar<T>({
       </nav>
 
       {/* Render the content based on the selected panel */}
-      <section className="mt">{renderContent}</section>
+      <section className="mt-4">{renderContent}</section>
     </>
   );
 }
