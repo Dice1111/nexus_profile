@@ -1,6 +1,5 @@
+import { baseUrl } from "@/util/utils";
 import type { Metadata } from "next";
-
-import { baseUrl } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Log In",
