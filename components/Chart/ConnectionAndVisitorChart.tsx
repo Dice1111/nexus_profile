@@ -41,11 +41,11 @@ export interface ConnectionAndVisitorChartRowType {
 const chartConfig = {
   view: {
     label: "view",
-    color: "hsl(var(--chart-1))",
+    color: "var(--chart-1)",
   },
   connection: {
     label: "connection",
-    color: "hsl(var(--chart-2))",
+    color: "var(--chart-2)",
   },
 } satisfies ChartConfig;
 
