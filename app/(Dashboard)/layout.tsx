@@ -38,7 +38,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
               <SidebarTrigger className="-ml-1" />
             </div>
           </header>
-          <main>{children}</main>
+          <main className="px-4">{children}</main>
         </SidebarInset>
       </SidebarProvider>
     </div>

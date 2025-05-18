@@ -6,6 +6,4 @@ import { fetchContactData } from "@/services/contact-service";
 export default async function ContactPage() {
   const contactData = await fetchWithTryCatch(fetchContactData);
   return <DataTable columns={columns} data={contactData}></DataTable>;
-
-  // return <div className="h-[4000px]  bg-red-400"></div>;
 }

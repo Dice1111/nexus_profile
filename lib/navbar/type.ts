@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 
 export interface NavBarProps<T> {
   data: NavBarNavigation<T>[]; // Navigation items
-  children: ReactNode[];
+  children: React.ReactElement<{ id: string }>[];
   wrapperClassName?: string;
 }
 

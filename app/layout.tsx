@@ -1,7 +1,5 @@
 import "./globals.css";
 import type { Metadata } from "next";
-
-import { ThemeProvider } from "@/components/ThemeProvider/ThemeProvider";
 import { baseUrl } from "@/util/utils";
 
 export const metadata: Metadata = {

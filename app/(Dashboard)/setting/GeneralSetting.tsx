@@ -1,4 +1,4 @@
-import SettingToggle from "@/components/SettingComponent/SettingToggle";
+import SettingToggleContent from "@/components/SettingComponent/SettingToggleContent";
 import { TOGGLE_TYPE } from "@/lib/setting/enum";
 import { SettingToggleProps } from "@/lib/setting/type";
 import { fetchWithTryCatch } from "@/lib/utils";
@@ -42,11 +42,11 @@ export default async function GeneralSetting() {
     <div>
       <h2 className="text-xl font-bold mb-4">General Setting</h2>
       <div className="gap-2 flex py-2 flex-col bg-secondary text-secondary-foreground  rounded-lg shadow-md">
-        <SettingToggle {...devicePushNotification} />
+        <SettingToggleContent {...devicePushNotification} />
         <div className="border-secondary-foreground/20 border-b"></div>
-        <SettingToggle {...emailNotification} />
+        <SettingToggleContent {...emailNotification} />
         <div className="border-secondary-foreground/20 border-b"></div>
-        <SettingToggle {...news} />
+        <SettingToggleContent {...news} />
       </div>
     </div>
   );

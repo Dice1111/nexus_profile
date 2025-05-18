@@ -99,35 +99,39 @@ export default function ProfileCardSheet({
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetContent className="px-4 py-4 min-w-[360px]  overflow-y-auto">
-        <SheetHeader className="mb-4">
+      <SheetContent className=" min-w-[360px]  overflow-y-auto">
+        <SheetHeader>
           <SheetTitle className="text-xl font-semibold text-primary-foreground">
             {sheetData.fullname}
           </SheetTitle>
           <SheetDescription className="text-sm text-primary-foreground">
             {formatDisplayDate(sheetData.date, sheetVarient)}
           </SheetDescription>
+
+          <div className="mt-4">
+            {sheetVarient === SHEET_VARIENT.CONNECTION && (
+              <TagAndNote
+                tag={(sheetData as ConnectionSheetVarient).tag}
+                note={(sheetData as ConnectionSheetVarient).note}
+                onSaveChanges={(updatedTag, updatedNotes) =>
+                  console.log("Saved changes:", updatedTag, updatedNotes)
+                }
+              />
+            )}
+          </div>
         </SheetHeader>
 
-        {sheetVarient === SHEET_VARIENT.CONNECTION && (
-          <TagAndNote
-            tag={(sheetData as ConnectionSheetVarient).tag}
-            note={(sheetData as ConnectionSheetVarient).note}
-            onSaveChanges={(updatedTag, updatedNotes) =>
-              console.log("Saved changes:", updatedTag, updatedNotes)
-            }
-          />
-        )}
-        <div className="mt-4">
-          <QRButton profileID={sheetData.cardId} />
-        </div>
-
-        <div className="mt-4">
+        <div className=" relative">
           {profileCardData && profileDndComponents ? (
-            <ProfileCardComponent
-              profileData={profileCardData}
-              components={profileDndComponents}
-            />
+            <>
+              <ProfileCardComponent
+                profileData={profileCardData}
+                components={profileDndComponents}
+              />
+              <div className="absolute top-3 left-3 z-20">
+                <QRButton profileID={sheetData.cardId} />
+              </div>
+            </>
           ) : (
             <div className="text-muted-foreground text-center text-sm mt-5">
               No Card to show

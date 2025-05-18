@@ -16,7 +16,7 @@ const handleChangeReceieveNewsStatus = (newState: boolean) => {
   console.log("Receive news status changed to ", newState);
 };
 
-export default function SettingToggle({
+export default function SettingToggleContent({
   label,
   description,
   initialState = false,
@@ -56,7 +56,11 @@ export default function SettingToggle({
 
       {/* Switch */}
       <div className="mt-2">
-        <Switch checked={isToggled} onCheckedChange={handleToggle} />
+        <Switch
+          checked={isToggled}
+          onCheckedChange={handleToggle}
+          className="border-primary data-[state=checked]:bg-green-600"
+        />
       </div>
     </div>
   );

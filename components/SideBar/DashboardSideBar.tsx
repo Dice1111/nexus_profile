@@ -60,7 +60,7 @@ const data = {
     },
     {
       title: "Setting",
-      url: "/preference",
+      url: "/setting",
       icon: IoSettings,
     },
   ],

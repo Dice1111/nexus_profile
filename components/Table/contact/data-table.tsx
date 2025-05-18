@@ -150,7 +150,7 @@ export function DataTable({ columns, data }: DataTableProps) {
       </div>
 
       {/* Table Section */}
-      <div className="bg-secondary text-secondary-foreground rounded-md">
+      <div className="bg-secondary text-primary rounded-md">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

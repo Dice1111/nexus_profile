@@ -19,7 +19,7 @@ const ProfileCardComponent = ({
 
   return (
     <div
-      className="relative max-w-[400px] md:w-[400px] flex flex-col overflow-hidden rounded-lg bg-red-300 "
+      className="relative max-w-[400px]  flex flex-col overflow-hidden rounded-lg bg-red-300 "
       style={{
         backgroundColor: profileData.background_color,
         color: profileData.foreground_color,

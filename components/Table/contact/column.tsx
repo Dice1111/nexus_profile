@@ -12,7 +12,7 @@ export const columns: ColumnDef<ContactWithDetails>[] = [
     header: ({ column }) => (
       <button
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="flex justify-start items-center hover:text-secondary-foreground font-semibold text-base"
+        className="flex justify-start items-center  text-primary hover:text-primary/50 font-semibold text-base cursor-pointer"
       >
         Username
         <ArrowUpDown className="ml-2 h-4 w-4" />

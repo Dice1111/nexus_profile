@@ -117,7 +117,7 @@ export function ConnectionAndVisitorChart({
         {/* Time Range Selector (Select Dropdown) */}
         <Select value={timeRange} onValueChange={setTimeRange}>
           <SelectTrigger
-            className="w-[160px] text-primary-foreground rounded-lg sm:ml-auto"
+            className="w-[160px] text-primary border-primary rounded-lg sm:ml-auto"
             aria-label="Select a value"
           >
             <SelectValue placeholder="Last 3 months" />
