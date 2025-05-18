@@ -1,5 +1,3 @@
-import { ReactElement, ReactNode } from "react";
-
 export interface NavBarProps<T> {
   data: NavBarNavigation<T>[]; // Navigation items
   children: React.ReactElement<{ id: string }>[];

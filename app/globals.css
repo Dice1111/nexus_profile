@@ -24,7 +24,7 @@
   --destructive-foreground: hsl(0 0% 86.67%);
   --border: hsl(0 0% 86.67%);
   --input: hsl(0 0% 86.67%);
-  --ring: hsl(0, 0%, 13%);
+  --ring: hsl(0, 0%, 100%);
   --radius: 0.5rem;
 
   --chart-1: hsl(17 71% 52%);

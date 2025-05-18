@@ -1,14 +1,13 @@
 import DashboardSideBar from "@/components/SideBar/DashboardSideBar";
-import LightModeDarkModeButton from "@/components/LightModeDarkMode/LightModeDarkModeButton";
 import {
-  SidebarProvider,
   SidebarInset,
+  SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
+import { baseUrl } from "@/util/utils";
 import { Metadata } from "next";
 import { ReactNode } from "react";
-import { baseUrl } from "@/util/utils";
 
 export const metadata: Metadata = {
   title: "Dashboard",
