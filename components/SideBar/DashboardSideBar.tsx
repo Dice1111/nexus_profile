@@ -32,7 +32,7 @@ const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    avatar: "/image/profile.jpg",
   },
   teams: [
     {
@@ -131,9 +131,15 @@ export default function DashboardSideBar() {
                   size="lg"
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
-                  <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage src={data.user.avatar} alt={data.user.name} />
-                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <Avatar className="h-8 w-8 rounded-lg bg-background">
+                    <AvatarImage
+                      src={data.user.avatar}
+                      alt={data.user.name}
+                      className="object-cover"
+                    />
+                    <AvatarFallback className="rounded-lg bg-background text-foreground">
+                      CN
+                    </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">
@@ -156,8 +162,11 @@ export default function DashboardSideBar() {
                       <AvatarImage
                         src={data.user.avatar}
                         alt={data.user.name}
+                        className="object-cover"
                       />
-                      <AvatarFallback className="rounded-lg">Cn</AvatarFallback>
+                      <AvatarFallback className="rounded-lg bg-background text-foreground">
+                        Cn
+                      </AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">
