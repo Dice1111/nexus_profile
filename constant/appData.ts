@@ -237,61 +237,61 @@ export const profileDndComponents: ProfileDndComponent[] = [
     value: "https://www.behance.net/johndoe",
   },
   // LINKEDIN_POST
-  {
-    id: "125",
-    card_id: "1",
-    type: "linkedin_post",
-    category: "social_embed",
-    display_text: "LinkedIn Post",
-    value: "https://www.linkedin.com/embed/feed/update/urn:li:share:7329037915160834049",
-  },
+  // {
+  //   id: "125",
+  //   card_id: "1",
+  //   type: "linkedin_post",
+  //   category: "social_embed",
+  //   display_text: "LinkedIn Post",
+  //   value: "https://www.linkedin.com/embed/feed/update/urn:li:share:7329037915160834049",
+  // },
 
-  //TWITTER_TWEET
-  {
-    id: "126",
-    card_id: "1",
-    type: "twitter_post",
-    category: "social_embed",
-    display_text: "Twitter Tweet",
-    value: "https://twitter.com/AppleSupport/status/1873769925375860807",
-  },
-  // INSTAGRAM_POST
-  {
-    id: "127",
-    card_id: "1",
-    type: "instagram_post",
-    category: "social_embed",
-    display_text: "Instagram Post",
-    value: "https://www.instagram.com/p/DEOoN1KunCl/?utm_source=ig_web_copy_link",
-  },
-  // YOUTUBE_VIDEO
-  {
-    id: "128",
-    card_id: "1",
-    type: "youtube_post",
-    category: "social_embed",
-    display_text: "YouTube Video",
-    value: "https://www.youtube.com/watch?v=ekr2nIex040",
-  },
-  //FACEBOOK_POST
-  {
-    id: "129",
-    card_id: "1",
-    type: "facebook_post",
-    category: "social_embed",
-    display_text: "Facebook Post",
-    value: "https://www.facebook.com/Genshinimpact/posts/pfbid02sCNWWoC7aGpE53Wp2Ja1TSLCQwopxyACnMfiiqLxL3ypbqvU8tCXy1cDJoYFrXqCl/",
-  },
+  // //TWITTER_TWEET
+  // {
+  //   id: "126",
+  //   card_id: "1",
+  //   type: "twitter_post",
+  //   category: "social_embed",
+  //   display_text: "Twitter Tweet",
+  //   value: "https://twitter.com/AppleSupport/status/1873769925375860807",
+  // },
+  // // INSTAGRAM_POST
+  // {
+  //   id: "127",
+  //   card_id: "1",
+  //   type: "instagram_post",
+  //   category: "social_embed",
+  //   display_text: "Instagram Post",
+  //   value: "https://www.instagram.com/p/DEOoN1KunCl/?utm_source=ig_web_copy_link",
+  // },
+  // // YOUTUBE_VIDEO
+  // {
+  //   id: "128",
+  //   card_id: "1",
+  //   type: "youtube_post",
+  //   category: "social_embed",
+  //   display_text: "YouTube Video",
+  //   value: "https://www.youtube.com/watch?v=ekr2nIex040",
+  // },
+  // //FACEBOOK_POST
+  // {
+  //   id: "129",
+  //   card_id: "1",
+  //   type: "facebook_post",
+  //   category: "social_embed",
+  //   display_text: "Facebook Post",
+  //   value: "https://www.facebook.com/Genshinimpact/posts/pfbid02sCNWWoC7aGpE53Wp2Ja1TSLCQwopxyACnMfiiqLxL3ypbqvU8tCXy1cDJoYFrXqCl/",
+  // },
 
-  //tiktok_post
-  {
-    id: "130",
-    card_id: "1",
-    type: "tiktok_post",
-    category: "social_embed",
-    display_text: "TikTok Post",
-    value: "https://www.tiktok.com/@wasted.a1/video/7253096002691894530?is_from_webapp=1&sender_device=pc&web_id=7454463793868195344",
-  },
+  // //tiktok_post
+  // {
+  //   id: "130",
+  //   card_id: "1",
+  //   type: "tiktok_post",
+  //   category: "social_embed",
+  //   display_text: "TikTok Post",
+  //   value: "https://www.tiktok.com/@wasted.a1/video/7253096002691894530?is_from_webapp=1&sender_device=pc&web_id=7454463793868195344",
+  // },
 
 ];
 

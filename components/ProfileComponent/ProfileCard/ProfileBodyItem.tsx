@@ -134,11 +134,16 @@ const frameComponents = {
 
   [PROFILE_COMPONENT_CATEGORY.MAP]: (value: string) => {
     const getEmbedURL = (address: string) => {
+      if (!address?.trim()) return "";
       const encodedAddress = encodeURIComponent(address.trim());
       return `https://www.google.com/maps?q=${encodedAddress}&output=embed`;
     };
 
     const embedURL = getEmbedURL(value);
+
+    if (!embedURL) {
+      return <div className="p-4 text-gray-500">No address provided</div>;
+    }
 
     return (
       <div className="relative px-4">
@@ -147,6 +152,9 @@ const frameComponents = {
           className="w-full h-80 rounded-lg"
           allowFullScreen
           loading="lazy"
+          title="Google Maps Embed"
+          aria-label={`Map of ${value}`}
+          referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
     );
