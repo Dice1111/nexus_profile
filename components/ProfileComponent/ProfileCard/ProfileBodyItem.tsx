@@ -1,5 +1,3 @@
-"use client";
-
 import { typeIconMap } from "@/lib/icon";
 import {
   PROFILE_COMPONENT_CATEGORY,

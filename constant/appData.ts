@@ -1,6 +1,6 @@
 
 
-import { CONNECTION_REQUEST_STATUS, CONTACT_TAG_TYPE } from "@/types/enums";
+import { CONNECTION_REQUEST_STATUS, CONTACT_TAG_TYPE, PROFILE_COMPONENT_CATEGORY, PROFILE_COMPONENT_TYPE } from "@/types/enums";
 import { ConnectionRequestWithDetails, ContactWithDetails, ProfileCard, ProfileDndComponent } from "@/types/types";
 
 
@@ -11,8 +11,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "103",
     card_id: "1",
-    type: "email",
-    category: "mail",
+    type: PROFILE_COMPONENT_TYPE.EMAIL,
+    category: PROFILE_COMPONENT_CATEGORY.MAIL,
     display_text: "Work Email",
     value: "john.doe@example.com",
   },
@@ -20,8 +20,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "104",
     card_id: "1",
-    type: "link",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.LINK,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Personal Website",
     value: "https://johndoe.com",
   },
@@ -30,8 +30,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "106",
     card_id: "1",
-    type: "phone",
-    category: "phone",
+    type: PROFILE_COMPONENT_TYPE.PHONE,
+    category: PROFILE_COMPONENT_CATEGORY.PHONE,
     display_text: "Mobile",
     value: "6594832945",
   },
@@ -39,8 +39,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "107",
     card_id: "1",
-    type: "whatsapp",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.WHATSAPP,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "WhatsApp Number",
     value: "https://wa.me/6594832945",
   },
@@ -48,8 +48,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "108",
     card_id: "1",
-    type: "telegram",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.TELEGRAM,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "My Telegram",
     value: "https://t.me/Kyaw_Za_Yan_Naing",
   },
@@ -57,8 +57,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "102",
     card_id: "1",
-    type: "heading",
-    category: "text",
+    type: PROFILE_COMPONENT_TYPE.HEADING,
+    category: PROFILE_COMPONENT_CATEGORY.TEXT,
     display_text: "Name",
     value: "My Best Image!",
   },
@@ -66,8 +66,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "101",
     card_id: "1",
-    type: "img",
-    category: "img",
+    type: PROFILE_COMPONENT_TYPE.IMAGE,
+    category: PROFILE_COMPONENT_CATEGORY.IMAGE,
     display_text: "",
     value: "/image/profile.jpg",
   },
@@ -75,8 +75,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "200",
     card_id: "1",
-    type: "heading",
-    category: "text",
+    type: PROFILE_COMPONENT_TYPE.HEADING,
+    category: PROFILE_COMPONENT_CATEGORY.TEXT,
     display_text: "Name",
     value: "My Address",
   },
@@ -85,8 +85,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "105",
     card_id: "1",
-    type: "map",
-    category: "map",
+    type: PROFILE_COMPONENT_TYPE.MAP,
+    category: PROFILE_COMPONENT_CATEGORY.MAP,
     display_text: "Address",
     value: "Blk 322, Tah Ching Rd, Singapore",
   },
@@ -94,8 +94,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "109",
     card_id: "1",
-    type: "youtube",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.YOUTUBE,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "My Youtube Channel",
     value: "https://www.youtube.com/channel/UCBo1hnzxV9rz3WVsv__Rn1g",
   },
@@ -103,8 +103,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "201",
     card_id: "1",
-    type: "heading",
-    category: "text",
+    type: PROFILE_COMPONENT_TYPE.HEADING,
+    category: PROFILE_COMPONENT_CATEGORY.TEXT,
     display_text: "Name",
     value: "My Social Media Links",
   },
@@ -112,8 +112,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "110",
     card_id: "1",
-    type: "discord",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.DISCORD,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Discord Account",
     value: "dice#3040",
   },
@@ -121,8 +121,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "111",
     card_id: "1",
-    type: "github",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.GITHUB,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "GitHub Profile",
     value: "https://github.com/johndoe",
   },
@@ -130,8 +130,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "112",
     card_id: "1",
-    type: "linkedin",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.LINKEDIN,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "LinkedIn Profile",
     value: "https://www.linkedin.com/in/johndoe",
   },
@@ -139,8 +139,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "113",
     card_id: "1",
-    type: "facebook",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.FACEBOOK,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Facebook Page",
     value: "https://www.facebook.com/johndoe",
   },
@@ -148,8 +148,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "114",
     card_id: "1",
-    type: "instagram",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.INSTAGRAM,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Instagram Profile",
     value: "https://www.instagram.com/johndoe",
   },
@@ -157,8 +157,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "115",
     card_id: "1",
-    type: "twitter",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.TWITTER,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Twitter Profile",
     value: "https://twitter.com/johndoe",
   },
@@ -166,8 +166,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "116",
     card_id: "1",
-    type: "tiktok",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.TIKTOK,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "TikTok Profile",
     value: "https://www.tiktok.com/@johndoe",
   },
@@ -175,8 +175,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "117",
     card_id: "1",
-    type: "pinterest",
-    category: "link",
+    type:  PROFILE_COMPONENT_TYPE.PINTEREST,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Pinterest Board",
     value: "https://www.pinterest.com/johndoe/myboard",
   },
@@ -186,8 +186,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "119",
     card_id: "1",
-    type: "paypal",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.PAYPAL,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "PayPal Link",
     value: "https://www.paypal.com/paypalme/johndoe",
   },
@@ -195,8 +195,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "120",
     card_id: "1",
-    type: "zoom",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.ZOOM,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Zoom Meeting",
     value: "https://zoom.us/j/1234567890",
   },
@@ -204,8 +204,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "121",
     card_id: "1",
-    type: "google_meet",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.GOOGLE_MEET,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Google Meet",
     value: "https://meet.google.com/abc-defg-hij",
   },
@@ -213,8 +213,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "122",
     card_id: "1",
-    type: "microsoft_teams",
-    category: "link",
+    type:   PROFILE_COMPONENT_TYPE.MICROSOFT_TEAMS,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Microsoft Teams Meeting",
     value: "https://teams.microsoft.com/l/meetup-join/abc123",
   },
@@ -222,8 +222,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "123",
     card_id: "1",
-    type: "dribbble",
-    category: "link",
+    type:   PROFILE_COMPONENT_TYPE.DRIBBBLE,
+    category:   PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Dribbble Profile",
     value: "https://dribbble.com/johndoe",
   },
@@ -231,67 +231,67 @@ export const profileDndComponents: ProfileDndComponent[] = [
   {
     id: "124",
     card_id: "1",
-    type: "behance",
-    category: "link",
+    type: PROFILE_COMPONENT_TYPE.BEHANCE,
+    category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Behance Portfolio",
     value: "https://www.behance.net/johndoe",
   },
-  // LINKEDIN_POST
-  // {
-  //   id: "125",
-  //   card_id: "1",
-  //   type: "linkedin_post",
-  //   category: "social_embed",
-  //   display_text: "LinkedIn Post",
-  //   value: "https://www.linkedin.com/embed/feed/update/urn:li:share:7329037915160834049",
-  // },
+  //LINKEDIN_POST
+  {
+    id: "125",
+    card_id: "1",
+    type: PROFILE_COMPONENT_TYPE.LINKEDIN_POST,
+    category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
+    display_text: "LinkedIn Post",
+    value: "https://www.linkedin.com/embed/feed/update/urn:li:share:7329037915160834049",
+  },
 
-  // //TWITTER_TWEET
-  // {
-  //   id: "126",
-  //   card_id: "1",
-  //   type: "twitter_post",
-  //   category: "social_embed",
-  //   display_text: "Twitter Tweet",
-  //   value: "https://twitter.com/AppleSupport/status/1873769925375860807",
-  // },
-  // // INSTAGRAM_POST
-  // {
-  //   id: "127",
-  //   card_id: "1",
-  //   type: "instagram_post",
-  //   category: "social_embed",
-  //   display_text: "Instagram Post",
-  //   value: "https://www.instagram.com/p/DEOoN1KunCl/?utm_source=ig_web_copy_link",
-  // },
-  // // YOUTUBE_VIDEO
-  // {
-  //   id: "128",
-  //   card_id: "1",
-  //   type: "youtube_post",
-  //   category: "social_embed",
-  //   display_text: "YouTube Video",
-  //   value: "https://www.youtube.com/watch?v=ekr2nIex040",
-  // },
-  // //FACEBOOK_POST
-  // {
-  //   id: "129",
-  //   card_id: "1",
-  //   type: "facebook_post",
-  //   category: "social_embed",
-  //   display_text: "Facebook Post",
-  //   value: "https://www.facebook.com/Genshinimpact/posts/pfbid02sCNWWoC7aGpE53Wp2Ja1TSLCQwopxyACnMfiiqLxL3ypbqvU8tCXy1cDJoYFrXqCl/",
-  // },
+  //TWITTER_TWEET
+  {
+    id: "126",
+    card_id: "1",
+    type: PROFILE_COMPONENT_TYPE.TWITTER_POST,
+    category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
+    display_text: "Twitter Tweet",
+    value: "https://twitter.com/AppleSupport/status/1873769925375860807",
+  },
+  // INSTAGRAM_POST
+  {
+    id: "127",
+    card_id: "1",
+    type: PROFILE_COMPONENT_TYPE.INSTAGRAM_POST,
+    category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
+    display_text: "Instagram Post",
+    value: "https://www.instagram.com/p/DEOoN1KunCl/?utm_source=ig_web_copy_link",
+  },
+  // YOUTUBE_VIDEO
+  {
+    id: "128",
+    card_id: "1",
+    type: PROFILE_COMPONENT_TYPE.YOUTUBE_POST,
+    category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
+    display_text: "YouTube Video",
+    value: "https://www.youtube.com/watch?v=ekr2nIex040",
+  },
+  //FACEBOOK_POST
+  {
+    id: "129",
+    card_id: "1",
+    type: PROFILE_COMPONENT_TYPE.FACEBOOK_POST,
+    category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
+    display_text: "Facebook Post",
+    value: "https://www.facebook.com/Genshinimpact/posts/pfbid02sCNWWoC7aGpE53Wp2Ja1TSLCQwopxyACnMfiiqLxL3ypbqvU8tCXy1cDJoYFrXqCl/",
+  },
 
-  // //tiktok_post
-  // {
-  //   id: "130",
-  //   card_id: "1",
-  //   type: "tiktok_post",
-  //   category: "social_embed",
-  //   display_text: "TikTok Post",
-  //   value: "https://www.tiktok.com/@wasted.a1/video/7253096002691894530?is_from_webapp=1&sender_device=pc&web_id=7454463793868195344",
-  // },
+  //tiktok_post
+  {
+    id: "130",
+    card_id: "1",
+    type: PROFILE_COMPONENT_TYPE.TIKTOK_POST,
+    category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
+    display_text: "TikTok Post",
+    value: "https://www.tiktok.com/@wasted.a1/video/7253096002691894530?is_from_webapp=1&sender_device=pc&web_id=7454463793868195344",
+  },
 
 ];
 
