@@ -1,4 +1,4 @@
-import notFound from "@/app/not-found";
+import { notFound } from "next/navigation";
 import ProfileCardComponent from "@/components/ProfileComponent/ProfileCard/ProfileCardComponent";
 import { Button } from "@/components/ui/button";
 import {

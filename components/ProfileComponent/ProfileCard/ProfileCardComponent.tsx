@@ -1,5 +1,4 @@
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
-
 import ProfileBodyItem from "./ProfileBodyItem";
 import { ProfileDndComponent, ProfileCard } from "@/types/types";
 

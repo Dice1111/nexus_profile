@@ -1,14 +1,14 @@
 // types/itemTypes.ts
 
-import { CONNECTION_REQUEST_STATUS, CONTACT_TAG_TYPE } from "./enums";
+import { CONNECTION_REQUEST_STATUS, CONTACT_TAG_TYPE, PROFILE_COMPONENT_CATEGORY, PROFILE_COMPONENT_TYPE } from "./enums";
 
 export type ProfileDndComponent = {
   id: string;
   card_id: string;
-  type: string;
-  category: string;
+  type: PROFILE_COMPONENT_TYPE;
+  category: PROFILE_COMPONENT_CATEGORY;
   display_text: string;
-  value?: string;
+  value: string;
 };
 
 

@@ -18,7 +18,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { profileDndInputSchema } from "./DragAndDropComponent/ProfileDndInputSchema";
+import {
+  ProfileDndComponentSchemaType,
+  profileDndInputSchema,
+} from "./DragAndDropComponent/ProfileDndInputSchema";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
@@ -51,11 +54,14 @@ const EditProfileCardComponent = () => {
     formState: { errors },
     reset,
   } = useForm<{
-    components: ProfileDndComponent[];
+    components: ProfileDndComponentSchemaType[];
   }>({
     mode: "onChange",
+
     resolver: zodResolver(validationSchema),
-    defaultValues: { components },
+    defaultValues: {
+      components: components as ProfileDndComponentSchemaType[],
+    },
   });
 
   // Update schema and reset form when components change
@@ -65,7 +71,7 @@ const EditProfileCardComponent = () => {
         components: z.array(profileDndInputSchema),
       })
     );
-    reset({ components });
+    reset({ components: components as ProfileDndComponentSchemaType[] });
   }, [components, reset]);
 
   // Handle drag end
@@ -84,10 +90,10 @@ const EditProfileCardComponent = () => {
   };
 
   // Handle form submission
-  const onSubmit = (data: { components: ProfileDndComponent[] }) => {
-    console.log("Submitted Data:", data);
-    setComponents(data.components);
+  const onSubmit = (data: { components: ProfileDndComponentSchemaType[] }) => {
+    setComponents(data.components as ProfileDndComponent[]);
     // Add logic to save data to the database
+    console.log("Submitted Data:", data);
     reset();
     setEditing(false);
   };
