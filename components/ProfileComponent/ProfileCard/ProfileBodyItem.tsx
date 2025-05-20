@@ -4,17 +4,13 @@ import {
   PROFILE_COMPONENT_TYPE,
 } from "@/types/enums";
 import { ProfileDndComponent } from "@/types/types";
+import dynamic from "next/dynamic";
 
 import Image from "next/image";
-import {
-  FacebookEmbed,
-  InstagramEmbed,
-  TikTokEmbed,
-  YouTubeEmbed,
-  LinkedInEmbed,
-  XEmbed,
-} from "react-social-media-embed";
-// import { text } from "stream/consumers";
+const SocialEmbed = dynamic(() => import("./SocialEmbed"), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
 
 interface ItemProps {
   item: ProfileDndComponent;
@@ -163,26 +159,26 @@ const frameComponents = {
 
     switch (type) {
       case PROFILE_COMPONENT_TYPE.FACEBOOK_POST:
-        embedComponent = <FacebookEmbed url={value} width="100%" />;
+        embedComponent = <SocialEmbed type="facebook" url={value} />;
         break;
       case PROFILE_COMPONENT_TYPE.INSTAGRAM_POST:
-        embedComponent = <InstagramEmbed url={value} width="100%" />;
+        embedComponent = <SocialEmbed type="instagram" url={value} />;
         break;
       case PROFILE_COMPONENT_TYPE.YOUTUBE_POST:
         embedComponent = (
           <div className="rounded-lg overflow-hidden h-[350px] w-full ">
-            <YouTubeEmbed url={value} width="100%" />;
+            <SocialEmbed type="youtube" url={value} />;
           </div>
         );
         break;
       case PROFILE_COMPONENT_TYPE.TIKTOK_POST:
-        embedComponent = <TikTokEmbed url={value} />;
+        embedComponent = <SocialEmbed type="tiktok" url={value} />;
         break;
       case PROFILE_COMPONENT_TYPE.TWITTER_POST:
-        embedComponent = <XEmbed url={value} width="100%" />;
+        embedComponent = <SocialEmbed type="twitter" url={value} />;
         break;
       case PROFILE_COMPONENT_TYPE.LINKEDIN_POST:
-        embedComponent = <LinkedInEmbed url={value} width="100%" />;
+        embedComponent = <SocialEmbed type="linkedin" url={value} />;
         break;
       default:
         embedComponent = <div>Unsupported social media type</div>;
