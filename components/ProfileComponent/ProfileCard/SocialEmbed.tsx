@@ -13,30 +13,50 @@ type SocialEmbedProps = {
   url: string;
 };
 
+// Extend global Window for social SDKs
+declare global {
+  interface Window {
+    twttr?: {
+      widgets: {
+        load: () => void;
+      };
+    };
+    FB?: {
+      XFBML: {
+        parse: () => void;
+      };
+    };
+    IN?: {
+      parse: () => void;
+    };
+  }
+}
+
 const SocialEmbed = ({ type, url }: SocialEmbedProps) => {
   useEffect(() => {
+    if (typeof window === "undefined") return;
     if (
       type === "twitter" &&
       typeof window !== "undefined" &&
-      (window as any).twttr?.widgets
+      window.twttr?.widgets
     ) {
-      (window as any).twttr.widgets.load();
+      window.twttr.widgets.load();
     }
 
     if (
       type === "facebook" &&
       typeof window !== "undefined" &&
-      (window as any).FB?.XFBML
+      window.FB?.XFBML
     ) {
-      (window as any).FB.XFBML.parse();
+      window.FB.XFBML.parse();
     }
 
     if (
       type === "linkedin" &&
       typeof window !== "undefined" &&
-      (window as any).IN?.parse
+      window.IN?.parse
     ) {
-      (window as any).IN.parse();
+      window.IN.parse();
     }
   }, [type, url]);
 
