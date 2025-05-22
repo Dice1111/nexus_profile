@@ -165,11 +165,7 @@ const frameComponents = {
         embedComponent = <SocialEmbed type="instagram" url={value} />;
         break;
       case PROFILE_COMPONENT_TYPE.YOUTUBE_POST:
-        embedComponent = (
-          <div className="rounded-lg overflow-hidden h-[350px] w-full ">
-            <SocialEmbed type="youtube" url={value} />;
-          </div>
-        );
+        embedComponent = <SocialEmbed type="youtube" url={value} />;
         break;
       case PROFILE_COMPONENT_TYPE.TIKTOK_POST:
         embedComponent = <SocialEmbed type="tiktok" url={value} />;

@@ -363,12 +363,9 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
     category: z.literal(PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED),
     display_text: z.string().optional(),
     value: z.string()
-      .url("Invalid Facebook URL")
-      .refine((url) => /^https:\/\/www\.facebook\.com\/[a-zA-Z0-9./-]+\/posts\/[a-zA-Z0-9]+(\/)?$/.test(url) || 
-        /^https:\/\/www\.facebook\.com\/[a-zA-Z0-9./-]+\/posts\/pfbid[a-zA-Z0-9]+(\/)?$/.test(url), {
-        message: "Facebook URL must be in the format: https://www.facebook.com/{pageName}/posts/{postId} or include a valid pfbid.",
-      }),
   }),
+
+  // ##### NEED TO ADD MORE CONDITION CHECK
 
   // Instagram Post
   z.object({
@@ -379,7 +376,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
     display_text: z.string().optional(),
     value: z.string()
       .url("Invalid Instagram URL")
-      .refine((url) => /^https:\/\/www\.instagram\.com\/p\/[a-zA-Z0-9_-]+\/?(\?.*)?$/.test(url), {
+      .refine((url) => /^https:\/\/www\.instagram\.com\//.test(url), {
         message: "Instagram URL must be in the format: https://www.instagram.com/p/{postId}/, optionally including query parameters.",
       }),
   }),
@@ -393,7 +390,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
     display_text: z.string().optional(),
     value: z.string()
       .url("Invalid Twitter URL")
-      .refine((url) => /^https:\/\/twitter\.com\/[a-zA-Z0-9_]+\/status\/[0-9]+$/.test(url), {
+      .refine((url) => /^https:\/\/twitter\.com\/[a-zA-Z0-9_]+\/status\/[0-9]+(\?.*)?$/.test(url), {
         message: "Twitter URL must be in the format: https://twitter.com/{username}/status/{tweetId}",
       }),
   }),
@@ -421,10 +418,12 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
     display_text: z.string().optional(),
     value: z.string()
       .url("Invalid LinkedIn URL")
-      .refine((url) => /^https:\/\/www\.linkedin\.com\/embed\/feed\/update\/urn:li:share:[0-9]+$/.test(url), {
+      .refine((url) => /^https:\/\/www\.linkedin\.com\/embed\//.test(url), {
         message: "LinkedIn URL must be in the format: https://www.linkedin.com/embed/feed/update/urn:li:share:{postId}",
       }),
   }),
+
+
 
   // YouTube Post
   z.object({
