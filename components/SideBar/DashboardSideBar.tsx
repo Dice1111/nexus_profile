@@ -1,6 +1,10 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Collapsible } from "@/components/ui/collapsible";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,14 +17,17 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
+  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { ChevronsUpDown, GalleryVerticalEnd } from "lucide-react";
+import { ChevronRight, ChevronsUpDown, GalleryVerticalEnd } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
@@ -49,9 +56,20 @@ const data = {
       isActive: true,
     },
     {
+      isCollapsible: true,
       title: "Contact",
-      url: "/contact",
+
       icon: IoMdContacts,
+      subItems: [
+        {
+          title: "Connection",
+          url: "/contact/connection",
+        },
+        {
+          title: "Request",
+          url: "/contact/request",
+        },
+      ],
     },
     {
       title: "Overview",
@@ -59,9 +77,19 @@ const data = {
       icon: IoBarChart,
     },
     {
+      isCollapsible: true,
       title: "Setting",
-      url: "/setting",
       icon: IoSettings,
+      subItems: [
+        {
+          title: "General",
+          url: "/setting/general",
+        },
+        {
+          title: "Account",
+          url: "/setting/account",
+        },
+      ],
     },
   ],
 };
@@ -101,25 +129,57 @@ export default function DashboardSideBar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Menu</SidebarGroupLabel>
-          <SidebarMenu>
-            {data.navMain.map((item) => (
-              <Collapsible
-                key={item.title}
-                asChild
-                defaultOpen={item.isActive}
-                className="group/collapsible"
-              >
-                <SidebarMenuItem>
-                  <Link href={item.url}>
-                    <SidebarMenuButton tooltip={item.title}>
-                      {item.icon && <item.icon />}
-                      <span>{item.title}</span>
-                    </SidebarMenuButton>
-                  </Link>
-                </SidebarMenuItem>
-              </Collapsible>
-            ))}
-          </SidebarMenu>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {data.navMain.map((item) =>
+                item.isCollapsible === true ? (
+                  <Collapsible
+                    key={item.title}
+                    defaultOpen
+                    className="group/collapsible"
+                  >
+                    <SidebarMenuItem>
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton tooltip={item.title}>
+                          {item.icon && <item.icon />}
+                          <span className="text-md">{item.title}</span>
+                          <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <SidebarMenuSub>
+                          {item.subItems.map((subItem) => (
+                            <SidebarMenuSubItem key={subItem.title}>
+                              <Link href={subItem.url}>
+                                <SidebarMenuButton tooltip={subItem.title}>
+                                  <span>{subItem.title}</span>
+                                </SidebarMenuButton>
+                              </Link>
+                            </SidebarMenuSubItem>
+                          ))}
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+                    </SidebarMenuItem>
+                  </Collapsible>
+                ) : (
+                  <Collapsible
+                    defaultOpen
+                    key={item.title}
+                    className="group/collapsible"
+                  >
+                    <SidebarMenuItem>
+                      <Link href={item.url ?? "/"}>
+                        <SidebarMenuButton tooltip={item.title}>
+                          {item.icon && <item.icon />}
+                          <span className="text-md">{item.title}</span>
+                        </SidebarMenuButton>
+                      </Link>
+                    </SidebarMenuItem>
+                  </Collapsible>
+                )
+              )}
+            </SidebarMenu>
+          </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
