@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { ProfileContext } from "@/context/profileContext";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CiEdit } from "react-icons/ci";
 import { GiCheckMark } from "react-icons/gi";
 

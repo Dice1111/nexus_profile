@@ -89,7 +89,7 @@ const SocialEmbed = ({ type, url }: SocialEmbedProps) => {
           className="rounded-lg"
           width="100%"
           height="600"
-          allowFullScreen
+          loading="lazy"
         ></iframe>
       );
     }
@@ -114,6 +114,7 @@ const SocialEmbed = ({ type, url }: SocialEmbedProps) => {
           src={`https://www.tiktok.com/player/v1/${videoId}?&music_info=1&description=1`}
           allow="fullscreen"
           title="test"
+          loading="lazy"
         ></iframe>
       );
     }
@@ -128,7 +129,7 @@ const SocialEmbed = ({ type, url }: SocialEmbedProps) => {
           className="rounded-lg"
           src={`https://www.youtube.com/embed/${videoId}`}
           allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
+          loading="lazy"
         ></iframe>
       );
     }
@@ -153,7 +154,8 @@ const SocialEmbed = ({ type, url }: SocialEmbedProps) => {
           className="rounded-lg"
           width="100%"
           height="400"
-          title="Embedded post"
+          title="linkedin post"
+          loading="lazy"
         ></iframe>
       );
 
