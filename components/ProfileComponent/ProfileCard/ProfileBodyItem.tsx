@@ -144,7 +144,6 @@ const frameComponents = {
         <iframe
           src={embedURL}
           className="w-full h-80 rounded-lg"
-          allowFullScreen
           loading="lazy"
           title="Google Maps Embed"
           aria-label={`Map of ${value}`}

@@ -82,14 +82,14 @@ export const profileDndComponents: ProfileDndComponent[] = [
   },
 
   // Map
-  {
-    id: "105",
-    card_id: "1",
-    type: PROFILE_COMPONENT_TYPE.MAP,
-    category: PROFILE_COMPONENT_CATEGORY.MAP,
-    display_text: "Address",
-    value: "Blk 322, Tah Ching Rd, Singapore",
-  },
+  // {
+  //   id: "105",
+  //   card_id: "1",
+  //   type: PROFILE_COMPONENT_TYPE.MAP,
+  //   category: PROFILE_COMPONENT_CATEGORY.MAP,
+  //   display_text: "Address",
+  //   value: "Blk 322, Tah Ching Rd, Singapore",
+  // },
   // YouTube
   {
     id: "109",
@@ -246,7 +246,7 @@ export const profileDndComponents: ProfileDndComponent[] = [
     value: "https://www.linkedin.com/embed/feed/update/urn:li:share:7329037915160834049",
   },
 
-  //TWITTER_TWEET
+  // //TWITTER_TWEET
   {
     id: "126",
     card_id: "1",
