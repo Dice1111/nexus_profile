@@ -1,3 +1,5 @@
+"use client";
+
 import { useProfileContext } from "@/context/profileContext";
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
 import {

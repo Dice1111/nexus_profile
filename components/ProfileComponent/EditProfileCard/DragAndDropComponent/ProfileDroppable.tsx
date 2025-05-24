@@ -181,18 +181,6 @@ const DndInputFieldBuilder = <T extends FieldValues>({
       );
 
     case PROFILE_COMPONENT_CATEGORY.IMAGE:
-      const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-          const previewURL = URL.createObjectURL(file);
-          const updatedComponents = components.map((component) =>
-            component.id === item.id
-              ? { ...component, value: previewURL }
-              : component
-          );
-          setComponents(updatedComponents);
-        }
-      };
       return (
         <div className="flex flex-col items-center gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
           <DndComponentHeader
@@ -219,23 +207,32 @@ const DndInputFieldBuilder = <T extends FieldValues>({
             {formErrors && (
               <p className="text-red-500 text-sm pl-8">{formErrors}</p>
             )}
-            <label
-              htmlFor={`upload-${item.id}`}
-              className="block bg-primary text-primary-foreground py-2 px-4 mt-2 text-center   rounded-lg cursor-pointer hover:bg-primary/90"
-            >
-              Upload Image
-            </label>
-            <Input
-              id={`upload-${item.id}`}
-              className="hidden "
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
+            <UploadButton
+              endpoint="imageUploader"
+              className="bg-primary px-4 py-1 mt-1 rounded-lg hover:bg-primary/90"
+              appearance={{
+                allowedContent: {
+                  display: "none",
+                },
+                button: {},
+              }}
+              onClientUploadComplete={(res) => {
+                if (res && res.length > 0) {
+                  const updatedComponents = components.map((component) =>
+                    component.id === item.id
+                      ? { ...component, value: res[0].url }
+                      : component
+                  );
+                  setComponents(updatedComponents);
+                }
+              }}
+              onUploadError={(error: Error) => {
+                alert(`ERROR! ${error.message}`);
+              }}
             />
           </div>
         </div>
       );
-
     case PROFILE_COMPONENT_CATEGORY.FILE:
       return (
         <div className="flex flex-col items-center gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
@@ -262,7 +259,8 @@ const DndInputFieldBuilder = <T extends FieldValues>({
             "No File Uploaded."
           )}
           <UploadButton
-            endpoint="pdfUploader"
+            className="bg-primary px-4 py-1 rounded-lg hover:bg-primary/90"
+            endpoint="fileUploader"
             appearance={{
               allowedContent: {
                 display: "none",
@@ -275,7 +273,7 @@ const DndInputFieldBuilder = <T extends FieldValues>({
 
               const updatedComponents = components.map((component) =>
                 component.id === item.id
-                  ? { ...component, value: res[0].url }
+                  ? { ...component, value: res[0].ufsUrl }
                   : component
               );
               setComponents(updatedComponents);
