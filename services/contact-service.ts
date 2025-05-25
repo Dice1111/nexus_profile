@@ -1,9 +1,10 @@
 import { detailsContact, detailsContactData } from "@/constant/appData";
-import { ConnectionRequestWithDetails, ContactWithDetails } from "@/types/types";
-
-
-
-
+import { SearchParams } from "@/lib/url-state";
+import {
+  ConnectionRequestWithDetails,
+  ContactWithDetails,
+} from "@/types/types";
+import { ITEMS_PER_PAGE } from "@/util/contact";
 
 export async function fetchContactData(): Promise<ContactWithDetails[]> {
   //need to combine first,middle and last name to fullname
@@ -12,8 +13,6 @@ export async function fetchContactData(): Promise<ContactWithDetails[]> {
   return data;
 }
 
-
-
 export async function fetchConnectionRequestData(): Promise<
   ConnectionRequestWithDetails[]
 > {
@@ -21,4 +20,19 @@ export async function fetchConnectionRequestData(): Promise<
   return detailsContact;
 }
 
+export async function fetchContactWithPagination(searchParams: SearchParams) {
+  let requestedPage = Math.max(1, Number(searchParams?.page) || 1);
 
+  // const filters = [searchFilter(searchParams.search)];
+
+  // const whereClasue = filters.length > 0 ? filters : undefined;
+  const offset = (requestedPage - 1) * ITEMS_PER_PAGE;
+
+  const paginatedContactData = detailsContactData;
+
+  return paginatedContactData;
+}
+
+export async function fetchTotalContactCount(searchParams: SearchParams) {
+  return 50;
+}

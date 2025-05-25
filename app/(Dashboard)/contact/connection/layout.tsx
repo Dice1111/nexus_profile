@@ -1,3 +1,5 @@
+import { ContactFilter } from "@/components/FilterAndSort/ContactFilter";
+import { ContactSort } from "@/components/FilterAndSort/ContactSort";
 import ContactSearchBar from "@/components/Search/ContactSearchBar";
 import { Metadata } from "next";
 import { ReactNode } from "react";
@@ -12,13 +14,18 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
-    <section>
-      <h2 className="text-xl font-bold mb-4">My Connections</h2>
+    <section className="flex flex-col gap-4">
+      <h2 className="text-xl font-bold">My Connections</h2>
 
-      <div>
+      <div className="flex flex-col justify-between items-center gap-4 md:flex-row ">
         <ContactSearchBar />
+        <div className="flex gap-4 max-md:w-full">
+          <ContactFilter />
+          <ContactSort />
+        </div>
       </div>
-      <div className=" bg-amber-300">{children}</div>
+
+      <div>{children}</div>
     </section>
   );
 }
