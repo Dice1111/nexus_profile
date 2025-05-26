@@ -34,5 +34,5 @@ export async function fetchContactWithPagination(searchParams: SearchParams) {
 }
 
 export async function fetchTotalContactCount(searchParams: SearchParams) {
-  return 50;
+  return 200;
 }

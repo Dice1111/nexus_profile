@@ -17,20 +17,27 @@ interface ContactPaginationProps {
 
 interface OldUrlValueProps {
   searchParams: SearchParams;
-  pageNumber: Number;
 }
 
-const OldUrlValue = ({ searchParams, pageNumber }: OldUrlValueProps) => {
+export const URL_PAGE = "page";
+
+const OldUrlValue = ({ searchParams }: OldUrlValueProps) => {
   return (
-    <div>
-      {Object.entries(searchParams).map(
-        ([key, value]) =>
-          key !== "page" && (
-            <input key={key} type="hidden" name={key} value={value as string} />
-          )
-      )}
-      <input type="hidden" name="page" value={pageNumber.toString()} />
-    </div>
+    <>
+      {Object.entries(searchParams).flatMap(([key, value]) => {
+        if (key === URL_PAGE || value === undefined) return [];
+
+        if (Array.isArray(value)) {
+          return value
+            .filter((v) => v !== undefined)
+            .map((v, i) => (
+              <input key={`${key}-${i}`} type="hidden" name={key} value={v} />
+            ));
+        }
+
+        return <input key={key} type="hidden" name={key} value={value} />;
+      })}
+    </>
   );
 };
 
@@ -72,9 +79,11 @@ export default function ContactPagination({
         {/* Previous */}
         <PaginationItem>
           <Form action={pathname}>
-            <OldUrlValue
-              searchParams={searchParams}
-              pageNumber={currentPage - 1}
+            <OldUrlValue searchParams={searchParams} />
+            <input
+              type="hidden"
+              name={URL_PAGE}
+              value={(currentPage - 1).toString()}
             />
             <Button
               type="submit"
@@ -94,7 +103,8 @@ export default function ContactPagination({
           ) : (
             <PaginationItem key={page}>
               <Form action={pathname}>
-                <OldUrlValue searchParams={searchParams} pageNumber={page} />
+                <OldUrlValue searchParams={searchParams} />
+                <input type="hidden" name={URL_PAGE} value={page.toString()} />
                 <Button
                   type="submit"
                   variant={page === currentPage ? "secondary" : "ghost"}
@@ -111,9 +121,11 @@ export default function ContactPagination({
         {/* Next */}
         <PaginationItem>
           <Form action={pathname}>
-            <OldUrlValue
-              searchParams={searchParams}
-              pageNumber={currentPage + 1}
+            <OldUrlValue searchParams={searchParams} />
+            <input
+              type="hidden"
+              name={URL_PAGE}
+              value={(currentPage + 1).toString()}
             />
             <Button
               type="submit"

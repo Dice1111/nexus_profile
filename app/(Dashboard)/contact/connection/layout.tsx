@@ -1,8 +1,9 @@
 import { ContactFilter } from "@/components/FilterAndSort/ContactFilter";
 import { ContactSort } from "@/components/FilterAndSort/ContactSort";
-import ContactSearchBar from "@/components/Search/ContactSearchBar";
+import Search, { SearchFallback } from "@/components/Search/Search";
+
 import { Metadata } from "next";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Connection",
@@ -18,7 +19,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       <h2 className="text-xl font-bold">My Connections</h2>
 
       <div className="flex flex-col justify-between items-center gap-4 md:flex-row ">
-        <ContactSearchBar />
+        <Suspense fallback={<SearchFallback />}>
+          <Search />
+        </Suspense>
         <div className="flex gap-4 max-md:w-full">
           <ContactFilter />
           <ContactSort />
