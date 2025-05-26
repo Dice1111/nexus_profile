@@ -17,6 +17,7 @@ import Form from "next/form";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { URL_PAGE } from "../Pagination/contact-pagination";
+import { useEffect, useState } from "react";
 
 export const URL_SORT_IEM = "sortItem";
 export const URL_SORT_ORDER = "sortOrder";
@@ -107,7 +108,7 @@ export function ContactSort() {
             <DropdownMenuLabel className="text-sm text-muted-foreground">
               Sort By
             </DropdownMenuLabel>
-            {SortItemsArray.map((item) => (
+            {SortItemsArray.map((item, index) => (
               <label
                 key={item.value}
                 className="flex items-center px-2 py-2 rounded-md text-md capitalize cursor-pointer hover:bg-secondary hover:text-secondary-foreground"
@@ -116,7 +117,9 @@ export function ContactSort() {
                   type="radio"
                   name={URL_SORT_IEM}
                   value={item.value}
-                  defaultChecked={sortedItem === item.value}
+                  defaultChecked={
+                    sortedItem ? sortedItem === item.value : index === 0
+                  }
                   className="mr-3 h-5 w-5 accent-primary"
                 />
                 {item.label}
@@ -131,7 +134,7 @@ export function ContactSort() {
               Order By
             </DropdownMenuLabel>
 
-            {SortOrderArray.map((order) => (
+            {SortOrderArray.map((order, index) => (
               <label
                 key={order.value}
                 className="flex items-center px-2 py-2 rounded-md text-md capitalize cursor-pointer hover:bg-secondary hover:text-secondary-foreground"
@@ -140,7 +143,9 @@ export function ContactSort() {
                   type="radio"
                   name={URL_SORT_ORDER}
                   value={order.value}
-                  defaultChecked={sortedOrder === order.value}
+                  defaultChecked={
+                    sortedOrder ? sortedOrder === order.value : index === 0
+                  }
                   className="mr-3 h-5 w-5 accent-primary"
                 />
                 {order.label}

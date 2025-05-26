@@ -35,7 +35,7 @@ export function useBackpressure(delay: number = 300) {
 
     if (!isUpdatingRef.current) {
       isUpdatingRef.current = true;
-      let currentUpdateCount = updateCountRef.current;
+      const currentUpdateCount = updateCountRef.current;
 
       router.replace(newUrl);
 

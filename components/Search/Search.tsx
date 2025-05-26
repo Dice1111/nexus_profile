@@ -20,16 +20,16 @@ function SearchBase({ initialQuery }: { initialQuery: string }) {
   const { triggerUpdate, formRef, shouldSuspend } = useBackpressure();
 
   const handleSubmit = async (formData: FormData) => {
-    let query = formData.get(URL_SEARCH) as string;
-    let newParams = new URLSearchParams(searchParams);
+    const query = formData.get(URL_SEARCH) as string;
+    const newParams = new URLSearchParams(searchParams);
     newParams.set(URL_SEARCH, query.trim());
     newParams.delete(URL_PAGE);
-    let newURL = `${pathname}?${newParams.toString()}`;
+    const newURL = `${pathname}?${newParams.toString()}`;
     await triggerUpdate(newURL);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newValue = e.target.value;
+    const newValue = e.target.value;
     setInputValue(newValue);
     formRef.current?.requestSubmit();
   };
@@ -75,6 +75,6 @@ export function SearchFallback() {
 }
 
 export default function Search() {
-  let query = useSearchParams().get("search") ?? "";
+  const query = useSearchParams().get("search") ?? "";
   return <SearchBase initialQuery={query} />;
 }

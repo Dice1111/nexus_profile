@@ -69,9 +69,8 @@ export default function ContactPagination({
   totalPages,
   searchParams,
 }: ContactPaginationProps) {
-  if (totalPages <= 1) return null;
-
   const pathname = usePathname();
+  if (totalPages <= 1) return null;
 
   return (
     <Pagination>

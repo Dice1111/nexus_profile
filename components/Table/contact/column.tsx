@@ -4,7 +4,6 @@ import InfoRow from "@/components/Row/InfoRow";
 import { ContactWithDetails } from "@/types/types";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
 
 export const columns: ColumnDef<ContactWithDetails>[] = [
   {
