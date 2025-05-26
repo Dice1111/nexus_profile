@@ -17,7 +17,6 @@ import Form from "next/form";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { URL_PAGE } from "../Pagination/contact-pagination";
-import { useEffect, useState } from "react";
 
 export const URL_SORT_IEM = "sortItem";
 export const URL_SORT_ORDER = "sortOrder";
