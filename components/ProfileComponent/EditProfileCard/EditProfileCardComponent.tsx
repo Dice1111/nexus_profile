@@ -31,11 +31,11 @@ import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
 
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { genUploader } from "uploadthing/client";
+import { ProfileDndComponent } from "@/types/types";
 export const { uploadFiles } = genUploader<OurFileRouter>();
 
 const EditProfileCardComponent = () => {
   const context = useProfileContext();
-
   const { components, profileData, setComponents, isEditing, setEditing } =
     context;
 
@@ -48,6 +48,7 @@ const EditProfileCardComponent = () => {
       components: z.array(profileDndInputSchema),
     })
   );
+
   const layoutComponent =
     profileLayoutData(profileData)[
       profileData.layout as keyof typeof profileLayoutData
@@ -101,6 +102,7 @@ const EditProfileCardComponent = () => {
   }) => {
     //
     // Add logic to save data to the database
+    //Upload to Uploadthing
     const updatedComponents = await Promise.all(
       data.components.map(async (component) => {
         if (component.type === PROFILE_COMPONENT_TYPE.IMAGE) {
@@ -112,7 +114,15 @@ const EditProfileCardComponent = () => {
             files: [file],
           });
 
-          const url = response[0]?.ufsUrl;
+          console.log(response);
+
+          // https://<APP_ID>.ufs.sh/f/<FILE_KEY>
+
+          const file_key = response[0]?.key;
+
+          const url = file_key
+            ? `https://${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}.ufs.sh/f/${file_key}`
+            : null;
 
           return {
             ...component,
@@ -120,15 +130,17 @@ const EditProfileCardComponent = () => {
           };
         }
 
-        setComponents(components);
-
         return component;
       })
     );
 
-    //Upload to Uploadthing
+    console.log("updatedComponents: ", updatedComponents);
 
-    console.log("Submitted Data:", data);
+    //visual update
+    setComponents(updatedComponents as ProfileDndComponent[]);
+
+    console.log("Submitted Data:", components);
+
     reset();
     setEditing(false);
   };

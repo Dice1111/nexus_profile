@@ -5,9 +5,9 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'utfs.io',
-        pathname: '/**',
+        protocol: "https",
+        hostname: `${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}.ufs.sh`,
+        pathname: "/f/*",
       },
     ],
   },
