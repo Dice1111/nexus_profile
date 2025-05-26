@@ -20,14 +20,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { Button } from "@/components/ui/button";
+import { PROFILE_COMPONENT_TYPE } from "@/types/enums";
+import { useEffect, useState } from "react";
 import {
   ProfileDndComponentSchemaType,
   profileDndInputSchema,
 } from "./DragAndDropComponent/ProfileDndInputSchema";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
-import { ProfileDndComponent } from "@/types/types";
+
+import { OurFileRouter } from "@/app/api/uploadthing/core";
+import { genUploader } from "uploadthing/client";
+export const { uploadFiles } = genUploader<OurFileRouter>();
 
 const EditProfileCardComponent = () => {
   const context = useProfileContext();
@@ -92,9 +96,38 @@ const EditProfileCardComponent = () => {
   };
 
   // Handle form submission
-  const onSubmit = (data: { components: ProfileDndComponentSchemaType[] }) => {
-    setComponents(data.components as ProfileDndComponent[]);
+  const onSubmit = async (data: {
+    components: ProfileDndComponentSchemaType[];
+  }) => {
+    //
     // Add logic to save data to the database
+    const updatedComponents = await Promise.all(
+      data.components.map(async (component) => {
+        if (component.type === PROFILE_COMPONENT_TYPE.IMAGE) {
+          const blob = await fetch(component.value).then((r) => r.blob());
+          const file = new File([blob], "uploaded-image.png", {
+            type: blob.type,
+          });
+          const response = await uploadFiles("imageUploader", {
+            files: [file],
+          });
+
+          const url = response[0]?.ufsUrl;
+
+          return {
+            ...component,
+            value: url ?? component.value, // fallback in case of failure
+          };
+        }
+
+        setComponents(components);
+
+        return component;
+      })
+    );
+
+    //Upload to Uploadthing
+
     console.log("Submitted Data:", data);
     reset();
     setEditing(false);

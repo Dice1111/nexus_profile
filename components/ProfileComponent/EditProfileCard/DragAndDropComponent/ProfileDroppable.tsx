@@ -190,7 +190,8 @@ const DndInputFieldBuilder = <T extends FieldValues>({
             attributes={attributes}
             listeners={listeners}
           />
-          <div>
+
+          <div className=" flex flex-col items-center gap-4">
             {item.value ? (
               <Image
                 src={item.value}
@@ -204,35 +205,55 @@ const DndInputFieldBuilder = <T extends FieldValues>({
                 No image uploaded
               </div>
             )}
+
             {formErrors && (
-              <p className="text-red-500 text-sm pl-8">{formErrors}</p>
+              <p className="text-red-500 text-sm pl-8 text-center">
+                {formErrors}
+              </p>
             )}
-            <UploadButton
-              endpoint="imageUploader"
-              className="bg-primary px-4 py-1 mt-1 rounded-lg hover:bg-primary/90"
-              appearance={{
-                allowedContent: {
-                  display: "none",
-                },
-                button: {},
-              }}
-              onClientUploadComplete={(res) => {
-                if (res && res.length > 0) {
-                  const updatedComponents = components.map((component) =>
-                    component.id === item.id
-                      ? { ...component, value: res[0].url }
-                      : component
-                  );
-                  setComponents(updatedComponents);
+
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              id={`file-upload-${item.id}`}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+
+                if (!file) return;
+
+                const MAX_FILE_SIZE_MB = 2;
+                const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
+                if (file.size > MAX_FILE_SIZE_BYTES) {
+                  // Reset input value so selecting the same file again will still trigger onChange
+                  e.target.value = "";
+                  alert(`File size exceeds ${MAX_FILE_SIZE_MB}MB limit.`);
+                  return;
                 }
-              }}
-              onUploadError={(error: Error) => {
-                alert(`ERROR! ${error.message}`);
+
+                const updatedComponents = components.map((component) =>
+                  component.id === item.id
+                    ? {
+                        ...component,
+                        value: URL.createObjectURL(file), // 👈 Store the File object temporarily
+                      }
+                    : component
+                );
+
+                setComponents(updatedComponents);
               }}
             />
+            <label
+              htmlFor={`file-upload-${item.id}`}
+              className="cursor-pointer bg-background text-foreground px-4 py-1.5  rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Choose
+            </label>
           </div>
         </div>
       );
+
     case PROFILE_COMPONENT_CATEGORY.FILE:
       return (
         <div className="flex flex-col items-center gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
