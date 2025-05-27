@@ -160,7 +160,6 @@ export default function DesignEditModal() {
   );
 
   useEffect(() => {
-    console.log(selectedElement);
     if (selectedElement === ColorableElement.BACKGROUND) {
       handleColorSelect(profileData.background_color);
     } else if (selectedElement === ColorableElement.FOREGROUND) {
@@ -284,7 +283,6 @@ export default function DesignEditModal() {
             <ColorPicker
               color={selectedColor}
               onChange={(newColor) => {
-                console.log(selectedElement);
                 throttledUpdate(newColor, selectedElement); // Throttled update
               }}
             />

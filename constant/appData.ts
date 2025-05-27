@@ -243,7 +243,7 @@ export const profileDndComponents: ProfileDndComponent[] = [
     type: PROFILE_COMPONENT_TYPE.LINKEDIN_POST,
     category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
     display_text: "LinkedIn Post",
-    value: "https://www.linkedin.com/embed/feed/update/urn:li:share:7329037915160834049",
+    value: "https://www.linkedin.com/embed/feed/update/urn:li:share:7329037915160834049?compact=1",
   },
 
   // //TWITTER_TWEET
