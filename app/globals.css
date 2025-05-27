@@ -4,14 +4,16 @@
 /* Dark mode variant setup */
 @custom-variant dark (&:is(.dark *));
 
+
+
 /* --- COLORS --- */
 :root {
   --background: hsl(0 0% 20%);
   --foreground: hsl(0 0% 86.67%);
   --card: hsl(0 0% 86.67%);
   --card-foreground: hsl(0 0% 20%);
-  --popover: hsl(0 0% 86.67%);
-  --popover-foreground: hsl(0 0% 20%);
+  --popover: hsl(0 0% 20%);
+  --popover-foreground: hsl(0 0% 86.67%);
   --primary: hsl(0 0% 20%);
   --primary-foreground: hsl(0 0% 86.67%);
   --secondary: hsl(0 0% 86.67%);

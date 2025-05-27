@@ -4,20 +4,11 @@ import InfoRow from "@/components/Row/InfoRow";
 import { ContactWithDetails } from "@/types/types";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
 
 export const columns: ColumnDef<ContactWithDetails>[] = [
   {
     accessorKey: "contactPersonFullname",
-    header: ({ column }) => (
-      <button
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="flex justify-start items-center  text-primary hover:text-primary/50 font-semibold text-base cursor-pointer"
-      >
-        Username
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </button>
-    ),
+    header: () => <h1 className="text-primary">Username</h1>,
     cell: ({ row }) => {
       const {
         contactPersonFullname: fullname,
