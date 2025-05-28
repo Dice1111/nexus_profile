@@ -15,8 +15,30 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model test {
-  id    Int    @id @default(autoincrement())
-  name  String
-  color String
+model User {
+  userId       String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  Card         Card[]
 }
+
+model Card {
+  cardId     String  @id @default(uuid())
+  title      String?
+  userId     User    @relation(fields: [userUserId], references: [userId])
+  userUserId String
+  Field      Field[]
+}
+
+model Field {
+  id         Int    @id @default(autoincrement())
+  fieldId    String
+  cardId     Card   @relation(fields: [cardCardId], references: [cardId])
+  value      String
+  cardCardId String
+}
+
+enum
