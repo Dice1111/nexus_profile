@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/database/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  Card         Card[]
+}
+
+model Card {
+  id              String            @id @default(uuid())
+  title           String?
+  user            User              @relation(fields: [userId], references: [id])
+  userId          String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  PofileComponent PofileComponent[]
+  SentRequest     Request[]         @relation("SentRequest")
+  Request         Request[]
+  Contact         Contact[]
+  ContactPerson   Contact[]         @relation("ContactPerson")
+  Design          Design[]
+  Information     Information[]
+}
+
+model PofileComponent {
+  id        Int                        @id @default(autoincrement())
+  card      Card                       @relation(fields: [cardId], references: [id])
+  cardId    String
+  value     String
+  label     String
+  createdAt DateTime                   @default(now())
+  updatedAt DateTime                   @updatedAt
+  type      PROFILE_COMPONENT_TYPE
+  category  PROFILE_COMPONENT_CATEGORY
+}
+
+model Request {
+  id           Int                       @id @default(autoincrement())
+  Card         Card?                     @relation(fields: [cardId], references: [id])
+  cardId       String?
+  senderCardId String
+  senderCard   Card                      @relation("SentRequest", fields: [senderCardId], references: [id])
+  statuse      CONNECTION_REQUEST_STATUS
+  createdAt    DateTime                  @default(now())
+  updatedAt    DateTime                  @updatedAt
+}
+
+model Contact {
+  id            Int               @id @default(autoincrement())
+  card          Card              @relation(fields: [cardId], references: [id])
+  cardId        String
+  ContactCard   Card              @relation("ContactPerson", fields: [ContactCardId], references: [id])
+  ContactCardId String
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  tag           CONTACT_TAG_TYPE?
+  note          String?
+}
+
+model Design {
+  id              Int     @id @default(autoincrement())
+  card            Card    @relation(fields: [cardId], references: [id])
+  foregroundColor String
+  backgroundColor String
+  backgroundImage String?
+  profileImage    String?
+  layout          String
+  cardId          String
+}
+
+model Information {
+  id            Int     @id @default(autoincrement())
+  cardId        String
+  card          Card    @relation(fields: [cardId], references: [id])
+  title         String?
+  occupation    String?
+  company       String?
+  message       String?
+  quote         String?
+  prefix        String?
+  firstNname    String?
+  middleName    String?
+  lastName      String?
+  suffix        String?
+  preferredName String?
+  pronouns      String?
+}
