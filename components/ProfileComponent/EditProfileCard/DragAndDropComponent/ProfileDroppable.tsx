@@ -181,18 +181,6 @@ const DndInputFieldBuilder = <T extends FieldValues>({
       );
 
     case PROFILE_COMPONENT_CATEGORY.IMAGE:
-      const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-          const previewURL = URL.createObjectURL(file);
-          const updatedComponents = components.map((component) =>
-            component.id === item.id
-              ? { ...component, value: previewURL }
-              : component
-          );
-          setComponents(updatedComponents);
-        }
-      };
       return (
         <div className="flex flex-col items-center gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
           <DndComponentHeader
@@ -202,7 +190,8 @@ const DndInputFieldBuilder = <T extends FieldValues>({
             attributes={attributes}
             listeners={listeners}
           />
-          <div>
+
+          <div className=" flex flex-col items-center gap-4">
             {item.value ? (
               <Image
                 src={item.value}
@@ -216,22 +205,51 @@ const DndInputFieldBuilder = <T extends FieldValues>({
                 No image uploaded
               </div>
             )}
+
             {formErrors && (
-              <p className="text-red-500 text-sm pl-8">{formErrors}</p>
+              <p className="text-red-500 text-sm pl-8 text-center">
+                {formErrors}
+              </p>
             )}
-            <label
-              htmlFor={`upload-${item.id}`}
-              className="block bg-primary text-primary-foreground py-2 px-4 mt-2 text-center   rounded-lg cursor-pointer hover:bg-primary/90"
-            >
-              Upload Image
-            </label>
-            <Input
-              id={`upload-${item.id}`}
-              className="hidden "
+
+            <input
               type="file"
               accept="image/*"
-              onChange={handleFileChange}
+              className="hidden"
+              id={`file-upload-${item.id}`}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+
+                if (!file) return;
+
+                const MAX_FILE_SIZE_MB = 2;
+                const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
+                if (file.size > MAX_FILE_SIZE_BYTES) {
+                  // Reset input value so selecting the same file again will still trigger onChange
+                  e.target.value = "";
+                  alert(`File size exceeds ${MAX_FILE_SIZE_MB}MB limit.`);
+                  return;
+                }
+
+                const updatedComponents = components.map((component) =>
+                  component.id === item.id
+                    ? {
+                        ...component,
+                        value: URL.createObjectURL(file), // 👈 Store the File object temporarily
+                      }
+                    : component
+                );
+
+                setComponents(updatedComponents);
+              }}
             />
+            <label
+              htmlFor={`file-upload-${item.id}`}
+              className="cursor-pointer bg-background text-foreground px-4 py-1.5  rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Choose
+            </label>
           </div>
         </div>
       );
@@ -262,7 +280,8 @@ const DndInputFieldBuilder = <T extends FieldValues>({
             "No File Uploaded."
           )}
           <UploadButton
-            endpoint="pdfUploader"
+            className="bg-primary px-4 py-1 rounded-lg hover:bg-primary/90"
+            endpoint="fileUploader"
             appearance={{
               allowedContent: {
                 display: "none",
@@ -275,7 +294,7 @@ const DndInputFieldBuilder = <T extends FieldValues>({
 
               const updatedComponents = components.map((component) =>
                 component.id === item.id
-                  ? { ...component, value: res[0].url }
+                  ? { ...component, value: res[0].ufsUrl }
                   : component
               );
               setComponents(updatedComponents);

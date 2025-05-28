@@ -1,3 +1,5 @@
+"use client";
+
 import { useProfileContext } from "@/context/profileContext";
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
 import {
@@ -18,18 +20,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { Button } from "@/components/ui/button";
+import { PROFILE_COMPONENT_TYPE } from "@/types/enums";
+import { useEffect, useState } from "react";
 import {
   ProfileDndComponentSchemaType,
   profileDndInputSchema,
 } from "./DragAndDropComponent/ProfileDndInputSchema";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
+
+import { OurFileRouter } from "@/app/api/uploadthing/core";
+import { genUploader } from "uploadthing/client";
 import { ProfileDndComponent } from "@/types/types";
+export const { uploadFiles } = genUploader<OurFileRouter>();
 
 const EditProfileCardComponent = () => {
   const context = useProfileContext();
-
   const { components, profileData, setComponents, isEditing, setEditing } =
     context;
 
@@ -42,6 +48,7 @@ const EditProfileCardComponent = () => {
       components: z.array(profileDndInputSchema),
     })
   );
+
   const layoutComponent =
     profileLayoutData(profileData)[
       profileData.layout as keyof typeof profileLayoutData
@@ -90,10 +97,50 @@ const EditProfileCardComponent = () => {
   };
 
   // Handle form submission
-  const onSubmit = (data: { components: ProfileDndComponentSchemaType[] }) => {
-    setComponents(data.components as ProfileDndComponent[]);
+  const onSubmit = async (data: {
+    components: ProfileDndComponentSchemaType[];
+  }) => {
+    //
     // Add logic to save data to the database
-    console.log("Submitted Data:", data);
+    //Upload to Uploadthing
+    const updatedComponents = await Promise.all(
+      data.components.map(async (component) => {
+        if (component.type === PROFILE_COMPONENT_TYPE.IMAGE) {
+          const blob = await fetch(component.value).then((r) => r.blob());
+          const file = new File([blob], "uploaded-image.png", {
+            type: blob.type,
+          });
+          const response = await uploadFiles("imageUploader", {
+            files: [file],
+          });
+
+          console.log(response);
+
+          // https://<APP_ID>.ufs.sh/f/<FILE_KEY>
+
+          const file_key = response[0]?.key;
+
+          const url = file_key
+            ? `https://${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}.ufs.sh/f/${file_key}`
+            : null;
+
+          return {
+            ...component,
+            value: url ?? component.value, // fallback in case of failure
+          };
+        }
+
+        return component;
+      })
+    );
+
+    console.log("updatedComponents: ", updatedComponents);
+
+    //visual update
+    setComponents(updatedComponents as ProfileDndComponent[]);
+
+    console.log("Submitted Data:", components);
+
     reset();
     setEditing(false);
   };
