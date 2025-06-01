@@ -6,7 +6,9 @@ import {
   fetchContactWithPagination,
   fetchTotalContactCount,
 } from "@/services/contact-service";
-import { ITEMS_PER_PAGE } from "@/util/contact";
+import { getContactWithPaginationUseCase } from "@/use-cases/contact/getContactWithPaginationUseCase";
+import { ITEMS_PER_PAGE } from "@/util/utils";
+
 import { Suspense } from "react";
 
 export default async function ContactPage({
@@ -16,6 +18,10 @@ export default async function ContactPage({
 }) {
   const searchKeywordParam = await searchParams;
   const parsedSearchParams = parseSearchParams(searchKeywordParam);
+
+  console.log(parsedSearchParams);
+
+  console.log(await getContactWithPaginationUseCase(parsedSearchParams));
 
   const [contacts, totalContactCount] = await Promise.all([
     fetchContactWithPagination(parsedSearchParams),

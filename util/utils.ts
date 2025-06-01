@@ -8,3 +8,6 @@ export const baseUrl =
 export const tagOptions = Object.values(CONTACT_TAG_TYPE) as CONTACT_TAG_TYPE[];
 
 export const unloadthingAppId = process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID;
+
+// Contact Page Item Count Per Page
+export const ITEMS_PER_PAGE = 10;

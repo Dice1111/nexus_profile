@@ -4,7 +4,7 @@ import {
   ConnectionRequestWithDetails,
   ContactWithDetails,
 } from "@/types/types";
-import { ITEMS_PER_PAGE } from "@/util/contact";
+import { ITEMS_PER_PAGE } from "@/util/utils";
 
 export async function fetchContactData(): Promise<ContactWithDetails[]> {
   //need to combine first,middle and last name to fullname

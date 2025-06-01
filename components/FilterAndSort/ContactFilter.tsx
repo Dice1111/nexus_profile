@@ -10,15 +10,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { parseReadonlySearchParams, SearchParams } from "@/lib/url-state";
+import {
+  parseReadonlySearchParams,
+  SearchParams,
+  URL_FILTER,
+  URL_PAGE,
+} from "@/lib/url-state";
 import { tagOptions } from "@/util/utils";
 import { Settings2 } from "lucide-react";
 import Form from "next/form";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { URL_PAGE } from "../Pagination/contact-pagination";
-
-export const URL_FILTER = "filter";
 
 interface OldUrlValueProps {
   searchParams: SearchParams;

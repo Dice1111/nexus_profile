@@ -10,25 +10,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { parseReadonlySearchParams, SearchParams } from "@/lib/url-state";
+import {
+  parseReadonlySearchParams,
+  SearchParams,
+  URL_PAGE,
+  URL_SORT_IEM,
+  URL_SORT_ORDER,
+} from "@/lib/url-state";
 
 import { ArrowUpDown } from "lucide-react";
 import Form from "next/form";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { URL_PAGE } from "../Pagination/contact-pagination";
-
-export const URL_SORT_IEM = "sortItem";
-export const URL_SORT_ORDER = "sortOrder";
 
 const SortItemsArray = [
   {
     label: "Name",
-    value: "name",
+    value: "firstName",
   },
   {
     label: "Connected Date",
-    value: "date",
+    value: "createdAt",
   },
 ];
 const SortOrderArray = [
@@ -38,7 +40,7 @@ const SortOrderArray = [
   },
   {
     label: "Descending",
-    value: "dsc",
+    value: "desc",
   },
 ];
 
@@ -117,7 +119,7 @@ export function ContactSort() {
                   name={URL_SORT_IEM}
                   value={item.value}
                   defaultChecked={
-                    sortedItem ? sortedItem === item.value : index === 0
+                    sortedItem ? sortedItem === item.value : index === 1
                   }
                   className="mr-3 h-5 w-5 accent-primary"
                 />
@@ -143,7 +145,7 @@ export function ContactSort() {
                   name={URL_SORT_ORDER}
                   value={order.value}
                   defaultChecked={
-                    sortedOrder ? sortedOrder === order.value : index === 0
+                    sortedOrder ? sortedOrder === order.value : index === 1
                   }
                   className="mr-3 h-5 w-5 accent-primary"
                 />

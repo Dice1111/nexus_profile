@@ -1,0 +1,187 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  Card         Card[]
+}
+
+model Card {
+  id              String            @id @default(uuid())
+  title           String?
+  user            User              @relation(fields: [userId], references: [id])
+  userId          String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  PofileComponent PofileComponent[]
+  SentRequest     Request[]         @relation("SentRequest")
+  Request         Request[]
+  Contact         Contact[]
+  ContactPerson   Contact[]         @relation("ContactPerson")
+
+  Information Information?
+  Design      Design?
+}
+
+model PofileComponent {
+  id        Int                        @id @default(autoincrement())
+  card      Card                       @relation(fields: [cardId], references: [id])
+  cardId    String
+  value     String
+  label     String
+  createdAt DateTime                   @default(now())
+  updatedAt DateTime                   @updatedAt
+  type      PROFILE_COMPONENT_TYPE
+  category  PROFILE_COMPONENT_CATEGORY
+}
+
+model Request {
+  id           Int                       @id @default(autoincrement())
+  Card         Card?                     @relation(fields: [cardId], references: [id])
+  cardId       String?
+  senderCardId String
+  senderCard   Card                      @relation("SentRequest", fields: [senderCardId], references: [id])
+  status       CONNECTION_REQUEST_STATUS
+  createdAt    DateTime                  @default(now())
+  updatedAt    DateTime                  @updatedAt
+}
+
+model Contact {
+  id            Int              @id @default(autoincrement())
+  card          Card             @relation(fields: [cardId], references: [id])
+  cardId        String
+  ContactCard   Card             @relation("ContactPerson", fields: [contactCardId], references: [id])
+  contactCardId String
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  tag           CONTACT_TAG_TYPE @default(NEW)
+  note          String?
+}
+
+model Design {
+  id              Int     @id @default(autoincrement())
+  cardId          String  @unique
+  card            Card    @relation(fields: [cardId], references: [id])
+  foregroundColor String
+  backgroundColor String
+  backgroundImage String?
+  profileImage    String?
+  layout          String
+}
+
+model Information {
+  id            Int     @id @default(autoincrement())
+  cardId        String  @unique
+  card          Card    @relation(fields: [cardId], references: [id])
+  title         String?
+  occupation    String?
+  company       String?
+  message       String?
+  quote         String?
+  prefix        String?
+  firstName     String?
+  middleName    String?
+  lastName      String?
+  suffix        String?
+  preferredName String?
+  pronouns      String?
+}
+
+enum PROFILE_COMPONENT_TYPE {
+  PHONE
+  EMAIL
+  IMAGE //need to comfirm with code , previosuly it was "img"
+  TEXT
+  HEADING
+  PARAGRAPH
+  LINK
+  VIDEO
+  MAP
+  MICROSOFT_WORD
+  PDF
+  FACEBOOK
+  TWITTER
+  INSTAGRAM
+  LINKEDIN
+  TIKTOK
+  FACEBOOK_POST
+  TWITTER_POST
+  INSTAGRAM_POST
+  LINKEDIN_POST
+  TIKTOK_POST
+  YOUTUBE_POST
+  SNAPCHAT
+  PINTEREST
+  DISCORD
+  SLACK //excuse me what is this ? why it is here?
+  YOUTUBE
+  TWITCH
+  GITHUB
+  TELEGRAM
+  WHATSAPP
+  SPOTIFY
+  APPLE_MUSIC
+  AMAZON_MUSIC
+  DRIBBBLE
+  BEHANCE
+  PAYPAL
+  STRIPE
+  AMAZON_PAY
+  APPLE_PAY
+  GOOGLE_MEET
+  MICROSOFT_TEAMS
+  INFO
+  ZOOM
+}
+
+enum PROFILE_COMPONENT_CATEGORY {
+  MAIL
+  LINK
+  VIDEO
+  MAP
+  FILE
+  PHONE
+  PAYMENT
+  MUSIC
+  IMAGE //need to check with code condition , previosuly it was "img"
+  TEXT
+  SOCIAL_EMBED
+}
+
+enum CONNECTION_REQUEST_STATUS {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum CONTACT_TAG_TYPE {
+  FAVOURITE
+  NEW
+  FAMILY
+  FRIEND
+  COLLEAGUE
+  CLIENT
+  SUPPLIER
+  EMPLOYEE
+  INVESTOR
+  VENDOR
+  OTHER
+}

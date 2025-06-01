@@ -1,9 +1,11 @@
 "use client";
+import { logInUserAction } from "@/actions/user-actions/logInUserAction";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Form from "next/form";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { BiSolidHide, BiSolidShow } from "react-icons/bi";
 import { z } from "zod";
 
@@ -20,38 +22,52 @@ export default function LoginPage() {
     {}
   );
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target as HTMLFormElement);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-
-    // Validate using Zod
-    const result = loginSchema.safeParse({ email, password });
-
-    if (!result.success) {
-      const fieldErrors: { email?: string; password?: string } = {};
-      result.error.errors.forEach((err) => {
-        if (err.path[0] === "email") fieldErrors.email = err.message;
-        if (err.path[0] === "password") fieldErrors.password = err.message;
-      });
-      setErrors(fieldErrors);
-      return;
-    }
-
-    setErrors({});
-    // Simulate successful login and redirect
-    router.push("/profile");
+  const initialState = {
+    success: false,
+    message: "",
   };
+
+  const [state, formAction, isPending] = useActionState(
+    logInUserAction,
+    initialState
+  );
+
+  useEffect(() => {
+    if (state.success) {
+      router.push("/profile");
+    }
+  }, [state.success, router]);
+
+  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+
+  //   const formData = new FormData(e.target as HTMLFormElement);
+  //   const email = formData.get("email") as string;
+  //   const password = formData.get("password") as string;
+
+  //   // Validate using Zod
+  //   const result = loginSchema.safeParse({ email, password });
+
+  //   if (!result.success) {
+  //     const fieldErrors: { email?: string; password?: string } = {};
+  //     result.error.errors.forEach((err) => {
+  //       if (err.path[0] === "email") fieldErrors.email = err.message;
+  //       if (err.path[0] === "password") fieldErrors.password = err.message;
+  //     });
+  //     setErrors(fieldErrors);
+  //     return;
+  //   }
+
+  //   setErrors({});
+  // };
 
   return (
     <div className="flex flex-col h-screen items-center justify-center gap-10 bg-primary sm:p-4 ">
       <h1 className="text-2xl font-bold">Nexus Nova</h1>
       <div className="flex flex-col sm:flex-row justify-center  gap-10 sm:w-full  ">
         {/* Form Section */}
-        <form
-          onSubmit={handleSubmit}
+        <Form
+          action={formAction}
           className="bg-primary sm:w-[400px] w-96"
           noValidate
         >
@@ -105,9 +121,19 @@ export default function LoginPage() {
           </div>
 
           {/* Login Button */}
-          <Button type="submit" className="w-full mt-4" variant="outline">
-            Login
+          <Button type="submit" className="h-11" variant={"outline"}>
+            {isPending ? "Loading" : "Create account"}
           </Button>
+
+          {state.message && (
+            <p
+              className={`text-sm ${
+                state.success ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {state.message}
+            </p>
+          )}
 
           {/* Forgot Password */}
           <p className="text-sm mt-4 text-center">
@@ -115,7 +141,7 @@ export default function LoginPage() {
               Forget Password?
             </a>
           </p>
-        </form>
+        </Form>
 
         {/* <div className="h-full border hidden sm:block "></div> */}
 
