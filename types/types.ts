@@ -14,6 +14,7 @@ export type ProfileDndComponent = {
   category: PROFILE_COMPONENT_CATEGORY;
   display_text: string; //need to check wheather it is nullable or not
   value: string;
+  file?: File;
 };
 
 export type Contact = {

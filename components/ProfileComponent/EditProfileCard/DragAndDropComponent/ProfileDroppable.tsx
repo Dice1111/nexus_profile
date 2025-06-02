@@ -237,6 +237,7 @@ const DndInputFieldBuilder = <T extends FieldValues>({
                     ? {
                         ...component,
                         value: URL.createObjectURL(file), // 👈 Store the File object temporarily
+                        file: file,
                       }
                     : component
                 );

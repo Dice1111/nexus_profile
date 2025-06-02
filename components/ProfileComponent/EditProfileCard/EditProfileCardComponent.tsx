@@ -106,12 +106,8 @@ const EditProfileCardComponent = () => {
     const updatedComponents = await Promise.all(
       data.components.map(async (component) => {
         if (component.type === PROFILE_COMPONENT_TYPE.IMAGE) {
-          const blob = await fetch(component.value).then((r) => r.blob());
-          const file = new File([blob], "uploaded-image.png", {
-            type: blob.type,
-          });
           const response = await uploadFiles("imageUploader", {
-            files: [file],
+            files: [component.file],
           });
 
           console.log(response);

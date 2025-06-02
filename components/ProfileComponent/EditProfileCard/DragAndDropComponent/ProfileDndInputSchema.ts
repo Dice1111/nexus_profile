@@ -3,13 +3,15 @@ import { z } from "zod";
 
 export const profileDndInputSchema = z.discriminatedUnion("type", [
   // Image
+
   z.object({
     id: z.string().min(1, "ID cannot be empty"),
     card_id: z.string().min(1, "Card ID cannot be empty"),
     type: z.literal(PROFILE_COMPONENT_TYPE.IMAGE),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.IMAGE),
     display_text: z.string().optional(),
-    value: z.string().min(1, "Value cannot be empty"),
+    value: z.string().min(1, "Image cannot be empty"),
+    file: z.instanceof(File),
   }),
   
   // Heading Text
