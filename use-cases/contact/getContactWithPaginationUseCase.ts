@@ -15,10 +15,7 @@ export async function getContactWithPaginationUseCase(
     cardId: cardId,
   };
 
-  console.log(searchParams.filter);
-
   if (Array.isArray(searchParams.filter) && searchParams.filter.length > 0) {
-    console.log(searchParams.filter);
     whereClause.tag = {
       in: searchParams.filter as CONTACT_TAG_TYPE[],
     };

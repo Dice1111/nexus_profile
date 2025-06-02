@@ -1,33 +1,77 @@
 import { prisma } from "@/lib/prisma-client";
-import { CONTACT_TAG_TYPE } from "@/types/enums";
-import { ITEMS_PER_PAGE } from "@/util/utils";
-import { Prisma } from "@prisma/client";
 
-export interface contactDTO {
+import { ITEMS_PER_PAGE } from "@/util/utils";
+import { CONTACT_TAG_TYPE, Prisma } from "@prisma/client";
+
+interface ContactDTO {
   id: number;
   cardId: string;
   contactCardId: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   tag: CONTACT_TAG_TYPE;
   note: string | null;
   ContactCard: {
     id: string;
     title: string | null;
     userId: string;
-    createdAt: string;
-    updatedAt: string;
     Information: {
       occupation: string | null;
       company: string | null;
-      firstNname: string | null;
+      firstName: string | null;
       middleName: string | null;
       lastName: string | null;
     } | null;
   };
 }
+export interface FlatContactDTO {
+  id: number;
+  cardId: string;
+  contactCardId: string;
+  tag: CONTACT_TAG_TYPE;
+  note: string | null;
+  createdAt: string;
+  updatedAt: string;
+  contactCardTitle: string | null;
+  contactCardUserId: string;
+  occupation: string | null;
+  company: string | null;
+  firstName: string | null;
+  middleName: string | null;
+  lastName: string | null;
+}
+function ToFlatContactDTOs(contacts: ContactDTO[]): FlatContactDTO[] {
+  return contacts.map((contact) => {
+    const info = contact.ContactCard?.Information;
 
-interface getContactWithPaginationDTO {
+    return {
+      id: contact.id,
+      cardId: contact.cardId,
+      contactCardId: contact.contactCardId,
+      tag: contact.tag,
+      note: contact.note,
+      createdAt: contact.createdAt.toISOString(),
+      updatedAt: contact.updatedAt.toISOString(),
+      contactCardTitle: contact.ContactCard?.title ?? null,
+      contactCardUserId: contact.ContactCard?.userId ?? "",
+      occupation: info?.occupation ?? null,
+      company: info?.company ?? null,
+      firstName: info?.firstName ?? null,
+      middleName: info?.middleName ?? null,
+      lastName: info?.lastName ?? null,
+    };
+  });
+}
+
+interface ContactCountDTO {
+  count: number;
+}
+
+interface GetContactCountDTO {
+  whereClause?: Prisma.ContactWhereInput;
+}
+
+interface GetContactWithPaginationDTO {
   whereClause?: Prisma.ContactWhereInput;
   orderBy?: Prisma.ContactOrderByWithRelationInput;
   offset: number;
@@ -37,36 +81,48 @@ export async function getContactWithPagination({
   whereClause,
   orderBy,
   offset,
-}: getContactWithPaginationDTO) {
-  const contacts = await prisma.contact.findMany({
-    where: whereClause,
-    orderBy: orderBy,
-    skip: offset,
-    take: ITEMS_PER_PAGE,
-    include: {
-      ContactCard: {
-        select: {
-          id: true,
-          title: true,
-          userId: true,
-          createdAt: true,
-          updatedAt: true,
-          Information: {
-            select: {
-              occupation: true,
-              company: true,
-              firstName: true,
-              middleName: true,
-              lastName: true,
+}: GetContactWithPaginationDTO) {
+  try {
+    const contacts = await prisma.contact.findMany({
+      where: whereClause,
+      orderBy: orderBy,
+      skip: offset,
+      take: ITEMS_PER_PAGE,
+      include: {
+        ContactCard: {
+          select: {
+            id: true,
+            title: true,
+            userId: true,
+            Information: {
+              select: {
+                occupation: true,
+                company: true,
+                firstName: true,
+                middleName: true,
+                lastName: true,
+              },
             },
           },
         },
       },
-    },
-  });
+    });
 
-  return contacts;
+    return ToFlatContactDTOs(contacts);
+  } catch (error: any) {
+    throw new Error("Failed to retrieve Data.");
+  }
 }
-// export async function getTotalContactCount(): Promise<totalContactCountDTO> {
-//   return 200;
-// }
+export async function getTotalContactCount({
+  whereClause,
+}: GetContactCountDTO): Promise<ContactCountDTO> {
+  try {
+    const contacts = await prisma.contact.count({
+      where: whereClause,
+    });
+
+    return { count: contacts };
+  } catch (error: any) {
+    throw new Error("Failed to retrieve Data.");
+  }
+}

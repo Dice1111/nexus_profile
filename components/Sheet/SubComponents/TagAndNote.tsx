@@ -12,11 +12,11 @@ import {
 import { Input } from "../../ui/input";
 import PillShapeTag from "../../Tag/PillShapeTag";
 import { ChevronDownIcon } from "lucide-react";
-import { CONTACT_TAG_TYPE } from "@/types/enums";
+import { CONTACT_TAG_TYPE } from "@prisma/client";
 
 interface TagAndNoteProps {
   tag: CONTACT_TAG_TYPE;
-  note?: string;
+  note: string | null;
   onSaveChanges: (updatedTag: CONTACT_TAG_TYPE, updatedNote: string) => void;
 }
 

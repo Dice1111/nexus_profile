@@ -7,6 +7,7 @@ import {
   fetchTotalContactCount,
 } from "@/services/contact-service";
 import { getContactWithPaginationUseCase } from "@/use-cases/contact/getContactWithPaginationUseCase";
+import { getTotalContactCountUseCase } from "@/use-cases/contact/getTotalContactCountUseCase";
 import { ITEMS_PER_PAGE } from "@/util/utils";
 
 import { Suspense } from "react";
@@ -23,19 +24,24 @@ export default async function ContactPage({
 
   console.log(await getContactWithPaginationUseCase(parsedSearchParams));
 
+  console.log(
+    "Total Count",
+    await getTotalContactCountUseCase(parsedSearchParams)
+  );
+
   const [contacts, totalContactCount] = await Promise.all([
-    fetchContactWithPagination(parsedSearchParams),
-    fetchTotalContactCount(parsedSearchParams),
+    getContactWithPaginationUseCase(parsedSearchParams),
+    getTotalContactCountUseCase(parsedSearchParams),
   ]);
 
-  const totalPages = Math.ceil(totalContactCount / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(totalContactCount.count / ITEMS_PER_PAGE);
   const currentPage = Math.max(1, Number(parsedSearchParams.page) || 1);
 
   return (
     <div className="flex flex-col gap-4">
       <div className="text-md ">
         <p>
-          Found {totalContactCount.toLocaleString()} results ( Showing{" "}
+          Found {totalContactCount.count.toString()} results ( Showing page{" "}
           {currentPage.toLocaleString()} of {totalPages.toLocaleString()} )
         </p>
       </div>

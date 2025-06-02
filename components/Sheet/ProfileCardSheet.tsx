@@ -15,9 +15,10 @@ import {
   SheetTitle,
 } from "../ui/sheet";
 import TagAndNote from "./SubComponents/TagAndNote";
-import { CONTACT_TAG_TYPE } from "@/types/enums";
+
 import { ProfileCard, ProfileDndComponent } from "@/types/types";
 import QRButton from "../QRCodeButton/QRButton";
+import { CONTACT_TAG_TYPE } from "@prisma/client";
 
 // Enum for Sheet Variants
 export enum SHEET_VARIENT {
@@ -27,17 +28,18 @@ export enum SHEET_VARIENT {
 
 // Props for Connection and Request Sheet Variants
 export interface ConnectionSheetVarient {
+  firstName: string | null;
+  lastName: string | null;
+  middleName: string | null;
   cardId: string;
-  fullname: string;
   tag: CONTACT_TAG_TYPE;
-  note?: string;
-  date: Date;
+  note: string | null;
+  date: string;
 }
 
 export interface RequestSheetVarient {
   cardId: string;
-  fullname: string;
-  date: Date;
+  date: string;
 }
 
 interface ProfileCardSheetProps {
@@ -56,7 +58,10 @@ const ProfileCardComponent = dynamic(
   }
 );
 
-const formatDisplayDate = (date: Date, sheetVarient: SHEET_VARIENT): string => {
+const formatDisplayDate = (
+  date: string,
+  sheetVarient: SHEET_VARIENT
+): string => {
   const formattedDate = new Date(date).toLocaleDateString();
   return sheetVarient === SHEET_VARIENT.CONNECTION
     ? `Connected on ${formattedDate}`
@@ -96,13 +101,20 @@ export default function ProfileCardSheet({
       console.error("Error fetching profile data:", error);
     }
   };
+  const fullname = [
+    (sheetData as ConnectionSheetVarient).firstName,
+    (sheetData as ConnectionSheetVarient).middleName,
+    (sheetData as ConnectionSheetVarient).lastName,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetContent className=" min-w-[360px]  overflow-y-auto">
         <SheetHeader>
           <SheetTitle className="text-xl font-semibold text-primary-foreground">
-            {sheetData.fullname}
+            {fullname}
           </SheetTitle>
           <SheetDescription className="text-sm text-primary-foreground">
             {formatDisplayDate(sheetData.date, sheetVarient)}

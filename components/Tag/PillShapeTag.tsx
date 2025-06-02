@@ -1,8 +1,10 @@
-import { CONTACT_TAG_TYPE } from "@/types/enums";
+import { CONTACT_TAG_TYPE } from "@prisma/client";
 import React from "react";
 
 // Define the color scheme for tags
 const TagColorScheme: Record<CONTACT_TAG_TYPE, string> = {
+  [CONTACT_TAG_TYPE.FAVOURITE]: "bg-red-600",
+  [CONTACT_TAG_TYPE.NEW]: "bg-green-600",
   [CONTACT_TAG_TYPE.COLLEAGUE]: "bg-red-300",
   [CONTACT_TAG_TYPE.FAMILY]: "bg-green-300",
   [CONTACT_TAG_TYPE.FRIEND]: "bg-yellow-300",

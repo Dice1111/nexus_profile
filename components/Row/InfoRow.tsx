@@ -3,22 +3,26 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "@/components/ui/button"; // Import Button from shadcn
 
 import PillShapeTag from "../Tag/PillShapeTag";
-import { CONTACT_TAG_TYPE } from "@/types/enums";
+import { CONTACT_TAG_TYPE } from "@prisma/client";
 
 interface InfoRowProps {
-  fullname: string;
-  occupation: string;
-  company: string;
-  image?: string;
-  date: Date;
-  tag?: CONTACT_TAG_TYPE;
+  firstName: string | null;
+  lastName: string | null;
+  middleName: string | null;
+  occupation: string | null;
+  company: string | null;
+  image: string | null;
+  date: string;
+  tag: CONTACT_TAG_TYPE;
   isRequest?: boolean;
   onAccept?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onReject?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function InfoRow({
-  fullname,
+  firstName,
+  lastName,
+  middleName,
   occupation,
   company,
   image,
@@ -29,6 +33,7 @@ export default function InfoRow({
   onReject,
 }: InfoRowProps) {
   const RenderBadge = () => tag && <PillShapeTag tag={tag} />;
+  const fullname = [firstName, middleName, lastName].filter(Boolean).join(" ");
 
   const RenderActionButtons = () => (
     <div className="flex gap-3">

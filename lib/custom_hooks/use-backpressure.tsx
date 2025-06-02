@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation";
  * are being queried. Further, we can observe the `pending` state of a transition and
  * show a loading spinner or skeleton UI.
  */
-export function useBackpressure(delay: number = 500) {
+export function useBackpressure(delay: number = 300) {
   const router = useRouter();
   const isUpdatingRef = useRef(false);
   const updateCountRef = useRef(0);

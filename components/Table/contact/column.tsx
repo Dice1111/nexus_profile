@@ -1,31 +1,34 @@
 "use client";
 
 import InfoRow from "@/components/Row/InfoRow";
-import { ContactWithDetails } from "@/types/types";
+import { FlatContactDTO } from "@/data-access/contact";
 
 import { ColumnDef } from "@tanstack/react-table";
 
-export const columns: ColumnDef<ContactWithDetails>[] = [
+export const columns: ColumnDef<FlatContactDTO>[] = [
   {
     accessorKey: "contactPersonFullname",
     header: () => <h1 className="text-primary">Username</h1>,
     cell: ({ row }) => {
       const {
-        contactPersonFullname: fullname,
-        contactPersonImage: image,
-        contactPersonOccupation: occupation,
-        contactPersonCompany: company,
         tag,
-        created_at: date,
+        createdAt,
+        occupation,
+        company,
+        firstName,
+        middleName,
+        lastName,
       } = row.original;
 
       return (
         <InfoRow
-          fullname={fullname}
+          firstName={firstName}
+          lastName={lastName}
+          middleName={middleName}
           occupation={occupation}
           company={company}
-          image={image}
-          date={date}
+          image={""}
+          date={createdAt}
           tag={tag}
         />
       );

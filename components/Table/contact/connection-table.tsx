@@ -20,11 +20,11 @@ import ProfileCardSheet, {
   ConnectionSheetVarient,
   SHEET_VARIENT,
 } from "@/components/Sheet/ProfileCardSheet";
-import { ContactWithDetails } from "@/types/types";
+import { FlatContactDTO } from "@/data-access/contact";
 
 interface DataTableProps {
-  columns: ColumnDef<ContactWithDetails>[];
-  data: ContactWithDetails[];
+  columns: ColumnDef<FlatContactDTO>[];
+  data: FlatContactDTO[];
 }
 
 export function ConnectionTable({ columns, data }: DataTableProps) {
@@ -32,13 +32,15 @@ export function ConnectionTable({ columns, data }: DataTableProps) {
     useState<ConnectionSheetVarient | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  const handleRowClick = (rowData: ContactWithDetails) => {
+  const handleRowClick = (rowData: FlatContactDTO) => {
     const data: ConnectionSheetVarient = {
-      cardId: rowData.contactPersonCardID,
-      fullname: rowData.contactPersonFullname,
+      firstName: rowData.firstName,
+      middleName: rowData.middleName,
+      lastName: rowData.lastName,
+      cardId: rowData.contactCardId,
       tag: rowData.tag,
       note: rowData.note,
-      date: rowData.created_at,
+      date: rowData.updatedAt,
     };
     setSelectedRowData(data);
     setIsSheetOpen(true);
