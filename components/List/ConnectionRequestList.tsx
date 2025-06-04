@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InfoRow from "../Row/InfoRow";
 import ProfileCardSheet, {
   RequestSheetVarient,
   SHEET_VARIENT,
 } from "../Sheet/ProfileCardSheet";
-import { ConnectionRequestWithDetails } from "@/types/types";
+
+import { FlatRequestDTO } from "@/data-access/request";
 
 interface ConnectionRequestListProps {
-  data: ConnectionRequestWithDetails[];
+  data: FlatRequestDTO[];
 }
 
 export default function ConnectionRequestList({
@@ -19,11 +20,14 @@ export default function ConnectionRequestList({
   const [SheetData, setSheetData] = useState<RequestSheetVarient | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  const handleRowClick = (rowData: ConnectionRequestWithDetails) => {
+  useEffect(() => {
+    setRequests(data);
+  }, [data]);
+
+  const handleRowClick = (rowData: FlatRequestDTO) => {
     const data: RequestSheetVarient = {
-      cardId: rowData.senderCardID,
-      fullname: rowData.senderFullname,
-      date: new Date(rowData.created_at),
+      cardId: rowData.senderCardId,
+      date: rowData.createdAt,
     };
     setSheetData(data);
     setIsSheetOpen(true);
@@ -31,7 +35,7 @@ export default function ConnectionRequestList({
 
   const updateRequestList = (requestID: string) => {
     const updatedRequests = requests.filter(
-      (request) => request.requestID !== requestID
+      (request) => request.senderCardId !== requestID
     );
     setRequests(updatedRequests);
   };
@@ -57,20 +61,21 @@ export default function ConnectionRequestList({
       <div className="bg-secondary text-secondary-foreground rounded-lg">
         {requests.map((request) => (
           <div
-            key={request.requestID}
+            key={request.senderCardId}
             onClick={() => handleRowClick(request)}
             className="border-gray-400 border-b p-4 hover:bg-primary/20 cursor-pointer"
           >
             <InfoRow
-              key={request.requestID}
-              fullname={request.senderFullname}
-              occupation={request.senderOccupation}
-              company={request.senderCompany}
-              image={request.senderImage}
-              date={request.created_at}
+              firstName={request.firstName}
+              middleName={request.middleName}
+              lastName={request.lastName}
+              occupation={request.occupation}
+              company={request.company}
+              image={""}
+              date={request.createdAt}
               isRequest={true}
-              onAccept={(e) => handleAccept(e, request.requestID)}
-              onReject={(e) => handleReject(e, request.requestID)}
+              onAccept={(e) => handleAccept(e, request.senderCardId)}
+              onReject={(e) => handleReject(e, request.senderCardId)}
             />
           </div>
         ))}

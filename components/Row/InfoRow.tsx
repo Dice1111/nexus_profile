@@ -13,7 +13,7 @@ interface InfoRowProps {
   company: string | null;
   image: string | null;
   date: string;
-  tag: CONTACT_TAG_TYPE;
+  tag?: CONTACT_TAG_TYPE;
   isRequest?: boolean;
   onAccept?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onReject?: (event: React.MouseEvent<HTMLButtonElement>) => void;

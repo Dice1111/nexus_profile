@@ -110,7 +110,7 @@ export default function ProfileCardSheet({
     .join(" ");
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+    <Sheet open={isOpen} onOpenChange={setIsOpen} modal={false}>
       <SheetContent className=" min-w-[360px]  overflow-y-auto">
         <SheetHeader>
           <SheetTitle className="text-xl font-semibold text-primary-foreground">
