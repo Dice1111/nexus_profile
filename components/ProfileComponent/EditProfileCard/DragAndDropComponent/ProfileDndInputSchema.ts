@@ -11,7 +11,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
     category: z.literal(PROFILE_COMPONENT_CATEGORY.IMAGE),
     display_text: z.string().optional(),
     value: z.string().min(1, "Image cannot be empty"),
-    file: z.instanceof(File),
+    file: z.instanceof(File).optional(),
   }),
   
   // Heading Text

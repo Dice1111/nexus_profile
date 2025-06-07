@@ -69,7 +69,7 @@ export const profileDndComponents: ProfileDndComponent[] = [
     type: PROFILE_COMPONENT_TYPE.IMAGE,
     category: PROFILE_COMPONENT_CATEGORY.IMAGE,
     display_text: "",
-    value: "/image/profile.jpg",
+    value: "https://uz4l01v58c.ufs.sh/f/vgsYHuXFuRcj3kvzlVQQd0PAfYngj1JkaMCWo9ElT5O6VerF",
   },
 
   {

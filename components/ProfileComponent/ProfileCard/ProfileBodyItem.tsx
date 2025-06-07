@@ -90,8 +90,9 @@ const frameComponents = {
         width={500}
         height={500}
         alt="Uploaded image"
+        loading="lazy"
+        decoding="async"
         className="w-full h-80 object-cover transition-transform duration-300 hover:scale-105"
-        priority
       />
     </div>
   ),
