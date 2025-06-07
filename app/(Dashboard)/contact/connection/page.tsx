@@ -20,15 +20,6 @@ export default async function ContactPage({
   const searchKeywordParam = await searchParams;
   const parsedSearchParams = parseSearchParams(searchKeywordParam);
 
-  console.log(parsedSearchParams);
-
-  console.log(await getContactWithPaginationUseCase(parsedSearchParams));
-
-  console.log(
-    "Total Count",
-    await getTotalContactCountUseCase(parsedSearchParams)
-  );
-
   const [contacts, totalContactCount] = await Promise.all([
     getContactWithPaginationUseCase(parsedSearchParams),
     getTotalContactCountUseCase(parsedSearchParams),
