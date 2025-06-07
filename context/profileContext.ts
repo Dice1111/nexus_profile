@@ -9,6 +9,8 @@ export interface ProfileContextType {
   setProfileData: React.Dispatch<React.SetStateAction<ProfileCard>>;
   isEditing: boolean;
   setEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 
 }
 

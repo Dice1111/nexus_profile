@@ -1,7 +1,7 @@
 "use client";
-
 import { useProfileContext } from "@/context/profileContext";
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
+
 import {
   closestCorners,
   DndContext,
@@ -19,7 +19,6 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import { PROFILE_COMPONENT_TYPE } from "@/types/enums";
 import { useEffect, useState } from "react";
@@ -28,16 +27,23 @@ import {
   profileDndInputSchema,
 } from "./DragAndDropComponent/ProfileDndInputSchema";
 import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
-
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { genUploader } from "uploadthing/client";
 import { ProfileDndComponent } from "@/types/types";
+import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 export const { uploadFiles } = genUploader<OurFileRouter>();
 
 const EditProfileCardComponent = () => {
   const context = useProfileContext();
-  const { components, profileData, setComponents, isEditing, setEditing } =
-    context;
+  const {
+    components,
+    profileData,
+    setComponents,
+    isEditing,
+    setEditing,
+    isLoading,
+    setLoading,
+  } = context;
 
   // Touchscreen and pointer support for drag-and-drop
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
@@ -58,7 +64,7 @@ const EditProfileCardComponent = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
     reset,
   } = useForm<{
     components: ProfileDndComponentSchemaType[];
@@ -100,96 +106,120 @@ const EditProfileCardComponent = () => {
   const onSubmit = async (data: {
     components: ProfileDndComponentSchemaType[];
   }) => {
-    //
-    // Add logic to save data to the database
-    //Upload to Uploadthing
+    setLoading(true);
+
     const updatedComponents = await Promise.all(
       data.components.map(async (component) => {
-        if (component.type === PROFILE_COMPONENT_TYPE.IMAGE) {
-          const blob = await fetch(component.value).then((r) => r.blob());
-          const file = new File([blob], "uploaded-image.png", {
-            type: blob.type,
-          });
-          const response = await uploadFiles("imageUploader", {
-            files: [file],
-          });
+        // Only handle image components with a new file
+        if (
+          component.type === PROFILE_COMPONENT_TYPE.IMAGE &&
+          component.file instanceof File
+        ) {
+          try {
+            //GET old image url
+            const oldUrl = components.find((c) => c.id === component.id)?.value;
 
-          console.log(response);
+            // Upload new image
+            const response = await uploadFiles("imageUploader", {
+              files: [component.file],
+            });
 
-          // https://<APP_ID>.ufs.sh/f/<FILE_KEY>
+            // Delete previous image from UploadThing (if applicable)
 
-          const file_key = response[0]?.key;
+            if (oldUrl) {
+              console.log("deleting....");
+              const deleteRes = await fetch("/api/uploadthing", {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ url: oldUrl }),
+              });
 
-          const url = file_key
-            ? `https://${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}.ufs.sh/f/${file_key}`
-            : null;
+              if (deleteRes.ok) {
+                console.log(`Deleted old image: ${deleteRes.statusText}`);
+              } else {
+                console.warn(`Failed to delete old image: ${oldUrl}`);
+              }
+            }
 
-          return {
-            ...component,
-            value: url ?? component.value, // fallback in case of failure
-          };
+            // Build new image URL
+            const uploadedUrl = response[0]?.key
+              ? `https://${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}.ufs.sh/f/${response[0].key}`
+              : component.value;
+
+            return {
+              ...component,
+              value: uploadedUrl,
+            };
+          } catch (error) {
+            console.error("UploadThing error:", error);
+            return component;
+          }
         }
 
+        // Return unmodified component if not an image or no new file
         return component;
       })
     );
 
-    console.log("updatedComponents: ", updatedComponents);
-
-    //visual update
     setComponents(updatedComponents as ProfileDndComponent[]);
-
-    console.log("Submitted Data:", components);
-
     reset();
+    setLoading(false);
     setEditing(false);
   };
 
   return (
-    <div
-      className={`relative max-w-[400px] md:w-[400px]  flex flex-col  overflow-hidden rounded-lg`}
-      style={{
-        backgroundColor: profileData.background_color,
-        color: profileData.foreground_color,
-      }}
-    >
-      {/* Header area */}
-      {layoutComponent}
-
-      {/* Drag-and-drop area */}
-      <form
-        id="profileForm"
-        onSubmit={(e) => {
-          handleSubmit(onSubmit)(e);
-        }}
-      >
-        <DndContext
-          sensors={sensors}
-          onDragEnd={isEditing ? handleDragEnd : undefined}
-          collisionDetection={closestCorners}
+    <>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <div
+          className={`relative max-w-[400px] md:w-[400px]  flex flex-col  overflow-hidden rounded-lg`}
+          style={{
+            backgroundColor: profileData.background_color,
+            color: profileData.foreground_color,
+          }}
         >
-          <SortableContext
-            items={components}
-            strategy={verticalListSortingStrategy}
+          {/* Header area */}
+          {layoutComponent}
+
+          {/* Drag-and-drop area */}
+          <form
+            id="profileForm"
+            onSubmit={(e) => {
+              handleSubmit(onSubmit)(e);
+            }}
           >
-            <div className="flex flex-col gap-3 pb-4 w-full">
-              {components.map((item, index) => (
-                <ProfileDroppable
-                  key={item.id}
-                  item={item}
-                  index={index}
-                  formRegister={register}
-                  formErrors={errors.components?.[index]?.value?.message}
-                />
-              ))}
-            </div>
-          </SortableContext>
-        </DndContext>
-        <Button type="submit" className="bg-red-500 mx-4 mb-4">
-          Submit
-        </Button>
-      </form>
-    </div>
+            <DndContext
+              sensors={sensors}
+              onDragEnd={isEditing ? handleDragEnd : undefined}
+              collisionDetection={closestCorners}
+            >
+              <SortableContext
+                items={components}
+                strategy={verticalListSortingStrategy}
+              >
+                <div className="flex flex-col gap-3 pb-4 w-full">
+                  {components.map((item, index) => (
+                    <ProfileDroppable
+                      key={item.id}
+                      item={item}
+                      index={index}
+                      formRegister={register}
+                      formErrors={errors.components?.[index]?.value?.message}
+                    />
+                  ))}
+                </div>
+              </SortableContext>
+            </DndContext>
+            <Button type="submit" className="bg-red-500 mx-4 mb-4">
+              Submit
+            </Button>
+          </form>
+        </div>
+      )}
+    </>
   );
 };
 

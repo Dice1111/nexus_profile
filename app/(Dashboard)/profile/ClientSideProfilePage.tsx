@@ -50,6 +50,9 @@ export default function ClientSideProfilePage({
   // State for editing
   const [isEditing, setEditing] = useState(false);
 
+  //State for loading
+  const [isLoading, setLoading] = useState(false);
+
   return (
     <>
       <ProfileContext.Provider
@@ -60,6 +63,8 @@ export default function ClientSideProfilePage({
           setProfileData,
           isEditing,
           setEditing,
+          isLoading,
+          setLoading,
         }}
       >
         <div className=" flex flex-col p-4 sm:p-0 gap-5 sm:flex-row justify-center relative">
@@ -88,6 +93,7 @@ export default function ClientSideProfilePage({
                   size="icon"
                   type="submit"
                   form="profileForm"
+                  disabled={isLoading}
                   onClick={() => {
                     console.log("save");
                   }}
@@ -99,6 +105,7 @@ export default function ClientSideProfilePage({
                   variant="outline"
                   size="icon"
                   type="button"
+                  disabled={isLoading}
                   onClick={() => {
                     window.location.reload();
                   }}
@@ -119,7 +126,7 @@ export default function ClientSideProfilePage({
               />
             )}
           </div>
-          {isEditing && <ProfileEditor />}
+          {isEditing && !isLoading && <ProfileEditor />}
         </div>
       </ProfileContext.Provider>
     </>
