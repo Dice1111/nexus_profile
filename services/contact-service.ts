@@ -3,7 +3,7 @@ import { SearchParams } from "@/lib/url-state";
 import {
   ConnectionRequestWithDetails,
   ContactWithDetails,
-} from "@/types/types";
+} from "@/lib/types/types";
 import { ITEMS_PER_PAGE } from "@/util/utils";
 
 export async function fetchContactData(): Promise<ContactWithDetails[]> {

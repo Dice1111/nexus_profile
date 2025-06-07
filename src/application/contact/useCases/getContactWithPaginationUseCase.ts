@@ -1,9 +1,9 @@
-import { getRequestWithPagination } from "@/data-access/request";
+import { getContactWithPagination } from "@/src/infrastructure/contact/contact";
 import { SearchParams } from "@/lib/url-state";
 import { ITEMS_PER_PAGE } from "@/util/utils";
-import { Prisma } from "@prisma/client";
+import { CONTACT_TAG_TYPE, Prisma } from "@prisma/client";
 
-export async function getRequestWithPaginationUseCase(
+export async function getContactWithPaginationUseCase(
   searchParams: SearchParams
 ) {
   const requestedPage = Math.max(1, Number(searchParams?.page) || 1);
@@ -11,13 +11,19 @@ export async function getRequestWithPaginationUseCase(
 
   const cardId = "applecard";
 
-  const whereClause: Prisma.RequestWhereInput = {
+  const whereClause: Prisma.ContactWhereInput = {
     cardId: cardId,
   };
 
+  if (Array.isArray(searchParams.filter) && searchParams.filter.length > 0) {
+    whereClause.tag = {
+      in: searchParams.filter as CONTACT_TAG_TYPE[],
+    };
+  }
+
   if (searchParams.search) {
     const keyword = searchParams.search;
-    whereClause.SenderCard = {
+    whereClause.ContactCard = {
       Information: {
         OR: [
           { firstName: { contains: keyword, mode: "insensitive" } },
@@ -33,7 +39,7 @@ export async function getRequestWithPaginationUseCase(
   const sortItem = searchParams.sortItem;
   const sortOrder = searchParams.sortOrder === "desc" ? "desc" : "asc";
 
-  let orderBy: Prisma.RequestOrderByWithRelationInput = {
+  let orderBy: Prisma.ContactOrderByWithRelationInput = {
     createdAt: "desc",
   };
 
@@ -44,7 +50,7 @@ export async function getRequestWithPaginationUseCase(
       };
     } else {
       orderBy = {
-        SenderCard: {
+        ContactCard: {
           Information: {
             [sortItem]: sortOrder,
           },
@@ -55,11 +61,11 @@ export async function getRequestWithPaginationUseCase(
 
   console.log(whereClause, orderBy, offset);
 
-  const requests = await getRequestWithPagination({
+  const contacts = await getContactWithPagination({
     whereClause,
     orderBy,
     offset,
   });
 
-  return requests;
+  return contacts;
 }

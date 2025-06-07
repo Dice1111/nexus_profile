@@ -1,4 +1,4 @@
-import { findUserByEmail } from "@/data-access/user";
+import { findUserByEmail } from "@/src/infrastructure/user/user";
 import bcrypt from "bcrypt";
 
 interface authenticateUserUseCaseProps {

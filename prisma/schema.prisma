@@ -61,6 +61,8 @@ model Request {
   SenderCard   Card     @relation("SentRequest", fields: [senderCardId], references: [id])
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  @@unique([cardId, senderCardId])
 }
 
 model Contact {
@@ -73,6 +75,8 @@ model Contact {
   updatedAt     DateTime         @updatedAt
   tag           CONTACT_TAG_TYPE @default(NEW)
   note          String?
+
+  @@unique([cardId, contactCardId])
 }
 
 model Design {
@@ -163,12 +167,6 @@ enum PROFILE_COMPONENT_CATEGORY {
   IMAGE //need to check with code condition , previosuly it was "img"
   TEXT
   SOCIAL_EMBED
-}
-
-enum CONNECTION_REQUEST_STATUS {
-  PENDING
-  ACCEPTED
-  REJECTED
 }
 
 enum CONTACT_TAG_TYPE {

@@ -1,5 +1,4 @@
-import { prisma } from "@/lib/prisma-client";
-
+import { prisma } from "@/src/infrastructure/prisma/prisma-client";
 import { ITEMS_PER_PAGE } from "@/util/utils";
 import { CONTACT_TAG_TYPE, Prisma } from "@prisma/client";
 
@@ -40,6 +39,13 @@ export interface FlatContactDTO {
   middleName: string | null;
   lastName: string | null;
 }
+
+interface GetContactWithPaginationDTO {
+  whereClause?: Prisma.ContactWhereInput;
+  orderBy?: Prisma.ContactOrderByWithRelationInput;
+  offset: number;
+}
+
 function ToFlatContactDTOs(contacts: ContactDTO[]): FlatContactDTO[] {
   return contacts.map((contact) => {
     const info = contact.ContactCard?.Information;
@@ -61,20 +67,6 @@ function ToFlatContactDTOs(contacts: ContactDTO[]): FlatContactDTO[] {
       lastName: info?.lastName ?? null,
     };
   });
-}
-
-interface ContactCountDTO {
-  count: number;
-}
-
-interface GetContactCountDTO {
-  whereClause?: Prisma.ContactWhereInput;
-}
-
-interface GetContactWithPaginationDTO {
-  whereClause?: Prisma.ContactWhereInput;
-  orderBy?: Prisma.ContactOrderByWithRelationInput;
-  offset: number;
 }
 
 export async function getContactWithPagination({
@@ -113,6 +105,17 @@ export async function getContactWithPagination({
     throw new Error("Failed to retrieve Data.");
   }
 }
+
+// ************************************************************
+
+interface ContactCountDTO {
+  count: number;
+}
+
+interface GetContactCountDTO {
+  whereClause?: Prisma.ContactWhereInput;
+}
+
 export async function getTotalContactCount({
   whereClause,
 }: GetContactCountDTO): Promise<ContactCountDTO> {
@@ -124,5 +127,38 @@ export async function getTotalContactCount({
     return { count: contacts };
   } catch (error: any) {
     throw new Error("Failed to retrieve Data.");
+  }
+}
+
+// ************************************************************
+
+interface createContactWithRequestDTO {
+  requestId: number;
+  cardId: string;
+  senderCardId: string;
+}
+
+export async function createContactWithRequest({
+  cardId,
+  senderCardId,
+}: createContactWithRequestDTO) {
+  try {
+    await prisma.contact.create({
+      data: {
+        cardId,
+        contactCardId: senderCardId,
+      },
+    });
+  } catch (error: any) {
+    if (error.code === "P2002") {
+      return {
+        success: false,
+        message: "This contact already exists.",
+      };
+    }
+    return {
+      success: false,
+      message: "An unexpected error occurred.",
+    };
   }
 }

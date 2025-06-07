@@ -1,24 +1,17 @@
-import { getTotalContactCount } from "@/data-access/contact";
+import { getTotalRequestCount } from "@/src/infrastructure/request/request";
 import { SearchParams } from "@/lib/url-state";
-import { CONTACT_TAG_TYPE, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
-export async function getTotalContactCountUseCase(searchParams: SearchParams) {
+export async function getTotalRequestCountUseCase(searchParams: SearchParams) {
   const cardId = "applecard";
 
-  const whereClause: Prisma.ContactWhereInput = {
+  const whereClause: Prisma.RequestWhereInput = {
     cardId: cardId,
   };
 
-  if (Array.isArray(searchParams.filter) && searchParams.filter.length > 0) {
-    console.log(searchParams.filter);
-    whereClause.tag = {
-      in: searchParams.filter as CONTACT_TAG_TYPE[],
-    };
-  }
-
   if (searchParams.search) {
     const keyword = searchParams.search;
-    whereClause.ContactCard = {
+    whereClause.SenderCard = {
       Information: {
         OR: [
           { firstName: { contains: keyword, mode: "insensitive" } },
@@ -31,9 +24,9 @@ export async function getTotalContactCountUseCase(searchParams: SearchParams) {
     };
   }
 
-  const contacts = await getTotalContactCount({
+  const data = await getTotalRequestCount({
     whereClause,
   });
 
-  return contacts;
+  return data;
 }

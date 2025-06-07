@@ -11,7 +11,7 @@ import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 import ProfileEditor from "@/components/ProfileComponent/ProfileEditor/ProfileEditor";
 import dynamic from "next/dynamic";
 import { RxCross2 } from "react-icons/rx";
-import { ProfileDndComponent, ProfileCard } from "@/types/types";
+import { ProfileDndComponent, ProfileCard } from "@/lib/types/types";
 import QRButton from "@/components/QRCodeButton/QRButton";
 
 interface ProfileProps {

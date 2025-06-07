@@ -1,7 +1,6 @@
 "use server";
 
 import { authenticateUserUseCase } from "@/use-cases/user/authenticateUserUseCase";
-import { redirect } from "next/navigation";
 
 export async function logInUserAction(
   _prevState: {

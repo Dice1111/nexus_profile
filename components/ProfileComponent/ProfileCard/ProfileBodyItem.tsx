@@ -2,8 +2,8 @@ import { typeIconMap } from "@/lib/icon";
 import {
   PROFILE_COMPONENT_CATEGORY,
   PROFILE_COMPONENT_TYPE,
-} from "@/types/enums";
-import { ProfileDndComponent } from "@/types/types";
+} from "@/lib/types/enums";
+import { ProfileDndComponent } from "@/lib/types/types";
 import dynamic from "next/dynamic";
 
 import Image from "next/image";

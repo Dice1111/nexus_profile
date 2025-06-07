@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma-client";
+import { prisma } from "@/src/infrastructure/prisma/prisma-client";
 import { User } from "@prisma/client";
 
 interface createUserDTO {

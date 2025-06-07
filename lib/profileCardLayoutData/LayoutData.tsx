@@ -1,6 +1,6 @@
 import ProfileLayoutOne from "@/components/ProfileComponent/ProfileHeaderLayout/ProfileLayoutOne";
 import ProfileLayoutTwo from "@/components/ProfileComponent/ProfileHeaderLayout/ProfileLayoutTwo";
-import { ProfileCard } from "@/types/types";
+import { ProfileCard } from "@/lib/types/types";
 
 export enum ProfileLayout {
   layout_one = "classic",

@@ -20,7 +20,7 @@ import ProfileCardSheet, {
   ConnectionSheetVarient,
   SHEET_VARIENT,
 } from "@/components/Sheet/ProfileCardSheet";
-import { FlatContactDTO } from "@/data-access/contact";
+import { FlatContactDTO } from "@/src/infrastructure/contact/contact";
 
 interface DataTableProps {
   columns: ColumnDef<FlatContactDTO>[];

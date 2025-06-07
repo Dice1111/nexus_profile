@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useProfileContext } from "@/context/profileContext";
-import { ProfileCard } from "@/types/types";
+import { ProfileCard } from "@/lib/types/types";
 
 type Field = {
   id: string;

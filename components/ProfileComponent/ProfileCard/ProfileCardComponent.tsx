@@ -1,7 +1,7 @@
 "use client";
 
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
-import { ProfileCard, ProfileDndComponent } from "@/types/types";
+import { ProfileCard, ProfileDndComponent } from "@/lib/types/types";
 import ProfileBodyItem from "./ProfileBodyItem";
 
 interface ProfileCardComponentProps {

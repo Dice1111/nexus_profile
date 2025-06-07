@@ -1,7 +1,7 @@
 "use client";
 
 import InfoRow from "@/components/Row/InfoRow";
-import { FlatContactDTO } from "@/data-access/contact";
+import { FlatContactDTO } from "@/src/infrastructure/contact/contact";
 
 import { ColumnDef } from "@tanstack/react-table";
 

@@ -5,8 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useProfileContext } from "@/context/profileContext";
 import { typeIconMap } from "@/lib/icon";
 import { InputPlaceholder } from "@/lib/input_placeholder";
-import { PROFILE_COMPONENT_CATEGORY } from "@/types/enums";
-import { ProfileDndComponent } from "@/types/types";
+import { PROFILE_COMPONENT_CATEGORY } from "@/lib/types/enums";
+import { ProfileDndComponent } from "@/lib/types/types";
 
 import { UploadButton } from "@/util/uploadthing";
 

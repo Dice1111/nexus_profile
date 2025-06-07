@@ -1,17 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useActionState, useEffect, useState, useTransition } from "react";
 import InfoRow from "../Row/InfoRow";
 import ProfileCardSheet, {
   RequestSheetVarient,
   SHEET_VARIENT,
 } from "../Sheet/ProfileCardSheet";
 
-import { FlatRequestDTO } from "@/data-access/request";
+import { FlatRequestDTO } from "@/src/infrastructure/request/request";
+import saveToContactAction from "@/actions/request-actions/saveToContactAction";
 
 interface ConnectionRequestListProps {
   data: FlatRequestDTO[];
 }
+
+const initialState = {
+  success: false,
+  message: "",
+};
 
 export default function ConnectionRequestList({
   data,
@@ -19,6 +25,10 @@ export default function ConnectionRequestList({
   const [requests, setRequests] = useState(data);
   const [SheetData, setSheetData] = useState<RequestSheetVarient | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [state, action] = useActionState(saveToContactAction, initialState);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {}, [isPending]);
 
   useEffect(() => {
     setRequests(data);
@@ -33,27 +43,26 @@ export default function ConnectionRequestList({
     setIsSheetOpen(true);
   };
 
-  const updateRequestList = (requestID: string) => {
-    const updatedRequests = requests.filter(
-      (request) => request.senderCardId !== requestID
-    );
-    setRequests(updatedRequests);
-  };
-
   const handleAccept = (
     event: React.MouseEvent<HTMLButtonElement>,
-    requestID: string
+    requestId: number,
+    cardId: string,
+    senderCardId: string
   ) => {
     event.stopPropagation();
-    updateRequestList(requestID);
+    startTransition(() => {
+      action({ requestId, cardId, senderCardId });
+    });
   };
 
   const handleReject = (
     event: React.MouseEvent<HTMLButtonElement>,
-    requestID: string
+    requestId: number,
+    cardId: string,
+    senderCardId: string
   ) => {
     event.stopPropagation();
-    updateRequestList(requestID);
+    // updateRequestList(requestID);
   };
 
   const renderRequestList = () => {
@@ -74,9 +83,24 @@ export default function ConnectionRequestList({
               image={""}
               date={request.createdAt}
               isRequest={true}
-              onAccept={(e) => handleAccept(e, request.senderCardId)}
-              onReject={(e) => handleReject(e, request.senderCardId)}
+              onAccept={(e) =>
+                handleAccept(
+                  e,
+                  request.id,
+                  request.cardId,
+                  request.senderCardId
+                )
+              }
+              onReject={(e) =>
+                handleReject(
+                  e,
+                  request.id,
+                  request.cardId,
+                  request.senderCardId
+                )
+              }
             />
+            {isPending && <p className="text-red-600"> Saving contact...</p>}
           </div>
         ))}
       </div>

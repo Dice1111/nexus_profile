@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid"; // Import uuid for generating unique IDs
 import {
   PROFILE_COMPONENT_TYPE,
   PROFILE_COMPONENT_CATEGORY,
-} from "@/types/enums";
+} from "@/lib/types/enums";
 
 export default function FieldsEditModal() {
   // Data categorized by type

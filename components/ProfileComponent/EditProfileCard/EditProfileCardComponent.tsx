@@ -20,7 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { PROFILE_COMPONENT_TYPE } from "@/types/enums";
+import { PROFILE_COMPONENT_TYPE } from "@/lib/types/enums";
 import { useEffect, useState } from "react";
 import {
   ProfileDndComponentSchemaType,
@@ -29,7 +29,7 @@ import {
 import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { genUploader } from "uploadthing/client";
-import { ProfileDndComponent } from "@/types/types";
+import { ProfileDndComponent } from "@/lib/types/types";
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 export const { uploadFiles } = genUploader<OurFileRouter>();
 

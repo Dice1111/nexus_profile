@@ -16,7 +16,7 @@ import {
 } from "../ui/sheet";
 import TagAndNote from "./SubComponents/TagAndNote";
 
-import { ProfileCard, ProfileDndComponent } from "@/types/types";
+import { ProfileCard, ProfileDndComponent } from "@/lib/types/types";
 import QRButton from "../QRCodeButton/QRButton";
 import { CONTACT_TAG_TYPE } from "@prisma/client";
 

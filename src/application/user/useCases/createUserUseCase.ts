@@ -1,4 +1,4 @@
-import { createUser } from "@/data-access/user";
+import { createUser } from "@/src/infrastructure/user/user";
 import bcrypt from "bcrypt";
 
 const SALT_ROUNDS = 12;

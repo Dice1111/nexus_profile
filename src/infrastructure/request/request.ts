@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma-client";
+import { prisma } from "@/src/infrastructure/prisma/prisma-client";
 import { ITEMS_PER_PAGE } from "@/util/utils";
 import { Prisma } from "@prisma/client";
 
@@ -109,3 +109,5 @@ export async function getTotalRequestCount({
     throw new Error("Failed to retrieve Data.");
   }
 }
+
+export async function deleteRequest() {}

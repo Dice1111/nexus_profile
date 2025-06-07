@@ -1,4 +1,4 @@
-import { CONTACT_TAG_TYPE } from "@/types/enums";
+import { CONTACT_TAG_TYPE } from "@/lib/types/enums";
 
 export const baseUrl =
   process.env.NODE_ENV === "development"

@@ -19,7 +19,7 @@ import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import { GrFormCheckmark } from "react-icons/gr";
 import Image from "next/image";
-import { ProfileCard } from "@/types/types";
+import { ProfileCard } from "@/lib/types/types";
 
 /** Reusable Image Upload Component */
 function ImageUpload({
