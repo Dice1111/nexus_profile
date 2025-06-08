@@ -100,7 +100,7 @@ model Information {
   message       String?
   quote         String?
   prefix        String?
-  firstName     String?
+  firstName     String
   middleName    String?
   lastName      String?
   suffix        String?

@@ -6,8 +6,8 @@ import {
   fetchContactWithPagination,
   fetchTotalContactCount,
 } from "@/services/contact-service";
-import { getContactWithPaginationUseCase } from "@/use-cases/contact/getContactWithPaginationUseCase";
-import { getTotalContactCountUseCase } from "@/use-cases/contact/getTotalContactCountUseCase";
+import { getContactWithPaginationUseCase } from "@/core/application/use-cases/contact/getContactWithPaginationUseCase";
+import { getTotalContactCountUseCase } from "@/core/application/use-cases/contact/getTotalContactCountUseCase";
 import { ITEMS_PER_PAGE } from "@/util/utils";
 
 import { Suspense } from "react";

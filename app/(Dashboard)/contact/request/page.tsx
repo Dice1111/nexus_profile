@@ -1,8 +1,8 @@
 import ConnectionRequestList from "@/components/List/ConnectionRequestList";
 import ContactPagination from "@/components/Pagination/contact-pagination";
 import { parseSearchParams } from "@/lib/url-state";
-import { getRequestWithPaginationUseCase } from "@/use-cases/request/getRequestWithPaginationUseCase";
-import { getTotalRequestCountUseCase } from "@/use-cases/request/getTotalRequestCountUseCase";
+import { getRequestWithPaginationUseCase } from "@/core/application/use-cases/request/getRequestWithPaginationUseCase";
+import { getTotalRequestCountUseCase } from "@/core/application/use-cases/request/getTotalRequestCountUseCase";
 import { ITEMS_PER_PAGE } from "@/util/utils";
 import { Suspense } from "react";
 

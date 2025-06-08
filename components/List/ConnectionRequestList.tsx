@@ -7,7 +7,7 @@ import ProfileCardSheet, {
   SHEET_VARIENT,
 } from "../Sheet/ProfileCardSheet";
 
-import { FlatRequestDTO } from "@/src/infrastructure/request/request";
+import { FlatRequestDTO } from "@/core/infrastructure/models/request";
 import saveToContactAction from "@/actions/request-actions/saveToContactAction";
 
 interface ConnectionRequestListProps {

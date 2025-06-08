@@ -1,5 +1,4 @@
 "use client";
-import { logInUserAction } from "@/actions/user-actions/logInUserAction";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Form from "next/form";
@@ -7,13 +6,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 import { BiSolidHide, BiSolidShow } from "react-icons/bi";
-import { z } from "zod";
+import { signInUserAction } from "./action";
 
 // Define the Zod schema for validation
-const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
-});
+// const loginSchema = z.object({
+//   email: z.string().email("Invalid email address"),
+//   password: z.string().min(6, "Password must be at least 6 characters long"),
+// });
 
 export default function LoginPage() {
   const router = useRouter();
@@ -28,7 +27,7 @@ export default function LoginPage() {
   };
 
   const [state, formAction, isPending] = useActionState(
-    logInUserAction,
+    signInUserAction,
     initialState
   );
 
