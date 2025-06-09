@@ -4,6 +4,12 @@ export class DatabaseOperationError extends Error {
     this.name = "DatabaseOperationError";
   }
 }
+export class UniqueConstraintError extends Error {
+  constructor(message: string, options?: ErrorOptions) {
+    super(message, options);
+    this.name = "UniqueConstraintError";
+  }
+}
 
 export class NetworkError extends Error {
   constructor(message: string, options?: ErrorOptions) {

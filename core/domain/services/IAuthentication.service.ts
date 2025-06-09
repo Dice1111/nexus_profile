@@ -3,4 +3,5 @@ export interface IAuthenticationService {
     inputPassword: string,
     hashedPassword: string
   ): Promise<boolean>;
+  generateHashedPassword(inputPassword: string): Promise<string>;
 }

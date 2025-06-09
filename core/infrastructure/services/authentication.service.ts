@@ -2,10 +2,15 @@ import { IAuthenticationService } from "@/core/domain/services/IAuthentication.s
 import bcrypt from "bcrypt";
 
 export class AuthenticationService implements IAuthenticationService {
+  private static readonly SALT_ROUNDS = 12;
   async validatePasswords(
     inputPassword: string,
     hashedPassword: string
   ): Promise<boolean> {
-    return await bcrypt.compare(inputPassword, hashedPassword);
+    return bcrypt.compare(inputPassword, hashedPassword);
+  }
+
+  async generateHashedPassword(inputPassword: string): Promise<string> {
+    return bcrypt.hash(inputPassword, AuthenticationService.SALT_ROUNDS);
   }
 }

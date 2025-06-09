@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { baseUrl } from "@/util/utils";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Nexus Nova",
@@ -24,6 +25,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <main>{children}</main>
+        <Toaster />
       </body>
     </html>
   );

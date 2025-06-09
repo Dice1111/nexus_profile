@@ -1,4 +1,8 @@
-import { DatabaseOperationError } from "../../domain/errors/common.error";
+import { Prisma } from "@prisma/client";
+import {
+  DatabaseOperationError,
+  UniqueConstraintError,
+} from "../../domain/errors/common.error";
 import { CreateUserInputModel } from "../../domain/models/inputs/create-user-input.model";
 import { UserModel } from "../../domain/models/tables/user.model";
 import { IUserRepository } from "../../domain/repositories/IUserRepository";
@@ -15,6 +19,15 @@ export class UserRepository implements IUserRepository {
         },
       });
     } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2002"
+      ) {
+        throw new UniqueConstraintError(
+          "A user with this email already exists",
+          { cause: error }
+        );
+      }
       throw new DatabaseOperationError("Failed to create user", {
         cause: error,
       });
