@@ -48,12 +48,10 @@ const EditProfileCardComponent = () => {
   // Touchscreen and pointer support for drag-and-drop
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
 
-  // Dynamic validation schema
-  const [validationSchema, setValidationSchema] = useState(
-    z.object({
-      components: z.array(profileDndInputSchema),
-    })
-  );
+  // zod validation schema
+  const validationSchema = z.object({
+    components: z.array(profileDndInputSchema),
+  });
 
   const layoutComponent =
     profileLayoutData(profileData)[
@@ -69,7 +67,7 @@ const EditProfileCardComponent = () => {
   } = useForm<{
     components: ProfileDndComponentSchemaType[];
   }>({
-    mode: "onChange",
+    mode: "onBlur",
 
     resolver: zodResolver(validationSchema),
     defaultValues: {
@@ -77,13 +75,16 @@ const EditProfileCardComponent = () => {
     },
   });
 
+  // useEffect(() => {
+  //   setValidationSchema(
+  //     z.object({
+  //       components: z.array(profileDndInputSchema),
+  //     })
+  //   );
+  // }, []);
+
   // Update schema and reset form when components change
   useEffect(() => {
-    setValidationSchema(
-      z.object({
-        components: z.array(profileDndInputSchema),
-      })
-    );
     reset({ components: components as ProfileDndComponentSchemaType[] });
   }, [components, reset]);
 
@@ -106,7 +107,18 @@ const EditProfileCardComponent = () => {
   const onSubmit = async (data: {
     components: ProfileDndComponentSchemaType[];
   }) => {
+    if (isDirty) {
+      console.log("is dirty");
+    } else {
+      console.log("is not dirty");
+    }
     setLoading(true);
+
+    const apple = [1, 2, 3, 4];
+
+    console.log(apple);
+
+    console.log(data);
 
     const updatedComponents = await Promise.all(
       data.components.map(async (component) => {
@@ -185,12 +197,7 @@ const EditProfileCardComponent = () => {
           {layoutComponent}
 
           {/* Drag-and-drop area */}
-          <form
-            id="profileForm"
-            onSubmit={(e) => {
-              handleSubmit(onSubmit)(e);
-            }}
-          >
+          <form id="profileForm" onSubmit={handleSubmit(onSubmit)}>
             <DndContext
               sensors={sensors}
               onDragEnd={isEditing ? handleDragEnd : undefined}
