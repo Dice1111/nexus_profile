@@ -101,21 +101,7 @@ const DndInputField = <T extends FieldValues>({
         }`}
         type={type}
         placeholder={InputPlaceholder[type as keyof typeof InputPlaceholder]}
-        {...formRegister(
-          `components.${index}.${String(inputType)}` as Path<T>,
-          {
-            onChange: (e) => {
-              const newValue = e.target.value;
-              components[index] = {
-                ...components[index],
-                ...(inputType === "value"
-                  ? { value: newValue }
-                  : { display_text: newValue }),
-              };
-              setComponents([...components]);
-            },
-          }
-        )}
+        {...formRegister(`components.${index}.${String(inputType)}` as Path<T>)}
       />
     </div>
     {inputType === "value" && formErrors && (
@@ -165,16 +151,7 @@ const DndInputFieldBuilder = <T extends FieldValues>({
               formErrors ? "border-red-500" : "border-primary"
             }`}
             placeholder="Type your message here."
-            {...formRegister(`components.${index}.value` as Path<T>, {
-              onChange: (e) => {
-                const newValue = e.target.value;
-                components[index] = {
-                  ...components[index],
-                  value: newValue,
-                };
-                setComponents([...components]);
-              },
-            })}
+            {...formRegister(`components.${index}.value` as Path<T>)}
           />
           {formErrors && <p className="text-red-500 text-sm">{formErrors}</p>}
         </div>
@@ -191,7 +168,7 @@ const DndInputFieldBuilder = <T extends FieldValues>({
             listeners={listeners}
           />
 
-          <div className=" flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-4">
             {item.value ? (
               <Image
                 src={item.value}
@@ -219,16 +196,12 @@ const DndInputFieldBuilder = <T extends FieldValues>({
               id={`file-upload-${item.id}`}
               onChange={(e) => {
                 const file = e.target.files?.[0];
-
                 if (!file) return;
 
-                const MAX_FILE_SIZE_MB = 2;
-                const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-
-                if (file.size > MAX_FILE_SIZE_BYTES) {
-                  // Reset input value so selecting the same file again will still trigger onChange
+                const MAX_MB = 2;
+                if (file.size > MAX_MB * 1024 * 1024) {
                   e.target.value = "";
-                  alert(`File size exceeds ${MAX_FILE_SIZE_MB}MB limit.`);
+                  alert(`File must be under ${MAX_MB}MB`);
                   return;
                 }
 
@@ -236,8 +209,8 @@ const DndInputFieldBuilder = <T extends FieldValues>({
                   component.id === item.id
                     ? {
                         ...component,
-                        value: URL.createObjectURL(file), // 👈 Store the File object temporarily
-                        file: file,
+                        value: URL.createObjectURL(file),
+                        file, // if you need it for upload later
                       }
                     : component
                 );
@@ -245,9 +218,10 @@ const DndInputFieldBuilder = <T extends FieldValues>({
                 setComponents(updatedComponents);
               }}
             />
+
             <label
               htmlFor={`file-upload-${item.id}`}
-              className="cursor-pointer bg-background text-foreground px-4 py-1.5  rounded-md hover:bg-blue-700 transition-colors"
+              className="cursor-pointer bg-background text-foreground px-4 py-1.5 rounded-md hover:bg-blue-700 transition-colors"
             >
               Choose
             </label>
@@ -265,7 +239,6 @@ const DndInputFieldBuilder = <T extends FieldValues>({
             attributes={attributes}
             listeners={listeners}
           />
-          {/* display intital value and updated value */}
 
           {item.value ? (
             <a
@@ -280,30 +253,24 @@ const DndInputFieldBuilder = <T extends FieldValues>({
           ) : (
             "No File Uploaded."
           )}
+
           <UploadButton
             className="bg-primary px-4 py-1 rounded-lg hover:bg-primary/90"
             endpoint="fileUploader"
             appearance={{
-              allowedContent: {
-                display: "none",
-              },
+              allowedContent: { display: "none" },
               button: {},
             }}
             onClientUploadComplete={(res) => {
-              // Do something with the response
-              console.log("Files: ", res);
-
               const updatedComponents = components.map((component) =>
                 component.id === item.id
                   ? { ...component, value: res[0].ufsUrl }
                   : component
               );
               setComponents(updatedComponents);
-
               alert("Upload Completed");
             }}
             onUploadError={(error: Error) => {
-              // Do something with the error.
               alert(`ERROR! ${error.message}`);
             }}
           />

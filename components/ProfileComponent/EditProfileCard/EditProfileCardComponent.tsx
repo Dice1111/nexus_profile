@@ -17,7 +17,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { PROFILE_COMPONENT_TYPE } from "@/lib/types/enums";
@@ -62,8 +62,10 @@ const EditProfileCardComponent = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty },
+    formState: { errors, isDirty, dirtyFields },
     reset,
+    watch,
+    control,
   } = useForm<{
     components: ProfileDndComponentSchemaType[];
   }>({
@@ -75,32 +77,27 @@ const EditProfileCardComponent = () => {
     },
   });
 
-  // useEffect(() => {
-  //   setValidationSchema(
-  //     z.object({
-  //       components: z.array(profileDndInputSchema),
-  //     })
-  //   );
-  // }, []);
+  // Field Array
+  const { fields, move } = useFieldArray({
+    control,
+    name: "components",
+  });
 
   // Update schema and reset form when components change
-  useEffect(() => {
-    reset({ components: components as ProfileDndComponentSchemaType[] });
-  }, [components, reset]);
 
   // Handle drag end
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
+    if (!over || active.id === over.id) return;
 
-    if (active.id !== over?.id) {
-      setComponents((prevItems) => {
-        const activeIndex = prevItems.findIndex(
-          (item) => item.id === active.id
-        );
-        const overIndex = prevItems.findIndex((item) => item.id === over?.id);
-        return arrayMove(prevItems, activeIndex, overIndex);
-      });
-    }
+    const oldIndex = fields.findIndex((field) => field.id === active.id);
+    const newIndex = fields.findIndex((field) => field.id === over.id);
+
+    if (oldIndex === -1 || newIndex === -1) return;
+
+    move(oldIndex, newIndex);
+
+    setComponents((prevItems) => arrayMove(prevItems, oldIndex, newIndex));
   };
 
   // Handle form submission
@@ -114,9 +111,17 @@ const EditProfileCardComponent = () => {
     }
     setLoading(true);
 
-    const apple = [1, 2, 3, 4];
+    // Get dirty values
+    const allValues = watch();
+    const dirtyComponents = allValues.components?.filter((_, i) => {
+      const dirtyFieldObj = dirtyFields.components?.[i];
+      if (!dirtyFieldObj) return false; // no dirty fields at all
+      // Check if any property inside dirtyFieldObj is true
+      return Object.values(dirtyFieldObj).some(Boolean);
+    });
 
-    console.log(apple);
+    console.log("🧼 Dirty Field Indices:", dirtyFields.components);
+    console.log("🔥 Dirty Component Values:", dirtyComponents);
 
     console.log(data);
 
@@ -204,14 +209,14 @@ const EditProfileCardComponent = () => {
               collisionDetection={closestCorners}
             >
               <SortableContext
-                items={components}
+                items={fields.map((field) => field.id)}
                 strategy={verticalListSortingStrategy}
               >
                 <div className="flex flex-col gap-3 pb-4 w-full">
-                  {components.map((item, index) => (
+                  {fields.map((item, index) => (
                     <ProfileDroppable
                       key={item.id}
-                      item={item}
+                      item={item as ProfileDndComponent}
                       index={index}
                       formRegister={register}
                       formErrors={errors.components?.[index]?.value?.message}
