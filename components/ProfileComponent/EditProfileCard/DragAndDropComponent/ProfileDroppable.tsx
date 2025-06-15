@@ -16,8 +16,13 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 import Image from "next/image";
-import { Dispatch, SetStateAction } from "react";
-import { FieldValues, Path, UseFormRegister } from "react-hook-form";
+import {
+  FieldValues,
+  Path,
+  PathValue,
+  UseFormRegister,
+  UseFormSetValue,
+} from "react-hook-form";
 import { RxCross1, RxDragHandleHorizontal } from "react-icons/rx";
 
 interface DroppableProps<T extends FieldValues> {
@@ -25,33 +30,21 @@ interface DroppableProps<T extends FieldValues> {
   index: number;
   formRegister: UseFormRegister<T>;
   formErrors?: string;
+  handleDeleteItem: (id: string) => void;
+  setValue: UseFormSetValue<T>;
 }
-
-// Utility function to handle deletion of an item
-const handleDelete = (
-  id: string,
-  components: ProfileDndComponent[],
-  setComponents: Dispatch<SetStateAction<ProfileDndComponent[]>>
-) => {
-  const updatedComponents = components.filter(
-    (component) => component.id !== id
-  );
-  setComponents(updatedComponents);
-};
 
 // Reusable component for header with drag handle and delete button
 const DndComponentHeader = ({
   item,
-  components,
-  setComponents,
   attributes,
   listeners,
+  handleDeleteItem,
 }: {
   item: ProfileDndComponent;
-  components: ProfileDndComponent[];
-  setComponents: Dispatch<SetStateAction<ProfileDndComponent[]>>;
   attributes: DraggableAttributes;
   listeners?: SyntheticListenerMap;
+  handleDeleteItem: (id: string) => void;
 }) => (
   <div className="flex justify-between w-full items-center">
     <div
@@ -64,7 +57,7 @@ const DndComponentHeader = ({
       <h1 className="text-lg font-bold capitalize">{item.type}</h1>
     </div>
     <RxCross1
-      onClick={() => handleDelete(item.id, components, setComponents)}
+      onClick={() => handleDeleteItem(item.id)}
       className="hover:scale-110 transition cursor-pointer"
     />
   </div>
@@ -77,8 +70,6 @@ const DndInputField = <T extends FieldValues>({
   inputType,
   formRegister,
   formErrors,
-  components,
-  setComponents,
 }: {
   type: string;
   index: number;
@@ -86,8 +77,6 @@ const DndInputField = <T extends FieldValues>({
   inputType: keyof T;
   formRegister: UseFormRegister<T>;
   formErrors?: string;
-  components: ProfileDndComponent[];
-  setComponents: Dispatch<SetStateAction<ProfileDndComponent[]>>;
 }) => (
   <>
     <div className="flex px-2 w-full max-w-sm items-center gap-3 bg-transparent rounded">
@@ -118,6 +107,8 @@ const DndInputFieldBuilder = <T extends FieldValues>({
   listeners,
   formRegister,
   formErrors,
+  handleDeleteItem,
+  setValue,
 }: {
   item: ProfileDndComponent;
   index: number;
@@ -125,6 +116,8 @@ const DndInputFieldBuilder = <T extends FieldValues>({
   listeners?: SyntheticListenerMap;
   formRegister: UseFormRegister<T>;
   formErrors?: string;
+  handleDeleteItem: (id: string) => void;
+  setValue: UseFormSetValue<T>;
 }) => {
   const context = useProfileContext();
 
@@ -133,18 +126,15 @@ const DndInputFieldBuilder = <T extends FieldValues>({
     return null;
   }
 
-  const { components, setComponents } = context;
-
   switch (item.category) {
     case PROFILE_COMPONENT_CATEGORY.TEXT:
       return (
         <div className="flex flex-col gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
           <DndComponentHeader
             item={item}
-            components={components}
-            setComponents={setComponents}
             attributes={attributes}
             listeners={listeners}
+            handleDeleteItem={handleDeleteItem}
           />
           <Textarea
             className={`bg-transparent border ${
@@ -162,10 +152,9 @@ const DndInputFieldBuilder = <T extends FieldValues>({
         <div className="flex flex-col items-center gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
           <DndComponentHeader
             item={item}
-            components={components}
-            setComponents={setComponents}
             attributes={attributes}
             listeners={listeners}
+            handleDeleteItem={handleDeleteItem}
           />
 
           <div className="flex flex-col items-center gap-4">
@@ -205,17 +194,15 @@ const DndInputFieldBuilder = <T extends FieldValues>({
                   return;
                 }
 
-                const updatedComponents = components.map((component) =>
-                  component.id === item.id
-                    ? {
-                        ...component,
-                        value: URL.createObjectURL(file),
-                        file, // if you need it for upload later
-                      }
-                    : component
+                // Update form value directly
+                setValue(
+                  `components.${index}.value` as Path<T>,
+                  URL.createObjectURL(file) as PathValue<T, Path<T>>,
+                  {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  }
                 );
-
-                setComponents(updatedComponents);
               }}
             />
 
@@ -234,10 +221,9 @@ const DndInputFieldBuilder = <T extends FieldValues>({
         <div className="flex flex-col items-center gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
           <DndComponentHeader
             item={item}
-            components={components}
-            setComponents={setComponents}
             attributes={attributes}
             listeners={listeners}
+            handleDeleteItem={handleDeleteItem}
           />
 
           {item.value ? (
@@ -262,13 +248,17 @@ const DndInputFieldBuilder = <T extends FieldValues>({
               button: {},
             }}
             onClientUploadComplete={(res) => {
-              const updatedComponents = components.map((component) =>
-                component.id === item.id
-                  ? { ...component, value: res[0].ufsUrl }
-                  : component
-              );
-              setComponents(updatedComponents);
-              alert("Upload Completed");
+              if (res && res[0]) {
+                setValue(
+                  `components.${index}.value` as Path<T>,
+                  res[0].ufsUrl as PathValue<T, Path<T>>,
+                  {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  }
+                );
+                alert("Upload Completed");
+              }
             }}
             onUploadError={(error: Error) => {
               alert(`ERROR! ${error.message}`);
@@ -283,8 +273,6 @@ const DndInputFieldBuilder = <T extends FieldValues>({
             inputType="display_text"
             formRegister={formRegister}
             formErrors={formErrors}
-            components={components}
-            setComponents={setComponents}
           />
         </div>
       );
@@ -294,10 +282,9 @@ const DndInputFieldBuilder = <T extends FieldValues>({
         <div className="flex flex-col gap-2 bg-secondary text-secondary-foreground p-4 rounded">
           <DndComponentHeader
             item={item}
-            components={components}
-            setComponents={setComponents}
             attributes={attributes}
             listeners={listeners}
+            handleDeleteItem={handleDeleteItem}
           />
           <DndInputField
             type={item.type}
@@ -305,8 +292,6 @@ const DndInputFieldBuilder = <T extends FieldValues>({
             inputType="value"
             formRegister={formRegister}
             formErrors={formErrors}
-            components={components}
-            setComponents={setComponents}
           />
 
           <DndInputField
@@ -315,8 +300,6 @@ const DndInputFieldBuilder = <T extends FieldValues>({
             inputType="display_text"
             formRegister={formRegister}
             formErrors={formErrors}
-            components={components}
-            setComponents={setComponents}
           />
         </div>
       );
@@ -329,6 +312,8 @@ export default function ProfileDroppable<T extends FieldValues>({
   index,
   formRegister,
   formErrors,
+  handleDeleteItem,
+  setValue,
 }: DroppableProps<T>) {
   const {
     attributes,
@@ -355,6 +340,8 @@ export default function ProfileDroppable<T extends FieldValues>({
         listeners={listeners}
         formRegister={formRegister}
         formErrors={formErrors}
+        handleDeleteItem={handleDeleteItem}
+        setValue={setValue}
       />
     </div>
   );

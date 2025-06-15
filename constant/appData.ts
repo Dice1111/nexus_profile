@@ -13,7 +13,6 @@ import {
 
 //...................PROFILE DATA............................
 export const profileDndComponents: ProfileDndComponent[] = [
-  // Email
   {
     id: "103",
     card_id: "1",
@@ -21,8 +20,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.MAIL,
     display_text: "Work Email",
     value: "john.doe@example.com",
+    position: 0,
   },
-  // Link
   {
     id: "104",
     card_id: "1",
@@ -30,9 +29,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Personal Website",
     value: "https://johndoe.com",
+    position: 1,
   },
-
-  // Phone
   {
     id: "106",
     card_id: "1",
@@ -40,8 +38,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.PHONE,
     display_text: "Mobile",
     value: "6594832945",
+    position: 2,
   },
-  // WhatsApp
   {
     id: "107",
     card_id: "1",
@@ -49,8 +47,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "WhatsApp Number",
     value: "https://wa.me/6594832945",
+    position: 3,
   },
-  // Telegram
   {
     id: "108",
     card_id: "1",
@@ -58,8 +56,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "My Telegram",
     value: "https://t.me/Kyaw_Za_Yan_Naing",
+    position: 4,
   },
-  // Text
   {
     id: "102",
     card_id: "1",
@@ -67,18 +65,17 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.TEXT,
     display_text: "Name",
     value: "My Best Image!",
+    position: 5,
   },
-  // Image
   {
     id: "101",
     card_id: "1",
     type: PROFILE_COMPONENT_TYPE.IMAGE,
     category: PROFILE_COMPONENT_CATEGORY.IMAGE,
     display_text: "",
-    value:
-      "https://uz4l01v58c.ufs.sh/f/vgsYHuXFuRcj3kvzlVQQd0PAfYngj1JkaMCWo9ElT5O6VerF",
+    value: "https://uz4l01v58c.ufs.sh/f/vgsYHuXFuRcj3kvzlVQQd0PAfYngj1JkaMCWo9ElT5O6VerF",
+    position: 6,
   },
-
   {
     id: "200",
     card_id: "1",
@@ -86,18 +83,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.TEXT,
     display_text: "Name",
     value: "My Address",
+    position: 7,
   },
-
-  // Map
-  // {
-  //   id: "105",
-  //   card_id: "1",
-  //   type: PROFILE_COMPONENT_TYPE.MAP,
-  //   category: PROFILE_COMPONENT_CATEGORY.MAP,
-  //   display_text: "Address",
-  //   value: "Blk 322, Tah Ching Rd, Singapore",
-  // },
-  // YouTube
   {
     id: "109",
     card_id: "1",
@@ -105,8 +92,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "My Youtube Channel",
     value: "https://www.youtube.com/channel/UCBo1hnzxV9rz3WVsv__Rn1g",
+    position: 8,
   },
-
   {
     id: "201",
     card_id: "1",
@@ -114,8 +101,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.TEXT,
     display_text: "Name",
     value: "My Social Media Links",
+    position: 9,
   },
-  // Discord
   {
     id: "110",
     card_id: "1",
@@ -123,8 +110,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Discord Account",
     value: "dice#3040",
+    position: 10,
   },
-  // GitHub
   {
     id: "111",
     card_id: "1",
@@ -132,8 +119,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "GitHub Profile",
     value: "https://github.com/johndoe",
+    position: 11,
   },
-  // LinkedIn
   {
     id: "112",
     card_id: "1",
@@ -141,8 +128,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "LinkedIn Profile",
     value: "https://www.linkedin.com/in/johndoe",
+    position: 12,
   },
-  // Facebook
   {
     id: "113",
     card_id: "1",
@@ -150,8 +137,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Facebook Page",
     value: "https://www.facebook.com/johndoe",
+    position: 13,
   },
-  // Instagram
   {
     id: "114",
     card_id: "1",
@@ -159,8 +146,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Instagram Profile",
     value: "https://www.instagram.com/johndoe",
+    position: 14,
   },
-  // Twitter
   {
     id: "115",
     card_id: "1",
@@ -168,8 +155,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Twitter Profile",
     value: "https://twitter.com/johndoe",
+    position: 15,
   },
-  // TikTok
   {
     id: "116",
     card_id: "1",
@@ -177,8 +164,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "TikTok Profile",
     value: "https://www.tiktok.com/@johndoe",
+    position: 16,
   },
-  // Pinterest
   {
     id: "117",
     card_id: "1",
@@ -186,9 +173,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Pinterest Board",
     value: "https://www.pinterest.com/johndoe/myboard",
+    position: 17,
   },
-
-  // PayPal
   {
     id: "119",
     card_id: "1",
@@ -196,8 +182,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "PayPal Link",
     value: "https://www.paypal.com/paypalme/johndoe",
+    position: 18,
   },
-  // Zoom
   {
     id: "120",
     card_id: "1",
@@ -205,8 +191,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Zoom Meeting",
     value: "https://zoom.us/j/1234567890",
+    position: 19,
   },
-  // Google Meet
   {
     id: "121",
     card_id: "1",
@@ -214,8 +200,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Google Meet",
     value: "https://meet.google.com/abc-defg-hij",
+    position: 20,
   },
-  // Microsoft Teams
   {
     id: "122",
     card_id: "1",
@@ -223,8 +209,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Microsoft Teams Meeting",
     value: "https://teams.microsoft.com/l/meetup-join/abc123",
+    position: 21,
   },
-  // Dribbble
   {
     id: "123",
     card_id: "1",
@@ -232,8 +218,8 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Dribbble Profile",
     value: "https://dribbble.com/johndoe",
+    position: 22,
   },
-  // Behance
   {
     id: "124",
     card_id: "1",
@@ -241,19 +227,17 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.LINK,
     display_text: "Behance Portfolio",
     value: "https://www.behance.net/johndoe",
+    position: 23,
   },
-  //LINKEDIN_POST
   {
     id: "125",
     card_id: "1",
     type: PROFILE_COMPONENT_TYPE.LINKEDIN_POST,
     category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
     display_text: "LinkedIn Post",
-    value:
-      "https://www.linkedin.com/embed/feed/update/urn:li:share:7329037915160834049?compact=1",
+    value: "https://www.linkedin.com/embed/feed/update/urn:li:share:7329037915160834049?compact=1",
+    position: 24,
   },
-
-  // //TWITTER_TWEET
   {
     id: "126",
     card_id: "1",
@@ -261,18 +245,17 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
     display_text: "Twitter Tweet",
     value: "https://twitter.com/AppleSupport/status/1873769925375860807",
+    position: 25,
   },
-  // INSTAGRAM_POST
   {
     id: "127",
     card_id: "1",
     type: PROFILE_COMPONENT_TYPE.INSTAGRAM_POST,
     category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
     display_text: "Instagram Post",
-    value:
-      "https://www.instagram.com/p/DEOoN1KunCl/?utm_source=ig_web_copy_link",
+    value: "https://www.instagram.com/p/DEOoN1KunCl/?utm_source=ig_web_copy_link",
+    position: 26,
   },
-  // YOUTUBE_VIDEO
   {
     id: "128",
     card_id: "1",
@@ -280,29 +263,28 @@ export const profileDndComponents: ProfileDndComponent[] = [
     category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
     display_text: "YouTube Video",
     value: "https://www.youtube.com/watch?v=ekr2nIex040",
+    position: 27,
   },
-  //FACEBOOK_POST
   {
     id: "129",
     card_id: "1",
     type: PROFILE_COMPONENT_TYPE.FACEBOOK_POST,
     category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
     display_text: "Facebook Post",
-    value:
-      "https://www.facebook.com/Genshinimpact/posts/pfbid02sCNWWoC7aGpE53Wp2Ja1TSLCQwopxyACnMfiiqLxL3ypbqvU8tCXy1cDJoYFrXqCl/",
+    value: "https://www.facebook.com/Genshinimpact/posts/pfbid02sCNWWoC7aGpE53Wp2Ja1TSLCQwopxyACnMfiiqLxL3ypbqvU8tCXy1cDJoYFrXqCl/",
+    position: 28,
   },
-
-  //tiktok_post
   {
     id: "130",
     card_id: "1",
     type: PROFILE_COMPONENT_TYPE.TIKTOK_POST,
     category: PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED,
     display_text: "TikTok Post",
-    value:
-      "https://www.tiktok.com/@wasted.a1/video/7253096002691894530?is_from_webapp=1&sender_device=pc&web_id=7454463793868195344",
+    value: "https://www.tiktok.com/@wasted.a1/video/7253096002691894530?is_from_webapp=1&sender_device=pc&web_id=7454463793868195344",
+    position: 29,
   },
 ];
+
 
 export const profileCard: ProfileCard[] = [
   {

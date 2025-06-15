@@ -17,11 +17,10 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, UseFormSetValue } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { PROFILE_COMPONENT_TYPE } from "@/lib/types/enums";
-import { useEffect, useState } from "react";
 import {
   ProfileDndComponentSchemaType,
   profileDndInputSchema,
@@ -65,6 +64,8 @@ const EditProfileCardComponent = () => {
     formState: { errors, isDirty, dirtyFields },
     reset,
     watch,
+    setValue,
+
     control,
   } = useForm<{
     components: ProfileDndComponentSchemaType[];
@@ -78,12 +79,24 @@ const EditProfileCardComponent = () => {
   });
 
   // Field Array
-  const { fields, move } = useFieldArray({
+  const { fields, move, remove } = useFieldArray({
     control,
     name: "components",
   });
 
-  // Update schema and reset form when components change
+  // Utility function to handle deletion of an item
+
+  const handleDeleteItem = (id: string) => {
+    // Find the index in the form fields
+    const fieldIndex = fields.findIndex((field) => field.id === id);
+    if (fieldIndex !== -1) {
+      // Remove from form fields
+      remove(fieldIndex);
+
+      // Update context state
+      setComponents((prev) => prev.filter((item) => item.id !== id));
+    }
+  };
 
   // Handle drag end
   const handleDragEnd = (event: DragEndEvent) => {
@@ -97,7 +110,27 @@ const EditProfileCardComponent = () => {
 
     move(oldIndex, newIndex);
 
-    setComponents((prevItems) => arrayMove(prevItems, oldIndex, newIndex));
+    // Move the item in your context state array and update position accordingly
+    // setComponents((prevItems) => {
+    //   const newItems = arrayMove(prevItems, oldIndex, newIndex);
+
+    //   console.log(newItems);
+
+    //   // Update position to reflect new order
+    //   return newItems.map((item, index) => ({
+    //     ...item,
+    //     position: index, // or index + 1 if you want 1-based positions
+    //   }));
+    // });
+
+    // Manually update form state positions
+    const updatedFields = [...fields];
+    const movedField = updatedFields.splice(oldIndex, 1)[0];
+    updatedFields.splice(newIndex, 0, movedField);
+
+    updatedFields.forEach((_, index) => {
+      setValue(`components.${index}.position`, index, { shouldDirty: true });
+    });
   };
 
   // Handle form submission
@@ -123,10 +156,8 @@ const EditProfileCardComponent = () => {
     console.log("🧼 Dirty Field Indices:", dirtyFields.components);
     console.log("🔥 Dirty Component Values:", dirtyComponents);
 
-    console.log(data);
-
     const updatedComponents = await Promise.all(
-      data.components.map(async (component) => {
+      data.components.map(async (component, index) => {
         // Only handle image components with a new file
         if (
           component.type === PROFILE_COMPONENT_TYPE.IMAGE &&
@@ -180,6 +211,8 @@ const EditProfileCardComponent = () => {
       })
     );
 
+    console.log(updatedComponents);
+
     setComponents(updatedComponents as ProfileDndComponent[]);
     reset();
     setLoading(false);
@@ -220,6 +253,8 @@ const EditProfileCardComponent = () => {
                       index={index}
                       formRegister={register}
                       formErrors={errors.components?.[index]?.value?.message}
+                      handleDeleteItem={handleDeleteItem}
+                      setValue={setValue}
                     />
                   ))}
                 </div>
