@@ -3,13 +3,14 @@ import {
   DatabaseOperationError,
   UniqueConstraintError,
 } from "../../domain/errors/common.error";
-import { CreateUserInputModel } from "../../domain/models/inputs/create-user-input.model";
-import { UserModel } from "../../domain/models/tables/user.model";
+
 import { IUserRepository } from "../../domain/repositories/IUserRepository";
 import { prisma } from "../prisma/prisma-client";
+import { ICreateUserData } from "@/core/domain/repositories/types/user.types";
+import { UserModel } from "@/core/domain/models/user.model";
 
 export class UserRepository implements IUserRepository {
-  async create(data: CreateUserInputModel): Promise<void> {
+  async create(data: ICreateUserData): Promise<void> {
     try {
       await prisma.user.create({
         data: {

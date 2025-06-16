@@ -1,5 +1,6 @@
 // types/itemTypes.ts
 
+import { deleteRequest } from "@/core/infrastructure/models/request";
 import {
   CONNECTION_REQUEST_STATUS,
   CONTACT_TAG_TYPE,
@@ -88,3 +89,5 @@ export interface ConnectionRequestWithDetails extends ConnectionRequest {
   senderCompany: string;
   senderImage: string;
 }
+
+saniize;

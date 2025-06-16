@@ -3,6 +3,7 @@ import ClientSideProfilePage from "./ClientSideHomePage";
 import TopCard from "@/public/image/card3.jpg";
 import BottomCard from "@/public/image/card5.jpg";
 import Logo from "@/public/image/logo-removebg-preview.svg";
+import { signInController } from "@/core/controllers/auth/sign-in.controller";
 
 export default async function Home() {
   return (
@@ -41,7 +42,6 @@ export default async function Home() {
           {/* Top Image */}
           <div className="w-60 h-64  relative">
             <Image
-            
               src={TopCard}
               alt="Uploaded image"
               className="object-cover border border-primary rounded-xl transition-transform duration-300 hover:scale-105"
@@ -53,7 +53,6 @@ export default async function Home() {
           {/* Bottom Image */}
           <div className="w-60 h-64  relative">
             <Image
-              
               src={BottomCard}
               alt="Uploaded image"
               className="object-cover scale-100 border border-primary rounded-xl transition-transform duration-300 hover:scale-105"

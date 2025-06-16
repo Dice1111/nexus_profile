@@ -6,7 +6,7 @@ import {
   UniqueConstraintError,
 } from "@/core/domain/errors/common.error";
 import CreateSignUpController from "@/core/factory/di-factory/auth/create-sign-up-controller";
-import { SignUpControllerType } from "@/core/interface-adapters/controllers/auth/sign-up.controller";
+import { SignUpControllerType } from "@/core/controllers/auth/sign-up.controller";
 import { SignUpInputType } from "@/schema/auth/sign-up.schema";
 
 export async function signUpUserAction(

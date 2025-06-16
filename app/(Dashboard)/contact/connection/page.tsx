@@ -1,13 +1,9 @@
 import ContactPagination from "@/components/Pagination/contact-pagination";
 import { columns } from "@/components/Table/contact/column";
 import { ConnectionTable } from "@/components/Table/contact/connection-table";
-import { parseSearchParams } from "@/lib/url-state";
-import {
-  fetchContactWithPagination,
-  fetchTotalContactCount,
-} from "@/services/contact-service";
 import { getContactWithPaginationUseCase } from "@/core/application/use-cases/contact/getContactWithPaginationUseCase";
 import { getTotalContactCountUseCase } from "@/core/application/use-cases/contact/getTotalContactCountUseCase";
+import { parseSearchParams } from "@/lib/url-state";
 import { ITEMS_PER_PAGE } from "@/util/utils";
 
 import { Suspense } from "react";

@@ -36,9 +36,8 @@ model Card {
   Request         Request[]
   Contact         Contact[]
   ContactPerson   Contact[]         @relation("ContactPerson")
-
-  Information Information?
-  Design      Design?
+  Design          Design?
+  Information     Information?
 }
 
 model PofileComponent {
@@ -82,30 +81,28 @@ model Contact {
 model Design {
   id              Int     @id @default(autoincrement())
   cardId          String  @unique
-  card            Card    @relation(fields: [cardId], references: [id])
   foregroundColor String
   backgroundColor String
   backgroundImage String?
   profileImage    String?
   layout          String
+  card            Card    @relation(fields: [cardId], references: [id])
 }
 
 model Information {
   id            Int     @id @default(autoincrement())
   cardId        String  @unique
-  card          Card    @relation(fields: [cardId], references: [id])
   title         String?
   occupation    String?
   company       String?
   message       String?
   quote         String?
   prefix        String?
-  firstName     String
-  middleName    String?
-  lastName      String?
+  fullName      String
   suffix        String?
   preferredName String?
   pronouns      String?
+  card          Card    @relation(fields: [cardId], references: [id])
 }
 
 enum PROFILE_COMPONENT_TYPE {

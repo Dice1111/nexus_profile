@@ -1,5 +1,4 @@
 import { prisma } from "@/core/infrastructure/prisma/prisma-client";
-import { ITEMS_PER_PAGE } from "@/util/utils";
 import { CONTACT_TAG_TYPE, Prisma } from "@prisma/client";
 
 interface ContactDTO {
@@ -73,7 +72,7 @@ export async function getContactWithPagination({
   whereClause,
   orderBy,
   offset,
-}: GetContactWithPaginationDTO) {
+}: 3) {
   try {
     const contacts = await prisma.contact.findMany({
       where: whereClause,
