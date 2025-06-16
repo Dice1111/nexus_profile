@@ -6,9 +6,7 @@ import PillShapeTag from "../Tag/PillShapeTag";
 import { CONTACT_TAG_TYPE } from "@prisma/client";
 
 interface InfoRowProps {
-  firstName: string | null;
-  lastName: string | null;
-  middleName: string | null;
+  fullName: string;
   occupation: string | null;
   company: string | null;
   image: string | null;
@@ -20,9 +18,7 @@ interface InfoRowProps {
 }
 
 export default function InfoRow({
-  firstName,
-  lastName,
-  middleName,
+  fullName,
   occupation,
   company,
   image,
@@ -33,7 +29,6 @@ export default function InfoRow({
   onReject,
 }: InfoRowProps) {
   const RenderBadge = () => tag && <PillShapeTag tag={tag} />;
-  const fullname = [firstName, middleName, lastName].filter(Boolean).join(" ");
 
   const RenderActionButtons = () => (
     <div className="flex gap-3">
@@ -66,16 +61,16 @@ export default function InfoRow({
           <AvatarImage
             className="object-cover w-full h-full"
             src={image || undefined}
-            alt={fullname}
+            alt={fullName}
           />
           <AvatarFallback className="bg-primary text-primary-foreground w-full h-full flex items-center justify-center rounded-full">
-            {fullname?.slice(0, 2).toUpperCase()}
+            {fullName?.slice(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
 
         {/* Contact Details */}
         <div className="flex flex-col justify-between">
-          <p className="text-md sm:text-base font-semibold">{fullname}</p>
+          <p className="text-md sm:text-base font-semibold">{fullName}</p>
           <div className="flex items-center gap-2 text-xs font-light text-primary">
             <p>{occupation}</p>
             <div className="hidden sm:flex items-center gap-2">

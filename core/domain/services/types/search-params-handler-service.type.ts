@@ -5,6 +5,10 @@ import {
 } from "../../enum/search-params-handler-service.enum";
 
 export interface IRawSearchParams {
+  [key: string]: string | string[] | undefined;
+}
+
+export interface IParsedSearchParams {
   cardId: string;
   search?: string;
   page: string;

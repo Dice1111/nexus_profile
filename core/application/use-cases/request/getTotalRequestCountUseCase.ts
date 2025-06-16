@@ -1,32 +1,32 @@
-import { getTotalRequestCount } from "@/core/infrastructure/models/request";
-import { SearchParams } from "@/lib/url-state";
-import { Prisma } from "@prisma/client";
+// import { getTotalRequestCount } from "@/core/infrastructure/models/request";
+// import { SearchParams } from "@/lib/url-state";
+// import { Prisma } from "@prisma/client";
 
-export async function getTotalRequestCountUseCase(searchParams: SearchParams) {
-  const cardId = "applecard";
+// export async function getTotalRequestCountUseCase(searchParams: SearchParams) {
+//   const cardId = "applecard";
 
-  const whereClause: Prisma.RequestWhereInput = {
-    cardId: cardId,
-  };
+//   const whereClause: Prisma.RequestWhereInput = {
+//     cardId: cardId,
+//   };
 
-  if (searchParams.search) {
-    const keyword = searchParams.search;
-    whereClause.SenderCard = {
-      Information: {
-        OR: [
-          { firstName: { contains: keyword, mode: "insensitive" } },
-          { middleName: { contains: keyword, mode: "insensitive" } },
-          { lastName: { contains: keyword, mode: "insensitive" } },
-          { occupation: { contains: keyword, mode: "insensitive" } },
-          { company: { contains: keyword, mode: "insensitive" } },
-        ],
-      },
-    };
-  }
+//   if (searchParams.search) {
+//     const keyword = searchParams.search;
+//     whereClause.SenderCard = {
+//       Information: {
+//         OR: [
+//           { firstName: { contains: keyword, mode: "insensitive" } },
+//           { middleName: { contains: keyword, mode: "insensitive" } },
+//           { lastName: { contains: keyword, mode: "insensitive" } },
+//           { occupation: { contains: keyword, mode: "insensitive" } },
+//           { company: { contains: keyword, mode: "insensitive" } },
+//         ],
+//       },
+//     };
+//   }
 
-  const data = await getTotalRequestCount({
-    whereClause,
-  });
+//   const data = await getTotalRequestCount({
+//     whereClause,
+//   });
 
-  return data;
-}
+//   return data;
+// }

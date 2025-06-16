@@ -28,9 +28,7 @@ export enum SHEET_VARIENT {
 
 // Props for Connection and Request Sheet Variants
 export interface ConnectionSheetVarient {
-  firstName: string | null;
-  lastName: string | null;
-  middleName: string | null;
+  fullName: string;
   cardId: string;
   tag: CONTACT_TAG_TYPE;
   note: string | null;
@@ -101,13 +99,7 @@ export default function ProfileCardSheet({
       console.error("Error fetching profile data:", error);
     }
   };
-  const fullname = [
-    (sheetData as ConnectionSheetVarient).firstName,
-    (sheetData as ConnectionSheetVarient).middleName,
-    (sheetData as ConnectionSheetVarient).lastName,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const fullname = (sheetData as ConnectionSheetVarient).fullName;
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen} modal={false}>

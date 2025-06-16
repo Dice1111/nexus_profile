@@ -2,6 +2,7 @@ import { CONTACT_TAG_ENUM } from "@/core/domain/enum/contact-tag.enum";
 import { IContactRepository } from "@/core/domain/repositories/IContactRepository";
 import {
   IFlatContact,
+  IFlatContactWithPaginationData,
   IRawContact,
 } from "@/core/domain/repositories/types/contact.types";
 import {
@@ -32,13 +33,15 @@ function ToFlatContact(rawContactData: IRawContact[]): IFlatContact[] {
   });
 }
 
-export type FetchContactsBySearchParamsUseCase = ReturnType<
+export type IFetchContactsBySearchParamsUseCase = ReturnType<
   typeof fetchContactsBySearchParamsUseCase
 >;
 
 export const fetchContactsBySearchParamsUseCase =
   (contactRepository: IContactRepository) =>
-  async (sanitizedSearchParams: ISanitizedSearchParams) => {
+  async (
+    sanitizedSearchParams: ISanitizedSearchParams
+  ): Promise<IFlatContactWithPaginationData> => {
     const requestPage: number = Math.max(
       1,
       Number(sanitizedSearchParams.page) || 1
@@ -60,5 +63,11 @@ export const fetchContactsBySearchParamsUseCase =
       sortClauseRequirement,
     });
 
-    return ToFlatContact(rawContactData);
+    return {
+      contacts: ToFlatContact(rawContactData.contacts),
+      totalPage: Math.ceil(
+        rawContactData.contacts.length / rawContactData.itemsPerPage
+      ),
+      currentPage: requestPage,
+    };
   };

@@ -31,6 +31,17 @@ export interface IRawContact {
   };
 }
 
+export interface IRawContactWithPaginationData {
+  contacts: IRawContact[];
+  itemsPerPage: number;
+}
+
+export interface IFlatContactWithPaginationData {
+  contacts: IFlatContact[];
+  totalPage: number;
+  currentPage: number;
+}
+
 export interface IFlatContact {
   id: number;
   cardId: string;

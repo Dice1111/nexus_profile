@@ -1,25 +1,22 @@
+import { DatabaseOperationError } from "@/core/domain/errors/common.error";
 import { IContactRepository } from "@/core/domain/repositories/IContactRepository";
-import { prisma } from "../prisma/prisma-client";
 import {
   IOrganizedSearchParams,
-  IRawContact,
+  IRawContactWithPaginationData,
 } from "@/core/domain/repositories/types/contact.types";
 import {
   IContactFilter,
   IContactSort,
 } from "@/core/domain/services/types/search-params-handler-service.type";
 import { CONTACT_TAG_TYPE, Prisma } from "@prisma/client";
-import {
-  DatabaseOperationError,
-  NotFoundError,
-} from "@/core/domain/errors/common.error";
+import { prisma } from "../prisma/prisma-client";
 
 export class ContactRepository implements IContactRepository {
   private static readonly ITEMS_PER_PAGE: number = 10;
 
   async fetchBySearchParams(
     data: IOrganizedSearchParams
-  ): Promise<IRawContact[]> {
+  ): Promise<IRawContactWithPaginationData> {
     try {
       const offset = (data.requestPage - 1) * ContactRepository.ITEMS_PER_PAGE;
 
@@ -49,7 +46,10 @@ export class ContactRepository implements IContactRepository {
         },
       });
 
-      return rawContactData;
+      return {
+        contacts: rawContactData,
+        itemsPerPage: ContactRepository.ITEMS_PER_PAGE,
+      };
     } catch (error) {
       throw new DatabaseOperationError("Failed to fetch Contacts", {
         cause: error,

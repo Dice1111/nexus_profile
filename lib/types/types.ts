@@ -1,12 +1,6 @@
 // types/itemTypes.ts
 
-import { deleteRequest } from "@/core/infrastructure/models/request";
-import {
-  CONNECTION_REQUEST_STATUS,
-  CONTACT_TAG_TYPE,
-  PROFILE_COMPONENT_CATEGORY,
-  PROFILE_COMPONENT_TYPE,
-} from "./enums";
+import { PROFILE_COMPONENT_CATEGORY, PROFILE_COMPONENT_TYPE } from "./enums";
 
 export type ProfileDndComponent = {
   id: string;
@@ -16,26 +10,6 @@ export type ProfileDndComponent = {
   display_text: string; //need to check wheather it is nullable or not
   value: string;
   file?: File;
-};
-
-export type Contact = {
-  contactID: string;
-  userCardID: string;
-  contactPersonCardID: string;
-  contactPersonID: string;
-  tag: CONTACT_TAG_TYPE;
-  note?: string;
-  created_at: Date;
-  updated_at: Date;
-};
-
-export type ConnectionRequest = {
-  requestID: string;
-  senderCardID: string;
-  recieverCardID: string;
-  status: CONNECTION_REQUEST_STATUS;
-  created_at: Date;
-  updated_at: Date;
 };
 
 export interface ThemeSchema {
@@ -75,19 +49,3 @@ export type ProfileCard = {
   company: string;
   message: string;
 };
-
-export interface ContactWithDetails extends Contact {
-  contactPersonFullname: string;
-  contactPersonOccupation: string;
-  contactPersonCompany: string;
-  contactPersonImage: string;
-}
-
-export interface ConnectionRequestWithDetails extends ConnectionRequest {
-  senderFullname: string;
-  senderOccupation: string;
-  senderCompany: string;
-  senderImage: string;
-}
-
-saniize;

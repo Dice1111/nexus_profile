@@ -10,48 +10,31 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  parseReadonlySearchParams,
-  SearchParams,
-  URL_FILTER,
-  URL_PAGE,
-} from "@/lib/url-state";
-import { tagOptions } from "@/util/utils";
+import { URL_FILTER, validTags } from "@/lib/utils";
+
 import { Settings2 } from "lucide-react";
 import Form from "next/form";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
-
-interface OldUrlValueProps {
-  searchParams: SearchParams;
-}
-
-const OldUrlValue = ({ searchParams }: OldUrlValueProps) => {
-  return (
-    <>
-      {Object.entries(searchParams).flatMap(([key, value]) => {
-        if (key === URL_PAGE || key === URL_FILTER || value === undefined)
-          return [];
-
-        if (Array.isArray(value)) {
-          return value
-            .filter((v) => v !== undefined)
-            .map((v, i) => (
-              <input key={`${key}-${i}`} type="hidden" name={key} value={v} />
-            ));
-        }
-
-        return <input key={key} type="hidden" name={key} value={value} />;
-      })}
-    </>
-  );
-};
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export function ContactFilter() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const filterValues = searchParams.getAll(URL_FILTER);
-  const parsedSearchParams = parseReadonlySearchParams(searchParams);
+  const router = useRouter();
+  const filterValues = new Set(searchParams.getAll(URL_FILTER));
+
+  const handleSubmit = async (formData: FormData) => {
+    const queries = formData.getAll(URL_FILTER) as string[];
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete(URL_FILTER);
+    queries.forEach((query) => {
+      if (query.trim()) {
+        newParams.append(URL_FILTER, query.trim());
+      }
+    });
+    const newURL = `${pathname}?${newParams.toString()}`;
+    router.replace(newURL);
+  };
 
   return (
     <DropdownMenu>
@@ -73,13 +56,12 @@ export function ContactFilter() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        <Form action={pathname} className=" px-2 pb-2">
-          <OldUrlValue searchParams={parsedSearchParams} />
+        <Form action={handleSubmit} className=" px-2 pb-2">
           <DropdownMenuGroup className="grid gap-1">
             <DropdownMenuLabel className="text-sm text-muted-foreground">
               Filter By
             </DropdownMenuLabel>
-            {tagOptions.map((tag) => (
+            {validTags.map((tag) => (
               <label
                 key={tag}
                 className="flex items-center px-2 py-2 rounded-md text-md capitalize cursor-pointer hover:bg-secondary hover:text-secondary-foreground"
@@ -88,7 +70,7 @@ export function ContactFilter() {
                   type="checkbox"
                   name={URL_FILTER}
                   value={tag}
-                  defaultChecked={filterValues.includes(tag)}
+                  defaultChecked={filterValues.has(tag)}
                   className="mr-3 h-5 w-5 accent-primary"
                 />
                 {tag}

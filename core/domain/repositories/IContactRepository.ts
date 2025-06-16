@@ -1,5 +1,10 @@
-import { IOrganizedSearchParams, IRawContact } from "./types/contact.types";
+import {
+  IOrganizedSearchParams,
+  IRawContactWithPaginationData,
+} from "./types/contact.types";
 
 export interface IContactRepository {
-  fetchBySearchParams(data: IOrganizedSearchParams): Promise<IRawContact[]>;
+  fetchBySearchParams(
+    data: IOrganizedSearchParams
+  ): Promise<IRawContactWithPaginationData>;
 }

@@ -7,7 +7,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import SearchBarLoadingSpinner from "../Loading/SearchBarLoadingSpinner";
 import { Input } from "../ui/input";
-import { URL_SEARCH, URL_PAGE } from "@/lib/url-state";
+import { URL_SEARCH, URL_PAGE } from "@/lib/utils";
 
 function SearchBase({ initialQuery }: { initialQuery: string }) {
   const [inputValue, setInputValue] = useState(initialQuery);
