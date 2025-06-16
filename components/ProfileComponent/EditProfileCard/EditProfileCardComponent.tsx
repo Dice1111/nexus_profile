@@ -12,7 +12,6 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import {
-  arrayMove,
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
@@ -65,7 +64,7 @@ const EditProfileCardComponent = () => {
     reset,
     watch,
     setValue,
-
+    getValues,
     control,
   } = useForm<{
     components: ProfileDndComponentSchemaType[];
@@ -105,32 +104,25 @@ const EditProfileCardComponent = () => {
 
     const oldIndex = fields.findIndex((field) => field.id === active.id);
     const newIndex = fields.findIndex((field) => field.id === over.id);
-
     if (oldIndex === -1 || newIndex === -1) return;
 
+    //Reorder the field array
     move(oldIndex, newIndex);
 
-    // Move the item in your context state array and update position accordingly
-    // setComponents((prevItems) => {
-    //   const newItems = arrayMove(prevItems, oldIndex, newIndex);
+    //Wait for RHF to apply reorder, then update `position`
+    setTimeout(() => {
+      const liveComponents = getValues("components");
 
-    //   console.log(newItems);
+      //Defensive check: ensure correct length
+      if (!liveComponents || liveComponents.length === 0) return;
 
-    //   // Update position to reflect new order
-    //   return newItems.map((item, index) => ({
-    //     ...item,
-    //     position: index, // or index + 1 if you want 1-based positions
-    //   }));
-    // });
+      //Update position values to match visual order
+      liveComponents.forEach((_, index) => {
+        setValue(`components.${index}.position`, index, { shouldDirty: true });
+      });
 
-    // Manually update form state positions
-    const updatedFields = [...fields];
-    const movedField = updatedFields.splice(oldIndex, 1)[0];
-    updatedFields.splice(newIndex, 0, movedField);
-
-    updatedFields.forEach((_, index) => {
-      setValue(`components.${index}.position`, index, { shouldDirty: true });
-    });
+      console.log("Reordered Components:", liveComponents);
+    }, 0);
   };
 
   // Handle form submission
@@ -139,81 +131,81 @@ const EditProfileCardComponent = () => {
   }) => {
     if (isDirty) {
       console.log("is dirty");
+
+      setLoading(true);
+      const dirtyComponents = data.components?.filter((_, i) => {
+        const dirtyFieldObj = dirtyFields.components?.[i];
+        if (!dirtyFieldObj) return false; // no dirty fields at all
+        // Check if any property inside dirtyFieldObj is true
+        return Object.values(dirtyFieldObj).some(Boolean);
+      });
+
+      console.log("Dirty Component Values:", dirtyComponents);
+
+      const updatedComponents = await Promise.all(
+        data.components.map(async (component, index) => {
+          // Only handle image components with a new file
+          if (
+            component.type === PROFILE_COMPONENT_TYPE.IMAGE &&
+            component.file instanceof File
+          ) {
+            try {
+              //GET old image url
+              const oldUrl = components.find(
+                (c) => c.id === component.id
+              )?.value;
+
+              // Upload new image
+              const response = await uploadFiles("imageUploader", {
+                files: [component.file],
+              });
+
+              // Delete previous image from UploadThing (if applicable)
+
+              if (oldUrl) {
+                console.log("deleting....");
+                const deleteRes = await fetch("/api/uploadthing", {
+                  method: "DELETE",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ url: oldUrl }),
+                });
+
+                if (deleteRes.ok) {
+                  console.log(`Deleted old image: ${deleteRes.statusText}`);
+                } else {
+                  console.warn(`Failed to delete old image: ${oldUrl}`);
+                }
+              }
+
+              // Build new image URL
+              const uploadedUrl = response[0]?.key
+                ? `https://${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}.ufs.sh/f/${response[0].key}`
+                : component.value;
+
+              return {
+                ...component,
+                value: uploadedUrl,
+              };
+            } catch (error) {
+              console.error("UploadThing error:", error);
+              return component;
+            }
+          }
+
+          // Return unmodified component if not an image or no new file
+          return component;
+        })
+      );
+
+      console.log(updatedComponents);
+
+      setComponents(updatedComponents as ProfileDndComponent[]);
     } else {
       console.log("is not dirty");
     }
-    setLoading(true);
 
-    // Get dirty values
-    const allValues = watch();
-    const dirtyComponents = allValues.components?.filter((_, i) => {
-      const dirtyFieldObj = dirtyFields.components?.[i];
-      if (!dirtyFieldObj) return false; // no dirty fields at all
-      // Check if any property inside dirtyFieldObj is true
-      return Object.values(dirtyFieldObj).some(Boolean);
-    });
-
-    console.log("🧼 Dirty Field Indices:", dirtyFields.components);
-    console.log("🔥 Dirty Component Values:", dirtyComponents);
-
-    const updatedComponents = await Promise.all(
-      data.components.map(async (component, index) => {
-        // Only handle image components with a new file
-        if (
-          component.type === PROFILE_COMPONENT_TYPE.IMAGE &&
-          component.file instanceof File
-        ) {
-          try {
-            //GET old image url
-            const oldUrl = components.find((c) => c.id === component.id)?.value;
-
-            // Upload new image
-            const response = await uploadFiles("imageUploader", {
-              files: [component.file],
-            });
-
-            // Delete previous image from UploadThing (if applicable)
-
-            if (oldUrl) {
-              console.log("deleting....");
-              const deleteRes = await fetch("/api/uploadthing", {
-                method: "DELETE",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ url: oldUrl }),
-              });
-
-              if (deleteRes.ok) {
-                console.log(`Deleted old image: ${deleteRes.statusText}`);
-              } else {
-                console.warn(`Failed to delete old image: ${oldUrl}`);
-              }
-            }
-
-            // Build new image URL
-            const uploadedUrl = response[0]?.key
-              ? `https://${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}.ufs.sh/f/${response[0].key}`
-              : component.value;
-
-            return {
-              ...component,
-              value: uploadedUrl,
-            };
-          } catch (error) {
-            console.error("UploadThing error:", error);
-            return component;
-          }
-        }
-
-        // Return unmodified component if not an image or no new file
-        return component;
-      })
-    );
-
-    console.log(updatedComponents);
-
-    setComponents(updatedComponents as ProfileDndComponent[]);
     reset();
     setLoading(false);
     setEditing(false);
@@ -255,6 +247,7 @@ const EditProfileCardComponent = () => {
                       formErrors={errors.components?.[index]?.value?.message}
                       handleDeleteItem={handleDeleteItem}
                       setValue={setValue}
+                      watch={watch}
                     />
                   ))}
                 </div>

@@ -17,11 +17,13 @@ import { CSS } from "@dnd-kit/utilities";
 
 import Image from "next/image";
 import {
+  Control,
   FieldValues,
   Path,
   PathValue,
   UseFormRegister,
   UseFormSetValue,
+  UseFormWatch,
 } from "react-hook-form";
 import { RxCross1, RxDragHandleHorizontal } from "react-icons/rx";
 
@@ -32,6 +34,7 @@ interface DroppableProps<T extends FieldValues> {
   formErrors?: string;
   handleDeleteItem: (id: string) => void;
   setValue: UseFormSetValue<T>;
+  watch: UseFormWatch<T>;
 }
 
 // Reusable component for header with drag handle and delete button
@@ -109,6 +112,7 @@ const DndInputFieldBuilder = <T extends FieldValues>({
   formErrors,
   handleDeleteItem,
   setValue,
+  watch,
 }: {
   item: ProfileDndComponent;
   index: number;
@@ -118,6 +122,7 @@ const DndInputFieldBuilder = <T extends FieldValues>({
   formErrors?: string;
   handleDeleteItem: (id: string) => void;
   setValue: UseFormSetValue<T>;
+  watch: UseFormWatch<T>;
 }) => {
   const context = useProfileContext();
 
@@ -148,6 +153,7 @@ const DndInputFieldBuilder = <T extends FieldValues>({
       );
 
     case PROFILE_COMPONENT_CATEGORY.IMAGE:
+      const imageValue = watch(`components.${index}.value` as Path<T>);
       return (
         <div className="flex flex-col items-center gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
           <DndComponentHeader
@@ -158,9 +164,9 @@ const DndInputFieldBuilder = <T extends FieldValues>({
           />
 
           <div className="flex flex-col items-center gap-4">
-            {item.value ? (
+            {imageValue ? (
               <Image
-                src={item.value}
+                src={imageValue}
                 alt={item.display_text || "Uploaded Image"}
                 width={300}
                 height={300}
@@ -200,6 +206,16 @@ const DndInputFieldBuilder = <T extends FieldValues>({
                   URL.createObjectURL(file) as PathValue<T, Path<T>>,
                   {
                     shouldValidate: true,
+                    shouldDirty: true,
+                  }
+                );
+
+                // Also set the actual file in the 'file' property
+                setValue(
+                  `components.${index}.file` as Path<T>,
+                  file as PathValue<T, Path<T>>,
+                  {
+                    shouldValidate: false, // Usually no need to validate the file object itself here
                     shouldDirty: true,
                   }
                 );
@@ -314,6 +330,7 @@ export default function ProfileDroppable<T extends FieldValues>({
   formErrors,
   handleDeleteItem,
   setValue,
+  watch,
 }: DroppableProps<T>) {
   const {
     attributes,
@@ -342,6 +359,7 @@ export default function ProfileDroppable<T extends FieldValues>({
         formErrors={formErrors}
         handleDeleteItem={handleDeleteItem}
         setValue={setValue}
+        watch={watch}
       />
     </div>
   );
