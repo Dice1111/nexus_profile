@@ -1,10 +1,13 @@
+import { IContactFilter } from "../services/types/search-params-handler-service.type";
 import {
   IOrganizedSearchParams,
-  IRawContactWithPaginationData,
+  IRawContactWithSpecificCardData,
 } from "./types/contact.types";
 
 export interface IContactRepository {
-  fetchBySearchParams(
+  fetchWithSpecificCardDataBySearchParams(
     data: IOrganizedSearchParams
-  ): Promise<IRawContactWithPaginationData>;
+  ): Promise<IRawContactWithSpecificCardData[]>;
+
+  fetchTotalCountBySearchParams(data: IContactFilter): Promise<number>;
 }

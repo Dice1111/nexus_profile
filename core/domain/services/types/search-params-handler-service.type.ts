@@ -20,7 +20,7 @@ export interface IParsedSearchParams {
 export interface ISanitizedSearchParams {
   cardId: string;
   search?: string;
-  page: string;
+  page: number;
   filters?: CONTACT_TAG_ENUM[];
   sortItem: SORTABLE_ITEMS;
   sortOrder: SORTABLE_ORDERS;

@@ -1,9 +1,8 @@
 import { CONTACT_TAG_ENUM } from "@/core/domain/enum/contact-tag.enum";
 import { IContactRepository } from "@/core/domain/repositories/IContactRepository";
 import {
-  IFlatContact,
-  IFlatContactWithPaginationData,
-  IRawContact,
+  IContactWithSpecificCardData,
+  IRawContactWithSpecificCardData,
 } from "@/core/domain/repositories/types/contact.types";
 import {
   IContactFilter,
@@ -11,7 +10,9 @@ import {
   ISanitizedSearchParams,
 } from "@/core/domain/services/types/search-params-handler-service.type";
 
-function ToFlatContact(rawContactData: IRawContact[]): IFlatContact[] {
+function ToFlatContact(
+  rawContactData: IRawContactWithSpecificCardData[]
+): IContactWithSpecificCardData[] {
   if (rawContactData.length > 0) return [];
   return rawContactData.map((contact) => {
     const info = contact.ContactCard?.Information;
@@ -33,19 +34,15 @@ function ToFlatContact(rawContactData: IRawContact[]): IFlatContact[] {
   });
 }
 
-export type IFetchContactsBySearchParamsUseCase = ReturnType<
-  typeof fetchContactsBySearchParamsUseCase
->;
+export type IFetchContactsWithSpecificCardDataBySearchParamsUseCase =
+  ReturnType<typeof fetchContactsWithSpecificCardDataBySearchParamsUseCase>;
 
-export const fetchContactsBySearchParamsUseCase =
+export const fetchContactsWithSpecificCardDataBySearchParamsUseCase =
   (contactRepository: IContactRepository) =>
   async (
-    sanitizedSearchParams: ISanitizedSearchParams
-  ): Promise<IFlatContactWithPaginationData> => {
-    const requestPage: number = Math.max(
-      1,
-      Number(sanitizedSearchParams.page) || 1
-    );
+    sanitizedSearchParams: ISanitizedSearchParams,
+    itemsPerPage: number
+  ): Promise<IContactWithSpecificCardData[]> => {
     const whereClauseRequirement: IContactFilter = {
       cardId: sanitizedSearchParams.cardId,
       tags: sanitizedSearchParams.filters,
@@ -57,17 +54,15 @@ export const fetchContactsBySearchParamsUseCase =
       order: sanitizedSearchParams.sortOrder,
     };
 
-    const rawContactData = await contactRepository.fetchBySearchParams({
-      requestPage,
-      whereClauseRequirement,
-      sortClauseRequirement,
-    });
+    const requestPage = sanitizedSearchParams.page;
 
-    return {
-      contacts: ToFlatContact(rawContactData.contacts),
-      totalPage: Math.ceil(
-        rawContactData.contacts.length / rawContactData.itemsPerPage
-      ),
-      currentPage: requestPage,
-    };
+    const rawContactData =
+      await contactRepository.fetchWithSpecificCardDataBySearchParams({
+        itemsPerPage,
+        requestPage,
+        whereClauseRequirement,
+        sortClauseRequirement,
+      });
+
+    return ToFlatContact(rawContactData);
   };

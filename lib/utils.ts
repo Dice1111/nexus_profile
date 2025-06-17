@@ -35,3 +35,5 @@ export const URL_PAGE = "page";
 export const URL_SORT_IEM = "sortItem";
 export const URL_SORT_ORDER = "sortOrder";
 export const URL_SEARCH = "search";
+
+export const ITEMS_PER_PAGE: number = 10;

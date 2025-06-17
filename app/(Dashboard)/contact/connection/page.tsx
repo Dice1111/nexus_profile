@@ -4,7 +4,8 @@ import { ConnectionTable } from "@/components/Table/contact/connection-table";
 import { IRawSearchParams } from "@/core/domain/services/types/search-params-handler-service.type";
 
 import { Suspense } from "react";
-import { ConnectionAction } from "./action";
+import { ContactConnectionAction } from "./action";
+import { ITEMS_PER_PAGE } from "@/lib/utils";
 
 export default async function ContactPage({
   searchParams,
@@ -13,7 +14,7 @@ export default async function ContactPage({
 }) {
   const searchParam = await searchParams;
 
-  const { data } = await ConnectionAction(searchParam);
+  const { data } = await ContactConnectionAction(searchParam, ITEMS_PER_PAGE);
   return (
     <div className="flex flex-col gap-4">
       <div className="text-md ">

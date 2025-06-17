@@ -2,17 +2,21 @@ import {
   DatabaseOperationError,
   InputParseError,
 } from "@/core/domain/errors/common.error";
-import { IFlatContactWithPaginationData } from "@/core/domain/repositories/types/contact.types";
+import { IContactWithPaginationData } from "@/core/domain/repositories/types/contact.types";
 import { IRawSearchParams } from "@/core/domain/services/types/search-params-handler-service.type";
-import CreateFetchBySearchParamsController from "@/core/factory/di-factory/contact/create-fetch-by-search-params-controller";
+import CreateFetchContactsWithPaginationDataBySearchParamsController from "@/core/factory/di-factory/contact/create-fetch-contacts-with-pagination-data-by-search-params-controller";
 
-export async function ConnectionAction(searchParam: IRawSearchParams): Promise<{
+export async function ContactConnectionAction(
+  searchParam: IRawSearchParams,
+  itemsPerPage: number
+): Promise<{
   success: boolean;
-  data: IFlatContactWithPaginationData;
+  data: IContactWithPaginationData;
 }> {
   try {
-    const fetchBySearchParamsController = CreateFetchBySearchParamsController();
-    const data = await fetchBySearchParamsController(searchParam);
+    const fetchBySearchParamsController =
+      CreateFetchContactsWithPaginationDataBySearchParamsController();
+    const data = await fetchBySearchParamsController(searchParam, itemsPerPage);
     return {
       success: true,
       data: data,
@@ -21,19 +25,19 @@ export async function ConnectionAction(searchParam: IRawSearchParams): Promise<{
     if (error instanceof InputParseError) {
       return {
         success: false,
-        data: { contacts: [], currentPage: 0, totalPage: 0 },
+        data: { contacts: [], totalCount: 0, currentPage: 0, totalPage: 0 },
       };
     }
 
     if (error instanceof DatabaseOperationError) {
       return {
         success: false,
-        data: { contacts: [], currentPage: 0, totalPage: 0 },
+        data: { contacts: [], totalCount: 0, currentPage: 0, totalPage: 0 },
       };
     }
     return {
       success: false,
-      data: { contacts: [], currentPage: 0, totalPage: 0 },
+      data: { contacts: [], totalCount: 0, currentPage: 0, totalPage: 0 },
     };
   }
 }

@@ -17,15 +17,20 @@ import {
 } from "@/lib/utils";
 
 export class SearchParamsHandlerService implements ISearchParamsHandlerService {
-  private static readonly DEFAULT_PAGE_NO = "1";
-  private static readonly DEFAULT_SORT_ITEM = SORTABLE_ITEMS.CREATED_AT;
-  private static readonly DEFAULT_SORT_ORDER = SORTABLE_ORDERS.DESC;
+  private static readonly DEFAULT_PAGE_NO: number = 1;
+  private static readonly DEFAULT_SORT_ITEM: SORTABLE_ITEMS =
+    SORTABLE_ITEMS.CREATED_AT;
+  private static readonly DEFAULT_SORT_ORDER: SORTABLE_ORDERS =
+    SORTABLE_ORDERS.DESC;
 
   sanitizeRawSearchParams(data: IParsedSearchParams): ISanitizedSearchParams {
     return {
       cardId: data.cardId,
       search: data.search?.trim() || undefined,
-      page: data.page?.trim() || SearchParamsHandlerService.DEFAULT_PAGE_NO,
+      page: Math.max(
+        SearchParamsHandlerService.DEFAULT_PAGE_NO,
+        Number(data.page) || SearchParamsHandlerService.DEFAULT_PAGE_NO
+      ),
       filters: this.normalizedFilters(data.filters),
       sortItem: validSortFieldsSet.has(data.sortItem as SORTABLE_ITEMS)
         ? (data.sortItem as SORTABLE_ITEMS)
@@ -54,7 +59,7 @@ export class SearchParamsHandlerService implements ISearchParamsHandlerService {
       page:
         typeof params.page === "string" && params.page.trim() !== ""
           ? params.page
-          : SearchParamsHandlerService.DEFAULT_PAGE_NO,
+          : SearchParamsHandlerService.DEFAULT_PAGE_NO.toString(),
       filters: Array.isArray(params.filter)
         ? params.filter
         : params.filter

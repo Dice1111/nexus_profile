@@ -2,7 +2,7 @@ import { DatabaseOperationError } from "@/core/domain/errors/common.error";
 import { IContactRepository } from "@/core/domain/repositories/IContactRepository";
 import {
   IOrganizedSearchParams,
-  IRawContactWithPaginationData,
+  IRawContactWithSpecificCardData,
 } from "@/core/domain/repositories/types/contact.types";
 import {
   IContactFilter,
@@ -12,22 +12,20 @@ import { CONTACT_TAG_TYPE, Prisma } from "@prisma/client";
 import { prisma } from "../prisma/prisma-client";
 
 export class ContactRepository implements IContactRepository {
-  private static readonly ITEMS_PER_PAGE: number = 10;
-
-  async fetchBySearchParams(
+  async fetchWithSpecificCardDataBySearchParams(
     data: IOrganizedSearchParams
-  ): Promise<IRawContactWithPaginationData> {
+  ): Promise<IRawContactWithSpecificCardData[]> {
     try {
-      const offset = (data.requestPage - 1) * ContactRepository.ITEMS_PER_PAGE;
+      const offset = (data.requestPage - 1) * data.itemsPerPage;
 
       const whereClause = this.buildWhereClause(data.whereClauseRequirement);
       const orderByClause = this.buildOrderClause(data.sortClauseRequirement);
 
-      const rawContactData = await prisma.contact.findMany({
+      const rawData = await prisma.contact.findMany({
         where: whereClause,
         orderBy: orderByClause,
         skip: offset,
-        take: ContactRepository.ITEMS_PER_PAGE,
+        take: data.itemsPerPage,
         include: {
           ContactCard: {
             select: {
@@ -46,12 +44,25 @@ export class ContactRepository implements IContactRepository {
         },
       });
 
-      return {
-        contacts: rawContactData,
-        itemsPerPage: ContactRepository.ITEMS_PER_PAGE,
-      };
+      return rawData;
     } catch (error) {
       throw new DatabaseOperationError("Failed to fetch Contacts", {
+        cause: error,
+      });
+    }
+  }
+
+  async fetchTotalCountBySearchParams(data: IContactFilter): Promise<number> {
+    try {
+      const whereClause = this.buildWhereClause(data);
+
+      const count = await prisma.contact.count({
+        where: whereClause,
+      });
+
+      return count;
+    } catch (error) {
+      throw new DatabaseOperationError("Failed to fetch Contacts count", {
         cause: error,
       });
     }

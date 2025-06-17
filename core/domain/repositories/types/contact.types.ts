@@ -6,12 +6,28 @@ import {
 } from "../../services/types/search-params-handler-service.type";
 
 export interface IOrganizedSearchParams {
+  itemsPerPage: number;
   requestPage: number;
   whereClauseRequirement: IContactFilter;
   sortClauseRequirement: IContactSort;
 }
 
-export interface IRawContact {
+export interface IContactWithSpecificCardData {
+  id: number;
+  cardId: string;
+  contactCardId: string;
+  tag: CONTACT_TAG_ENUM;
+  note: string | null;
+  createdAt: string;
+  updatedAt: string;
+  contactCardTitle: string | null;
+  contactCardUserId: string;
+  fullName: string;
+  occupation: string | null;
+  company: string | null;
+}
+
+export interface IRawContactWithSpecificCardData {
   id: number;
   cardId: string;
   contactCardId: string;
@@ -31,28 +47,9 @@ export interface IRawContact {
   };
 }
 
-export interface IRawContactWithPaginationData {
-  contacts: IRawContact[];
-  itemsPerPage: number;
-}
-
-export interface IFlatContactWithPaginationData {
-  contacts: IFlatContact[];
+export interface IContactWithPaginationData {
+  contacts: IContactWithSpecificCardData[];
+  totalCount: number;
   totalPage: number;
   currentPage: number;
-}
-
-export interface IFlatContact {
-  id: number;
-  cardId: string;
-  contactCardId: string;
-  tag: CONTACT_TAG_ENUM;
-  note: string | null;
-  createdAt: string;
-  updatedAt: string;
-  contactCardTitle: string | null;
-  contactCardUserId: string;
-  fullName: string;
-  occupation: string | null;
-  company: string | null;
 }
