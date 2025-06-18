@@ -1,42 +1,38 @@
-import { DatabaseOperationError } from "@/core/domain/errors/common.error";
-import { IContactRepository } from "@/core/domain/repositories/IContactRepository";
+import { IRequestRepository } from "@/core/domain/repositories/IRequestRepository";
 import {
-  IContactOrganizedSearchParams,
-  IRawContactWithSpecificCardData,
-} from "@/core/domain/repositories/types/contact.types";
+  IRequestOrganizedSearchParams,
+  IRawRequestWithSpecificCardData,
+} from "@/core/domain/repositories/types/request.type";
 import {
-  IContactFilter,
-  IContactSort,
+  IRequestFilter,
+  IRequestSort,
 } from "@/core/domain/services/types/search-params-handler-service.type";
-import { CONTACT_TAG_TYPE, Prisma } from "@prisma/client";
 import { prisma } from "../prisma/prisma-client";
+import { DatabaseOperationError } from "@/core/domain/errors/common.error";
+import { Prisma } from "@prisma/client";
 
-export class ContactRepository implements IContactRepository {
+export class RequestRepository implements IRequestRepository {
   async fetchWithSpecificCardDataBySearchParams(
-    data: IContactOrganizedSearchParams
-  ): Promise<IRawContactWithSpecificCardData[]> {
+    data: IRequestOrganizedSearchParams
+  ): Promise<IRawRequestWithSpecificCardData[]> {
     try {
       const offset = (data.requestPage - 1) * data.itemsPerPage;
 
       const whereClause = this.buildWhereClause(data.whereClauseRequirement);
       const orderByClause = this.buildOrderClause(data.sortClauseRequirement);
-
-      const rawData = await prisma.contact.findMany({
+      const rawRequests = await prisma.request.findMany({
         where: whereClause,
         orderBy: orderByClause,
         skip: offset,
         take: data.itemsPerPage,
         include: {
-          ContactCard: {
+          SenderCard: {
             select: {
-              id: true,
-              title: true,
-              userId: true,
               Information: {
                 select: {
+                  fullName: true,
                   occupation: true,
                   company: true,
-                  fullName: true,
                 },
               },
             },
@@ -44,42 +40,34 @@ export class ContactRepository implements IContactRepository {
         },
       });
 
-      return rawData;
+      return rawRequests;
     } catch (error) {
-      throw new DatabaseOperationError("Failed to fetch Contacts", {
+      throw new DatabaseOperationError("Failed to fetch Requests", {
         cause: error,
       });
     }
   }
-
-  async fetchTotalCountBySearchParams(data: IContactFilter): Promise<number> {
+  async fetchTotalCountBySearchParams(data: IRequestFilter): Promise<number> {
     try {
       const whereClause = this.buildWhereClause(data);
-
-      const count = await prisma.contact.count({
+      const count = await prisma.request.count({
         where: whereClause,
       });
 
       return count;
     } catch (error) {
-      throw new DatabaseOperationError("Failed to fetch Contacts count", {
+      throw new DatabaseOperationError("Failed to fetch Requests count", {
         cause: error,
       });
     }
   }
 
-  private buildWhereClause(filters: IContactFilter): Prisma.ContactWhereInput {
-    const where: Prisma.ContactWhereInput = {};
+  private buildWhereClause(filters: IRequestFilter): Prisma.RequestWhereInput {
+    const where: Prisma.RequestWhereInput = {};
     where.cardId = filters.cardId;
 
-    if (filters.tags) {
-      where.tag = {
-        in: filters.tags as CONTACT_TAG_TYPE[],
-      };
-    }
-
     if (filters.keyword) {
-      where.ContactCard = {
+      where.SenderCard = {
         Information: {
           OR: [
             { fullName: { contains: filters.keyword, mode: "insensitive" } },
@@ -94,10 +82,10 @@ export class ContactRepository implements IContactRepository {
   }
 
   private buildOrderClause(
-    sort: IContactSort
-  ): Prisma.ContactOrderByWithRelationInput {
+    sort: IRequestSort
+  ): Prisma.RequestOrderByWithRelationInput {
     return {
       [sort.item]: sort.order,
-    } as Prisma.ContactOrderByWithRelationInput;
+    } as Prisma.RequestOrderByWithRelationInput;
   }
 }

@@ -8,7 +8,8 @@ import { ISearchParamsHandlerService } from "@/core/domain/services/ISearchParam
 import {
   IParsedSearchParams,
   IRawSearchParams,
-  ISanitizedSearchParams,
+  ISanitizedContactSearchParams,
+  ISanitizedRequestSearchParams,
 } from "@/core/domain/services/types/search-params-handler-service.type";
 import {
   validSortFieldsSet,
@@ -23,7 +24,9 @@ export class SearchParamsHandlerService implements ISearchParamsHandlerService {
   private static readonly DEFAULT_SORT_ORDER: SORTABLE_ORDERS =
     SORTABLE_ORDERS.DESC;
 
-  sanitizeRawSearchParams(data: IParsedSearchParams): ISanitizedSearchParams {
+  sanitizeRawSearchParamsForContact(
+    data: IParsedSearchParams
+  ): ISanitizedContactSearchParams {
     return {
       cardId: data.cardId,
       search: data.search?.trim() || undefined,
@@ -32,6 +35,25 @@ export class SearchParamsHandlerService implements ISearchParamsHandlerService {
         Number(data.page) || SearchParamsHandlerService.DEFAULT_PAGE_NO
       ),
       filters: this.normalizedFilters(data.filters),
+      sortItem: validSortFieldsSet.has(data.sortItem as SORTABLE_ITEMS)
+        ? (data.sortItem as SORTABLE_ITEMS)
+        : SearchParamsHandlerService.DEFAULT_SORT_ITEM,
+      sortOrder: validSortOrdersSet.has(data.sortOrder as SORTABLE_ORDERS)
+        ? (data.sortOrder as SORTABLE_ORDERS)
+        : SearchParamsHandlerService.DEFAULT_SORT_ORDER,
+    };
+  }
+
+  sanitizeRawSearchParamsForRequest(
+    data: IParsedSearchParams
+  ): ISanitizedRequestSearchParams {
+    return {
+      cardId: data.cardId,
+      search: data.search?.trim() || undefined,
+      page: Math.max(
+        SearchParamsHandlerService.DEFAULT_PAGE_NO,
+        Number(data.page) || SearchParamsHandlerService.DEFAULT_PAGE_NO
+      ),
       sortItem: validSortFieldsSet.has(data.sortItem as SORTABLE_ITEMS)
         ? (data.sortItem as SORTABLE_ITEMS)
         : SearchParamsHandlerService.DEFAULT_SORT_ITEM,

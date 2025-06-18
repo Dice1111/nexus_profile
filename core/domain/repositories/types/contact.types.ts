@@ -5,7 +5,7 @@ import {
   IContactSort,
 } from "../../services/types/search-params-handler-service.type";
 
-export interface IOrganizedSearchParams {
+export interface IContactOrganizedSearchParams {
   itemsPerPage: number;
   requestPage: number;
   whereClauseRequirement: IContactFilter;

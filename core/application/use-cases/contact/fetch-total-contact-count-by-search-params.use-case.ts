@@ -2,7 +2,7 @@ import { IContactRepository } from "@/core/domain/repositories/IContactRepositor
 
 import {
   IContactFilter,
-  ISanitizedSearchParams,
+  ISanitizedContactSearchParams,
 } from "@/core/domain/services/types/search-params-handler-service.type";
 
 export type IFetchTotalContactCountBySearchParamsUseCase = ReturnType<
@@ -11,7 +11,9 @@ export type IFetchTotalContactCountBySearchParamsUseCase = ReturnType<
 
 export const fetchTotalContactCountBySearchParamsUseCase =
   (contactRepository: IContactRepository) =>
-  async (sanitizedSearchParams: ISanitizedSearchParams): Promise<number> => {
+  async (
+    sanitizedSearchParams: ISanitizedContactSearchParams
+  ): Promise<number> => {
     const whereClauseRequirement: IContactFilter = {
       cardId: sanitizedSearchParams.cardId,
       tags: sanitizedSearchParams.filters,

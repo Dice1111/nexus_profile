@@ -1,9 +1,13 @@
-import { IOrganizedSearchParams } from "./types/contact.types";
+import { IRequestFilter } from "../services/types/search-params-handler-service.type";
+import {
+  IRawRequestWithSpecificCardData,
+  IRequestOrganizedSearchParams,
+} from "./types/request.type";
 
 export interface IRequestRepository {
   fetchWithSpecificCardDataBySearchParams(
-    data: IOrganizedSearchParams
-  ): Promise<IRawContactWithSpecificCardData[]>;
+    data: IRequestOrganizedSearchParams
+  ): Promise<IRawRequestWithSpecificCardData[]>;
 
-  fetchTotalCountBySearchParams(data: IContactFilter): Promise<number>;
+  fetchTotalCountBySearchParams(data: IRequestFilter): Promise<number>;
 }

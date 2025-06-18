@@ -17,13 +17,31 @@ export interface IParsedSearchParams {
   sortOrder: string;
 }
 
-export interface ISanitizedSearchParams {
+export interface ISanitizedContactSearchParams {
   cardId: string;
   search?: string;
   page: number;
   filters?: CONTACT_TAG_ENUM[];
   sortItem: SORTABLE_ITEMS;
   sortOrder: SORTABLE_ORDERS;
+}
+
+export interface ISanitizedRequestSearchParams {
+  cardId: string;
+  search?: string;
+  page: number;
+  sortItem: SORTABLE_ITEMS;
+  sortOrder: SORTABLE_ORDERS;
+}
+
+export interface IRequestFilter {
+  cardId: string;
+  keyword?: string;
+}
+
+export interface IRequestSort {
+  item: SORTABLE_ITEMS;
+  order: SORTABLE_ORDERS;
 }
 
 export interface IContactFilter {

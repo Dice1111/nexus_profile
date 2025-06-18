@@ -17,7 +17,9 @@ export const fetchContactsWithPaginationDataBySearchParamsController =
     const parsedSearchParams =
       searchParamsHandlerService.parseSearchParams(rawSearchParams);
     const sanitizedSearchParams =
-      searchParamsHandlerService.sanitizeRawSearchParams(parsedSearchParams);
+      searchParamsHandlerService.sanitizeRawSearchParamsForContact(
+        parsedSearchParams
+      );
 
     const [contacts, totalCount] = await Promise.all([
       fetchContactsWithSpecificCardDataBySearchParamsUseCase(

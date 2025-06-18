@@ -1,26 +1,41 @@
 import { IFetchRequestsWithSpecificCardDataBySearchParamsUseCase } from "@/core/application/use-cases/request/fetch-requests-with-specific-card-data-by-search-params.use-case";
+import { IFetchTotalRequestCountBySearchParamsUseCase } from "@/core/application/use-cases/request/fetch-total-request-count-by-search-params.use-case";
+import { IRequestWithPaginationData } from "@/core/domain/repositories/types/request.type";
 import { ISearchParamsHandlerService } from "@/core/domain/services/ISearchParamsHandler.service";
 import { IRawSearchParams } from "@/core/domain/services/types/search-params-handler-service.type";
 
-export const fetchRequestWithPaginationDataBySearchParams =
+export const fetchRequestWithPaginationDataBySearchParamsController =
   (
     fetchRequestsWithSpecificCardDataBySearchParamsUseCase: IFetchRequestsWithSpecificCardDataBySearchParamsUseCase,
+    fetchTotalRequestCountBySearchParamsUseCase: IFetchTotalRequestCountBySearchParamsUseCase,
     searchParamsHandlerService: ISearchParamsHandlerService
   ) =>
   async (
     rawSearchParams: IRawSearchParams,
     itemsPerPage: number
-  ): Promise<> => {
+  ): Promise<IRequestWithPaginationData> => {
     const parsedSearchParams =
       searchParamsHandlerService.parseSearchParams(rawSearchParams);
     const sanitizedSearchParams =
-      searchParamsHandlerService.sanitizeRawSearchParams(parsedSearchParams);
+      searchParamsHandlerService.sanitizeRawSearchParamsForRequest(
+        parsedSearchParams
+      );
 
-    // const flatContactWithPaginationData =
-    //   fetchRequestsWithSpecificCardDataBySearchParamsUseCase(
-    //     sanitizedSearchParams,
-    //     itemsPerPage
-    //   );
+    const [requests, totalCount] = await Promise.all([
+      fetchRequestsWithSpecificCardDataBySearchParamsUseCase(
+        sanitizedSearchParams,
+        itemsPerPage
+      ),
+      fetchTotalRequestCountBySearchParamsUseCase(sanitizedSearchParams),
+    ]);
 
-    return flatContactWithPaginationData;
+    const totalPage = Math.ceil(totalCount / itemsPerPage);
+    const currentPage = sanitizedSearchParams.page;
+
+    return {
+      requests,
+      totalCount,
+      totalPage,
+      currentPage,
+    };
   };

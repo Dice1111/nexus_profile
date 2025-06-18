@@ -1,12 +1,16 @@
 import {
   IParsedSearchParams,
   IRawSearchParams,
-  ISanitizedSearchParams,
+  ISanitizedContactSearchParams,
+  ISanitizedRequestSearchParams,
 } from "./types/search-params-handler-service.type";
 
 export interface ISearchParamsHandlerService {
-  sanitizeRawSearchParams(
+  sanitizeRawSearchParamsForContact(
     parsedSearchParams: IParsedSearchParams
-  ): ISanitizedSearchParams;
+  ): ISanitizedContactSearchParams;
+  sanitizeRawSearchParamsForRequest(
+    parsedSearchParams: IParsedSearchParams
+  ): ISanitizedRequestSearchParams;
   parseSearchParams(rawSearchParams: IRawSearchParams): IParsedSearchParams;
 }

@@ -1,17 +1,16 @@
 "use client";
 
-import { useActionState, useEffect, useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import InfoRow from "../Row/InfoRow";
 import ProfileCardSheet, {
   RequestSheetVarient,
   SHEET_VARIENT,
 } from "../Sheet/ProfileCardSheet";
 
-import { FlatRequestDTO } from "@/core/infrastructure/models/request";
-import saveToContactAction from "@/actions/request-actions/saveToContactAction";
+import { IRequestWithSpecificCardData } from "@/core/domain/repositories/types/request.type";
 
 interface ConnectionRequestListProps {
-  data: FlatRequestDTO[];
+  data: IRequestWithSpecificCardData[];
 }
 
 const initialState = {
@@ -25,16 +24,14 @@ export default function ConnectionRequestList({
   const [requests, setRequests] = useState(data);
   const [SheetData, setSheetData] = useState<RequestSheetVarient | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [state, action] = useActionState(saveToContactAction, initialState);
+  // const [state, action] = useActionState(saveToContactAction, initialState);
   const [isPending, startTransition] = useTransition();
-
-  useEffect(() => {}, [isPending]);
 
   useEffect(() => {
     setRequests(data);
   }, [data]);
 
-  const handleRowClick = (rowData: FlatRequestDTO) => {
+  const handleRowClick = (rowData: IRequestWithSpecificCardData) => {
     const data: RequestSheetVarient = {
       cardId: rowData.senderCardId,
       date: rowData.createdAt,
@@ -50,9 +47,9 @@ export default function ConnectionRequestList({
     senderCardId: string
   ) => {
     event.stopPropagation();
-    startTransition(() => {
-      action({ requestId, cardId, senderCardId });
-    });
+    // startTransition(() => {
+    //   action({ requestId, cardId, senderCardId });
+    // });
   };
 
   const handleReject = (
@@ -75,9 +72,7 @@ export default function ConnectionRequestList({
             className="border-gray-400 border-b p-4 hover:bg-primary/20 cursor-pointer"
           >
             <InfoRow
-              firstName={request.firstName}
-              middleName={request.middleName}
-              lastName={request.lastName}
+              fullName={request.fullName}
               occupation={request.occupation}
               company={request.company}
               image={""}

@@ -19,7 +19,7 @@ export default async function ContactPage({
     <div className="flex flex-col gap-4">
       <div className="text-md ">
         <p>
-          Found {data.totalPage.toString()} results ( Showing page{" "}
+          Found {data.totalCount.toString()} results ( Showing page{" "}
           {data.currentPage.toLocaleString()} of{" "}
           {data.totalPage.toLocaleString()} )
         </p>

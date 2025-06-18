@@ -7,7 +7,7 @@ import {
 import {
   IContactFilter,
   IContactSort,
-  ISanitizedSearchParams,
+  ISanitizedContactSearchParams,
 } from "@/core/domain/services/types/search-params-handler-service.type";
 
 function ToFlatContact(
@@ -40,7 +40,7 @@ export type IFetchContactsWithSpecificCardDataBySearchParamsUseCase =
 export const fetchContactsWithSpecificCardDataBySearchParamsUseCase =
   (contactRepository: IContactRepository) =>
   async (
-    sanitizedSearchParams: ISanitizedSearchParams,
+    sanitizedSearchParams: ISanitizedContactSearchParams,
     itemsPerPage: number
   ): Promise<IContactWithSpecificCardData[]> => {
     const whereClauseRequirement: IContactFilter = {
