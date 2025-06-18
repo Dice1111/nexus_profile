@@ -8,6 +8,7 @@ import {
   PROFILE_COMPONENT_TYPE,
   PROFILE_COMPONENT_CATEGORY,
 } from "@/lib/types/enums";
+import { ProfileDndComponentSchemaType } from "../EditProfileCard/DragAndDropComponent/ProfileDndInputSchema";
 
 export default function FieldsEditModal() {
   // Data categorized by type
@@ -234,7 +235,7 @@ export default function FieldsEditModal() {
     return null;
   }
 
-  const { profileData, setComponents } = context;
+  const { profileData, components, fieldArray } = context;
 
   const card_id = profileData.card_id; //
 
@@ -250,10 +251,13 @@ export default function FieldsEditModal() {
       category: category,
       value: "",
       display_text: "",
+      position: components.length - 1,
     };
 
+    fieldArray.append(newComponent as ProfileDndComponentSchemaType);
+
     // Update the context with the new component
-    setComponents((prevComponents) => [...prevComponents, { ...newComponent }]);
+    //setComponents((prevComponents) => [...prevComponents, { ...newComponent }]);
 
     setTimeout(() => {
       window.scrollTo({

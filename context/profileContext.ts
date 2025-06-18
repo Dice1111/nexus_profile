@@ -1,5 +1,8 @@
+import { ProfileDndComponentSchemaType } from "@/components/ProfileComponent/EditProfileCard/DragAndDropComponent/ProfileDndInputSchema";
 import { ProfileDndComponent, ProfileCard } from "@/lib/types/types";
-import React, { createContext, useContext } from "react";
+import React, { createContext, use, useContext } from "react";
+import {  UseFieldArrayReturn, UseFormReturn } from "react-hook-form";
+
 
 export interface ProfileContextType {
   components: ProfileDndComponent[];
@@ -10,6 +13,8 @@ export interface ProfileContextType {
   setEditing: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  form: UseFormReturn<{ components: ProfileDndComponentSchemaType[] }>;
+  fieldArray: UseFieldArrayReturn<{ components: ProfileDndComponentSchemaType[] }, "components">;
 }
 
 export const ProfileContext = createContext<ProfileContextType | undefined>(

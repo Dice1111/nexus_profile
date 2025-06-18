@@ -15,20 +15,15 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useFieldArray, UseFormSetValue } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { PROFILE_COMPONENT_TYPE } from "@/lib/types/enums";
-import {
-  ProfileDndComponentSchemaType,
-  profileDndInputSchema,
-} from "./DragAndDropComponent/ProfileDndInputSchema";
+import { ProfileDndComponentSchemaType } from "./DragAndDropComponent/ProfileDndInputSchema";
 import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { genUploader } from "uploadthing/client";
 import { ProfileDndComponent } from "@/lib/types/types";
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
+import { useEffect } from "react";
 export const { uploadFiles } = genUploader<OurFileRouter>();
 
 const EditProfileCardComponent = () => {
@@ -41,22 +36,18 @@ const EditProfileCardComponent = () => {
     setEditing,
     isLoading,
     setLoading,
+    form,
+    fieldArray,
   } = context;
 
   // Touchscreen and pointer support for drag-and-drop
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
-
-  // zod validation schema
-  const validationSchema = z.object({
-    components: z.array(profileDndInputSchema),
-  });
 
   const layoutComponent =
     profileLayoutData(profileData)[
       profileData.layout as keyof typeof profileLayoutData
     ];
 
-  // Form setup
   const {
     register,
     handleSubmit,
@@ -65,35 +56,17 @@ const EditProfileCardComponent = () => {
     watch,
     setValue,
     getValues,
-    control,
-  } = useForm<{
-    components: ProfileDndComponentSchemaType[];
-  }>({
-    mode: "onBlur",
+  } = form;
 
-    resolver: zodResolver(validationSchema),
-    defaultValues: {
-      components: components as ProfileDndComponentSchemaType[],
-    },
-  });
+  const { fields, move, remove } = fieldArray;
 
-  // Field Array
-  const { fields, move, remove } = useFieldArray({
-    control,
-    name: "components",
-  });
-
-  // Utility function to handle deletion of an item
-
+  // Handle delete
   const handleDeleteItem = (id: string) => {
     // Find the index in the form fields
     const fieldIndex = fields.findIndex((field) => field.id === id);
     if (fieldIndex !== -1) {
       // Remove from form fields
       remove(fieldIndex);
-
-      // Update context state
-      setComponents((prev) => prev.filter((item) => item.id !== id));
     }
   };
 
@@ -143,14 +116,14 @@ const EditProfileCardComponent = () => {
       console.log("Dirty Component Values:", dirtyComponents);
 
       const updatedComponents = await Promise.all(
-        data.components.map(async (component, index) => {
+        dirtyComponents.map(async (component, index) => {
           // Only handle image components with a new file
           if (
             component.type === PROFILE_COMPONENT_TYPE.IMAGE &&
             component.file instanceof File
           ) {
             try {
-              //GET old image url
+              //GET old image url from main components state
               const oldUrl = components.find(
                 (c) => c.id === component.id
               )?.value;
@@ -193,23 +166,35 @@ const EditProfileCardComponent = () => {
               return component;
             }
           }
-
           // Return unmodified component if not an image or no new file
           return component;
         })
       );
 
-      console.log(updatedComponents);
+      console.log("updatedComponents:", updatedComponents);
+      console.log("finalComponents:", getValues("components"));
 
-      setComponents(updatedComponents as ProfileDndComponent[]);
+      // need to update data.components with updatedComponents
+      // Reintegrate updated components (images) back into the original component list
+      const finalComponents = data.components.map((originalComponent) => {
+        const updated = updatedComponents.find(
+          (comp) => comp.id === originalComponent.id
+        );
+        return updated ?? originalComponent;
+      });
+
+      setComponents(data.components as ProfileDndComponent[]);
     } else {
       console.log("is not dirty");
     }
 
-    reset();
     setLoading(false);
     setEditing(false);
   };
+
+  useEffect(() => {
+    reset({ components: components as ProfileDndComponentSchemaType[] });
+  }, [components, reset]);
 
   return (
     <>
