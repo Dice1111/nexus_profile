@@ -2,12 +2,13 @@
 import {
   DatabaseOperationError,
   InputParseError,
+  UniqueConstraintError,
 } from "@/core/_domain/errors/common.error";
 import { IRequestWithPaginationData } from "@/core/_domain/repositories/types/request.type";
 import { IRawSearchParams } from "@/core/_domain/services/types/search-params-handler-service.type";
-import CreateAcceptRequestController from "@/core/_factory/controller-factory/request/create-accept-request-controller";
-import CreateDeleteRequestController from "@/core/_factory/controller-factory/request/create-delete-request-controller";
-import createFetchRequestsWithPaginationDataBySearchParamsController from "@/core/_factory/controller-factory/request/create-fetch-requests-with-pagination-data-by-search-params-controller";
+import CreateAcceptRequestController from "@/core/_factory/controller-factory/request/build-accept-request-controller";
+import CreateDeleteRequestController from "@/core/_factory/controller-factory/request/build-delete-request-controller";
+import buildFetchRequestsWithPaginationDataBySearchParamsController from "@/core/_factory/controller-factory/request/build-fetch-requests-with-pagination-data-by-search-params-controller";
 import { IAcceptRequestData } from "@/schema/request/accept-request.schema";
 import { revalidatePath } from "next/cache";
 
@@ -20,7 +21,7 @@ export async function fetchRequestWithPaginationDataAction(
 }> {
   try {
     const fetchBySearchParamsController =
-      createFetchRequestsWithPaginationDataBySearchParamsController();
+      buildFetchRequestsWithPaginationDataBySearchParamsController();
     const data = await fetchBySearchParamsController(searchParam, itemsPerPage);
     return {
       success: true,
@@ -66,6 +67,13 @@ export async function acceptRequestAction(
     };
   } catch (error) {
     if (error instanceof InputParseError) {
+      return {
+        success: false,
+        message: error.message,
+      };
+    }
+
+    if (error instanceof UniqueConstraintError) {
       return {
         success: false,
         message: error.message,

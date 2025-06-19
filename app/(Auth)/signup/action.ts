@@ -6,7 +6,7 @@ import {
   InputParseError,
   UniqueConstraintError,
 } from "@/core/_domain/errors/common.error";
-import createSignUpController from "@/core/_factory/controller-factory/auth/create-sign-up-controller";
+import buildSignUpController from "@/core/_factory/controller-factory/auth/build-sign-up-controller";
 import { SignUpInputType } from "@/schema/auth/sign-up.schema";
 
 export async function signUpUserAction(
@@ -17,7 +17,7 @@ export async function signUpUserAction(
   data: SignUpInputType
 ) {
   try {
-    const signUpController: SignUpControllerType = createSignUpController();
+    const signUpController: SignUpControllerType = buildSignUpController();
     await signUpController(data);
     return {
       success: true,
