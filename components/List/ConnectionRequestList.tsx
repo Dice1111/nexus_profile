@@ -1,19 +1,30 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
 import InfoRow from "../Row/InfoRow";
 import ProfileCardSheet, {
   RequestSheetVarient,
   SHEET_VARIENT,
 } from "../Sheet/ProfileCardSheet";
 
-import { IRequestWithSpecificCardData } from "@/core/domain/repositories/types/request.type";
+import { IRequestWithSpecificCardData } from "@/core/_domain/repositories/types/request.type";
+import {
+  acceptRequestAction,
+  deleteRequestAction,
+  IAcceptRequestActionState,
+  IDeleteRequestActionState,
+} from "@/app/(Dashboard)/contact/request/action";
 
 interface ConnectionRequestListProps {
   data: IRequestWithSpecificCardData[];
 }
 
-const initialState = {
+const acceptRequestActionInitialState: IAcceptRequestActionState = {
+  success: false,
+  message: "",
+};
+
+const deleteRequestActionInitialState: IDeleteRequestActionState = {
   success: false,
   message: "",
 };
@@ -24,8 +35,11 @@ export default function ConnectionRequestList({
   const [requests, setRequests] = useState(data);
   const [SheetData, setSheetData] = useState<RequestSheetVarient | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  // const [state, action] = useActionState(saveToContactAction, initialState);
-  const [isPending, startTransition] = useTransition();
+  const [acceptRequestActionState, acceptAction, isAcceptRequestPending] =
+    useActionState(acceptRequestAction, acceptRequestActionInitialState);
+
+  const [deleteRequstActionState, deleteAction, isDeleteRequestPending] =
+    useActionState(deleteRequestAction, deleteRequestActionInitialState);
 
   useEffect(() => {
     setRequests(data);
@@ -47,9 +61,13 @@ export default function ConnectionRequestList({
     senderCardId: string
   ) => {
     event.stopPropagation();
-    // startTransition(() => {
-    //   action({ requestId, cardId, senderCardId });
-    // });
+    startTransition(() => {
+      acceptAction({
+        requestId,
+        cardId,
+        senderCardId,
+      });
+    });
   };
 
   const handleReject = (
@@ -59,7 +77,10 @@ export default function ConnectionRequestList({
     senderCardId: string
   ) => {
     event.stopPropagation();
-    // updateRequestList(requestID);
+
+    startTransition(() => {
+      deleteAction(requestId);
+    });
   };
 
   const renderRequestList = () => {
@@ -95,7 +116,9 @@ export default function ConnectionRequestList({
                 )
               }
             />
-            {isPending && <p className="text-red-600"> Saving contact...</p>}
+            {isAcceptRequestPending && (
+              <p className="text-red-600"> Saving contact...</p>
+            )}
           </div>
         ))}
       </div>

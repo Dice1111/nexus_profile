@@ -3,7 +3,7 @@ import ClientSideProfilePage from "./ClientSideHomePage";
 import TopCard from "@/public/image/card3.jpg";
 import BottomCard from "@/public/image/card5.jpg";
 import Logo from "@/public/image/logo-removebg-preview.svg";
-import { signInController } from "@/core/controllers/auth/sign-in.controller";
+import { signInController } from "@/core/_controllers/auth/sign-in.controller";
 
 export default async function Home() {
   return (

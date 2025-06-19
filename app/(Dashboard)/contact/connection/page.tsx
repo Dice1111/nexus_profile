@@ -1,7 +1,7 @@
 import ContactPagination from "@/components/Pagination/contact-pagination";
 import { columns } from "@/components/Table/contact/column";
 import { ConnectionTable } from "@/components/Table/contact/connection-table";
-import { IRawSearchParams } from "@/core/domain/services/types/search-params-handler-service.type";
+import { IRawSearchParams } from "@/core/_domain/services/types/search-params-handler-service.type";
 
 import { Suspense } from "react";
 import { ContactConnectionAction } from "./action";
@@ -13,8 +13,18 @@ export default async function ContactPage({
   searchParams: Promise<IRawSearchParams>;
 }) {
   const searchParam = await searchParams;
+  const cardId = "71ccf175-3e78-4fe4-a5ad-a2ee5b8e9b07";
 
-  const { data } = await ContactConnectionAction(searchParam, ITEMS_PER_PAGE);
+  const enrichedParams = {
+    ...searchParam,
+    cardId,
+  };
+
+  const { data } = await ContactConnectionAction(
+    enrichedParams,
+    ITEMS_PER_PAGE
+  );
+
   return (
     <div className="flex flex-col gap-4">
       <div className="text-md ">

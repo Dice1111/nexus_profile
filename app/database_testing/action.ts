@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/core/infrastructure/prisma/prisma-client";
+import { prisma } from "@/core/_infrastructure/prisma/prisma-client";
 
 export async function submitData(
   _prevState: { message: string },

@@ -1,12 +1,17 @@
+"use server";
 import {
   DatabaseOperationError,
   InputParseError,
-} from "@/core/domain/errors/common.error";
-import { IRequestWithPaginationData } from "@/core/domain/repositories/types/request.type";
-import { IRawSearchParams } from "@/core/domain/services/types/search-params-handler-service.type";
-import CreateFetchRequestsWithPaginationDataBySearchParamsController from "@/core/factory/di-factory/request/create-fetch-requests-with-pagination-data-by-search-params-controller";
+} from "@/core/_domain/errors/common.error";
+import { IRequestWithPaginationData } from "@/core/_domain/repositories/types/request.type";
+import { IRawSearchParams } from "@/core/_domain/services/types/search-params-handler-service.type";
+import CreateAcceptRequestController from "@/core/_factory/controller-factory/request/create-accept-request-controller";
+import CreateDeleteRequestController from "@/core/_factory/controller-factory/request/create-delete-request-controller";
+import createFetchRequestsWithPaginationDataBySearchParamsController from "@/core/_factory/controller-factory/request/create-fetch-requests-with-pagination-data-by-search-params-controller";
+import { IAcceptRequestData } from "@/schema/request/accept-request.schema";
+import { revalidatePath } from "next/cache";
 
-export async function ContactRequestAction(
+export async function fetchRequestWithPaginationDataAction(
   searchParam: IRawSearchParams,
   itemsPerPage: number
 ): Promise<{
@@ -15,7 +20,7 @@ export async function ContactRequestAction(
 }> {
   try {
     const fetchBySearchParamsController =
-      CreateFetchRequestsWithPaginationDataBySearchParamsController();
+      createFetchRequestsWithPaginationDataBySearchParamsController();
     const data = await fetchBySearchParamsController(searchParam, itemsPerPage);
     return {
       success: true,
@@ -38,6 +43,82 @@ export async function ContactRequestAction(
     return {
       success: false,
       data: { requests: [], totalCount: 0, currentPage: 0, totalPage: 0 },
+    };
+  }
+}
+
+export interface IAcceptRequestActionState {
+  success: boolean;
+  message: string;
+}
+
+export async function acceptRequestAction(
+  _prevState: IAcceptRequestActionState,
+  data: IAcceptRequestData
+): Promise<IAcceptRequestActionState> {
+  try {
+    const acceptRequestController = CreateAcceptRequestController();
+    await acceptRequestController(data);
+    revalidatePath("/contact/request");
+    return {
+      success: true,
+      message: "Saved contact successfully",
+    };
+  } catch (error) {
+    if (error instanceof InputParseError) {
+      return {
+        success: false,
+        message: error.message,
+      };
+    }
+
+    if (error instanceof DatabaseOperationError) {
+      return {
+        success: false,
+        message: error.message,
+      };
+    }
+    return {
+      success: false,
+      message: "An error happened. Please try again later",
+    };
+  }
+}
+
+export interface IDeleteRequestActionState {
+  success: boolean;
+  message: string;
+}
+
+export async function deleteRequestAction(
+  _prevState: IDeleteRequestActionState,
+  requestId: number
+): Promise<IDeleteRequestActionState> {
+  try {
+    const deleteRequestController = CreateDeleteRequestController();
+    await deleteRequestController(requestId);
+    revalidatePath("/contact/request");
+    return {
+      success: true,
+      message: "Request Deleted Successfully",
+    };
+  } catch (error) {
+    if (error instanceof InputParseError) {
+      return {
+        success: false,
+        message: error.message,
+      };
+    }
+
+    if (error instanceof DatabaseOperationError) {
+      return {
+        success: false,
+        message: error.message,
+      };
+    }
+    return {
+      success: false,
+      message: "An error happened. Please try again later",
     };
   }
 }

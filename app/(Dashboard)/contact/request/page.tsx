@@ -1,9 +1,9 @@
-import { IRawSearchParams } from "@/core/domain/services/types/search-params-handler-service.type";
-import { ContactRequestAction } from "./action";
-import { ITEMS_PER_PAGE } from "@/lib/utils";
 import ConnectionRequestList from "@/components/List/ConnectionRequestList";
-import { Suspense } from "react";
 import ContactPagination from "@/components/Pagination/contact-pagination";
+import { IRawSearchParams } from "@/core/_domain/services/types/search-params-handler-service.type";
+import { ITEMS_PER_PAGE } from "@/lib/utils";
+import { Suspense } from "react";
+import { fetchRequestWithPaginationDataAction } from "./action";
 
 export default async function RequestPage({
   searchParams,
@@ -12,7 +12,17 @@ export default async function RequestPage({
 }) {
   const searchParam = await searchParams;
 
-  const { data } = await ContactRequestAction(searchParam, ITEMS_PER_PAGE);
+  const cardId = "71ccf175-3e78-4fe4-a5ad-a2ee5b8e9b07";
+
+  const enrichedParams = {
+    ...searchParam,
+    cardId,
+  };
+
+  const { data } = await fetchRequestWithPaginationDataAction(
+    enrichedParams,
+    ITEMS_PER_PAGE
+  );
 
   return (
     <div className="flex flex-col gap-4">
