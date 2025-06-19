@@ -1,0 +1,121 @@
+import { IRequestRepository } from "@/core/_domain/repositories/IRequestRepository";
+import {
+  IRequestOrganizedSearchParams,
+  IRawRequestWithSpecificCardData,
+} from "@/core/_domain/repositories/types/request.type";
+import {
+  IRequestFilter,
+  IRequestSort,
+} from "@/core/_domain/services/types/search-params-handler-service.type";
+import { prisma } from "../prisma/prisma-client";
+import { DatabaseOperationError } from "@/core/_domain/errors/common.error";
+import { Prisma } from "@prisma/client";
+import {
+  SORTABLE_ITEMS,
+  SORTABLE_ORDERS,
+} from "@/core/_domain/enum/search-params-handler-service.enum";
+
+export class RequestRepository implements IRequestRepository {
+  async delete(requestId: number): Promise<void> {
+    try {
+      await prisma.request.delete({
+        where: {
+          id: requestId,
+        },
+      });
+    } catch (error) {
+      throw new DatabaseOperationError("Failed to delete request", {
+        cause: error,
+      });
+    }
+  }
+
+  async fetchWithSpecificCardDataBySearchParams(
+    data: IRequestOrganizedSearchParams
+  ): Promise<IRawRequestWithSpecificCardData[]> {
+    try {
+      const offset = (data.requestPage - 1) * data.itemsPerPage;
+
+      const whereClause = this.buildWhereClause(data.whereClauseRequirement);
+      const orderByClause = this.buildOrderClause(data.sortClauseRequirement);
+      const rawRequests = await prisma.request.findMany({
+        where: whereClause,
+        orderBy: orderByClause,
+        skip: offset,
+        take: data.itemsPerPage,
+        include: {
+          SenderCard: {
+            select: {
+              Information: {
+                select: {
+                  fullName: true,
+                  occupation: true,
+                  company: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return rawRequests;
+    } catch (error) {
+      throw new DatabaseOperationError("Failed to fetch Requests", {
+        cause: error,
+      });
+    }
+  }
+  async fetchTotalCountBySearchParams(data: IRequestFilter): Promise<number> {
+    try {
+      const whereClause = this.buildWhereClause(data);
+      const count = await prisma.request.count({
+        where: whereClause,
+      });
+
+      return count;
+    } catch (error) {
+      throw new DatabaseOperationError("Failed to fetch Requests count", {
+        cause: error,
+      });
+    }
+  }
+
+  private buildWhereClause(filters: IRequestFilter): Prisma.RequestWhereInput {
+    const where: Prisma.RequestWhereInput = {};
+    where.cardId = filters.cardId;
+
+    if (filters.keyword) {
+      where.SenderCard = {
+        Information: {
+          OR: [
+            { fullName: { contains: filters.keyword, mode: "insensitive" } },
+            { occupation: { contains: filters.keyword, mode: "insensitive" } },
+            { company: { contains: filters.keyword, mode: "insensitive" } },
+          ],
+        },
+      };
+    }
+
+    return where;
+  }
+
+  private buildOrderClause(
+    sort: IRequestSort
+  ): Prisma.RequestOrderByWithRelationInput {
+    const sortOrder = sort.order === SORTABLE_ORDERS.ASC ? "asc" : "desc";
+
+    if (sort.item === SORTABLE_ITEMS.FULL_NAME) {
+      return {
+        SenderCard: {
+          Information: {
+            fullName: sortOrder,
+          },
+        },
+      };
+    }
+
+    return {
+      createdAt: sortOrder,
+    };
+  }
+}

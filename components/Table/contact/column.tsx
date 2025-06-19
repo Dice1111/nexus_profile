@@ -1,9 +1,9 @@
 "use client";
 
 import InfoRow from "@/components/Row/InfoRow";
-import { IFlatContact } from "@/core/domain/repositories/types/contact.types";
+import { IContactWithSpecificCardData } from "@/core/_domain/repositories/types/contact.types";
 import { ColumnDef } from "@tanstack/react-table";
-export const columns: ColumnDef<IFlatContact>[] = [
+export const columns: ColumnDef<IContactWithSpecificCardData>[] = [
   {
     accessorKey: "contactPersonFullname",
     header: () => <h1 className="text-primary">Username</h1>,

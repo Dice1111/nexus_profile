@@ -13,7 +13,7 @@ import {
 import {
   SORTABLE_ITEMS,
   SORTABLE_ORDERS,
-} from "@/core/domain/enum/search-params-handler-service.enum";
+} from "@/core/_domain/enum/search-params-handler-service.enum";
 import { URL_SORT_IEM, URL_SORT_ORDER } from "@/lib/utils";
 import { ArrowUpDown } from "lucide-react";
 import Form from "next/form";

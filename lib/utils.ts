@@ -1,8 +1,8 @@
-import { CONTACT_TAG_ENUM } from "@/core/domain/enum/contact-tag.enum";
+import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-tag.enum";
 import {
   SORTABLE_ITEMS,
   SORTABLE_ORDERS,
-} from "@/core/domain/enum/search-params-handler-service.enum";
+} from "@/core/_domain/enum/search-params-handler-service.enum";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
