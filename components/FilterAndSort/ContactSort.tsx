@@ -11,77 +11,61 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  parseReadonlySearchParams,
-  SearchParams,
-  URL_PAGE,
-  URL_SORT_IEM,
-  URL_SORT_ORDER,
-} from "@/lib/url-state";
-
+  SORTABLE_ITEMS,
+  SORTABLE_ORDERS,
+} from "@/core/domain/enum/search-params-handler-service.enum";
+import { URL_SORT_IEM, URL_SORT_ORDER } from "@/lib/utils";
 import { ArrowUpDown } from "lucide-react";
 import Form from "next/form";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-const SortItemsArray = [
+interface SortItemsArray {
+  label: string;
+  value: SORTABLE_ITEMS;
+}
+interface SortOrderArray {
+  label: string;
+  value: SORTABLE_ORDERS;
+}
+
+const SortItemsArray: SortItemsArray[] = [
   {
     label: "Name",
-    value: "firstName",
+    value: SORTABLE_ITEMS.FULL_NAME,
   },
   {
     label: "Connected Date",
-    value: "createdAt",
+    value: SORTABLE_ITEMS.CREATED_AT,
   },
 ];
-const SortOrderArray = [
+const SortOrderArray: SortOrderArray[] = [
   {
     label: "Ascending",
-    value: "asc",
+    value: SORTABLE_ORDERS.ASC,
   },
   {
     label: "Descending",
-    value: "desc",
+    value: SORTABLE_ORDERS.DESC,
   },
 ];
-
-interface OldUrlValueProps {
-  searchParams: SearchParams;
-}
-
-const OldUrlValue = ({ searchParams }: OldUrlValueProps) => {
-  return (
-    <>
-      {Object.entries(searchParams).flatMap(([key, value]) => {
-        if (
-          key === URL_PAGE ||
-          key === URL_SORT_IEM ||
-          key === URL_SORT_ORDER ||
-          value === undefined
-        ) {
-          return [];
-        }
-
-        if (Array.isArray(value)) {
-          return value
-            .filter((v) => v !== undefined)
-            .map((v, i) => (
-              <input key={`${key}-${i}`} type="hidden" name={key} value={v} />
-            ));
-        }
-
-        return <input key={key} type="hidden" name={key} value={value} />;
-      })}
-    </>
-  );
-};
 
 export function ContactSort() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const sortedItem = searchParams.get(URL_SORT_IEM);
   const sortedOrder = searchParams.get(URL_SORT_ORDER);
 
-  const parsedSearchParams = parseReadonlySearchParams(searchParams);
+  const handleSubmit = async (formData: FormData) => {
+    const sortItemQuery = formData.get(URL_SORT_IEM) as string;
+    const sortOrderQuery = formData.get(URL_SORT_ORDER) as string;
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set(URL_SORT_IEM, sortItemQuery.trim());
+    newParams.set(URL_SORT_ORDER, sortOrderQuery.trim());
+    const newURL = `${pathname}?${newParams.toString()}`;
+    router.replace(newURL);
+  };
 
   return (
     <DropdownMenu>
@@ -103,8 +87,7 @@ export function ContactSort() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        <Form action={pathname} className="pb-2">
-          <OldUrlValue searchParams={parsedSearchParams} />
+        <Form action={handleSubmit} className="pb-2">
           <DropdownMenuGroup className="grid gap-1 p-2">
             <DropdownMenuLabel className="text-sm text-muted-foreground">
               Sort By

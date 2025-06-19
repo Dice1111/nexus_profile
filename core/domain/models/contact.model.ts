@@ -1,4 +1,4 @@
-import { CONTACT_TAG_TYPE } from "@/lib/types/enums";
+import { CONTACT_TAG_ENUM } from "../enum/contact-tag.enum";
 
 export interface ContactModel {
   id: number;
@@ -6,6 +6,6 @@ export interface ContactModel {
   contactCardId: string;
   createdAt: Date;
   updatedAt: Date;
-  tag: CONTACT_TAG_TYPE;
+  tag: CONTACT_TAG_ENUM;
   note: string | null;
 }

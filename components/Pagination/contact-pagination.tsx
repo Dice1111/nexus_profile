@@ -1,5 +1,5 @@
 "use client";
-import { SearchParams } from "@/lib/url-state";
+
 import Form from "next/form";
 import { Button } from "../ui/button";
 import {
@@ -7,39 +7,13 @@ import {
   PaginationContent,
   PaginationItem,
 } from "../ui/pagination";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { URL_PAGE } from "@/lib/utils";
 
 interface ContactPaginationProps {
   currentPage: number;
   totalPages: number;
-  searchParams: SearchParams;
 }
-
-interface OldUrlValueProps {
-  searchParams: SearchParams;
-}
-
-export const URL_PAGE = "page";
-
-const OldUrlValue = ({ searchParams }: OldUrlValueProps) => {
-  return (
-    <>
-      {Object.entries(searchParams).flatMap(([key, value]) => {
-        if (key === URL_PAGE || value === undefined) return [];
-
-        if (Array.isArray(value)) {
-          return value
-            .filter((v) => v !== undefined)
-            .map((v, i) => (
-              <input key={`${key}-${i}`} type="hidden" name={key} value={v} />
-            ));
-        }
-
-        return <input key={key} type="hidden" name={key} value={value} />;
-      })}
-    </>
-  );
-};
 
 const getPageRange = (
   currentPage: number,
@@ -67,18 +41,26 @@ const getPageRange = (
 export default function ContactPagination({
   currentPage,
   totalPages,
-  searchParams,
 }: ContactPaginationProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   if (totalPages <= 1) return null;
+
+  const handleSubmit = async (formData: FormData) => {
+    const query = formData.get(URL_PAGE) as string;
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set(URL_PAGE, query.trim());
+    const newURL = `${pathname}?${newParams.toString()}`;
+    router.replace(newURL);
+  };
 
   return (
     <Pagination>
       <PaginationContent className="flex items-center justify-between gap-3 ">
         {/* Previous */}
         <PaginationItem>
-          <Form action={pathname}>
-            <OldUrlValue searchParams={searchParams} />
+          <Form action={handleSubmit}>
             <input
               type="hidden"
               name={URL_PAGE}
@@ -101,8 +83,7 @@ export default function ContactPagination({
             <PaginationItem key={`ellipsis-${idx}`}>...</PaginationItem>
           ) : (
             <PaginationItem key={page}>
-              <Form action={pathname}>
-                <OldUrlValue searchParams={searchParams} />
+              <Form action={handleSubmit}>
                 <input type="hidden" name={URL_PAGE} value={page.toString()} />
                 <Button
                   type="submit"
@@ -119,8 +100,7 @@ export default function ContactPagination({
 
         {/* Next */}
         <PaginationItem>
-          <Form action={pathname}>
-            <OldUrlValue searchParams={searchParams} />
+          <Form action={handleSubmit}>
             <input
               type="hidden"
               name={URL_PAGE}

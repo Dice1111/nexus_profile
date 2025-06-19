@@ -58,23 +58,3 @@ export enum PROFILE_COMPONENT_CATEGORY {
   TEXT = "text",
   SOCIAL_EMBED = "social_embed",
 }
-
-export enum CONNECTION_REQUEST_STATUS {
-  PENDING = "pending",
-  ACCEPTED = "accepted",
-  REJECTED = "rejected",
-}
-
-export enum CONTACT_TAG_TYPE {
-  FAVOURITE = "FAVOURITE",
-  NEW = "NEW",
-  FAMILY = "FAMILY",
-  FRIEND = "FRIEND",
-  COLLEAGUE = "COLLEAGUE",
-  CLIENT = "CLIENT",
-  SUPPLIER = "SUPPLIER",
-  EMPLOYEE = "EMPLOYEE",
-  INVESTOR = "INVESTOR",
-  VENDOR = "VENDOR",
-  OTHER = "OTHER",
-}

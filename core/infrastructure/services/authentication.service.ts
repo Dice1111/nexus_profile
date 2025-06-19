@@ -2,7 +2,8 @@ import { IAuthenticationService } from "@/core/domain/services/IAuthentication.s
 import bcrypt from "bcrypt";
 
 export class AuthenticationService implements IAuthenticationService {
-  private static readonly SALT_ROUNDS = 12;
+  private static readonly SALT_ROUNDS: number = 12;
+
   async validatePasswords(
     inputPassword: string,
     hashedPassword: string

@@ -6,7 +6,7 @@ import {
   InputParseError,
 } from "@/core/domain/errors/common.error";
 import CreateSignInController from "@/core/factory/di-factory/auth/create-sign-in-controller";
-import { SignInControllerType } from "@/core/interface-adapters/controllers/auth/sign-in.controller";
+import { SignInControllerType } from "@/core/controllers/auth/sign-in.controller";
 import { SignInInputType } from "@/schema/auth/sign-in.schema";
 
 export async function signInUserAction(
