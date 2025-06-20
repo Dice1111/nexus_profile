@@ -7,14 +7,24 @@ import ProfileCardSheet, {
   SHEET_VARIENT,
 } from "../Sheet/ProfileCardSheet";
 
+import { IRequestWithSpecificCardData } from "@/core/_domain/repositories/types/request.type";
 import {
   acceptRequestAction,
   deleteRequestAction,
   IAcceptRequestActionState,
   IDeleteRequestActionState,
 } from "@/app/(Dashboard)/contact/request/action";
-import { IRequestWithSpecificCardData } from "@/core/_domain/repositories/types/request.type";
-import ConfirmDialog from "../dialog/comfirm-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
+import { toast } from "sonner";
 
 interface ConnectionRequestListProps {
   data: IRequestWithSpecificCardData[];
@@ -30,19 +40,12 @@ const deleteRequestActionInitialState: IDeleteRequestActionState = {
   message: "",
 };
 
-interface dialogDataProps {
-  title: string;
-  isLoading: boolean;
-  confirmAction: () => void;
-}
-
 export default function ConnectionRequestList({
   data,
 }: ConnectionRequestListProps) {
   const [requests, setRequests] = useState(data);
   const [SheetData, setSheetData] = useState<RequestSheetVarient | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [acceptState, acceptAction, isPendingAccept] = useActionState(
     acceptRequestAction,
     acceptRequestActionInitialState
@@ -51,26 +54,48 @@ export default function ConnectionRequestList({
     deleteRequestAction,
     deleteRequestActionInitialState
   );
+
   const [currentRequest, setCurrentRequest] = useState<{
     requestId: number;
     cardId: string;
     senderCardId: string;
   } | null>(null);
 
-  const [dialogDataProps, setDialogDataProps] =
-    useState<dialogDataProps | null>(null);
+  const [isAcceptDialogOpen, setIsAcceptDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
   useEffect(() => {
     setRequests(data);
   }, [data]);
 
   useEffect(() => {
-    if (!isPendingAccept || !isPendingDelete) {
-      setCurrentRequest(null);
-      setIsDialogOpen(false);
-      console.log(acceptState.message);
-      console.log(deleteState.message);
+    if (acceptState.success) {
+      toast(acceptState.message, {
+        duration: 1000,
+        style: { backgroundColor: "green" },
+      });
+    } else if (!acceptState.success) {
+      toast("wrong", {
+        duration: 1000,
+        style: { backgroundColor: "red" },
+        position: "top-right",
+      });
     }
-  }, [isPendingAccept, isPendingDelete]);
+  }, [acceptState.success, isPendingAccept]);
+
+  useEffect(() => {
+    if (!isPendingAccept) {
+      setCurrentRequest(null);
+      setIsAcceptDialogOpen(false);
+    }
+  }, [isPendingAccept]);
+
+  useEffect(() => {
+    if (!isPendingDelete) {
+      setCurrentRequest(null);
+      setIsDeleteDialogOpen(false);
+    }
+  }, [isPendingDelete]);
 
   const handleRowClick = (rowData: IRequestWithSpecificCardData) => {
     const data: RequestSheetVarient = {
@@ -91,12 +116,7 @@ export default function ConnectionRequestList({
       cardId: req.cardId,
       senderCardId: req.senderCardId,
     });
-    setDialogDataProps({
-      title: "Are you sure to save this contact?",
-      isLoading: isPendingAccept,
-      confirmAction: handleConfirmAccept,
-    });
-    setIsDialogOpen(true);
+    setIsAcceptDialogOpen(true);
   };
 
   const handleConfirmAccept = () => {
@@ -107,26 +127,21 @@ export default function ConnectionRequestList({
     }
   };
 
-  const handleDelete = (
+  const handleReject = (
     event: React.MouseEvent<HTMLButtonElement>,
     req: IRequestWithSpecificCardData
   ) => {
     event.stopPropagation();
+
     setCurrentRequest({
       requestId: req.id,
       cardId: req.cardId,
       senderCardId: req.senderCardId,
     });
-    setDialogDataProps({
-      title: "Are you sure to delete this?",
-      isLoading: isPendingDelete,
-      confirmAction: handleConfirmDelete,
-    });
-    setIsDialogOpen(true);
+    setIsDeleteDialogOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    console.log("Hello world");
     if (currentRequest) {
       startTransition(() => {
         deleteAction(currentRequest.requestId);
@@ -151,26 +166,75 @@ export default function ConnectionRequestList({
               date={request.createdAt}
               isRequest={true}
               onAccept={(e) => handleAccept(e, request)}
-              onReject={(e) => handleDelete(e, request)}
+              onReject={(e) => handleReject(e, request)}
             />
-            {isPendingAccept && (
-              <p className="text-red-600"> Saving contact...</p>
-            )}
           </div>
         ))}
 
-        <ConfirmDialog
-          open={isDialogOpen}
+        <AlertDialog
+          open={isAcceptDialogOpen}
           onOpenChange={(open) => {
-            if (!open && !dialogDataProps?.isLoading) {
+            if (!open && !isPendingAccept) {
               setCurrentRequest(null);
             }
           }}
-          title={dialogDataProps?.title ?? ""}
-          isLoading={dialogDataProps?.isLoading ?? false}
-          onConfirm={handleConfirmAccept ?? (() => console.log("apple"))}
-          onCancel={() => setIsDialogOpen(false)}
-        />
+        >
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Are you sure to save this contact?
+              </AlertDialogTitle>
+              <AlertDialogDescription></AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel
+                onClick={() => setIsAcceptDialogOpen(false)}
+                disabled={isPendingAccept}
+              >
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleConfirmAccept}
+                disabled={isPendingAccept}
+              >
+                {isPendingAccept ? "Saving..." : "Continue"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+        <AlertDialog
+          open={isDeleteDialogOpen}
+          onOpenChange={(open) => {
+            if (!open && !isPendingDelete) {
+              setCurrentRequest(null);
+            }
+          }}
+        >
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Are you sure to delete this request?
+              </AlertDialogTitle>
+              <AlertDialogDescription></AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel
+                onClick={() => setIsDeleteDialogOpen(false)}
+                disabled={isPendingAccept}
+              >
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                className=""
+                onClick={handleConfirmDelete}
+                disabled={isPendingDelete}
+              >
+                {isPendingDelete ? "Deleting..." : "Continue"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     ) : (
       <div className="text-center text-muted-foreground py-4">
@@ -188,7 +252,7 @@ export default function ConnectionRequestList({
           isOpen={isSheetOpen}
           setIsOpen={setIsSheetOpen}
           sheetData={SheetData}
-          sheetVarient={SHEET_VARIENT.REQUEST}
+          sheetVarient={SHEET_VARIENT.REQUEST} // Pass the selected row data
         />
       )}
     </div>

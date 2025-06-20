@@ -13,7 +13,7 @@ export default async function ContactPage({
   searchParams: Promise<IRawSearchParams>;
 }) {
   const searchParam = await searchParams;
-  const cardId = "71ccf175-3e78-4fe4-a5ad-a2ee5b8e9b07";
+  const cardId = "1c41b717-d565-47f6-a569-10774f2c8d4b";
 
   const enrichedParams = {
     ...searchParam,
