@@ -175,7 +175,6 @@ const EditProfileCardComponent = () => {
       console.log("finalComponents:", getValues("components"));
 
       // need to update data.components with updatedComponents
-      // Reintegrate updated components (images) back into the original component list
       const finalComponents = data.components.map((originalComponent) => {
         const updated = updatedComponents.find(
           (comp) => comp.id === originalComponent.id

@@ -1,34 +1,35 @@
-import {
-  fetchUserProfileCardData,
-  fetchUserProfileDndComponentsData,
-} from "@/services/profile-data-service";
-import ClientSideProfilePage from "./ClientSideProfilePage";
-import { ProfileCard, ProfileDndComponent } from "@/lib/types/types";
+"use client";
 
-const getProfileCardData = async (): Promise<ProfileCard> => {
-  const data = await fetchUserProfileCardData("1");
-  if (!data) throw new Error("No data found");
-  return data;
-};
+import React, { startTransition, useActionState, useEffect } from "react";
 
-const getProfileComponentsData = async (): Promise<ProfileDndComponent[]> => {
-  const data = await fetchUserProfileDndComponentsData("1");
-  return data;
-};
+import Link from "next/link";
+import { getCardIdAction } from "./action";
 
-const Page = async () => {
-  // Fetch from database
-  const profileComponents = await getProfileComponentsData();
-  const profileCard = await getProfileCardData();
+const page = () => {
+  const initial = {
+    success: false,
+    data: "",
+  };
+
+  const [userState, cardIdAction, isPending] = useActionState(
+    getCardIdAction,
+    initial
+  );
+  useEffect(() => {
+    startTransition(() => cardIdAction());
+  }, []);
 
   return (
     <>
-      <ClientSideProfilePage
-        profileComponentData={profileComponents}
-        profileCardData={profileCard}
-      />
+      {isPending ? (
+        <div>Loading...</div>
+      ) : (
+        <Link href={`/profile/${userState.data}`} className="bg-red-200">
+          Profile
+        </Link>
+      )}
     </>
   );
 };
 
-export default Page;
+export default page;

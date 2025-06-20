@@ -1,3 +1,5 @@
+import { DesignModel } from "@/core/_domain/models/design.model";
+import { InformationModel } from "@/core/_domain/models/information.model";
 import {
   PROFILE_COMPONENT_CATEGORY,
   PROFILE_COMPONENT_TYPE,
@@ -375,6 +377,109 @@ export const profileCard: ProfileCard[] = [
     message: "",
   },
 ];
+
+
+export const design: DesignModel[] = [
+  {
+    id: 1,
+    cardId: "1",
+    foregroundColor: "#E6E6FA",
+    backgroundColor: "#050505",
+    backgroundImage: "/image/profile.jpg",
+    profileImage: "/image/profile.jpg",
+    layout: "classic"
+  },
+  {
+    id: 2,
+    cardId: "2",
+    foregroundColor: "#050505",
+    backgroundColor: "#ffffff",
+    backgroundImage: "/image/profile2.jpg",
+    profileImage: "/image/logo2.jpg",
+    layout: "modern"
+  },
+  {
+    id: 3,
+    cardId: "3",
+    foregroundColor: "#050505",
+    backgroundColor: "#ffffff",
+    backgroundImage: "/image/profile3.jpg",
+    profileImage: "/image/logo3.jpg",
+    layout: "layout_three"
+  },
+  {
+    id: 4,
+    cardId: "4",
+    foregroundColor: "#E6E6FA",
+    backgroundColor: "#050505",
+    backgroundImage: null,
+    profileImage: null,
+    layout: "classic"
+  }
+];
+
+
+export const information: InformationModel[] = [
+  {
+    id: 1,
+    cardId: "1",
+    title: "Dr.",
+    fullName: "John Arthur Doe",
+    occupation: "Web Developer",
+    company: "Google",
+    message: "Hello world!",
+    quote: "Time and Tide wait for no man.",
+    prefix: "Mr.",
+    suffix: "Jr.",
+    preferredName: "John Doe",
+    pronouns: "he/him"
+  },
+  {
+    id: 2,
+    cardId: "2",
+    title: "Ms.",
+    fullName: "Jane Elizabeth Smith",
+    occupation: "Graphic Designer",
+    company: "Adobe",
+    message: "Let's create amazing designs!",
+    quote: "Dream big, work hard.",
+    prefix: "Ms.",
+    suffix: null,
+    preferredName: "Jane Smith",
+    pronouns: "she/her"
+  },
+  {
+    id: 3,
+    cardId: "3",
+    title: "Engineer",
+    fullName: "Alex Johnson",
+    occupation: "Software Engineer",
+    company: "Tesla",
+    message: "Driving the future of tech!",
+    quote: "Innovation is key.",
+    prefix: null,
+    suffix: null,
+    preferredName: "Alex Johnson",
+    pronouns: "they/them"
+  },
+  {
+    id: 4,
+    cardId: "4",
+    title: null,
+    fullName: "",
+    occupation: null,
+    company: null,
+    message: null,
+    quote: null,
+    prefix: null,
+    suffix: null,
+    preferredName: null,
+    pronouns: null
+  }
+];
+
+
+
 
 //.............................................................
 
