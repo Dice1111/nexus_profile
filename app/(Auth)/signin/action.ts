@@ -6,7 +6,7 @@ import {
   DatabaseOperationError,
   InputParseError,
 } from "@/core/_domain/errors/common.error";
-import createSignInController from "@/core/_factory/controller-factory/auth/create-sign-in-controller";
+import buildSignInController from "@/core/_factory/controller-factory/auth/build-sign-in-controller";
 import { SignInInputType } from "@/schema/auth/sign-in.schema";
 
 export async function signInUserAction(
@@ -17,7 +17,7 @@ export async function signInUserAction(
   data: SignInInputType
 ) {
   try {
-    const signInController: SignInControllerType = createSignInController();
+    const signInController: SignInControllerType = buildSignInController();
     await signInController(data);
 
     return {

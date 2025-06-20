@@ -4,7 +4,7 @@ import {
 } from "@/core/_domain/errors/common.error";
 import { IContactWithPaginationData } from "@/core/_domain/repositories/types/contact.types";
 import { IRawSearchParams } from "@/core/_domain/services/types/search-params-handler-service.type";
-import createFetchContactsWithPaginationDataBySearchParamsController from "@/core/_factory/controller-factory/contact/create-fetch-contacts-with-pagination-data-by-search-params-controller";
+import buildFetchContactsWithPaginationDataBySearchParamsController from "@/core/_factory/controller-factory/contact/build-fetch-contacts-with-pagination-data-by-search-params-controller";
 
 export async function ContactConnectionAction(
   searchParam: IRawSearchParams,
@@ -15,7 +15,7 @@ export async function ContactConnectionAction(
 }> {
   try {
     const fetchBySearchParamsController =
-      createFetchContactsWithPaginationDataBySearchParamsController();
+      buildFetchContactsWithPaginationDataBySearchParamsController();
     const data = await fetchBySearchParamsController(searchParam, itemsPerPage);
     console.log(data);
     return {

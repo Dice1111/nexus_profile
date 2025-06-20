@@ -2,7 +2,7 @@ import { deleteRequestUseCase } from "@/core/_application/use-cases/request/dele
 import { deleteRequestController } from "@/core/_controllers/request/delete-request.controller";
 import { RequestRepository } from "@/core/_infrastructure/repositories/request.repository";
 
-export default function CreateDeleteRequestController() {
+export default function buildDeleteRequestController() {
   const requestRepository = new RequestRepository();
   const deleteRequest = deleteRequestUseCase(requestRepository);
   return deleteRequestController(deleteRequest);

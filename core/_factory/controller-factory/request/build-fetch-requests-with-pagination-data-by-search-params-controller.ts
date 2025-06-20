@@ -4,7 +4,7 @@ import { fetchTotalRequestCountBySearchParamsUseCase } from "@/core/_application
 import { fetchRequestWithPaginationDataBySearchParamsController } from "@/core/_controllers/request/fetch-requests-with-pagination-data-by-search-params.controller";
 import { RequestRepository } from "@/core/_infrastructure/repositories/request.repository";
 
-export default function createFetchRequestsWithPaginationDataBySearchParamsController() {
+export default function buildFetchRequestsWithPaginationDataBySearchParamsController() {
   const repository = new RequestRepository();
   const searchParamsHandlerService = new SearchParamsHandlerService();
   const fetchContactUseCase =

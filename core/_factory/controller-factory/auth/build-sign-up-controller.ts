@@ -4,7 +4,7 @@ import { AuthenticationService } from "@/core/_infrastructure/services/authentic
 import { signUpController } from "@/core/_controllers/auth/sign-up.controller";
 import { signUpSchema } from "@/schema/auth/sign-up.schema";
 
-export default function createSignUpController() {
+export default function buildSignUpController() {
   const repository = new UserRepository();
   const authenticationService = new AuthenticationService();
   const usecase = signUpUseCase(repository, authenticationService);

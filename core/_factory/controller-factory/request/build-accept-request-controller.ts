@@ -5,7 +5,7 @@ import { ContactRepository } from "@/core/_infrastructure/repositories/contact.r
 import { RequestRepository } from "@/core/_infrastructure/repositories/request.repository";
 import { AcceptRequestSchema } from "@/schema/request/accept-request.schema";
 
-export default function CreateAcceptRequestController() {
+export default function buildAcceptRequestController() {
   const contactRepository = new ContactRepository();
   const requestRepository = new RequestRepository();
   const createContact = createContactUseCase(contactRepository);
