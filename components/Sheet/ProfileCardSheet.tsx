@@ -18,7 +18,7 @@ import TagAndNote from "./SubComponents/TagAndNote";
 
 import { ProfileCard, ProfileDndComponent } from "@/lib/types/types";
 import QRButton from "../QRCodeButton/QRButton";
-import { CONTACT_TAG_TYPE } from "@prisma/client";
+import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-tag.enum";
 
 // Enum for Sheet Variants
 export enum SHEET_VARIENT {
@@ -28,9 +28,10 @@ export enum SHEET_VARIENT {
 
 // Props for Connection and Request Sheet Variants
 export interface ConnectionSheetVarient {
+  contactId: number;
   fullName: string;
   cardId: string;
-  tag: CONTACT_TAG_TYPE;
+  tag: CONTACT_TAG_ENUM;
   note: string | null;
   date: string;
 }
@@ -60,10 +61,9 @@ const formatDisplayDate = (
   date: string,
   sheetVarient: SHEET_VARIENT
 ): string => {
-  const formattedDate = new Date(date).toLocaleDateString();
   return sheetVarient === SHEET_VARIENT.CONNECTION
-    ? `Connected on ${formattedDate}`
-    : `Requested on ${formattedDate}`;
+    ? `Connected on ${date}`
+    : `Requested on ${date}`;
 };
 
 // Main Component
@@ -117,9 +117,7 @@ export default function ProfileCardSheet({
               <TagAndNote
                 tag={(sheetData as ConnectionSheetVarient).tag}
                 note={(sheetData as ConnectionSheetVarient).note}
-                onSaveChanges={(updatedTag, updatedNotes) =>
-                  console.log("Saved changes:", updatedTag, updatedNotes)
-                }
+                contactId={(sheetData as ConnectionSheetVarient).contactId}
               />
             )}
           </div>

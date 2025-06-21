@@ -33,7 +33,7 @@ export default async function RequestPage({
           {data.totalPage.toLocaleString()} )
         </p>
       </div>
-      <ConnectionRequestList data={data.requests} />
+      <ConnectionRequestList requests={data.requests} />
       <Suspense fallback={null}>
         <ContactPagination
           currentPage={data.currentPage}

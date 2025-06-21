@@ -1,5 +1,6 @@
 import { CONTACT_TAG_TYPE } from "@prisma/client";
 import { CONTACT_TAG_ENUM } from "../../enum/contact-tag.enum";
+import { ContactModel } from "../../models/contact.model";
 import {
   IContactFilter,
   IContactSort,
@@ -53,3 +54,9 @@ export interface IContactWithPaginationData {
   totalPage: number;
   currentPage: number;
 }
+
+type BaseContact = Omit<
+  ContactModel,
+  "id" | "note" | "tag" | "createdAt" | "updatedAt"
+>;
+export interface ICreateContactData extends BaseContact {}

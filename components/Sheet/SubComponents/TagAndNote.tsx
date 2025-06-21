@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
 
 import { Button } from "../../ui/button";
 import {
@@ -12,28 +12,65 @@ import {
 import { Input } from "../../ui/input";
 import PillShapeTag from "../../Tag/PillShapeTag";
 import { ChevronDownIcon } from "lucide-react";
-import { CONTACT_TAG_TYPE } from "@prisma/client";
+
+import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-tag.enum";
+import {
+  IUpdateTagOrNoteActionState,
+  updateTagOrNoteAction,
+} from "@/app/(Dashboard)/contact/connection/action";
+import { IUpdateTagOrNoteData } from "@/schema/contact/update-contact-or-delete.schema";
+import { displayErrorToast } from "@/components/Box/errorToastBox";
+import { displaySuccessToast } from "@/components/Box/successToastBox";
 
 interface TagAndNoteProps {
-  tag: CONTACT_TAG_TYPE;
+  contactId: number;
+  tag: CONTACT_TAG_ENUM;
   note: string | null;
-  onSaveChanges: (updatedTag: CONTACT_TAG_TYPE, updatedNote: string) => void;
 }
+const updateTagOrNoteActionState: IUpdateTagOrNoteActionState = {
+  success: false,
+  message: "",
+};
 
-export default function TagAndNote({
-  tag,
-  note,
-  onSaveChanges,
-}: TagAndNoteProps) {
-  const tagOptions = Object.values(CONTACT_TAG_TYPE) as CONTACT_TAG_TYPE[];
+export default function TagAndNote({ contactId, tag, note }: TagAndNoteProps) {
+  const tagOptions = Object.values(CONTACT_TAG_ENUM) as CONTACT_TAG_ENUM[];
 
-  const [newTag, setNewTag] = useState<CONTACT_TAG_TYPE>(tag);
+  const [newTag, setNewTag] = useState<CONTACT_TAG_ENUM>(tag);
   const [newNote, setNewNote] = useState<string>(note || "");
   const [isEditing, setIsEditing] = useState(false);
 
+  const [updateState, updateAction, isPendingUpdate] = useActionState(
+    updateTagOrNoteAction,
+    updateTagOrNoteActionState
+  );
+
+  const [isUpdateActionTriggered, setIsUpdateActionTriggered] = useState(false);
+
+  useEffect(() => {
+    if (isUpdateActionTriggered && !isPendingUpdate) {
+      if (updateState.success) {
+        displaySuccessToast({ message: updateState.message });
+      } else if (!updateState.success) {
+        displayErrorToast({ message: updateState.message });
+      }
+      setIsUpdateActionTriggered(false);
+    }
+  }, [isUpdateActionTriggered, updateState, isPendingUpdate]);
+
   const handleSave = () => {
-    onSaveChanges(newTag, newNote);
-    setIsEditing(false);
+    if (contactId) {
+      const data: IUpdateTagOrNoteData = { contactId };
+      if (newTag !== tag) data.tag = newTag;
+      if (newNote !== note) data.note = newNote;
+
+      if (!data.note && !data.tag) {
+        return;
+      }
+      startTransition(() => {
+        updateAction(data);
+        setIsUpdateActionTriggered(true);
+      });
+    }
   };
 
   if (!isEditing) {
@@ -102,12 +139,18 @@ export default function TagAndNote({
         <Button
           variant="outline"
           onClick={() => setIsEditing(false)}
+          disabled={isPendingUpdate}
           className="flex-1"
         >
           Cancel
         </Button>
-        <Button variant="outline" onClick={handleSave} className="flex-1">
-          Save
+        <Button
+          variant="outline"
+          onClick={handleSave}
+          disabled={isPendingUpdate}
+          className="flex-1"
+        >
+          {isPendingUpdate ? "Saving..." : "Save"}
         </Button>
       </div>
     </div>

@@ -15,8 +15,7 @@ export const acceptRequestController =
   async (data: IAcceptRequestData) => {
     const parsed = acceptRequestSchema.safeParse(data);
     if (!parsed.success) {
-      const firstError = parsed.error.errors[0]?.message ?? "Invalid input";
-      throw new InputParseError(firstError, {
+      throw new InputParseError("Invalid Parsed Data", {
         cause: parsed.error.format(),
       });
     }

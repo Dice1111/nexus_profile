@@ -4,6 +4,10 @@ import { InputParseError } from "@/core/_domain/errors/common.error";
 export const deleteRequestController =
   (deleteRequestUseCase: IDeleteRequestUseCase) =>
   async (requestId: number): Promise<void> => {
-    if (!requestId) throw new InputParseError("Request Id is not valid");
+    if (typeof requestId !== "number" || isNaN(requestId)) {
+      throw new InputParseError("Invalid Parsed Data", {
+        cause: "Request Id must be a number",
+      });
+    }
     await deleteRequestUseCase(requestId);
   };

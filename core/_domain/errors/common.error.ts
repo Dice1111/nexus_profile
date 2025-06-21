@@ -4,6 +4,14 @@ export class DatabaseOperationError extends Error {
     this.name = "DatabaseOperationError";
   }
 }
+
+export class DomainTypeMappingError extends Error {
+  constructor(message: string, options?: ErrorOptions) {
+    super(message, options);
+    this.name = "DomainMappingError";
+  }
+}
+
 export class UniqueConstraintError extends Error {
   constructor(message: string, options?: ErrorOptions) {
     super(message, options);

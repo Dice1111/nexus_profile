@@ -1,11 +1,9 @@
 import ContactPagination from "@/components/Pagination/contact-pagination";
-import { columns } from "@/components/Table/contact/column";
-import { ConnectionTable } from "@/components/Table/contact/connection-table";
 import { IRawSearchParams } from "@/core/_domain/services/types/search-params-handler-service.type";
-
+import ContactList from "@/components/List/ContactList";
+import { ITEMS_PER_PAGE } from "@/lib/utils";
 import { Suspense } from "react";
 import { ContactConnectionAction } from "./action";
-import { ITEMS_PER_PAGE } from "@/lib/utils";
 
 export default async function ContactPage({
   searchParams,
@@ -34,7 +32,7 @@ export default async function ContactPage({
           {data.totalPage.toLocaleString()} )
         </p>
       </div>
-      <ConnectionTable columns={columns} data={data.contacts} />
+      <ContactList contacts={data.contacts} />
 
       <Suspense fallback={null}>
         <ContactPagination

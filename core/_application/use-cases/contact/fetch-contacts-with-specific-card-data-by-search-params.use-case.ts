@@ -23,8 +23,8 @@ function ToFlatContact(
       contactCardId: contact.contactCardId,
       tag: contact.tag as CONTACT_TAG_ENUM,
       note: contact.note,
-      createdAt: contact.createdAt.toISOString(),
-      updatedAt: contact.updatedAt.toISOString(),
+      createdAt: contact.createdAt.toISOString().split("T")[0],
+      updatedAt: contact.updatedAt.toISOString().split("T")[0],
       contactCardTitle: contact.ContactCard?.title ?? null,
       contactCardUserId: contact.ContactCard?.userId ?? "",
       occupation: info?.occupation ?? null,
@@ -64,9 +64,7 @@ export const fetchContactsWithSpecificCardDataBySearchParamsUseCase =
         sortClauseRequirement,
       });
 
-    console.log(rawContactData);
     const contactData = ToFlatContact(rawContactData);
-    console.log(contactData);
 
     return contactData;
   };

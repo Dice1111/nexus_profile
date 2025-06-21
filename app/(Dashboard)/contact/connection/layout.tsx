@@ -16,7 +16,7 @@ interface RootLayoutProps {
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <section className="flex flex-col gap-4">
-      <h2 className="text-xl font-bold">My Connections</h2>
+      <h2 className="text-xl font-bold">Connections</h2>
 
       <div className="flex flex-col justify-between items-center gap-4 md:flex-row ">
         <Suspense fallback={<SearchFallback />}>

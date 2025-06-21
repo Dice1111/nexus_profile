@@ -6,8 +6,8 @@ import {
 } from "@/core/_domain/errors/common.error";
 import { IRequestWithPaginationData } from "@/core/_domain/repositories/types/request.type";
 import { IRawSearchParams } from "@/core/_domain/services/types/search-params-handler-service.type";
-import CreateAcceptRequestController from "@/core/_factory/controller-factory/request/build-accept-request-controller";
-import CreateDeleteRequestController from "@/core/_factory/controller-factory/request/build-delete-request-controller";
+import buildAcceptRequestController from "@/core/_factory/controller-factory/request/build-accept-request-controller";
+import buildDeleteRequestController from "@/core/_factory/controller-factory/request/build-delete-request-controller";
 import buildFetchRequestsWithPaginationDataBySearchParamsController from "@/core/_factory/controller-factory/request/build-fetch-requests-with-pagination-data-by-search-params-controller";
 import { IAcceptRequestData } from "@/schema/request/accept-request.schema";
 import { revalidatePath } from "next/cache";
@@ -58,12 +58,12 @@ export async function acceptRequestAction(
   data: IAcceptRequestData
 ): Promise<IAcceptRequestActionState> {
   try {
-    const acceptRequestController = CreateAcceptRequestController();
+    const acceptRequestController = buildAcceptRequestController();
     await acceptRequestController(data);
     revalidatePath("/contact/request");
     return {
       success: true,
-      message: "Saved contact successfully",
+      message: "Contact saved successfully.",
     };
   } catch (error) {
     if (error instanceof InputParseError) {
@@ -103,12 +103,12 @@ export async function deleteRequestAction(
   requestId: number
 ): Promise<IDeleteRequestActionState> {
   try {
-    const deleteRequestController = CreateDeleteRequestController();
+    const deleteRequestController = buildDeleteRequestController();
     await deleteRequestController(requestId);
     revalidatePath("/contact/request");
     return {
       success: true,
-      message: "Request Deleted Successfully",
+      message: "Request deleted successfully.",
     };
   } catch (error) {
     if (error instanceof InputParseError) {

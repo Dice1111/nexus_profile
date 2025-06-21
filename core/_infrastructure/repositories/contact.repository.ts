@@ -1,25 +1,56 @@
+import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-tag.enum";
+import {
+  SORTABLE_ITEMS,
+  SORTABLE_ORDERS,
+} from "@/core/_domain/enum/search-params-handler-service.enum";
 import {
   DatabaseOperationError,
+  DomainTypeMappingError,
   UniqueConstraintError,
 } from "@/core/_domain/errors/common.error";
 import { IContactRepository } from "@/core/_domain/repositories/IContactRepository";
 import {
   IContactOrganizedSearchParams,
+  ICreateContactData,
   IRawContactWithSpecificCardData,
 } from "@/core/_domain/repositories/types/contact.types";
 import {
   IContactFilter,
   IContactSort,
 } from "@/core/_domain/services/types/search-params-handler-service.type";
+import { IUpdateTagOrNoteData } from "@/schema/contact/update-contact-or-delete.schema";
 import { CONTACT_TAG_TYPE, Prisma } from "@prisma/client";
 import { prisma } from "../prisma/prisma-client";
-import {
-  SORTABLE_ITEMS,
-  SORTABLE_ORDERS,
-} from "@/core/_domain/enum/search-params-handler-service.enum";
-import { ICreateContactData } from "@/core/_domain/repositories/types/request.type";
 
 export class ContactRepository implements IContactRepository {
+  async updateTagOrNote(data: IUpdateTagOrNoteData): Promise<void> {
+    const updateData: Partial<{ tag: CONTACT_TAG_TYPE; note: string }> = {};
+
+    if ("tag" in data) {
+      updateData.tag = this.mapDomainTagToPrisma(data.tag!);
+    }
+    if ("note" in data) {
+      updateData.note = data.note;
+    }
+
+    await prisma.contact.update({
+      where: { id: data.contactId },
+      data: updateData,
+    });
+  }
+  async delete(contactId: number): Promise<void> {
+    try {
+      await prisma.contact.delete({
+        where: {
+          id: contactId,
+        },
+      });
+    } catch (error) {
+      throw new DatabaseOperationError("Failed to delete contact", {
+        cause: error,
+      });
+    }
+  }
   async create(data: ICreateContactData): Promise<void> {
     try {
       await prisma.contact.create({
@@ -51,9 +82,6 @@ export class ContactRepository implements IContactRepository {
       const whereClause = this.buildWhereClause(data.whereClauseRequirement);
       const orderByClause = this.buildOrderClause(data.sortClauseRequirement);
 
-      console.log(whereClause);
-      console.log(orderByClause);
-
       const rawData = await prisma.contact.findMany({
         where: whereClause,
         orderBy: orderByClause,
@@ -76,8 +104,6 @@ export class ContactRepository implements IContactRepository {
           },
         },
       });
-
-      console.log(rawData);
 
       return rawData;
     } catch (error) {
@@ -106,7 +132,6 @@ export class ContactRepository implements IContactRepository {
   private buildWhereClause(filters: IContactFilter): Prisma.ContactWhereInput {
     const where: Prisma.ContactWhereInput = {};
     where.cardId = filters.cardId;
-    console.log(filters.cardId);
 
     if (filters.tags) {
       where.tag = {
@@ -147,5 +172,39 @@ export class ContactRepository implements IContactRepository {
     return {
       createdAt: sortOrder,
     };
+  }
+
+  private mapDomainTagToPrisma(tag: CONTACT_TAG_ENUM): CONTACT_TAG_TYPE {
+    switch (tag) {
+      case CONTACT_TAG_ENUM.FAVOURITE:
+        return CONTACT_TAG_TYPE.FAVOURITE;
+      case CONTACT_TAG_ENUM.NEW:
+        return CONTACT_TAG_TYPE.NEW;
+      case CONTACT_TAG_ENUM.FAMILY:
+        return CONTACT_TAG_TYPE.FAMILY;
+      case CONTACT_TAG_ENUM.FRIEND:
+        return CONTACT_TAG_TYPE.FRIEND;
+      case CONTACT_TAG_ENUM.COLLEAGUE:
+        return CONTACT_TAG_TYPE.COLLEAGUE;
+      case CONTACT_TAG_ENUM.CLIENT:
+        return CONTACT_TAG_TYPE.CLIENT;
+      case CONTACT_TAG_ENUM.SUPPLIER:
+        return CONTACT_TAG_TYPE.SUPPLIER;
+      case CONTACT_TAG_ENUM.EMPLOYEE:
+        return CONTACT_TAG_TYPE.EMPLOYEE;
+      case CONTACT_TAG_ENUM.INVESTOR:
+        return CONTACT_TAG_TYPE.INVESTOR;
+      case CONTACT_TAG_ENUM.VENDOR:
+        return CONTACT_TAG_TYPE.VENDOR;
+      case CONTACT_TAG_ENUM.OTHER:
+        return CONTACT_TAG_TYPE.OTHER;
+      default:
+        throw new DomainTypeMappingError(
+          "Failed to map CONTACT_TAG_ENUM to CONTACT_TAG_TYPE",
+          {
+            cause: `Unsupported contact tag: ${tag}`,
+          }
+        );
+    }
   }
 }
