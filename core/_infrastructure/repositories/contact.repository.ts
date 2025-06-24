@@ -12,7 +12,6 @@ import { IContactRepository } from "@/core/_domain/repositories/IContactReposito
 import {
   IContactOrganizedSearchParams,
   ICreateContactData,
-  IDailyFollowerCountData,
   IRawContactWithSpecificCardData,
 } from "@/core/_domain/repositories/types/contact.types";
 import {
@@ -26,13 +25,13 @@ import { prisma } from "../prisma/prisma-client";
 export class ContactRepository implements IContactRepository {
   async fetchDailyFollowerCountByCardId(
     cardId: string
-  ): Promise<IDailyFollowerCountData[]> {
+  ): Promise<{ date: Date; count: number }[]> {
     try {
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - 29);
       startDate.setHours(0, 0, 0, 0);
 
-      const rawData = await prisma.$queryRaw<IDailyFollowerCountData[]>`
+      const rawData = await prisma.$queryRaw<{ date: Date; count: number }[]>`
     SELECT 
       DATE("createdAt") as date,
       COUNT(*) as count

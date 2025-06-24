@@ -1,21 +1,12 @@
-import { InfoBox, InfoBox_Type, InfoBoxProps } from "@/components/Box/InfoBox";
-import { FollowerAndRequestChart } from "@/components/Chart/FollowerAndRequestChart";
-import { fetchWithTryCatch } from "@/lib/utils";
-import {
-  fetchConnectionAndVisitorChartData,
-  fetchConnectionCount,
-  fetchContactSavedCount,
-  fetchViewCount,
-} from "@/services/analytic-service";
+import { InfoBox, InfoBox_Type } from "@/components/Box/InfoBox";
+
+import FollowerAndRequestChart from "@/components/Chart/FollowerAndRequestChart";
 import { fetchOverviewStatisticByCardIdAction } from "./action";
 
 export default async function Page() {
-  const connectionAndVisitorChartData = await fetchWithTryCatch(
-    fetchConnectionAndVisitorChartData
-  );
   const cardId = "1c41b717-d565-47f6-a569-10774f2c8d4b";
 
-  const { contactCount, followerCount, requestCount } =
+  const { contactCount, followerCount, requestCount, dailyFollowerChartData } =
     await fetchOverviewStatisticByCardIdAction(cardId);
 
   const TotalFollowerData = {
@@ -57,7 +48,7 @@ export default async function Page() {
         </div>
 
         <div>
-          <FollowerAndRequestChart chartData={connectionAndVisitorChartData} />
+          <FollowerAndRequestChart chartData={dailyFollowerChartData} />
         </div>
       </div>
     </div>

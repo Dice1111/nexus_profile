@@ -3,7 +3,6 @@ import { IContactFilter } from "../services/types/search-params-handler-service.
 import {
   IContactOrganizedSearchParams,
   ICreateContactData,
-  IDailyFollowerCountData,
   IRawContactWithSpecificCardData,
 } from "./types/contact.types";
 
@@ -20,5 +19,5 @@ export interface IContactRepository {
   fetchTotalFollowerCountByCardId(cardId: string): Promise<number>;
   fetchDailyFollowerCountByCardId(
     cardId: string
-  ): Promise<IDailyFollowerCountData[]>;
+  ): Promise<{ date: Date; count: number }[]>;
 }
