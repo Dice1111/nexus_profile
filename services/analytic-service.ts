@@ -1,4 +1,4 @@
-import { ConnectionAndVisitorChartRowType } from "@/components/Chart/ConnectionAndVisitorChart";
+import { ConnectionAndVisitorChartRowType } from "@/components/Chart/FollowerAndRequestChart";
 import { chartData } from "@/constant/appData";
 
 export async function fetchViewCount(): Promise<number> {
@@ -15,5 +15,3 @@ export async function fetchConnectionAndVisitorChartData(): Promise<
 > {
   return chartData;
 }
-
-

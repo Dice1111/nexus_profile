@@ -16,6 +16,21 @@ import {
 } from "@/core/_domain/enum/search-params-handler-service.enum";
 
 export class RequestRepository implements IRequestRepository {
+  async fetchTotalRequestCountByCardId(cardId: string): Promise<number> {
+    try {
+      const count = await prisma.request.count({
+        where: {
+          cardId,
+        },
+      });
+
+      return count;
+    } catch (error) {
+      throw new DatabaseOperationError("Failed to fetch request count", {
+        cause: error,
+      });
+    }
+  }
   async delete(requestId: number): Promise<void> {
     try {
       await prisma.request.delete({

@@ -5,6 +5,6 @@ export type IUpdateTagOrNoteUseCase = ReturnType<typeof updateTagOrNoteUseCase>;
 
 export const updateTagOrNoteUseCase =
   (contactRepository: IContactRepository) =>
-  async (data: IUpdateTagOrNoteData) => {
+  async (data: IUpdateTagOrNoteData): Promise<void> => {
     await contactRepository.updateTagOrNote(data);
   };

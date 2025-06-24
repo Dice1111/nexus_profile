@@ -12,6 +12,7 @@ import { IContactRepository } from "@/core/_domain/repositories/IContactReposito
 import {
   IContactOrganizedSearchParams,
   ICreateContactData,
+  IDailyFollowerCountData,
   IRawContactWithSpecificCardData,
 } from "@/core/_domain/repositories/types/contact.types";
 import {
@@ -23,6 +24,61 @@ import { CONTACT_TAG_TYPE, Prisma } from "@prisma/client";
 import { prisma } from "../prisma/prisma-client";
 
 export class ContactRepository implements IContactRepository {
+  async fetchDailyFollowerCountByCardId(
+    cardId: string
+  ): Promise<IDailyFollowerCountData[]> {
+    try {
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - 29);
+      startDate.setHours(0, 0, 0, 0);
+
+      const rawData = await prisma.$queryRaw<IDailyFollowerCountData[]>`
+    SELECT 
+      DATE("createdAt") as date,
+      COUNT(*) as count
+    FROM "Contact"
+    WHERE "contactCardId" = ${cardId}
+      AND "createdAt" >= ${startDate}
+    GROUP BY DATE("createdAt")
+    ORDER BY DATE("createdAt") ASC;
+  `;
+      return rawData;
+    } catch (error) {
+      throw new DatabaseOperationError("Failed to fetch daily follower count", {
+        cause: error,
+      });
+    }
+  }
+  async fetchTotalContactCountByCardId(cardId: string): Promise<number> {
+    try {
+      const count = await prisma.contact.count({
+        where: {
+          cardId,
+        },
+      });
+
+      return count;
+    } catch (error) {
+      throw new DatabaseOperationError("Failed to fetch contact count", {
+        cause: error,
+      });
+    }
+  }
+  async fetchTotalFollowerCountByCardId(cardId: string): Promise<number> {
+    try {
+      const count = await prisma.contact.count({
+        where: {
+          contactCardId: cardId,
+        },
+      });
+
+      return count;
+    } catch (error) {
+      throw new DatabaseOperationError("Failed to fetch follower count", {
+        cause: error,
+      });
+    }
+  }
   async updateTagOrNote(data: IUpdateTagOrNoteData): Promise<void> {
     const updateData: Partial<{ tag: CONTACT_TAG_TYPE; note: string }> = {};
 

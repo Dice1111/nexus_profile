@@ -1,9 +1,9 @@
+import ContactList from "@/components/List/ContactList";
 import ContactPagination from "@/components/Pagination/contact-pagination";
 import { IRawSearchParams } from "@/core/_domain/services/types/search-params-handler-service.type";
-import ContactList from "@/components/List/ContactList";
 import { ITEMS_PER_PAGE } from "@/lib/utils";
 import { Suspense } from "react";
-import { ContactConnectionAction } from "./action";
+import { fetchContactsWithPaginationDataBySearchParamsAction } from "./action";
 
 export default async function ContactPage({
   searchParams,
@@ -18,7 +18,7 @@ export default async function ContactPage({
     cardId,
   };
 
-  const { data } = await ContactConnectionAction(
+  const { data } = await fetchContactsWithPaginationDataBySearchParamsAction(
     enrichedParams,
     ITEMS_PER_PAGE
   );

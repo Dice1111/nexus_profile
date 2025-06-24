@@ -1,5 +1,4 @@
 "use server";
-import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-tag.enum";
 import {
   DatabaseOperationError,
   InputParseError,
@@ -12,7 +11,7 @@ import buildUpdateTagOrNoteController from "@/core/_factory/controller-factory/c
 import { IUpdateTagOrNoteData } from "@/schema/contact/update-contact-or-delete.schema";
 import { revalidatePath } from "next/cache";
 
-export async function ContactConnectionAction(
+export async function fetchContactsWithPaginationDataBySearchParamsAction(
   searchParam: IRawSearchParams,
   itemsPerPage: number
 ): Promise<{
