@@ -50,6 +50,7 @@ model PofileComponent {
   updatedAt DateTime                   @updatedAt
   type      PROFILE_COMPONENT_TYPE
   category  PROFILE_COMPONENT_CATEGORY
+  position  Int
 }
 
 model Request {

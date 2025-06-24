@@ -3,20 +3,21 @@
 import React, { startTransition, useActionState, useEffect } from "react";
 
 import Link from "next/link";
-import { getCardIdAction } from "./action";
+import { getUserInitialCardsDataAction } from "./action";
 
 const page = () => {
-  const initial = {
+  const initialData = {
     success: false,
-    data: "",
+    userID: "",
   };
 
-  const [userState, cardIdAction, isPending] = useActionState(
-    getCardIdAction,
-    initial
+  const [userState, userInitialCardsDataAction, isPending] = useActionState(
+    getUserInitialCardsDataAction,
+    initialData
   );
+
   useEffect(() => {
-    startTransition(() => cardIdAction());
+    startTransition(() => userInitialCardsDataAction());
   }, []);
 
   return (
@@ -24,9 +25,10 @@ const page = () => {
       {isPending ? (
         <div>Loading...</div>
       ) : (
-        <Link href={`/profile/${userState.data}`} className="bg-red-200">
-          Profile
-        </Link>
+        <Link
+          href={`/profile/${userState.userID}`}
+          className="bg-red-200"
+        ></Link>
       )}
     </>
   );

@@ -1,12 +1,13 @@
 "use server"
-export async function getCardIdAction(  _prevState: {
+export async function getUserInitialCardsDataAction(  _prevState: {
     success: boolean;
-    data: string;
+    userID: string;
   }) {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     return {
       success: true,
-      data: "1",
+      userID: "1",
     };
 }
+

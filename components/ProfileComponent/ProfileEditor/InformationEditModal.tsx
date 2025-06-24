@@ -16,22 +16,10 @@ type Field = {
 const fields: Field[] = [
   { id: "prefix", label: "Prefix", type: "text", placeholder: "Mr/Ms/Mrs" },
   {
-    id: "first_name",
-    label: "First Name",
+    id: "full_name",
+    label: "Full Name",
     type: "text",
-    placeholder: "First Name",
-  },
-  {
-    id: "middle_name",
-    label: "Middle Name",
-    type: "text",
-    placeholder: "Middle Name",
-  },
-  {
-    id: "last_name",
-    label: "Last Name",
-    type: "text",
-    placeholder: "Last Name",
+    placeholder: "Full Name",
   },
   { id: "suffix", label: "Suffix", type: "text", placeholder: "Suffix" },
   {
