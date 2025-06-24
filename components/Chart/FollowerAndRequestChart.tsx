@@ -52,7 +52,7 @@ const chartConfig = {
 /**
  * ConnectionAndVisitorChart Component
  */
-export function ConnectionAndVisitorChart({
+export function FollowerAndRequestChart({
   chartData,
 }: {
   chartData: ConnectionAndVisitorChartRowType[];

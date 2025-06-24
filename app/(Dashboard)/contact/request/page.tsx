@@ -12,7 +12,7 @@ export default async function RequestPage({
 }) {
   const searchParam = await searchParams;
 
-  const cardId = "71ccf175-3e78-4fe4-a5ad-a2ee5b8e9b07";
+  const cardId = "1c41b717-d565-47f6-a569-10774f2c8d4b";
 
   const enrichedParams = {
     ...searchParam,
@@ -33,7 +33,7 @@ export default async function RequestPage({
           {data.totalPage.toLocaleString()} )
         </p>
       </div>
-      <ConnectionRequestList data={data.requests} />
+      <ConnectionRequestList requests={data.requests} />
       <Suspense fallback={null}>
         <ContactPagination
           currentPage={data.currentPage}

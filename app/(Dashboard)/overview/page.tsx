@@ -1,5 +1,5 @@
 import { InfoBox, InfoBox_Type, InfoBoxProps } from "@/components/Box/InfoBox";
-import { ConnectionAndVisitorChart } from "@/components/Chart/ConnectionAndVisitorChart";
+import { FollowerAndRequestChart } from "@/components/Chart/FollowerAndRequestChart";
 import { fetchWithTryCatch } from "@/lib/utils";
 import {
   fetchConnectionAndVisitorChartData,
@@ -7,61 +7,59 @@ import {
   fetchContactSavedCount,
   fetchViewCount,
 } from "@/services/analytic-service";
+import { fetchOverviewStatisticByCardIdAction } from "./action";
 
 export default async function Page() {
-  const viewCount = await fetchWithTryCatch(fetchViewCount);
-  const contactSavedCount = await fetchWithTryCatch(fetchContactSavedCount);
-  const connectionCount = await fetchWithTryCatch(fetchConnectionCount);
   const connectionAndVisitorChartData = await fetchWithTryCatch(
     fetchConnectionAndVisitorChartData
   );
-  const TotalViewCountData: InfoBoxProps = {
-    title: "Views",
-    description: "Total Profile Views",
-    value: viewCount,
-    type: InfoBox_Type.VIEW,
-  };
+  const cardId = "1c41b717-d565-47f6-a569-10774f2c8d4b";
 
-  const TotalContactSavedCountData: InfoBoxProps = {
-    title: "Contacts Saved",
-    description: "Total Contacts Saved",
-    value: contactSavedCount,
-    type: InfoBox_Type.CONTACT,
-  };
+  const { contactCount, followerCount, requestCount } =
+    await fetchOverviewStatisticByCardIdAction(cardId);
 
-  const TotalFollowerData: InfoBoxProps = {
+  const TotalFollowerData = {
+    title: "Followers",
+    description: "Total number of users who saved your contact",
+    value: followerCount,
+    type: InfoBox_Type.FOLLOWER,
+  };
+  const TotalConnectionData = {
     title: "Connections",
-    description: "Total Connections",
-    value: connectionCount,
+    description: "Total number of users you are connected with",
+    value: contactCount,
     type: InfoBox_Type.CONNECTION,
   };
 
+  const TotalRequestDat = {
+    title: "Requests",
+    description: "Total number of users who shared their contact with you",
+    value: requestCount,
+    type: InfoBox_Type.REQUEST,
+  };
+
   return (
-    <>
-      <div className="container mx-auto px-4 pt-4">
-        <h2 className="text-xl font-bold  ">Overview</h2>
-        <div className="grid grid-cols-1 gap-4">
-          <div className="mt-4 grid grid-cols-1 xl:grid-cols-6 gap-4">
-            <div className="col-span-1 xl:col-span-2 ">
-              <InfoBox {...TotalViewCountData} />
-            </div>
-
-            <div className=" col-span-1 xl:col-span-2 ">
-              <InfoBox {...TotalContactSavedCountData} />
-            </div>
-
-            <div className="col-span-1  xl:col-span-2">
-              <InfoBox {...TotalFollowerData} />
-            </div>
+    <div className="container mx-auto">
+      <h2 className="text-xl font-bold  ">Overview</h2>
+      <div className="grid grid-cols-1 gap-4">
+        <div className="mt-4 grid grid-cols-1 xl:grid-cols-6 gap-4">
+          <div className="col-span-1 xl:col-span-2 ">
+            <InfoBox data={TotalFollowerData} />
           </div>
 
-          <div>
-            <ConnectionAndVisitorChart
-              chartData={connectionAndVisitorChartData}
-            />
+          <div className=" col-span-1 xl:col-span-2 ">
+            <InfoBox data={TotalConnectionData} />
+          </div>
+
+          <div className="col-span-1  xl:col-span-2">
+            <InfoBox data={TotalRequestDat} />
           </div>
         </div>
+
+        <div>
+          <FollowerAndRequestChart chartData={connectionAndVisitorChartData} />
+        </div>
       </div>
-    </>
+    </div>
   );
 }

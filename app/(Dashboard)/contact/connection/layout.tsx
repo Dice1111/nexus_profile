@@ -15,20 +15,22 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
-    <section className="flex flex-col gap-4">
-      <h2 className="text-xl font-bold">My Connections</h2>
+    <section className="container mx-auto">
+      <div className="flex flex-col gap-4">
+        <h2 className="text-xl font-bold">Connections</h2>
 
-      <div className="flex flex-col justify-between items-center gap-4 md:flex-row ">
-        <Suspense fallback={<SearchFallback />}>
-          <Search />
-        </Suspense>
-        <div className="flex gap-4 max-md:w-full">
-          <ContactFilter />
-          <ContactSort />
+        <div className="flex flex-col justify-between items-center gap-4 md:flex-row ">
+          <Suspense fallback={<SearchFallback />}>
+            <Search />
+          </Suspense>
+          <div className="flex gap-4 max-md:w-full">
+            <ContactFilter />
+            <ContactSort />
+          </div>
         </div>
-      </div>
 
-      <div>{children}</div>
+        <div>{children}</div>
+      </div>
     </section>
   );
 }

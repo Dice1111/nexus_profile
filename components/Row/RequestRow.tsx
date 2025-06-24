@@ -1,35 +1,26 @@
-import { LuDot } from "react-icons/lu"; // Assuming you're using this icon for separator
+import { LuDot } from "react-icons/lu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "@/components/ui/button"; // Import Button from shadcn
+import { Button } from "../ui/button";
 
-import PillShapeTag from "../Tag/PillShapeTag";
-import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-tag.enum";
-
-interface InfoRowProps {
+interface RequestRowProps {
   fullName: string;
   occupation: string | null;
   company: string | null;
   image: string | null;
   date: string;
-  tag?: CONTACT_TAG_ENUM;
-  isRequest?: boolean;
   onAccept?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onReject?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export default function InfoRow({
+export default function RequestRow({
   fullName,
   occupation,
   company,
   image,
   date,
-  tag,
-  isRequest = false,
   onAccept,
   onReject,
-}: InfoRowProps) {
-  const RenderBadge = () => tag && <PillShapeTag tag={tag} />;
-
+}: RequestRowProps) {
   const RenderActionButtons = () => (
     <div className="flex gap-3">
       <Button
@@ -53,10 +44,8 @@ export default function InfoRow({
 
   return (
     <div className="flex flex-col lg:flex-row lg:justify-between gap-5 lg:gap-8">
-      {/* Left Section: Avatar and Contact Details */}
-      <div className="flex items-start gap-3 sm:gap-4">
-        {/* Avatar */}
-        <Avatar className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden">
+      <div className="flex items-center gap-4 text-left">
+        <Avatar className="w-14 h-14 rounded-full overflow-hidden">
           <AvatarImage
             className="object-cover w-full h-full"
             src={image || undefined}
@@ -67,48 +56,27 @@ export default function InfoRow({
           </AvatarFallback>
         </Avatar>
 
-        {/* Contact Details */}
         <div className="flex flex-col justify-between gap-1.5">
           <p className="text-md font-semibold">{fullName}</p>
 
-          {/* Occupation + Company */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-0 sm:gap-2 text-sm text-primary">
             <p>{occupation}</p>
-
-            {/* Dot + company for sm and up */}
             <div className="hidden sm:flex items-center gap-2">
               <LuDot />
               <p>{company}</p>
             </div>
-
-            {/* Company only for mobile */}
             <p className="sm:hidden">{company}</p>
           </div>
 
-          {isRequest ? (
-            <p className="text-xs text-gray-500 ">Requested on: {date}</p>
-          ) : (
-            <p className="text-xs text-gray-500">Connected on: {date}</p>
-          )}
+          <p className="text-xs text-gray-500">Requested on: {date}</p>
 
-          <div className="lg:hidden">{RenderBadge()}</div>
-
-          {isRequest && (
-            <div className="lg:hidden">{RenderActionButtons()}</div>
-          )}
+          <div className="lg:hidden">{RenderActionButtons()}</div>
         </div>
       </div>
 
-      {/* Right Section */}
-      {isRequest ? (
-        <div className="hidden lg:flex items-center gap-3 text-primary">
-          {RenderActionButtons()}
-        </div>
-      ) : (
-        <div className="hidden lg:flex flex-col items-end gap-2 text-primary">
-          {RenderBadge()}
-        </div>
-      )}
+      <div className="hidden lg:flex items-center gap-3 text-primary">
+        {RenderActionButtons()}
+      </div>
     </div>
   );
 }

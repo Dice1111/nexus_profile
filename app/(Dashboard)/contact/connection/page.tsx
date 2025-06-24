@@ -1,11 +1,9 @@
+import ContactList from "@/components/List/ContactList";
 import ContactPagination from "@/components/Pagination/contact-pagination";
-import { columns } from "@/components/Table/contact/column";
-import { ConnectionTable } from "@/components/Table/contact/connection-table";
 import { IRawSearchParams } from "@/core/_domain/services/types/search-params-handler-service.type";
-
-import { Suspense } from "react";
-import { ContactConnectionAction } from "./action";
 import { ITEMS_PER_PAGE } from "@/lib/utils";
+import { Suspense } from "react";
+import { fetchContactsWithPaginationDataBySearchParamsAction } from "./action";
 
 export default async function ContactPage({
   searchParams,
@@ -13,14 +11,14 @@ export default async function ContactPage({
   searchParams: Promise<IRawSearchParams>;
 }) {
   const searchParam = await searchParams;
-  const cardId = "71ccf175-3e78-4fe4-a5ad-a2ee5b8e9b07";
+  const cardId = "1c41b717-d565-47f6-a569-10774f2c8d4b";
 
   const enrichedParams = {
     ...searchParam,
     cardId,
   };
 
-  const { data } = await ContactConnectionAction(
+  const { data } = await fetchContactsWithPaginationDataBySearchParamsAction(
     enrichedParams,
     ITEMS_PER_PAGE
   );
@@ -34,7 +32,7 @@ export default async function ContactPage({
           {data.totalPage.toLocaleString()} )
         </p>
       </div>
-      <ConnectionTable columns={columns} data={data.contacts} />
+      <ContactList contacts={data.contacts} />
 
       <Suspense fallback={null}>
         <ContactPagination

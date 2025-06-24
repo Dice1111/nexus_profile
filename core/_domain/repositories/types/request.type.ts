@@ -1,4 +1,3 @@
-import { ContactModel } from "../../models/contact.model";
 import {
   IRequestFilter,
   IRequestSort,
@@ -42,9 +41,3 @@ export interface IRequestWithPaginationData {
   totalPage: number;
   currentPage: number;
 }
-
-type BaseContact = Omit<
-  ContactModel,
-  "id" | "note" | "tag" | "createdAt" | "updatedAt"
->;
-export interface ICreateContactData extends BaseContact {}
