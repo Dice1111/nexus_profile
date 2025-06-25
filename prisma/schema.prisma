@@ -84,8 +84,8 @@ model Design {
   cardId          String  @unique
   foregroundColor String
   backgroundColor String
-  backgroundImage String?
   profileImage    String?
+  logoImage       String?
   layout          String
   card            Card    @relation(fields: [cardId], references: [id])
 }

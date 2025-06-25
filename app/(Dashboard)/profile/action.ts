@@ -1,13 +1,30 @@
 "use server"
+
+import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/repositories/types/card.types";
+import { buildFetchInitialUserCardsController } from "@/core/_factory/controller-factory/card/build-fetch-initial-user-cards-controller";
+
 export async function getUserInitialCardsDataAction(  _prevState: {
     success: boolean;
-    userID: string;
+    data: IFetchCardWithInformationAndDesignData[];
   }) {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    return {
-      success: true,
-      userID: "1",
-    };
+
+    try{
+      const fetchInitialUserCardsController = buildFetchInitialUserCardsController();
+      const data =await fetchInitialUserCardsController();
+
+      return {
+        success: true,
+        data: data,
+      };
+
+    }catch(error){
+      return {
+        success: false,
+        data: [],
+      };
+    }
+
+    
 }
 

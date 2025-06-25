@@ -1,12 +1,13 @@
 "use client";
 
+import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/repositories/types/card.types";
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
-import { ProfileCard, ProfileDndComponent } from "@/lib/types/types";
+import { ProfileDndComponent } from "@/lib/types/types";
 import ProfileBodyItem from "./ProfileBodyItem";
 
 interface ProfileCardComponentProps {
   components: ProfileDndComponent[];
-  profileData: ProfileCard;
+  profileData: IFetchCardWithInformationAndDesignData;
 }
 
 const ProfileCardComponent = ({
@@ -15,15 +16,15 @@ const ProfileCardComponent = ({
 }: ProfileCardComponentProps) => {
   const layoutComponent =
     profileLayoutData(profileData)[
-      profileData.layout as keyof typeof profileLayoutData
+      profileData.Design?.layout as keyof typeof profileLayoutData
     ];
 
   return (
     <div
       className="relative max-w-[400px]  flex flex-col overflow-hidden rounded-lg bg-red-300 "
       style={{
-        backgroundColor: profileData.background_color,
-        color: profileData.foreground_color,
+        backgroundColor: profileData.Design?.backgroundColor || "#000000",
+        color: profileData.Design?.foregroundColor || "#ffffff",
       }}
     >
       {/* header area */}
@@ -35,8 +36,8 @@ const ProfileCardComponent = ({
           <ProfileBodyItem
             key={item.id}
             item={item}
-            background_color={profileData.background_color}
-            foreground_color={profileData.foreground_color}
+            background_color={profileData.Design?.backgroundColor || "#000000"}
+            foreground_color={profileData.Design?.foregroundColor || "#ffffff"}
           />
         ))}
       </div>

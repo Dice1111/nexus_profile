@@ -1,6 +1,6 @@
 import ProfileLayoutOne from "@/components/ProfileComponent/ProfileHeaderLayout/ProfileLayoutOne";
 import ProfileLayoutTwo from "@/components/ProfileComponent/ProfileHeaderLayout/ProfileLayoutTwo";
-import { ProfileCard } from "@/lib/types/types";
+import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/repositories/types/card.types";
 
 export enum ProfileLayout {
   layout_one = "classic",
@@ -15,7 +15,9 @@ export const profileLayouts = [
 ];
 
 // Function to Get Profile Layout Data
-export const profileLayoutData = (profileCardData: ProfileCard) => ({
+export const profileLayoutData = (
+  profileCardData: IFetchCardWithInformationAndDesignData
+) => ({
   [ProfileLayout.layout_one]: (
     <ProfileLayoutOne profileData={profileCardData} />
   ),

@@ -1,9 +1,10 @@
 // import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
+import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/repositories/types/card.types";
 import { ProfileCard } from "@/lib/types/types";
 import Image from "next/image";
 
 interface ProfileLayoutOneProps {
-  profileData: ProfileCard;
+  profileData: IFetchCardWithInformationAndDesignData;
 }
 
 const ProfileLayoutOne = ({ profileData }: ProfileLayoutOneProps) => {
@@ -14,7 +15,7 @@ const ProfileLayoutOne = ({ profileData }: ProfileLayoutOneProps) => {
       <div className="w-full h-80 relative overflow-hidden">
         {/* Profile Picture */}
         <Image
-          src={profileData.image || default_profile}
+          src={profileData.Design?.profileImage || default_profile}
           alt="Profile Picture"
           width={1000}
           height={1000}
@@ -35,7 +36,7 @@ const ProfileLayoutOne = ({ profileData }: ProfileLayoutOneProps) => {
 
         <div className="absolute bg-transparent -top-10 right-2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg">
           <Image
-            src={profileData.logo_icon || default_profile}
+            src={profileData.Design?.logoImage || default_profile}
             alt="Logo Icon"
             width={1000}
             height={1000}
@@ -44,20 +45,24 @@ const ProfileLayoutOne = ({ profileData }: ProfileLayoutOneProps) => {
         </div>
 
         <h2 className="text-2xl font-semibold">
-          {profileData.prefix} {profileData.first_name}{" "}
-          {profileData.middle_name} {profileData.last_name} {profileData.suffix}
+          {profileData.Information?.prefix}
+          {profileData.Information?.fullName} {profileData.Information?.suffix}
         </h2>
         <p className="text-xl font-thin mt-2">{profileData.title}</p>
-        <p className="text-xl font-thin">{profileData.occupation}</p>
+        <p className="text-xl font-thin">
+          {profileData.Information?.occupation}
+        </p>
 
-        <p className="text-md mt-2 opacity-80">{profileData.company}</p>
-        <p className="text-sm  opacity-80">{profileData.quote}</p>
+        <p className="text-md mt-2 opacity-80">
+          {profileData.Information?.company}
+        </p>
+        <p className="text-sm  opacity-80">{profileData.Information?.quote}</p>
 
         <p className="text-sm text-end mt-2 font-thin italic  opacity-80">
-          Goes by - {profileData.preferred_name} <br />
-          {profileData.pronouns}
+          Goes by - {profileData.Information?.preferredName} <br />
+          {profileData.Information?.pronouns}
         </p>
-        <p className="text-sm mt-1">{profileData.message}</p>
+        <p className="text-sm mt-1">{profileData.Information?.message}</p>
       </div>
     </div>
   );

@@ -12,9 +12,9 @@ export interface ProfileContextType {
   profileData: ProfileCard;
   setProfileData: React.Dispatch<React.SetStateAction<ProfileCard>>;
   information: InformationModel[];
-  setInformation: React.Dispatch<React.SetStateAction<InformationModel[]>>;
-  design: DesignModel[];
-  setDesign: React.Dispatch<React.SetStateAction<DesignModel[]>>;
+  setInformation: React.Dispatch<React.SetStateAction<InformationModel>>;
+  design: DesignModel;
+  setDesign: React.Dispatch<React.SetStateAction<DesignModel>>;
   isEditing: boolean;
   setEditing: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;

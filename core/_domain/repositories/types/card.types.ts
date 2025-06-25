@@ -25,9 +25,9 @@ export interface IFetchCardWithInformationAndDesignData{
             cardId: string;
             foregroundColor: string;
             backgroundColor: string;
-            backgroundImage: string | null;
             profileImage: string | null;
+            logoImage: string | null;
             layout: string;
-    }
+    } | null;
 }
 
