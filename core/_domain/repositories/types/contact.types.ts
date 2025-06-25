@@ -54,14 +54,13 @@ export interface IContactWithPaginationData {
   totalPage: number;
   currentPage: number;
 }
-
-export interface IDailyFollowerCountData {
-  date: Date;
-  count: number;
-}
-
 type BaseContact = Omit<
   ContactModel,
   "id" | "note" | "tag" | "createdAt" | "updatedAt"
 >;
 export interface ICreateContactData extends BaseContact {}
+
+export interface IDailyFollowerCountChartData {
+  date: string;
+  count: number;
+}

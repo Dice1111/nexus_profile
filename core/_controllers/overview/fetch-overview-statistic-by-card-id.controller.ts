@@ -3,6 +3,7 @@ import { IFetchTotalContactCountByCardIdUseCase } from "@/core/_application/use-
 import { IFetchTotalFollowerCountByCardIdUseCase } from "@/core/_application/use-cases/contact/fetch-total-follower-count-by-card-id.use-case";
 import { IFetchTotalRequestCountByCardIdUseCase } from "@/core/_application/use-cases/request/fetch-total-request-count-by-card-id.use-case";
 import { InputParseError } from "@/core/_domain/errors/common.error";
+import { IDailyFollowerCountChartData } from "@/core/_domain/repositories/types/contact.types";
 
 export const fetchOverviewStatisticByCardIdController =
   (
@@ -17,6 +18,7 @@ export const fetchOverviewStatisticByCardIdController =
     contactCount: number;
     followerCount: number;
     requestCount: number;
+    dailyFollowerChartData: IDailyFollowerCountChartData[];
   }> => {
     if (typeof cardId !== "string" || cardId === "") {
       throw new InputParseError("Invalid Parsed Data", {
@@ -24,7 +26,7 @@ export const fetchOverviewStatisticByCardIdController =
       });
     }
 
-    const [contactCount, followerCount, requestCount, dailyfollowerCount] =
+    const [contactCount, followerCount, requestCount, dailyFollowerChartData] =
       await Promise.all([
         fetchTotalContactCountByCardIdUseCase(cardId),
         fetchTotalFollowerCountByCardIdUseCase(cardId),
@@ -32,11 +34,12 @@ export const fetchOverviewStatisticByCardIdController =
         fetchDailyFollowerCountByCardIdUseCase(cardId),
       ]);
 
-    console.log(dailyfollowerCount[0].count);
+    // console.log(dailyfollowerCount);
 
     return {
       contactCount,
       followerCount,
       requestCount,
+      dailyFollowerChartData,
     };
   };

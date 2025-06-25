@@ -123,7 +123,7 @@ export default function FollowerChart({
               cursor={false}
               content={
                 <ChartTooltipContent
-                  className="bg-secondary"
+                  className="bg-secondary "
                   labelFormatter={(value) =>
                     new Date(value).toLocaleDateString("en-US", {
                       month: "short",
@@ -137,7 +137,7 @@ export default function FollowerChart({
 
             <Area
               dataKey="count"
-              type="monotone"
+              type="natural"
               fill="url(#fillview)"
               stroke="var(--color-count)"
               stackId="a"
