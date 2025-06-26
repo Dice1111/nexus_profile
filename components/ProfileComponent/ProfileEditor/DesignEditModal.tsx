@@ -6,7 +6,6 @@ import { colorPresets, hexToRgba, rgbaToHsva } from "@/lib/color_utils";
 import {
   ColorableElement,
   colorableElements,
-  ProfileLayout,
   profileLayouts,
 } from "@/lib/profileCardLayoutData/LayoutData";
 // import {
@@ -20,6 +19,7 @@ import "react-color-palette/css";
 import { GrFormCheckmark } from "react-icons/gr";
 import Image from "next/image";
 import { ProfileCard } from "@/lib/types/types";
+import { PROFILE_LAYOUT } from "@/lib/types/enums";
 
 /** Reusable Image Upload Component */
 function ImageUpload({
@@ -100,7 +100,7 @@ export default function DesignEditModal() {
   //   setSelectedWaveLayout(layout);
   // };
 
-  const handleProfileLayoutSelect = (layout: ProfileLayout) => {
+  const handleProfileLayoutSelect = (layout: PROFILE_LAYOUT) => {
     const updateProfileData = { ...profileData, ["layout"]: layout };
     setProfileData(updateProfileData);
     setSelectedProfileLayout(layout);

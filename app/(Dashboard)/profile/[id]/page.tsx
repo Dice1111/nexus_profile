@@ -5,17 +5,11 @@ import {
 import ClientSideProfilePage from "./ClientSideProfilePage";
 import { ProfileCard, ProfileDndComponent } from "@/lib/types/types";
 import { notFound } from "next/navigation";
-
-const getProfileCardData = async (): Promise<ProfileCard> => {
-  const data = await fetchUserProfileCardData("1");
-  if (!data) throw new Error("No data found");
-  return data;
-};
-
-const getProfileComponentsData = async (): Promise<ProfileDndComponent[]> => {
-  const data = await fetchUserProfileDndComponentsData("1");
-  return data;
-};
+import { DesignModel } from "@/core/_domain/models/design.model";
+import { InformationModel } from "@/core/_domain/models/information.model";
+import { ProfileComponentModel } from "@/core/_domain/models/profile-component.model";
+import { useActionState, useEffect } from "react";
+import { fetchCardDataAction } from "./action";
 
 interface Props {
   params: Promise<{ cardID: string }>;
@@ -24,15 +18,15 @@ interface Props {
 const Page = async (props: Props) => {
   try {
     const searchParams = await props.params;
-    // Fetch from database
-    const profileComponents = await getProfileComponentsData();
-    const profileCard = await getProfileCardData();
+
+    const profileCardData = await fetchCardDataAction(searchParams.cardID);
 
     return (
       <>
         <ClientSideProfilePage
-          profileComponentData={profileComponents}
-          profileCardData={profileCard}
+          profileComponentData={profileCardData.profileComponents}
+          profileCardInformation={profileCardData.information}
+          profileCardDesign={profileCardData.design}
         />
       </>
     );

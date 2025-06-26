@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "prisma": {
-    "seed": "node core/factory/seed/seed.js"
+    "seed": "node core/_factory/seed/seed.js"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",

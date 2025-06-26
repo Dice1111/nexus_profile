@@ -11,4 +11,6 @@ export interface InformationModel {
   suffix: string | null;
   preferredName: string | null;
   pronouns: string | null;
+  createdAt: Date;
+  updatedAt: Date;
 }

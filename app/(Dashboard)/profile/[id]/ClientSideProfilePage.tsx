@@ -20,10 +20,14 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
+import { InformationModel } from "@/core/_domain/models/information.model";
+import { DesignModel } from "@/core/_domain/models/design.model";
+import { ProfileComponentModel } from "@/core/_domain/models/profile-component.model";
 
 interface ProfileProps {
-  profileComponentData: ProfileDndComponent[];
-  profileCardData: ProfileCard;
+  profileComponentData: ProfileComponentModel[];
+  profileInformationData: InformationModel;
+  profileDesignData: DesignModel;
 }
 
 const ProfileCardComponent = dynamic(
@@ -59,6 +63,9 @@ export default function ClientSideProfilePage({
 
   //State for loading
   const [isLoading, setLoading] = useState(false);
+
+  const [Information, setInformation] = useState<InformationModel[]>([]);
+  const [Design, setDesign] = useState<DesignModel>();
 
   // Form setup
   const form = useForm<{ components: ProfileDndComponentSchemaType[] }>({
