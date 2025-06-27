@@ -1,4 +1,4 @@
-import { CONTACT_TAG_ENUM } from "../enum/contact-tag.enum";
+import { CONTACT_TAG_ENUM } from "../enum/contact-repository.enum";
 
 export interface ContactModel {
   id: number;

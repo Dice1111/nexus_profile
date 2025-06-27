@@ -18,7 +18,7 @@ import TagAndNote from "./SubComponents/TagAndNote";
 
 import { ProfileCard, ProfileDndComponent } from "@/lib/types/types";
 import QRButton from "../QRCodeButton/QRButton";
-import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-tag.enum";
+import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-repository.enum";
 
 // Enum for Sheet Variants
 export enum SHEET_VARIENT {

@@ -1,6 +1,6 @@
 "use client";
 
-import { IContactWithSpecificCardData } from "@/core/_domain/repositories/types/contact.types";
+import { IContactWithSpecificCardData } from "@/core/_domain/types/contact-repository.types";
 import React, {
   startTransition,
   useActionState,

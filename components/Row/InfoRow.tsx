@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "@/components/ui/button"; // Import Button from shadcn
 
 import PillShapeTag from "../Tag/PillShapeTag";
-import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-tag.enum";
+import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-repository.enum";
 
 interface InfoRowProps {
   fullName: string;

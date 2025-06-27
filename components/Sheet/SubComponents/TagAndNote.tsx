@@ -13,7 +13,7 @@ import { Input } from "../../ui/input";
 import PillShapeTag from "../../Tag/PillShapeTag";
 import { ChevronDownIcon } from "lucide-react";
 
-import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-tag.enum";
+import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-repository.enum";
 import {
   IUpdateTagOrNoteActionState,
   updateTagOrNoteAction,

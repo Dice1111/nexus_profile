@@ -3,7 +3,7 @@ import { IRequestRepository } from "@/core/_domain/repositories/IRequestReposito
 import {
   IRequestFilter,
   ISanitizedRequestSearchParams,
-} from "@/core/_domain/services/types/search-params-handler-service.type";
+} from "@/core/_domain/types/search-params-handler-service.type";
 
 export type IFetchTotalRequestCountBySearchParamsUseCase = ReturnType<
   typeof fetchTotalRequestCountBySearchParamsUseCase

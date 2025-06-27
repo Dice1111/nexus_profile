@@ -4,8 +4,8 @@ import {
   InputParseError,
   UniqueConstraintError,
 } from "@/core/_domain/errors/common.error";
-import { IRequestWithPaginationData } from "@/core/_domain/repositories/types/request.type";
-import { IRawSearchParams } from "@/core/_domain/services/types/search-params-handler-service.type";
+import { IRequestWithPaginationData } from "@/core/_domain/types/request-repository.type";
+import { IRawSearchParams } from "@/core/_domain/types/search-params-handler-service.type";
 import buildAcceptRequestController from "@/core/_factory/controller-factory/request/build-accept-request-controller";
 import buildDeleteRequestController from "@/core/_factory/controller-factory/request/build-delete-request-controller";
 import buildFetchRequestsWithPaginationDataBySearchParamsController from "@/core/_factory/controller-factory/request/build-fetch-requests-with-pagination-data-by-search-params-controller";

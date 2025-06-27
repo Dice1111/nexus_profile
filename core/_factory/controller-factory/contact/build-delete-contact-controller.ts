@@ -5,5 +5,6 @@ import { ContactRepository } from "@/core/_infrastructure/repositories/contact.r
 export default function buildDeleteContactController() {
   const contactRepository = new ContactRepository();
   const deleteContact = deleteContactUseCase(contactRepository);
+
   return deleteContactController(deleteContact);
 }

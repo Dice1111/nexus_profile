@@ -6,7 +6,7 @@ import {
 
 import { IUserRepository } from "../../_domain/repositories/IUserRepository";
 import { prisma } from "../prisma/prisma-client";
-import { ICreateUserData } from "@/core/_domain/repositories/types/user.types";
+import { ICreateUserData } from "@/core/_domain/types/user-repository.types";
 import { UserModel } from "@/core/_domain/models/user.model";
 
 export class UserRepository implements IUserRepository {

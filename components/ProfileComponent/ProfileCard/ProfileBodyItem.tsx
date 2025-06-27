@@ -1,9 +1,11 @@
-import { typeIconMap } from "@/lib/icon";
 import {
   PROFILE_COMPONENT_CATEGORY,
   PROFILE_COMPONENT_TYPE,
-} from "@/lib/types/enums";
-import { ProfileDndComponent } from "@/lib/types/types";
+} from "@/core/_domain/enum/profile-component-repository.enum";
+import { ProfileComponentModel } from "@/core/_domain/models/profile-component.model";
+import { IFetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
+import { typeIconMap } from "@/lib/icon";
+
 import dynamic from "next/dynamic";
 
 import Image from "next/image";
@@ -12,8 +14,8 @@ const SocialEmbed = dynamic(() => import("./SocialEmbed"), {
   loading: () => <p>Loading...</p>,
 });
 
-interface ItemProps {
-  item: ProfileDndComponent;
+interface ProfileBodyItemProps {
+  item: IFetchProfileComponentData;
   background_color: string;
   foreground_color: string;
 }
@@ -23,7 +25,7 @@ const frameComponents = {
   [PROFILE_COMPONENT_CATEGORY.MAIL]: (
     value: string,
     type: string,
-    display_text: string,
+    label: string,
     background_color: string,
     foreground_color: string
   ) => (
@@ -37,7 +39,7 @@ const frameComponents = {
         </div>
         <div>
           <p>{value}</p>
-          <div className="font-thin text-sm">{display_text}</div>
+          <div className="font-thin text-sm">{label}</div>
         </div>
       </div>
     </a>
@@ -46,7 +48,7 @@ const frameComponents = {
   [PROFILE_COMPONENT_CATEGORY.PHONE]: (
     value: string,
     type: string,
-    display_text: string,
+    label: string,
     background_color: string,
     foreground_color: string
   ) => {
@@ -77,7 +79,7 @@ const frameComponents = {
         </div>
         <div>
           {value} <br />
-          <div className="font-thin text-sm">{display_text}</div>
+          <div className="font-thin text-sm">{label}</div>
         </div>
       </div>
     );
@@ -189,7 +191,7 @@ const frameComponents = {
   [PROFILE_COMPONENT_CATEGORY.LINK]: (
     value: string,
     type: string,
-    display_text: string,
+    label: string,
     background_color: string,
     foreground_color: string
   ) => (
@@ -202,7 +204,7 @@ const frameComponents = {
           {typeIconMap[type as keyof typeof typeIconMap]}
         </div>
         <div>
-          <p>{display_text}</p>
+          <p>{label}</p>
         </div>
       </div>
     </a>
@@ -211,7 +213,7 @@ const frameComponents = {
   [PROFILE_COMPONENT_CATEGORY.FILE]: (
     value: string,
     type: string,
-    display_text: string,
+    label: string,
     background_color: string,
     foreground_color: string
   ) => (
@@ -224,7 +226,7 @@ const frameComponents = {
           {typeIconMap[type as keyof typeof typeIconMap]}
         </div>
         <div>
-          <p>{display_text}</p>
+          <p>{label}</p>
         </div>
       </div>
     </a>
@@ -235,13 +237,13 @@ export default function ProfileBodyItem({
   item,
   background_color,
   foreground_color,
-}: ItemProps) {
-  if (item.value === undefined || item.display_text === undefined) return null;
+}: ProfileBodyItemProps) {
+  if (item.value === undefined || item.label === undefined) return null;
   return frameComponents[item.category as keyof typeof frameComponents]
     ? frameComponents[item.category as keyof typeof frameComponents](
         item.value,
         item.type,
-        item.display_text,
+        item.label,
         background_color,
         foreground_color
       )

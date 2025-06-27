@@ -3,7 +3,7 @@ import {
   IRawSearchParams,
   ISanitizedContactSearchParams,
   ISanitizedRequestSearchParams,
-} from "./types/search-params-handler-service.type";
+} from "../types/search-params-handler-service.type";
 
 export interface ISearchParamsHandlerService {
   sanitizeRawSearchParamsForContact(

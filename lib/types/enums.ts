@@ -58,9 +58,3 @@ export enum PROFILE_COMPONENT_CATEGORY {
   TEXT = "text",
   SOCIAL_EMBED = "social_embed",
 }
-
-export enum PROFILE_LAYOUT {
-  LAYOUT_ONE = "LAYOUT_ONE",
-  LAYOUT_TWO = "LAYOUT_TWO",
-  LAYOUT_THREE = "LAYOUT_THREE",
-}

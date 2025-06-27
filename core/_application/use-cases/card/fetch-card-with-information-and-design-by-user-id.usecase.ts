@@ -1,5 +1,5 @@
 import { ICardRepository } from "@/core/_domain/repositories/ICardRepository";
-import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/repositories/types/card.types";
+import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/types/card-repository.types";
 import { IAuthenticationService } from "@/core/_domain/services/IAuthentication.service";
 
 export type IFetchCardWithInformationAndDesignByUserIdUsecase = ReturnType<
