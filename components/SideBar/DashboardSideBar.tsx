@@ -77,19 +77,9 @@ const data = {
       icon: IoBarChart,
     },
     {
-      isCollapsible: true,
       title: "Setting",
+      url: "/setting",
       icon: IoSettings,
-      subItems: [
-        {
-          title: "General",
-          url: "/setting/general",
-        },
-        {
-          title: "Account",
-          url: "/setting/account",
-        },
-      ],
     },
   ],
 };
