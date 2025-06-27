@@ -1,4 +1,4 @@
-import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-tag.enum";
+import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-repository.enum";
 import {
   SORTABLE_ITEMS,
   SORTABLE_ORDERS,
@@ -10,7 +10,7 @@ import {
   IRawSearchParams,
   ISanitizedContactSearchParams,
   ISanitizedRequestSearchParams,
-} from "@/core/_domain/services/types/search-params-handler-service.type";
+} from "@/core/_domain/types/search-params-handler-service.type";
 import {
   validSortFieldsSet,
   validSortOrdersSet,

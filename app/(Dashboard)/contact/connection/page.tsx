@@ -1,6 +1,6 @@
 import ContactList from "@/components/List/ContactList";
 import ContactPagination from "@/components/Pagination/contact-pagination";
-import { IRawSearchParams } from "@/core/_domain/services/types/search-params-handler-service.type";
+import { IRawSearchParams } from "@/core/_domain/types/search-params-handler-service.type";
 import { ITEMS_PER_PAGE } from "@/lib/utils";
 import { Suspense } from "react";
 import { fetchContactsWithPaginationDataBySearchParamsAction } from "./action";

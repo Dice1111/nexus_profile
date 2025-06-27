@@ -3,8 +3,8 @@ import {
   DatabaseOperationError,
   InputParseError,
 } from "@/core/_domain/errors/common.error";
-import { IContactWithPaginationData } from "@/core/_domain/repositories/types/contact.types";
-import { IRawSearchParams } from "@/core/_domain/services/types/search-params-handler-service.type";
+import { IContactWithPaginationData } from "@/core/_domain/types/contact-repository.types";
+import { IRawSearchParams } from "@/core/_domain/types/search-params-handler-service.type";
 import buildDeleteContactController from "@/core/_factory/controller-factory/contact/build-delete-contact-controller";
 import buildFetchContactsWithPaginationDataBySearchParamsController from "@/core/_factory/controller-factory/contact/build-fetch-contacts-with-pagination-data-by-search-params-controller";
 import buildUpdateTagOrNoteController from "@/core/_factory/controller-factory/contact/build-update-tag-or-note-controller";

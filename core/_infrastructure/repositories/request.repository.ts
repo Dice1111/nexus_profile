@@ -2,11 +2,11 @@ import { IRequestRepository } from "@/core/_domain/repositories/IRequestReposito
 import {
   IRequestOrganizedSearchParams,
   IRawRequestWithSpecificCardData,
-} from "@/core/_domain/repositories/types/request.type";
+} from "@/core/_domain/types/request-repository.type";
 import {
   IRequestFilter,
   IRequestSort,
-} from "@/core/_domain/services/types/search-params-handler-service.type";
+} from "@/core/_domain/types/search-params-handler-service.type";
 import { prisma } from "../prisma/prisma-client";
 import { DatabaseOperationError } from "@/core/_domain/errors/common.error";
 import { Prisma } from "@prisma/client";

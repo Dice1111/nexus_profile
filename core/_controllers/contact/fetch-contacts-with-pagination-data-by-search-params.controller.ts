@@ -1,8 +1,8 @@
 import { IFetchContactsWithSpecificCardDataBySearchParamsUseCase } from "@/core/_application/use-cases/contact/fetch-contacts-with-specific-card-data-by-search-params.use-case";
 import { IFetchTotalContactCountBySearchParamsUseCase } from "@/core/_application/use-cases/contact/fetch-total-contact-count-by-search-params.use-case";
-import { IContactWithPaginationData } from "@/core/_domain/repositories/types/contact.types";
+import { IContactWithPaginationData } from "@/core/_domain/types/contact-repository.types";
 import { ISearchParamsHandlerService } from "@/core/_domain/services/ISearchParamsHandler.service";
-import { IRawSearchParams } from "@/core/_domain/services/types/search-params-handler-service.type";
+import { IRawSearchParams } from "@/core/_domain/types/search-params-handler-service.type";
 
 export const fetchContactsWithPaginationDataBySearchParamsController =
   (

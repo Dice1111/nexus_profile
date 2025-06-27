@@ -2,7 +2,7 @@ import { ICardRepository } from "@/core/_domain/repositories/ICardRepository";
 import {
   ICardWithTitleAndID,
   IFetchCardWithInformationAndDesignData,
-} from "@/core/_domain/repositories/types/card.types";
+} from "@/core/_domain/types/card-repository.types";
 import { prisma } from "../prisma/prisma-client";
 import { DatabaseOperationError } from "@/core/_domain/errors/common.error";
 
@@ -20,20 +20,44 @@ export class CardRepository implements ICardRepository {
     throw new Error("Method not implemented.");
   }
   async fetchWithInformationAndDesignByUserID(
-    userID: string
+    userId: string
   ): Promise<IFetchCardWithInformationAndDesignData[]> {
     try {
       const data = await prisma.card.findMany({
-        where: { userId: userID },
+        where: { userId: userId },
         select: {
           id: true,
           title: true,
-          Information: true,
-          Design: true,
+          Information: {
+            select: {
+              id: true,
+              cardId: true,
+              title: true,
+              fullName: true,
+              occupation: true,
+              company: true,
+              message: true,
+              quote: true,
+              prefix: true,
+              suffix: true,
+              preferredName: true,
+              pronouns: true,
+            },
+          },
+          Design: {
+            select: {
+              id: true,
+              cardId: true,
+              foregroundColor: true,
+              backgroundColor: true,
+              profileImage: true,
+              logoImage: true,
+              layout: true,
+            },
+          },
         },
       });
 
-      console.log(data);
       return data;
     } catch (error) {
       throw new DatabaseOperationError("Failed to fetch cards", {

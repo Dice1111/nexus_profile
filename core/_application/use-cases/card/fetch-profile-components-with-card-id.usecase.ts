@@ -1,5 +1,5 @@
-import { ProfileComponentModel } from "@/core/_domain/models/profile-component.model";
 import { IProfileComponentRepository } from "@/core/_domain/repositories/IProfileComponentRepository";
+import { IFetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 
 export type IFetchProfileComponentsWithCardIdUseCase = ReturnType<
   typeof fetchProfileComponentsWithCardIdUseCase
@@ -7,6 +7,6 @@ export type IFetchProfileComponentsWithCardIdUseCase = ReturnType<
 
 export const fetchProfileComponentsWithCardIdUseCase =
   (profileComponentRepository: IProfileComponentRepository) =>
-  async (cardID: string): Promise<ProfileComponentModel[]> => {
+  async (cardID: string): Promise<IFetchProfileComponentData[]> => {
     return await profileComponentRepository.fetch(cardID);
   };

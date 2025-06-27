@@ -18,7 +18,7 @@ import {
   IAcceptRequestActionState,
   IDeleteRequestActionState,
 } from "@/app/(Dashboard)/contact/request/action";
-import { IRequestWithSpecificCardData } from "@/core/_domain/repositories/types/request.type";
+import { IRequestWithSpecificCardData } from "@/core/_domain/types/request-repository.type";
 import {
   AlertDialog,
   AlertDialogAction,

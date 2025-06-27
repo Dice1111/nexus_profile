@@ -1,7 +1,7 @@
 import { LuDot } from "react-icons/lu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import PillShapeTag from "../Tag/PillShapeTag";
-import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-tag.enum";
+import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-repository.enum";
 import { Button } from "../ui/button";
 
 interface ContactRowProps {

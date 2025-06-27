@@ -4,12 +4,12 @@ import { Button } from "../ui/button";
 import { BsQrCodeScan } from "react-icons/bs";
 
 interface QRButtonProps {
-  profileID: string;
+  cardId: string;
 }
 
-const QRButton = ({ profileID }: QRButtonProps) => {
+const QRButton = ({ cardId }: QRButtonProps) => {
   const routeToQRCode = () => {
-    window.open(`/qrCode/${profileID}`, "_blank"); // Opens in a new tab
+    window.open(`/qrCode/${cardId}`, "_blank"); // Opens in a new tab
   };
 
   return (

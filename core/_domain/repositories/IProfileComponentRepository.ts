@@ -1,8 +1,8 @@
-import { ProfileComponentModel } from "../models/profile-component.model";
+import { IFetchProfileComponentData } from "../types/profile-component-repository.types";
 
 export interface IProfileComponentRepository {
   create(): Promise<void>;
   update(): Promise<void>;
   delete(): Promise<void>;
-  fetch(cardID: string): Promise<ProfileComponentModel[]>;
+  fetch(cardId: string): Promise<IFetchProfileComponentData[]>;
 }

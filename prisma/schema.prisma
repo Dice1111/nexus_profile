@@ -45,7 +45,7 @@ model ProfileComponent {
   card      Card                       @relation(fields: [cardId], references: [id])
   cardId    String
   value     String
-  label     String
+  label     String?
   createdAt DateTime                   @default(now())
   updatedAt DateTime                   @updatedAt
   type      PROFILE_COMPONENT_TYPE

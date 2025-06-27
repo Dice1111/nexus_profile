@@ -1,10 +1,10 @@
 import { CONTACT_TAG_TYPE } from "@prisma/client";
-import { CONTACT_TAG_ENUM } from "../../enum/contact-tag.enum";
-import { ContactModel } from "../../models/contact.model";
+import { CONTACT_TAG_ENUM } from "../enum/contact-repository.enum";
+import { ContactModel } from "../models/contact.model";
 import {
   IContactFilter,
   IContactSort,
-} from "../../services/types/search-params-handler-service.type";
+} from "./search-params-handler-service.type";
 
 export interface IContactOrganizedSearchParams {
   itemsPerPage: number;

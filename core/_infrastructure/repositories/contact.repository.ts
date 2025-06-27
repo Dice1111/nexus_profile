@@ -1,4 +1,4 @@
-import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-tag.enum";
+import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-repository.enum";
 import {
   SORTABLE_ITEMS,
   SORTABLE_ORDERS,
@@ -13,11 +13,11 @@ import {
   IContactOrganizedSearchParams,
   ICreateContactData,
   IRawContactWithSpecificCardData,
-} from "@/core/_domain/repositories/types/contact.types";
+} from "@/core/_domain/types/contact-repository.types";
 import {
   IContactFilter,
   IContactSort,
-} from "@/core/_domain/services/types/search-params-handler-service.type";
+} from "@/core/_domain/types/search-params-handler-service.type";
 import { IUpdateTagOrNoteData } from "@/schema/contact/update-contact-or-delete.schema";
 import { CONTACT_TAG_TYPE, Prisma } from "@prisma/client";
 import { prisma } from "../prisma/prisma-client";

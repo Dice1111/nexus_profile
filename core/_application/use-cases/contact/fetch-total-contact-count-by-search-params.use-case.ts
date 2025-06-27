@@ -3,7 +3,7 @@ import { IContactRepository } from "@/core/_domain/repositories/IContactReposito
 import {
   IContactFilter,
   ISanitizedContactSearchParams,
-} from "@/core/_domain/services/types/search-params-handler-service.type";
+} from "@/core/_domain/types/search-params-handler-service.type";
 
 export type IFetchTotalContactCountBySearchParamsUseCase = ReturnType<
   typeof fetchTotalContactCountBySearchParamsUseCase

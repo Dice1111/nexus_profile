@@ -1,11 +1,11 @@
-import { ProfileComponentModel } from "@/core/_domain/models/profile-component.model";
 import {
-  PROFILE_COMPONENT_TYPE,
   PROFILE_COMPONENT_CATEGORY,
-} from "@/lib/types/enums";
+  PROFILE_COMPONENT_TYPE,
+} from "@/core/_domain/enum/profile-component-repository.enum";
 import { prisma } from "../prisma/prisma-client";
 import { DatabaseOperationError } from "@/core/_domain/errors/common.error";
 import { IProfileComponentRepository } from "@/core/_domain/repositories/IProfileComponentRepository";
+import { IFetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 
 export class ProfileComponentRepository implements IProfileComponentRepository {
   async create(): Promise<void> {
@@ -17,16 +17,26 @@ export class ProfileComponentRepository implements IProfileComponentRepository {
   async delete(): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  async fetch(cardID: string): Promise<ProfileComponentModel[]> {
+  async fetch(cardId: string): Promise<IFetchProfileComponentData[]> {
     try {
       const data = await prisma.profileComponent.findMany({
-        where: { cardId: cardID },
+        where: { cardId: cardId },
+        select: {
+          id: true,
+          cardId: true,
+          type: true,
+          category: true,
+          label: true,
+          value: true,
+          position: true,
+        },
       });
 
       const typeFixData = data.map((item) => ({
         ...item,
         type: item.type as PROFILE_COMPONENT_TYPE,
         category: item.category as PROFILE_COMPONENT_CATEGORY,
+        label: item.label ?? "",
       }));
 
       return typeFixData;

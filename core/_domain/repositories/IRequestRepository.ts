@@ -1,8 +1,8 @@
-import { IRequestFilter } from "../services/types/search-params-handler-service.type";
+import { IRequestFilter } from "../types/search-params-handler-service.type";
 import {
   IRawRequestWithSpecificCardData,
   IRequestOrganizedSearchParams,
-} from "./types/request.type";
+} from "../types/request-repository.type";
 
 export interface IRequestRepository {
   fetchWithSpecificCardDataBySearchParams(

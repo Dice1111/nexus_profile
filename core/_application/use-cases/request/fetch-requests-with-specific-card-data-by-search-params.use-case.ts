@@ -2,12 +2,12 @@ import { IRequestRepository } from "@/core/_domain/repositories/IRequestReposito
 import {
   IRawRequestWithSpecificCardData,
   IRequestWithSpecificCardData,
-} from "@/core/_domain/repositories/types/request.type";
+} from "@/core/_domain/types/request-repository.type";
 import {
   IRequestFilter,
   IRequestSort,
   ISanitizedRequestSearchParams,
-} from "@/core/_domain/services/types/search-params-handler-service.type";
+} from "@/core/_domain/types/search-params-handler-service.type";
 
 function ToFlatRequest(
   requests: IRawRequestWithSpecificCardData[]

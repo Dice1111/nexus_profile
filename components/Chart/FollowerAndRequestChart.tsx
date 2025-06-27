@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { IDailyFollowerCountChartData } from "@/core/_domain/repositories/types/contact.types";
+import { IDailyFollowerCountChartData } from "@/core/_domain/types/contact-repository.types";
 
 const chartConfig = {
   count: {
