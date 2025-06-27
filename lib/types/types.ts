@@ -10,6 +10,7 @@ export type ProfileDndComponent = {
   display_text: string; //need to check wheather it is nullable or not
   value: string;
   file?: File;
+  position: number;
 };
 
 export interface ThemeSchema {

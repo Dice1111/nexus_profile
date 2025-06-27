@@ -1,34 +1,55 @@
-import {
-  fetchUserProfileCardData,
-  fetchUserProfileDndComponentsData,
-} from "@/services/profile-data-service";
-import ClientSideProfilePage from "./ClientSideProfilePage";
-import { ProfileCard, ProfileDndComponent } from "@/lib/types/types";
+"use client";
 
-const getProfileCardData = async (): Promise<ProfileCard> => {
-  const data = await fetchUserProfileCardData("1");
-  if (!data) throw new Error("No data found");
-  return data;
-};
+import React, { startTransition, useActionState, useEffect } from "react";
 
-const getProfileComponentsData = async (): Promise<ProfileDndComponent[]> => {
-  const data = await fetchUserProfileDndComponentsData("1");
-  return data;
-};
+import Link from "next/link";
+import { getUserInitialCardsDataAction } from "./action";
+import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/repositories/types/card.types";
+import InitialProfileCardComponent from "@/components/ProfileComponent/InitialProfileCard/InitialProfileCard";
+import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 
-const Page = async () => {
-  // Fetch from database
-  const profileComponents = await getProfileComponentsData();
-  const profileCard = await getProfileCardData();
+const page = () => {
+  const initialData: {
+    success: boolean;
+    data: IFetchCardWithInformationAndDesignData[];
+  } = {
+    success: false,
+    data: [],
+  };
+
+  const [initialCardsState, userInitialCardsDataAction, isPending] =
+    useActionState(getUserInitialCardsDataAction, initialData);
+
+  useEffect(() => {
+    startTransition(() => userInitialCardsDataAction());
+  }, []);
+
+  useEffect(() => {
+    console.log("userState", initialCardsState.data);
+  }, [initialCardsState]);
 
   return (
     <>
-      <ClientSideProfilePage
-        profileComponentData={profileComponents}
-        profileCardData={profileCard}
-      />
+      {isPending ? (
+        <LoadingSpinner />
+      ) : (
+        <div className="flex gap-1 justify-center flex-wrap">
+          {initialCardsState.data.map(
+            (card: IFetchCardWithInformationAndDesignData) => (
+              <div
+                key={card.id}
+                className="hover:scale-105 transform transition ease-in"
+              >
+                <Link href={`/profile/${card.id}`}>
+                  <InitialProfileCardComponent profileData={card} />{" "}
+                </Link>
+              </div>
+            )
+          )}
+        </div>
+      )}
     </>
   );
 };
 
-export default Page;
+export default page;

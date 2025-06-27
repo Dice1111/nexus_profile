@@ -29,18 +29,18 @@ model Card {
   title           String?
   user            User              @relation(fields: [userId], references: [id])
   userId          String
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  PofileComponent PofileComponent[]
+  PofileComponent ProfileComponent[]
   SentRequest     Request[]         @relation("SentRequest")
   Request         Request[]
   Contact         Contact[]
   ContactPerson   Contact[]         @relation("ContactPerson")
   Design          Design?
   Information     Information?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
 }
 
-model PofileComponent {
+model ProfileComponent {
   id        Int                        @id @default(autoincrement())
   card      Card                       @relation(fields: [cardId], references: [id])
   cardId    String
@@ -50,6 +50,8 @@ model PofileComponent {
   updatedAt DateTime                   @updatedAt
   type      PROFILE_COMPONENT_TYPE
   category  PROFILE_COMPONENT_CATEGORY
+  position  Int
+  
 }
 
 model Request {
@@ -83,10 +85,12 @@ model Design {
   cardId          String  @unique
   foregroundColor String
   backgroundColor String
-  backgroundImage String?
   profileImage    String?
-  layout          String
+  logoImage       String?
+  layout          PROFILE_LAYOUT
   card            Card    @relation(fields: [cardId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Information {
@@ -103,6 +107,8 @@ model Information {
   preferredName String?
   pronouns      String?
   card          Card    @relation(fields: [cardId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 enum PROFILE_COMPONENT_TYPE {
@@ -179,3 +185,10 @@ enum CONTACT_TAG_TYPE {
   VENDOR
   OTHER
 }
+
+enum PROFILE_LAYOUT {
+  LAYOUT_ONE
+  LAYOUT_TWO
+  LAYOUT_THREE
+}
+

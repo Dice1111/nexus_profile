@@ -13,10 +13,21 @@ import dynamic from "next/dynamic";
 import { RxCross2 } from "react-icons/rx";
 import { ProfileDndComponent, ProfileCard } from "@/lib/types/types";
 import QRButton from "@/components/QRCodeButton/QRButton";
+import {
+  ProfileDndComponentSchemaType,
+  profileDndInputSchema,
+} from "@/components/ProfileComponent/EditProfileCard/DragAndDropComponent/ProfileDndInputSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, useFieldArray } from "react-hook-form";
+import { z } from "zod";
+import { InformationModel } from "@/core/_domain/models/information.model";
+import { DesignModel } from "@/core/_domain/models/design.model";
+import { ProfileComponentModel } from "@/core/_domain/models/profile-component.model";
 
 interface ProfileProps {
-  profileComponentData: ProfileDndComponent[];
-  profileCardData: ProfileCard;
+  profileComponentData: ProfileComponentModel[];
+  profileInformationData: InformationModel;
+  profileDesignData: DesignModel;
 }
 
 const ProfileCardComponent = dynamic(
@@ -53,6 +64,27 @@ export default function ClientSideProfilePage({
   //State for loading
   const [isLoading, setLoading] = useState(false);
 
+  const [Information, setInformation] = useState<InformationModel[]>([]);
+  const [Design, setDesign] = useState<DesignModel>();
+
+  // Form setup
+  const form = useForm<{ components: ProfileDndComponentSchemaType[] }>({
+    mode: "onBlur",
+    resolver: zodResolver(
+      z.object({
+        components: z.array(profileDndInputSchema),
+      })
+    ),
+    defaultValues: {
+      components: components as ProfileDndComponentSchemaType[],
+    },
+  });
+
+  const fieldArray = useFieldArray({
+    control: form.control,
+    name: "components",
+  });
+
   return (
     <>
       <ProfileContext.Provider
@@ -65,6 +97,8 @@ export default function ClientSideProfilePage({
           setEditing,
           isLoading,
           setLoading,
+          form,
+          fieldArray,
         }}
       >
         <div className=" flex flex-col p-4 sm:p-0 gap-5 sm:flex-row justify-center relative">

@@ -14,4 +14,9 @@ export class AuthenticationService implements IAuthenticationService {
   async generateHashedPassword(inputPassword: string): Promise<string> {
     return bcrypt.hash(inputPassword, AuthenticationService.SALT_ROUNDS);
   }
+
+  async getSession(): Promise<string> {
+    //dummy
+    return "d31305ec-9aa7-40e0-8aa4-1c11ee868172";
+  }
 }
