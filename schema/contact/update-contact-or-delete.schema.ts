@@ -1,4 +1,4 @@
-import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-tag.enum";
+import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-repository.enum";
 import { z } from "zod";
 
 export const UpdateTagOrNoteSchema = z.object({

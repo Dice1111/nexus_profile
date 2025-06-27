@@ -1,8 +1,8 @@
-import { CONTACT_TAG_ENUM } from "../../enum/contact-tag.enum";
+import { CONTACT_TAG_ENUM } from "../enum/contact-repository.enum";
 import {
   SORTABLE_ITEMS,
   SORTABLE_ORDERS,
-} from "../../enum/search-params-handler-service.enum";
+} from "../enum/search-params-handler-service.enum";
 
 export interface IRawSearchParams {
   [key: string]: string | string[] | undefined;

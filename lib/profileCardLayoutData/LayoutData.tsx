@@ -1,7 +1,8 @@
 import ProfileLayoutOne from "@/components/ProfileComponent/ProfileHeaderLayout/ProfileLayoutOne";
 import ProfileLayoutTwo from "@/components/ProfileComponent/ProfileHeaderLayout/ProfileLayoutTwo";
-import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/repositories/types/card.types";
-import { PROFILE_LAYOUT } from "../types/enums";
+import { PROFILE_LAYOUT } from "@/core/_domain/enum/design-repository.enum";
+import { IFetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { IFetchInformationData } from "@/core/_domain/types/information-repository.types";
 
 export const profileLayouts = [
   PROFILE_LAYOUT.LAYOUT_ONE,
@@ -11,27 +12,28 @@ export const profileLayouts = [
 
 // Function to Get Profile Layout Data
 export const profileLayoutData = (
-  profileCardData: IFetchCardWithInformationAndDesignData
+  design: IFetchDesignData,
+  information: IFetchInformationData
 ) => ({
   [PROFILE_LAYOUT.LAYOUT_ONE]: (
-    <ProfileLayoutOne profileData={profileCardData} />
+    <ProfileLayoutOne design={design} information={information} />
   ),
   [PROFILE_LAYOUT.LAYOUT_TWO]: (
-    <ProfileLayoutTwo profileData={profileCardData} />
+    <ProfileLayoutTwo design={design} information={information} />
   ),
   [PROFILE_LAYOUT.LAYOUT_THREE]: (
-    <ProfileLayoutOne profileData={profileCardData} />
+    <ProfileLayoutOne design={design} information={information} />
   ),
 });
 
-export enum ColorableElement {
-  BACKGROUND = "BACKGROUND",
-  FOREGROUND = "FOREGROUND",
-  WAVE = "WAVE",
-}
+// export enum ColorableElement {
+//   BACKGROUND = "BACKGROUND",
+//   FOREGROUND = "FOREGROUND",
+//   WAVE = "WAVE",
+// }
 
-export const colorableElements = [
-  ColorableElement.BACKGROUND,
-  ColorableElement.FOREGROUND,
-  //ColorableElement.WAVE,
-];
+// export const colorableElements = [
+//   ColorableElement.BACKGROUND,
+//   ColorableElement.FOREGROUND,
+//   //ColorableElement.WAVE,
+// ];

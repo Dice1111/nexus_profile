@@ -24,13 +24,15 @@ import { genUploader } from "uploadthing/client";
 import { ProfileDndComponent } from "@/lib/types/types";
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 import { useEffect } from "react";
+import { ProfileComponentModel } from "@/core/_domain/models/profile-component.model";
 export const { uploadFiles } = genUploader<OurFileRouter>();
 
 const EditProfileCardComponent = () => {
   const context = useProfileContext();
   const {
     components,
-    profileData,
+    information,
+    design,
     setComponents,
     isEditing,
     setEditing,
@@ -43,10 +45,9 @@ const EditProfileCardComponent = () => {
   // Touchscreen and pointer support for drag-and-drop
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
 
-  const layoutComponent =
-    profileLayoutData(profileData)[
-      profileData.layout as keyof typeof profileLayoutData
-    ];
+  const layoutComponent = profileLayoutData(design, information)[
+    design.layout as keyof typeof profileLayoutData
+  ];
 
   const {
     register,
@@ -203,8 +204,8 @@ const EditProfileCardComponent = () => {
         <div
           className={`relative max-w-[400px] md:w-[400px]  flex flex-col  overflow-hidden rounded-lg`}
           style={{
-            backgroundColor: profileData.background_color,
-            color: profileData.foreground_color,
+            backgroundColor: design.backgroundColor,
+            color: design.foregroundColor,
           }}
         >
           {/* Header area */}
@@ -225,7 +226,7 @@ const EditProfileCardComponent = () => {
                   {fields.map((item, index) => (
                     <ProfileDroppable
                       key={item.id}
-                      item={item as ProfileDndComponent}
+                      item={item as ProfileComponentModel}
                       index={index}
                       formRegister={register}
                       formErrors={errors.components?.[index]?.value?.message}

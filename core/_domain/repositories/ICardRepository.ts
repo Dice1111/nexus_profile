@@ -1,7 +1,7 @@
 import {
   ICardWithTitleAndID,
   IFetchCardWithInformationAndDesignData,
-} from "./types/card.types";
+} from "../types/card-repository.types";
 
 export interface ICardRepository {
   create: () => Promise<void>;
@@ -9,6 +9,6 @@ export interface ICardRepository {
   delete: (cardId: string) => Promise<void>;
   fetchByUserID: (userID: string) => Promise<ICardWithTitleAndID[]>;
   fetchWithInformationAndDesignByUserID: (
-    userID: string
+    userId: string
   ) => Promise<IFetchCardWithInformationAndDesignData[]>;
 }

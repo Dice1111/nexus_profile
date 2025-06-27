@@ -1,33 +1,31 @@
 "use client";
-
-import { Button } from "@/components/ui/button";
-import { ProfileContext } from "@/context/profileContext";
-
-import { useState } from "react";
-import { CiEdit } from "react-icons/ci";
-import { GiCheckMark } from "react-icons/gi";
-
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
-import ProfileEditor from "@/components/ProfileComponent/ProfileEditor/ProfileEditor";
-import dynamic from "next/dynamic";
-import { RxCross2 } from "react-icons/rx";
-import { ProfileDndComponent, ProfileCard } from "@/lib/types/types";
-import QRButton from "@/components/QRCodeButton/QRButton";
 import {
   ProfileDndComponentSchemaType,
   profileDndInputSchema,
 } from "@/components/ProfileComponent/EditProfileCard/DragAndDropComponent/ProfileDndInputSchema";
+import ProfileEditor from "@/components/ProfileComponent/ProfileEditor/ProfileEditor";
+import QRButton from "@/components/QRCodeButton/QRButton";
+import { Button } from "@/components/ui/button";
+import { ProfileContext } from "@/context/profileContext";
+import { IFetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { IFetchInformationData } from "@/core/_domain/types/information-repository.types";
+import { IFetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useFieldArray } from "react-hook-form";
+import dynamic from "next/dynamic";
+import { useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { CiEdit } from "react-icons/ci";
+import { GiCheckMark } from "react-icons/gi";
+import { RxCross2 } from "react-icons/rx";
 import { z } from "zod";
-import { InformationModel } from "@/core/_domain/models/information.model";
-import { DesignModel } from "@/core/_domain/models/design.model";
-import { ProfileComponentModel } from "@/core/_domain/models/profile-component.model";
 
 interface ProfileProps {
-  profileComponentData: ProfileComponentModel[];
-  profileInformationData: InformationModel;
-  profileDesignData: DesignModel;
+  profileCardData: {
+    profileComponents: IFetchProfileComponentData[];
+    information: IFetchInformationData | null;
+    design: IFetchDesignData | null;
+  };
 }
 
 const ProfileCardComponent = dynamic(
@@ -50,22 +48,52 @@ const EditProfileCardComponent = dynamic(
   }
 );
 
+const profileCardDataDefault = {
+  profileComponents: [],
+  information: {
+    id: 0,
+    cardId: "",
+    title: "",
+    occupation: "",
+    company: "",
+    message: "",
+    quote: "",
+    prefix: "",
+    fullName: "",
+    suffix: "",
+    preferredName: "",
+    pronouns: "",
+  },
+  design: {
+    id: 0,
+    cardId: "",
+    foregroundColor: "#000000",
+    backgroundColor: "#FFFFFF",
+    profileImage: "image/profile.jpg",
+    logoImage: "image/profile.jpg",
+    layout: "LAYOUT_ONE",
+  },
+};
+
 export default function ClientSideProfilePage({
-  profileComponentData,
   profileCardData,
 }: ProfileProps) {
   // Fetch from database
-  const [components, setComponents] =
-    useState<ProfileDndComponent[]>(profileComponentData);
-  const [profileData, setProfileData] = useState<ProfileCard>(profileCardData);
+  const [components, setComponents] = useState<IFetchProfileComponentData[]>(
+    profileCardData.profileComponents ||
+      profileCardDataDefault.profileComponents
+  );
+  const [information, setInformation] = useState<IFetchInformationData>(
+    profileCardData.information || profileCardDataDefault.information
+  );
+  const [design, setDesign] = useState<IFetchDesignData>(
+    profileCardData.design || profileCardDataDefault.design
+  );
+
   // State for editing
   const [isEditing, setEditing] = useState(false);
-
   //State for loading
   const [isLoading, setLoading] = useState(false);
-
-  const [Information, setInformation] = useState<InformationModel[]>([]);
-  const [Design, setDesign] = useState<DesignModel>();
 
   // Form setup
   const form = useForm<{ components: ProfileDndComponentSchemaType[] }>({
@@ -79,7 +107,6 @@ export default function ClientSideProfilePage({
       components: components as ProfileDndComponentSchemaType[],
     },
   });
-
   const fieldArray = useFieldArray({
     control: form.control,
     name: "components",
@@ -91,8 +118,10 @@ export default function ClientSideProfilePage({
         value={{
           components,
           setComponents,
-          profileData,
-          setProfileData,
+          information,
+          setInformation,
+          design,
+          setDesign,
           isEditing,
           setEditing,
           isLoading,
@@ -118,7 +147,7 @@ export default function ClientSideProfilePage({
                   <CiEdit />
                 </Button>
 
-                <QRButton profileID={profileData.card_id} />
+                <QRButton cardId={information.cardId} />
               </div>
             ) : (
               <div className="flex gap-2 justify-end">
@@ -156,7 +185,8 @@ export default function ClientSideProfilePage({
               <ProfileCardComponent
                 key="view"
                 components={components}
-                profileData={profileData}
+                design={design}
+                information={information}
               />
             )}
           </div>

@@ -1,7 +1,7 @@
 import {
   IRequestFilter,
   IRequestSort,
-} from "../../services/types/search-params-handler-service.type";
+} from "./search-params-handler-service.type";
 
 export interface IRequestOrganizedSearchParams {
   itemsPerPage: number;

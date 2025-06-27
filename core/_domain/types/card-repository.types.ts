@@ -19,8 +19,6 @@ export interface IFetchCardWithInformationAndDesignData {
     suffix: string | null;
     preferredName: string | null;
     pronouns: string | null;
-    createdAt: Date;
-    updatedAt: Date;
   } | null;
   Design: {
     id: number;
@@ -30,7 +28,5 @@ export interface IFetchCardWithInformationAndDesignData {
     profileImage: string | null;
     logoImage: string | null;
     layout: string;
-    createdAt: Date;
-    updatedAt: Date;
   } | null;
 }

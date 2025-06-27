@@ -1,14 +1,14 @@
-import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-tag.enum";
+import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-repository.enum";
 import { IContactRepository } from "@/core/_domain/repositories/IContactRepository";
 import {
   IContactWithSpecificCardData,
   IRawContactWithSpecificCardData,
-} from "@/core/_domain/repositories/types/contact.types";
+} from "@/core/_domain/types/contact-repository.types";
 import {
   IContactFilter,
   IContactSort,
   ISanitizedContactSearchParams,
-} from "@/core/_domain/services/types/search-params-handler-service.type";
+} from "@/core/_domain/types/search-params-handler-service.type";
 
 function ToFlatContact(
   rawContactData: IRawContactWithSpecificCardData[]

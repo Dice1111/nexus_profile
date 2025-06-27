@@ -3,7 +3,7 @@ import { IFetchTotalContactCountByCardIdUseCase } from "@/core/_application/use-
 import { IFetchTotalFollowerCountByCardIdUseCase } from "@/core/_application/use-cases/contact/fetch-total-follower-count-by-card-id.use-case";
 import { IFetchTotalRequestCountByCardIdUseCase } from "@/core/_application/use-cases/request/fetch-total-request-count-by-card-id.use-case";
 import { InputParseError } from "@/core/_domain/errors/common.error";
-import { IDailyFollowerCountChartData } from "@/core/_domain/repositories/types/contact.types";
+import { IDailyFollowerCountChartData } from "@/core/_domain/types/contact-repository.types";
 
 export const fetchOverviewStatisticByCardIdController =
   (

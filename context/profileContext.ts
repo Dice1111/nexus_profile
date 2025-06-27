@@ -1,26 +1,31 @@
 import { ProfileDndComponentSchemaType } from "@/components/ProfileComponent/EditProfileCard/DragAndDropComponent/ProfileDndInputSchema";
 import { DesignModel } from "@/core/_domain/models/design.model";
 import { InformationModel } from "@/core/_domain/models/information.model";
-import { ProfileDndComponent, ProfileCard } from "@/lib/types/types";
-import React, { createContext, use, useContext } from "react";
-import {  UseFieldArrayReturn, UseFormReturn } from "react-hook-form";
-
+import { ProfileComponentModel } from "@/core/_domain/models/profile-component.model";
+import { IFetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { IFetchInformationData } from "@/core/_domain/types/information-repository.types";
+import { IFetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
+import React, { createContext, useContext } from "react";
+import { UseFieldArrayReturn, UseFormReturn } from "react-hook-form";
 
 export interface ProfileContextType {
-  components: ProfileDndComponent[];
-  setComponents: React.Dispatch<React.SetStateAction<ProfileDndComponent[]>>;
-  profileData: ProfileCard;
-  setProfileData: React.Dispatch<React.SetStateAction<ProfileCard>>;
-  information: InformationModel[];
-  setInformation: React.Dispatch<React.SetStateAction<InformationModel>>;
-  design: DesignModel;
-  setDesign: React.Dispatch<React.SetStateAction<DesignModel>>;
+  components: IFetchProfileComponentData[];
+  setComponents: React.Dispatch<
+    React.SetStateAction<IFetchProfileComponentData[]>
+  >;
+  information: IFetchInformationData;
+  setInformation: React.Dispatch<React.SetStateAction<IFetchInformationData>>;
+  design: IFetchDesignData;
+  setDesign: React.Dispatch<React.SetStateAction<IFetchDesignData>>;
   isEditing: boolean;
   setEditing: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   form: UseFormReturn<{ components: ProfileDndComponentSchemaType[] }>;
-  fieldArray: UseFieldArrayReturn<{ components: ProfileDndComponentSchemaType[] }, "components">;
+  fieldArray: UseFieldArrayReturn<
+    { components: ProfileDndComponentSchemaType[] },
+    "components"
+  >;
 }
 
 export const ProfileContext = createContext<ProfileContextType | undefined>(

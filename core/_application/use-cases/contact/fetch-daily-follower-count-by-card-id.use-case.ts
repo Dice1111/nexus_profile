@@ -1,5 +1,5 @@
 import { IContactRepository } from "@/core/_domain/repositories/IContactRepository";
-import { IDailyFollowerCountChartData } from "@/core/_domain/repositories/types/contact.types";
+import { IDailyFollowerCountChartData } from "@/core/_domain/types/contact-repository.types";
 
 export type IFetchDailyFollowerCountByCardIdUseCase = ReturnType<
   typeof fetchDailyFollowerCountByCardIdUseCase

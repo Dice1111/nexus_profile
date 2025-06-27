@@ -1,10 +1,10 @@
 import { IUpdateTagOrNoteData } from "@/schema/contact/update-contact-or-delete.schema";
-import { IContactFilter } from "../services/types/search-params-handler-service.type";
+import { IContactFilter } from "../types/search-params-handler-service.type";
 import {
   IContactOrganizedSearchParams,
   ICreateContactData,
   IRawContactWithSpecificCardData,
-} from "./types/contact.types";
+} from "../types/contact-repository.types";
 
 export interface IContactRepository {
   fetchWithSpecificCardDataBySearchParams(

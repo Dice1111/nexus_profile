@@ -4,7 +4,7 @@ import React, { startTransition, useActionState, useEffect } from "react";
 
 import Link from "next/link";
 import { getUserInitialCardsDataAction } from "./action";
-import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/repositories/types/card.types";
+import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/types/card-repository.types";
 import InitialProfileCardComponent from "@/components/ProfileComponent/InitialProfileCard/InitialProfileCard";
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 
@@ -40,8 +40,13 @@ const page = () => {
                 key={card.id}
                 className="hover:scale-105 transform transition ease-in"
               >
-                <Link href={`/profile/${card.id}`}>
-                  <InitialProfileCardComponent profileData={card} />{" "}
+                <Link href={`/profile/${card.id ?? "new"}`}>
+                  {card.Information && card.Design && (
+                    <InitialProfileCardComponent
+                      design={card.Design}
+                      information={card.Information}
+                    />
+                  )}
                 </Link>
               </div>
             )

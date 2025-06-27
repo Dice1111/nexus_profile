@@ -1,26 +1,28 @@
 "use client";
 
-import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/repositories/types/card.types";
+import { IFetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { IFetchInformationData } from "@/core/_domain/types/information-repository.types";
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
 
 interface InitialProfileCardComponentProps {
-  profileData: IFetchCardWithInformationAndDesignData;
+  design: IFetchDesignData;
+  information: IFetchInformationData;
 }
 
 const InitialProfileCardComponent = ({
-  profileData,
+  design,
+  information,
 }: InitialProfileCardComponentProps) => {
-  const layoutComponent =
-    profileLayoutData(profileData)[
-      profileData.Design?.layout as keyof typeof profileLayoutData
-    ];
+  const layoutComponent = profileLayoutData(design, information)[
+    design.layout as keyof typeof profileLayoutData
+  ];
 
   return (
     <div
       className="relative max-w-[400px]  flex flex-col overflow-hidden rounded-lg bg-red-300 shadow-lg"
       style={{
-        backgroundColor: profileData.Design?.backgroundColor || "#000000",
-        color: profileData.Design?.foregroundColor || "#ffffff",
+        backgroundColor: design.backgroundColor || "#000000",
+        color: design.foregroundColor || "#ffffff",
       }}
     >
       {/* header area */}

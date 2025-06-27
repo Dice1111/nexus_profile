@@ -1,30 +1,32 @@
 "use client";
 
-import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/repositories/types/card.types";
+import { IFetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { IFetchInformationData } from "@/core/_domain/types/information-repository.types";
+import { IFetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
-import { ProfileDndComponent } from "@/lib/types/types";
 import ProfileBodyItem from "./ProfileBodyItem";
 
 interface ProfileCardComponentProps {
-  components: ProfileDndComponent[];
-  profileData: IFetchCardWithInformationAndDesignData;
+  components: IFetchProfileComponentData[];
+  design: IFetchDesignData;
+  information: IFetchInformationData;
 }
 
 const ProfileCardComponent = ({
   components,
-  profileData,
+  design,
+  information,
 }: ProfileCardComponentProps) => {
-  const layoutComponent =
-    profileLayoutData(profileData)[
-      profileData.Design?.layout as keyof typeof profileLayoutData
-    ];
+  const layoutComponent = profileLayoutData(design, information)[
+    design?.layout as keyof typeof profileLayoutData
+  ];
 
   return (
     <div
       className="relative max-w-[400px]  flex flex-col overflow-hidden rounded-lg bg-red-300 "
       style={{
-        backgroundColor: profileData.Design?.backgroundColor || "#000000",
-        color: profileData.Design?.foregroundColor || "#ffffff",
+        backgroundColor: design.backgroundColor || "#000000",
+        color: design.foregroundColor || "#ffffff",
       }}
     >
       {/* header area */}
@@ -36,8 +38,8 @@ const ProfileCardComponent = ({
           <ProfileBodyItem
             key={item.id}
             item={item}
-            background_color={profileData.Design?.backgroundColor || "#000000"}
-            foreground_color={profileData.Design?.foregroundColor || "#ffffff"}
+            background_color={design.backgroundColor || "#000000"}
+            foreground_color={design.foregroundColor || "#ffffff"}
           />
         ))}
       </div>

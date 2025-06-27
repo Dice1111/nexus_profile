@@ -1,6 +1,6 @@
 "use server";
 
-import { IDailyFollowerCountChartData } from "@/core/_domain/repositories/types/contact.types";
+import { IDailyFollowerCountChartData } from "@/core/_domain/types/contact-repository.types";
 import buildFetchOverviewStatisticByCardId from "@/core/_factory/controller-factory/overview/build-fetch-overview-statistic-by-card-id-controller";
 
 export interface IFetchOverviewStatisticByCardIdActionState {

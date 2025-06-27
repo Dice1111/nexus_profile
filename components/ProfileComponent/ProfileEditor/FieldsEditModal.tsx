@@ -246,11 +246,11 @@ export default function FieldsEditModal() {
   ) => {
     const newComponent = {
       id: uuidv4(),
-      card_id: card_id, // Generate unique ID
+      cardId: card_id, // Generate unique ID
       type: type,
       category: category,
       value: "",
-      display_text: "",
+      label: "",
       position: components.length - 1,
     };
 
