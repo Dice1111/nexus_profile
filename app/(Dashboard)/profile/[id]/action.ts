@@ -1,14 +1,14 @@
 "use server";
 
-import { IFetchDesignData } from "@/core/_domain/types/design-repository.types";
-import { IFetchInformationData } from "@/core/_domain/types/information-repository.types";
-import { IFetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
+import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
+import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 import { buildFetchProfileCardDataController } from "@/core/_factory/controller-factory/card/build-fetch-profile-card-data-controller";
 
 export async function fetchCardDataAction(cardId: string): Promise<{
-  information: IFetchInformationData | null;
-  design: IFetchDesignData | null;
-  profileComponents: IFetchProfileComponentData[];
+  information: FetchInformationData | null;
+  design: FetchDesignData | null;
+  profileComponents: FetchProfileComponentData[];
 }> {
   try {
     const fetchProfileCardDataController =

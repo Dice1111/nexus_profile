@@ -1,12 +1,12 @@
 "use client";
 
-import { IFetchDesignData } from "@/core/_domain/types/design-repository.types";
-import { IFetchInformationData } from "@/core/_domain/types/information-repository.types";
+import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
 
 interface InitialProfileCardComponentProps {
-  design: IFetchDesignData;
-  information: IFetchInformationData;
+  design: FetchDesignData;
+  information: FetchInformationData;
 }
 
 const InitialProfileCardComponent = ({

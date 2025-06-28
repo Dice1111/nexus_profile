@@ -1,5 +1,5 @@
 import { ICardRepository } from "@/core/_domain/repositories/ICardRepository";
-import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/types/card-repository.types";
+import { CardWithInformationAndDesignData } from "@/core/_domain/types/card-repository.types";
 import { IAuthenticationService } from "@/core/_domain/services/IAuthentication.service";
 
 export type IFetchCardWithInformationAndDesignByUserIdUsecase = ReturnType<
@@ -11,7 +11,7 @@ export const fetchCardWithInformationAndDesignByUserIdUsecase =
     cardRepository: ICardRepository,
     authenticationService: IAuthenticationService
   ) =>
-  async (): Promise<IFetchCardWithInformationAndDesignData[]> => {
+  async (): Promise<CardWithInformationAndDesignData[]> => {
     const userID = await authenticationService.getSession();
 
     const cardData = await cardRepository.fetchWithInformationAndDesignByUserID(

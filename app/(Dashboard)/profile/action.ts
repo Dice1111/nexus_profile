@@ -1,11 +1,11 @@
 "use server";
 
-import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/types/card-repository.types";
+import { CardWithInformationAndDesignData } from "@/core/_domain/types/card-repository.types";
 import { buildFetchInitialUserCardsController } from "@/core/_factory/controller-factory/card/build-fetch-initial-user-cards-controller";
 
 export async function getUserInitialCardsDataAction(_prevState: {
   success: boolean;
-  data: IFetchCardWithInformationAndDesignData[];
+  data: CardWithInformationAndDesignData[];
 }) {
   try {
     const fetchInitialUserCardsController =

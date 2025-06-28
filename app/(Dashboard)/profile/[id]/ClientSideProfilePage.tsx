@@ -8,9 +8,9 @@ import ProfileEditor from "@/components/ProfileComponent/ProfileEditor/ProfileEd
 import QRButton from "@/components/QRCodeButton/QRButton";
 import { Button } from "@/components/ui/button";
 import { ProfileContext } from "@/context/profileContext";
-import { IFetchDesignData } from "@/core/_domain/types/design-repository.types";
-import { IFetchInformationData } from "@/core/_domain/types/information-repository.types";
-import { IFetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
+import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
+import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
 import { useState } from "react";
@@ -22,9 +22,9 @@ import { z } from "zod";
 
 interface ProfileProps {
   profileCardData: {
-    profileComponents: IFetchProfileComponentData[];
-    information: IFetchInformationData | null;
-    design: IFetchDesignData | null;
+    profileComponents: FetchProfileComponentData[];
+    information: FetchInformationData | null;
+    design: FetchDesignData | null;
   };
 }
 
@@ -79,14 +79,14 @@ export default function ClientSideProfilePage({
   profileCardData,
 }: ProfileProps) {
   // Fetch from database
-  const [components, setComponents] = useState<IFetchProfileComponentData[]>(
+  const [components, setComponents] = useState<FetchProfileComponentData[]>(
     profileCardData.profileComponents ||
       profileCardDataDefault.profileComponents
   );
-  const [information, setInformation] = useState<IFetchInformationData>(
+  const [information, setInformation] = useState<FetchInformationData>(
     profileCardData.information || profileCardDataDefault.information
   );
-  const [design, setDesign] = useState<IFetchDesignData>(
+  const [design, setDesign] = useState<FetchDesignData>(
     profileCardData.design || profileCardDataDefault.design
   );
 

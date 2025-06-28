@@ -1,14 +1,14 @@
 import { IUpdateTagOrNoteData } from "@/schema/contact/update-contact-or-delete.schema";
 import { IContactFilter } from "../types/search-params-handler-service.type";
 import {
-  IContactOrganizedSearchParams,
+  ContactOrganizedSearchParams,
   ICreateContactData,
   IRawContactWithSpecificCardData,
 } from "../types/contact-repository.types";
 
 export interface IContactRepository {
   fetchWithSpecificCardDataBySearchParams(
-    data: IContactOrganizedSearchParams
+    data: ContactOrganizedSearchParams
   ): Promise<IRawContactWithSpecificCardData[]>;
 
   fetchTotalCountBySearchParams(data: IContactFilter): Promise<number>;
