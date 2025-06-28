@@ -1,6 +1,6 @@
 import { DatabaseOperationError } from "@/core/_domain/errors/common.error";
 import { IInformationRepository } from "@/core/_domain/repositories/IInformationRepository";
-import { IFetchInformationData } from "@/core/_domain/types/information-repository.types";
+import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
 import { prisma } from "../prisma/prisma-client";
 
 export class InformationRepository implements IInformationRepository {
@@ -14,7 +14,7 @@ export class InformationRepository implements IInformationRepository {
     throw new Error("Method not implemented.");
   }
 
-  async fetch(cardId: string): Promise<IFetchInformationData | null> {
+  async fetch(cardId: string): Promise<FetchInformationData | null> {
     console.log("cardId", cardId);
 
     try {

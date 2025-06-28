@@ -1,11 +1,11 @@
 // import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
-import { IFetchDesignData } from "@/core/_domain/types/design-repository.types";
-import { IFetchInformationData } from "@/core/_domain/types/information-repository.types";
+import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
 import Image from "next/image";
 
 interface ProfileLayoutOneProps {
-  design: IFetchDesignData;
-  information: IFetchInformationData;
+  design: FetchDesignData;
+  information: FetchInformationData;
 }
 
 const ProfileLayoutOne = ({ design, information }: ProfileLayoutOneProps) => {

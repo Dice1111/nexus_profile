@@ -4,14 +4,14 @@ import React, { startTransition, useActionState, useEffect } from "react";
 
 import Link from "next/link";
 import { getUserInitialCardsDataAction } from "./action";
-import { IFetchCardWithInformationAndDesignData } from "@/core/_domain/types/card-repository.types";
+import { CardWithInformationAndDesignData } from "@/core/_domain/types/card-repository.types";
 import InitialProfileCardComponent from "@/components/ProfileComponent/InitialProfileCard/InitialProfileCard";
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 
 const page = () => {
   const initialData: {
     success: boolean;
-    data: IFetchCardWithInformationAndDesignData[];
+    data: CardWithInformationAndDesignData[];
   } = {
     success: false,
     data: [],
@@ -35,7 +35,7 @@ const page = () => {
       ) : (
         <div className="flex gap-1 justify-center flex-wrap">
           {initialCardsState.data.map(
-            (card: IFetchCardWithInformationAndDesignData) => (
+            (card: CardWithInformationAndDesignData) => (
               <div
                 key={card.id}
                 className="hover:scale-105 transform transition ease-in"

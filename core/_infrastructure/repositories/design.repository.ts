@@ -1,7 +1,7 @@
 import { DatabaseOperationError } from "@/core/_domain/errors/common.error";
 import { DesignModel } from "@/core/_domain/models/design.model";
 import { IDesignRepository } from "@/core/_domain/repositories/IDesignRepository";
-import { IFetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
 import { prisma } from "../prisma/prisma-client";
 
 export class DesignRepository implements IDesignRepository {
@@ -14,7 +14,7 @@ export class DesignRepository implements IDesignRepository {
   delete(): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  async fetch(cardId: string): Promise<IFetchDesignData | null> {
+  async fetch(cardId: string): Promise<FetchDesignData | null> {
     try {
       const data = await prisma.design.findUnique({
         where: { cardId: cardId },

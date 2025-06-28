@@ -5,7 +5,7 @@ import {
 import { prisma } from "../prisma/prisma-client";
 import { DatabaseOperationError } from "@/core/_domain/errors/common.error";
 import { IProfileComponentRepository } from "@/core/_domain/repositories/IProfileComponentRepository";
-import { IFetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
+import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 
 export class ProfileComponentRepository implements IProfileComponentRepository {
   async create(): Promise<void> {
@@ -17,7 +17,7 @@ export class ProfileComponentRepository implements IProfileComponentRepository {
   async delete(): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  async fetch(cardId: string): Promise<IFetchProfileComponentData[]> {
+  async fetch(cardId: string): Promise<FetchProfileComponentData[]> {
     try {
       const data = await prisma.profileComponent.findMany({
         where: { cardId: cardId },

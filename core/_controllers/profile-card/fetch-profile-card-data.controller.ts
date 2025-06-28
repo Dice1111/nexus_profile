@@ -1,9 +1,9 @@
 import { IFetchDesignWithCardIdUseCase } from "@/core/_application/use-cases/card/fetch-design-with-card-id.usecase";
 import { IFetchInformationWithCardIdUseCase } from "@/core/_application/use-cases/card/fetch-information-with-card-id.usecase";
 import { IFetchProfileComponentsWithCardIdUseCase } from "@/core/_application/use-cases/card/fetch-profile-components-with-card-id.usecase";
-import { IFetchDesignData } from "@/core/_domain/types/design-repository.types";
-import { IFetchInformationData } from "@/core/_domain/types/information-repository.types";
-import { IFetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
+import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
+import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 
 export const fetchProfileCardDataController =
   (
@@ -14,9 +14,9 @@ export const fetchProfileCardDataController =
   async (
     cardID: string
   ): Promise<{
-    information: IFetchInformationData | null;
-    design: IFetchDesignData | null;
-    profileComponents: IFetchProfileComponentData[];
+    information: FetchInformationData | null;
+    design: FetchDesignData | null;
+    profileComponents: FetchProfileComponentData[];
   }> => {
     const [information, design, profileComponents] = await Promise.all([
       fetchInformationWithCardIdUseCase(cardID),
