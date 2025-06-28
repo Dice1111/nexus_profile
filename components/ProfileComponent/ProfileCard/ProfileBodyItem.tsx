@@ -2,7 +2,6 @@ import {
   PROFILE_COMPONENT_CATEGORY,
   PROFILE_COMPONENT_TYPE,
 } from "@/core/_domain/enum/profile-component-repository.enum";
-import { ProfileComponentModel } from "@/core/_domain/models/profile-component.model";
 import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 import { typeIconMap } from "@/lib/icon";
 

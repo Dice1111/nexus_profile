@@ -1,7 +1,4 @@
 import { ProfileDndComponentSchemaType } from "@/components/ProfileComponent/EditProfileCard/DragAndDropComponent/ProfileDndInputSchema";
-import { DesignModel } from "@/core/_domain/models/design.model";
-import { InformationModel } from "@/core/_domain/models/information.model";
-import { ProfileComponentModel } from "@/core/_domain/models/profile-component.model";
 import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
 import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
 import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";

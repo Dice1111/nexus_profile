@@ -12,14 +12,14 @@ import {
 //   svgWaveLayoutData,
 //   svgWaveLayouts,
 // } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
+import { PROFILE_LAYOUT } from "@/core/_domain/enum/design-repository.enum";
+import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
 import _throttle from "lodash/throttle";
+import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import { GrFormCheckmark } from "react-icons/gr";
-import Image from "next/image";
-import { ProfileCard } from "@/lib/types/types";
-import { PROFILE_LAYOUT } from "@/lib/types/enums";
 
 /** Reusable Image Upload Component */
 function ImageUpload({
@@ -27,20 +27,20 @@ function ImageUpload({
   keyName,
 }: {
   label: string;
-  keyName: "image" | "logo_icon";
+  keyName: "profileImage" | "logoImage";
 }) {
   const context = useProfileContext();
 
   const default_profile = "/image/default-profile.jpg";
 
-  const { profileData, setProfileData } = context;
+  const { design, setDesign } = context;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const fileUrl = URL.createObjectURL(file); // Generate preview URL
-      const updatedData = { ...profileData, [keyName]: fileUrl };
-      setProfileData(updatedData);
+      const updatedDesign = { ...design, [keyName]: fileUrl };
+      setDesign(updatedDesign);
     }
   };
 
@@ -53,7 +53,7 @@ function ImageUpload({
           className="relative flex flex-col items-center justify-center w-32 h-32 rounded-full cursor-pointer transition-all"
         >
           <Image
-            src={profileData[keyName] || default_profile}
+            src={design[keyName] || default_profile}
             alt={label}
             width={1000}
             height={1000}
@@ -75,7 +75,7 @@ function ImageUpload({
 export default function DesignEditModal() {
   const context = useProfileContext();
 
-  const { profileData, setProfileData } = context;
+  const { design, setDesign } = context;
 
   // const prev_wave = profileData.wave_type;
 
@@ -87,7 +87,7 @@ export default function DesignEditModal() {
   //   useState<string>(prev_wave);
 
   const [selectedProfileLayout, setSelectedProfileLayout] = useState<string>(
-    profileData.layout
+    design.layout
   );
   const [selectedElement, setSelectedElement] = useState<ColorableElement>(
     ColorableElement.BACKGROUND
@@ -101,8 +101,8 @@ export default function DesignEditModal() {
   // };
 
   const handleProfileLayoutSelect = (layout: PROFILE_LAYOUT) => {
-    const updateProfileData = { ...profileData, ["layout"]: layout };
-    setProfileData(updateProfileData);
+    const updatedDesign = { ...design, ["layout"]: layout };
+    setDesign(updatedDesign);
     setSelectedProfileLayout(layout);
   };
 
@@ -112,34 +112,36 @@ export default function DesignEditModal() {
 
   const updateElementColor = useCallback(
     (color: string, selectedElement: ColorableElement) => {
-      setProfileData((prevProfileData: ProfileCard) => {
-        const newUpdateProfile = { ...prevProfileData };
+      setDesign((prevDesign: FetchDesignData) => {
+        const updatedDesign = { ...prevDesign };
 
         // Update only if the color has changed for the selected element
         if (
           selectedElement === ColorableElement.BACKGROUND &&
-          newUpdateProfile.background_color !== color
+          updatedDesign.backgroundColor !== color
         ) {
-          newUpdateProfile.background_color = color;
+          updatedDesign.backgroundColor = color;
         } else if (
           selectedElement === ColorableElement.FOREGROUND &&
-          newUpdateProfile.foreground_color !== color
+          updatedDesign.foregroundColor !== color
         ) {
-          newUpdateProfile.foreground_color = color;
-        } else if (
-          selectedElement === ColorableElement.WAVE &&
-          newUpdateProfile.wave_color !== color
-        ) {
-          newUpdateProfile.wave_color = color;
-        } else {
+          updatedDesign.foregroundColor = color;
+        }
+        // } else if (
+        //   selectedElement === ColorableElement.WAVE &&
+        //   updatedDesign.wave_color !== color
+        // ) {
+        //   updatedDesign.wave_color = color;
+        // }
+        else {
           // If no changes, return the same object to avoid unnecessary updates
-          return prevProfileData;
+          return prevDesign;
         }
 
-        return newUpdateProfile;
+        return updatedDesign;
       });
     },
-    [setProfileData]
+    [setDesign]
   );
 
   const handleColorSelect = useCallback(
@@ -161,13 +163,14 @@ export default function DesignEditModal() {
 
   useEffect(() => {
     if (selectedElement === ColorableElement.BACKGROUND) {
-      handleColorSelect(profileData.background_color);
+      handleColorSelect(design.backgroundColor);
     } else if (selectedElement === ColorableElement.FOREGROUND) {
-      handleColorSelect(profileData.foreground_color);
-    } else if (selectedElement === ColorableElement.WAVE) {
-      handleColorSelect(profileData.wave_color);
+      handleColorSelect(design.foregroundColor);
     }
-  }, [selectedElement, profileData, handleColorSelect]);
+    // else if (selectedElement === ColorableElement.WAVE) {
+    //   handleColorSelect(design.wave_color);
+    // }
+  }, [selectedElement, design, handleColorSelect]);
 
   const throttledUpdate = useMemo(
     () =>
@@ -184,10 +187,10 @@ export default function DesignEditModal() {
       <h1 className="text-2xl font-thin">Design</h1>
 
       {/* Profile Photo */}
-      <ImageUpload label="Profile Photo" keyName="image" />
+      <ImageUpload label="Profile Photo" keyName="profileImage" />
 
       {/* Logo */}
-      <ImageUpload label="Logo" keyName="logo_icon" />
+      <ImageUpload label="Logo" keyName="logoImage" />
 
       {/* Profile Layout */}
       <div>

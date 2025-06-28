@@ -1,13 +1,15 @@
 // import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
-import { ProfileCard } from "@/lib/types/types";
+import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
 
 import Image from "next/image";
 
 interface ProfileLayoutTwoProps {
-  profileData: ProfileCard;
+  design: FetchDesignData;
+  information: FetchInformationData;
 }
 
-const ProfileLayoutTwo = ({ profileData }: ProfileLayoutTwoProps) => {
+const ProfileLayoutTwo = ({ design, information }: ProfileLayoutTwoProps) => {
   const default_profile = "/image/default-profile.jpg";
 
   return (
@@ -15,7 +17,7 @@ const ProfileLayoutTwo = ({ profileData }: ProfileLayoutTwoProps) => {
       <div className="w-full h-40 relative overflow-hidden">
         {/* Profile Picture */}
         <Image
-          src={profileData.image || default_profile}
+          src={design.profileImage || default_profile}
           alt="Profile Picture"
           width={1000}
           height={1000}
@@ -23,8 +25,8 @@ const ProfileLayoutTwo = ({ profileData }: ProfileLayoutTwoProps) => {
         />
         {/* <div className="absolute -bottom-10 w-full ">
           {
-            svgWaveLayoutData(profileData.wave_color)[
-              profileData.wave_type as keyof typeof svgWaveLayoutData
+            svgWaveLayoutData(design.wave_color)[
+              design.wave_type as keyof typeof svgWaveLayoutData
             ]
           }
         </div> */}
@@ -36,7 +38,7 @@ const ProfileLayoutTwo = ({ profileData }: ProfileLayoutTwoProps) => {
         {/* absoluopacity-80 -top-10 right-2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg */}
         <div className="absolute  -top-10 right-1/2 translate-x-1/2 w-[80px] h-[80px] rounded-full overflow-hidden shadow-lg">
           <Image
-            src={profileData.logo_icon || default_profile}
+            src={design.logoImage || default_profile}
             alt="Logo Icon"
             width={1000}
             height={1000}
@@ -45,20 +47,20 @@ const ProfileLayoutTwo = ({ profileData }: ProfileLayoutTwoProps) => {
         </div>
 
         <h2 className="text-2xl font-semibold">
-          {profileData.prefix} {profileData.first_name}{" "}
-          {profileData.middle_name} {profileData.last_name} {profileData.suffix}
+          {information.prefix} {information.fullName}
+          {information.suffix}
         </h2>
-        <p className="text-xl font-thin mt-2">{profileData.title}</p>
-        <p className="text-xl font-thin">{profileData.occupation}</p>
+        <p className="text-xl font-thin mt-2">{information.title}</p>
+        <p className="text-xl font-thin">{information.occupation}</p>
 
-        <p className="text-md opacity-80 mt-2">{profileData.company}</p>
-        <p className="text-sm opacity-80">{profileData.quote}</p>
+        <p className="text-md opacity-80 mt-2">{information.company}</p>
+        <p className="text-sm opacity-80">{information.quote}</p>
 
         <p className="text-sm text-end mt-2 font-thin italic opacity-80">
-          Goes by - {profileData.preferred_name} <br />
-          {profileData.pronouns}
+          Goes by - {information.preferredName} <br />
+          {information.pronouns}
         </p>
-        <p className="text-sm mt-1">{profileData.message}</p>
+        <p className="text-sm mt-1">{information.message}</p>
       </div>
     </div>
   );

@@ -3,16 +3,16 @@
 import React, { startTransition, useActionState, useEffect } from "react";
 
 import Link from "next/link";
-import { getUserInitialCardsDataAction } from "./action";
+import {
+  getUserInitialCardsDataAction,
+  IGetUserInitialCardsDataActionState,
+} from "./action";
 import { CardWithInformationAndDesignData } from "@/core/_domain/types/card-repository.types";
 import InitialProfileCardComponent from "@/components/ProfileComponent/InitialProfileCard/InitialProfileCard";
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 
 const page = () => {
-  const initialData: {
-    success: boolean;
-    data: CardWithInformationAndDesignData[];
-  } = {
+  const initialData: IGetUserInitialCardsDataActionState = {
     success: false,
     data: [],
   };
