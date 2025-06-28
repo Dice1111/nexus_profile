@@ -388,7 +388,11 @@ async function main() {
         backgroundColor: faker.color.rgb(),
         profileImage: "/image/profile.jpg",
         logoImage: "/image/profile.jpg",
-        layout: "LAYOUT_ONE",
+        layout: faker.helpers.arrayElement([
+          "LAYOUT_ONE",
+          "LAYOUT_TWO",
+          "LAYOUT_THREE",
+        ]),
       },
     });
     console.log("done with design for " + card.id);

@@ -26,14 +26,14 @@ export const profileLayoutData = (
   ),
 });
 
-// export enum ColorableElement {
-//   BACKGROUND = "BACKGROUND",
-//   FOREGROUND = "FOREGROUND",
-//   WAVE = "WAVE",
-// }
+export enum ColorableElement {
+  BACKGROUND = "BACKGROUND",
+  FOREGROUND = "FOREGROUND",
+  WAVE = "WAVE",
+}
 
-// export const colorableElements = [
-//   ColorableElement.BACKGROUND,
-//   ColorableElement.FOREGROUND,
-//   //ColorableElement.WAVE,
-// ];
+export const colorableElements = [
+  ColorableElement.BACKGROUND,
+  ColorableElement.FOREGROUND,
+  //ColorableElement.WAVE,
+];

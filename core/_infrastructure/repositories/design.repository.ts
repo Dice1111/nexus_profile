@@ -3,6 +3,7 @@ import { DesignModel } from "@/core/_domain/models/design.model";
 import { IDesignRepository } from "@/core/_domain/repositories/IDesignRepository";
 import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
 import { prisma } from "../prisma/prisma-client";
+import { PROFILE_LAYOUT } from "@/core/_domain/enum/design-repository.enum";
 
 export class DesignRepository implements IDesignRepository {
   create(): Promise<void> {
@@ -30,8 +31,14 @@ export class DesignRepository implements IDesignRepository {
       });
 
       console.log("design", data);
-
-      return data;
+      if (data) {
+        const fixData = {
+          ...data,
+          layout: data.layout as PROFILE_LAYOUT,
+        };
+        return fixData;
+      }
+      return null;
     } catch (error) {
       throw new DatabaseOperationError("Failed to fetch design", {
         cause: error,

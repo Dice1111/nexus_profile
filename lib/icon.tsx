@@ -1,4 +1,4 @@
-import { PROFILE_COMPONENT_TYPE } from "@/lib/types/enums";
+import { PROFILE_COMPONENT_TYPE } from "@/core/_domain/enum/profile-component-repository.enum";
 import { BsFiletypePdf } from "react-icons/bs";
 import {
   FaAmazon,

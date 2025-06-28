@@ -12,11 +12,11 @@ const Page = async (props: Props) => {
 
   const profileCardData = await fetchCardDataAction(searchParams.id);
 
-  console.log("profileCardData", profileCardData);
+  console.log("profileCardData", profileCardData.profileData);
 
   return (
     <>
-      <ClientSideProfilePage profileCardData={profileCardData} />
+      <ClientSideProfilePage profileCardData={profileCardData.profileData} />
     </>
   );
 };

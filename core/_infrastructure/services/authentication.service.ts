@@ -17,6 +17,6 @@ export class AuthenticationService implements IAuthenticationService {
 
   async getSession(): Promise<string> {
     //dummy
-    return "d31305ec-9aa7-40e0-8aa4-1c11ee868172";
+    return "d1feb662-95a8-4097-bcd4-1f58f92632e9";
   }
 }
