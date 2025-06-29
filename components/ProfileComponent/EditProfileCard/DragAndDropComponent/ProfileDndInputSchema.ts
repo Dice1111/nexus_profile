@@ -19,7 +19,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.IMAGE),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.IMAGE),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z.string().min(1, "Image cannot be empty"),
     file: z.instanceof(File).optional(),
   }),
@@ -28,7 +28,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.HEADING),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.TEXT),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z.string().min(1, "Text cannot be empty"),
   }),
 
@@ -36,7 +36,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.PARAGRAPH),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.TEXT),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z.string().min(1, "Text cannot be empty"),
   }),
 
@@ -44,7 +44,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.EMAIL),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.MAIL),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .email("Invalid email address")
@@ -55,7 +55,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.LINK),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z.string().url("Invalid URL").min(1, "Value cannot be empty"),
   }),
 
@@ -63,7 +63,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.MAP),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.MAP),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z.string().min(1, "Address cannot be empty"),
   }),
 
@@ -71,7 +71,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.GITHUB),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid GitHub URL")
@@ -85,7 +85,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.LINKEDIN),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid LinkedIn URL")
@@ -102,7 +102,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.FACEBOOK),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Facebook URL")
@@ -119,7 +119,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.INSTAGRAM),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Instagram URL")
@@ -136,7 +136,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.TWITTER),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Twitter URL")
@@ -150,7 +150,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.TIKTOK),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid TikTok URL")
@@ -164,7 +164,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.SNAPCHAT),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Snapchat URL")
@@ -175,7 +175,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.PINTEREST),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Pinterest URL")
@@ -195,7 +195,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.DISCORD),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z.string().refine((handle) => /^.{3,32}#[0-9]{4}$/.test(handle), {
       message:
         "Discord handle must be in the format: username#1234, where 'username' is 3-32 characters and the discriminator is 4 digits.",
@@ -206,7 +206,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.DRIBBBLE),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Dribbble URL")
@@ -220,7 +220,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.BEHANCE),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Behance URL")
@@ -237,7 +237,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.YOUTUBE),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid YouTube URL")
@@ -257,7 +257,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.PHONE),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.PHONE),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .regex(/^\d{10,15}$/, "Phone number must be between 10 and 15 digits"),
@@ -267,7 +267,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.WHATSAPP),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .regex(
@@ -280,7 +280,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.TELEGRAM),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .regex(
@@ -293,7 +293,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.ZOOM),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Zoom meeting link")
@@ -307,7 +307,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.GOOGLE_MEET),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Google Meet link")
@@ -325,7 +325,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.MICROSOFT_TEAMS),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Microsoft Teams meeting link")
@@ -343,7 +343,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.PAYPAL),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid PayPal link")
@@ -357,7 +357,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.AMAZON_PAY),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Amazon Pay link")
@@ -371,7 +371,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.APPLE_PAY),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Apple Pay link")
@@ -385,7 +385,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.TWITCH),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.LINK),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Twitch URL")
@@ -399,7 +399,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.FACEBOOK_POST),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z.string(),
   }),
 
@@ -407,7 +407,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.INSTAGRAM_POST),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Instagram URL")
@@ -421,7 +421,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.TWITTER_POST),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid Twitter URL")
@@ -441,7 +441,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.TIKTOK_POST),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid TikTok URL")
@@ -461,7 +461,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.LINKEDIN_POST),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid LinkedIn URL")
@@ -475,7 +475,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.YOUTUBE_POST),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z
       .string()
       .url("Invalid YouTube URL")
@@ -493,7 +493,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.MICROSOFT_WORD),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.FILE),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z.string().min(1, "Value cannot be empty"),
   }),
 
@@ -501,7 +501,7 @@ export const profileDndInputSchema = z.discriminatedUnion("type", [
   baseComponentSchema.extend({
     type: z.literal(PROFILE_COMPONENT_TYPE.PDF),
     category: z.literal(PROFILE_COMPONENT_CATEGORY.FILE),
-    label: z.string().optional(),
+    label: z.string().nullable(),
     value: z.string().min(1, "Value cannot be empty"),
   }),
 ]);

@@ -1,32 +1,13 @@
-export interface ICardWithTitleAndID {
-  id: string;
-  title: string;
-}
+import { CardModel } from "../models/card.model";
+import { DesignModel } from "../models/design.model";
+import { InformationModel } from "../models/information.model";
 
-export interface IFetchCardWithInformationAndDesignData {
-  id: string;
-  title: string | null;
-  Information: {
-    id: number;
-    cardId: string;
-    title: string | null;
-    fullName: string;
-    occupation: string | null;
-    company: string | null;
-    message: string | null;
-    quote: string | null;
-    prefix: string | null;
-    suffix: string | null;
-    preferredName: string | null;
-    pronouns: string | null;
-  } | null;
-  Design: {
-    id: number;
-    cardId: string;
-    foregroundColor: string;
-    backgroundColor: string;
-    profileImage: string | null;
-    logoImage: string | null;
-    layout: string;
-  } | null;
-}
+export type CardWithTitleAndID = Pick<CardModel, "id" | "title">;
+
+export type CardWithInformationAndDesignData = Pick<
+  CardModel,
+  "id" | "title"
+> & {
+  Information: Omit<InformationModel, "createdAt" | "updatedAt"> | null;
+  Design: Omit<DesignModel, "createdAt" | "updatedAt"> | null;
+};

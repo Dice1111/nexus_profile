@@ -2,8 +2,7 @@ import {
   PROFILE_COMPONENT_CATEGORY,
   PROFILE_COMPONENT_TYPE,
 } from "@/core/_domain/enum/profile-component-repository.enum";
-import { ProfileComponentModel } from "@/core/_domain/models/profile-component.model";
-import { IFetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
+import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 import { typeIconMap } from "@/lib/icon";
 
 import dynamic from "next/dynamic";
@@ -15,7 +14,7 @@ const SocialEmbed = dynamic(() => import("./SocialEmbed"), {
 });
 
 interface ProfileBodyItemProps {
-  item: IFetchProfileComponentData;
+  item: FetchProfileComponentData;
   background_color: string;
   foreground_color: string;
 }

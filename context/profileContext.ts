@@ -1,22 +1,19 @@
 import { ProfileDndComponentSchemaType } from "@/components/ProfileComponent/EditProfileCard/DragAndDropComponent/ProfileDndInputSchema";
-import { DesignModel } from "@/core/_domain/models/design.model";
-import { InformationModel } from "@/core/_domain/models/information.model";
-import { ProfileComponentModel } from "@/core/_domain/models/profile-component.model";
-import { IFetchDesignData } from "@/core/_domain/types/design-repository.types";
-import { IFetchInformationData } from "@/core/_domain/types/information-repository.types";
-import { IFetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
+import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
+import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 import React, { createContext, useContext } from "react";
 import { UseFieldArrayReturn, UseFormReturn } from "react-hook-form";
 
 export interface ProfileContextType {
-  components: IFetchProfileComponentData[];
+  components: FetchProfileComponentData[];
   setComponents: React.Dispatch<
-    React.SetStateAction<IFetchProfileComponentData[]>
+    React.SetStateAction<FetchProfileComponentData[]>
   >;
-  information: IFetchInformationData;
-  setInformation: React.Dispatch<React.SetStateAction<IFetchInformationData>>;
-  design: IFetchDesignData;
-  setDesign: React.Dispatch<React.SetStateAction<IFetchDesignData>>;
+  information: FetchInformationData;
+  setInformation: React.Dispatch<React.SetStateAction<FetchInformationData>>;
+  design: FetchDesignData;
+  setDesign: React.Dispatch<React.SetStateAction<FetchDesignData>>;
   isEditing: boolean;
   setEditing: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;

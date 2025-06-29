@@ -1,10 +1,14 @@
 import { ICardRepository } from "@/core/_domain/repositories/ICardRepository";
 import {
-  ICardWithTitleAndID,
-  IFetchCardWithInformationAndDesignData,
+  CardWithTitleAndID,
+  CardWithInformationAndDesignData,
 } from "@/core/_domain/types/card-repository.types";
 import { prisma } from "../prisma/prisma-client";
 import { DatabaseOperationError } from "@/core/_domain/errors/common.error";
+
+import { DesignModel } from "@/core/_domain/models/design.model";
+import { InformationModel } from "@/core/_domain/models/information.model";
+import { PROFILE_LAYOUT } from "@/core/_domain/enum/design-repository.enum";
 
 export class CardRepository implements ICardRepository {
   create(): Promise<void> {
@@ -16,12 +20,12 @@ export class CardRepository implements ICardRepository {
   delete(cardId: string): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  fetchByUserID(userID: string): Promise<ICardWithTitleAndID[]> {
+  fetchByUserID(userID: string): Promise<CardWithTitleAndID[]> {
     throw new Error("Method not implemented.");
   }
   async fetchWithInformationAndDesignByUserID(
     userId: string
-  ): Promise<IFetchCardWithInformationAndDesignData[]> {
+  ): Promise<CardWithInformationAndDesignData[]> {
     try {
       const data = await prisma.card.findMany({
         where: { userId: userId },
@@ -58,7 +62,19 @@ export class CardRepository implements ICardRepository {
         },
       });
 
-      return data;
+      if (data.length === 0) return [];
+
+      const fixData: CardWithInformationAndDesignData[] = data.map((item) => ({
+        ...item,
+        Design: item.Design
+          ? {
+              ...item.Design,
+              layout: item.Design.layout as PROFILE_LAYOUT,
+            }
+          : null,
+      }));
+
+      return fixData;
     } catch (error) {
       throw new DatabaseOperationError("Failed to fetch cards", {
         cause: error,

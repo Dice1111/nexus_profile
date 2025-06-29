@@ -1,14 +1,6 @@
-import {
-  PROFILE_COMPONENT_CATEGORY,
-  PROFILE_COMPONENT_TYPE,
-} from "../enum/profile-component-repository.enum";
+import { ProfileComponentModel } from "../models/profile-component.model";
 
-export interface IFetchProfileComponentData {
-  id: number;
-  cardId: string;
-  value: string;
-  label: string;
-  type: PROFILE_COMPONENT_TYPE;
-  category: PROFILE_COMPONENT_CATEGORY;
-  position: number;
-}
+export type FetchProfileComponentData = Omit<
+  ProfileComponentModel,
+  "createdAt" | "updatedAt"
+>;

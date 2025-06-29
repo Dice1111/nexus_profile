@@ -1,15 +1,15 @@
 "use client";
 
-import { IFetchDesignData } from "@/core/_domain/types/design-repository.types";
-import { IFetchInformationData } from "@/core/_domain/types/information-repository.types";
-import { IFetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
+import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
+import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
 import ProfileBodyItem from "./ProfileBodyItem";
 
 interface ProfileCardComponentProps {
-  components: IFetchProfileComponentData[];
-  design: IFetchDesignData;
-  information: IFetchInformationData;
+  components: FetchProfileComponentData[];
+  design: FetchDesignData;
+  information: FetchInformationData;
 }
 
 const ProfileCardComponent = ({

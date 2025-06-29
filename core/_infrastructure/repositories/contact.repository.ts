@@ -10,7 +10,7 @@ import {
 } from "@/core/_domain/errors/common.error";
 import { IContactRepository } from "@/core/_domain/repositories/IContactRepository";
 import {
-  IContactOrganizedSearchParams,
+  ContactOrganizedSearchParams,
   ICreateContactData,
   IRawContactWithSpecificCardData,
 } from "@/core/_domain/types/contact-repository.types";
@@ -129,7 +129,7 @@ export class ContactRepository implements IContactRepository {
     }
   }
   async fetchWithSpecificCardDataBySearchParams(
-    data: IContactOrganizedSearchParams
+    data: ContactOrganizedSearchParams
   ): Promise<IRawContactWithSpecificCardData[]> {
     try {
       const offset = (data.requestPage - 1) * data.itemsPerPage;

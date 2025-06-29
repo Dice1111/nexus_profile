@@ -1,9 +1,3 @@
-export interface IFetchDesignData {
-  id: number;
-  cardId: string;
-  foregroundColor: string;
-  backgroundColor: string;
-  profileImage: string | null;
-  logoImage: string | null;
-  layout: string;
-}
+import { DesignModel } from "../models/design.model";
+
+export type FetchDesignData = Omit<DesignModel, "createdAt" | "updatedAt">;

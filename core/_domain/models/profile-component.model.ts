@@ -1,7 +1,7 @@
 import {
   PROFILE_COMPONENT_CATEGORY,
   PROFILE_COMPONENT_TYPE,
-} from "@/lib/types/enums";
+} from "../enum/profile-component-repository.enum";
 
 export interface ProfileComponentModel {
   id: number;
