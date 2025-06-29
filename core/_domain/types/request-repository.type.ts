@@ -1,3 +1,6 @@
+import { DesignModel } from "../models/design.model";
+import { InformationModel } from "../models/information.model";
+import { RequestModel } from "../models/request.model";
 import {
   IRequestFilter,
   IRequestSort,
@@ -10,33 +13,15 @@ export interface IRequestOrganizedSearchParams {
   sortClauseRequirement: IRequestSort;
 }
 
-export interface IRawRequestWithSpecificCardData {
-  id: number;
-  cardId: string;
-  senderCardId: string;
-  createdAt: Date;
-  updatedAt: Date;
+export type RequestWithSpecificCardData = RequestModel & {
   SenderCard: {
-    Information: {
-      fullName: string;
-      occupation: string | null;
-      company: string | null;
-    } | null;
+    Information: Pick<InformationModel, "fullName" | "occupation" | "company">;
+    Design: Pick<DesignModel, "profileImage">;
   };
-}
-export interface IRequestWithSpecificCardData {
-  id: number;
-  cardId: string;
-  senderCardId: string;
-  createdAt: string;
-  updatedAt: string;
-  fullName: string;
-  occupation: string | null;
-  company: string | null;
-}
+};
 
 export interface IRequestWithPaginationData {
-  requests: IRequestWithSpecificCardData[];
+  requests: RequestWithSpecificCardData[];
   totalCount: number;
   totalPage: number;
   currentPage: number;

@@ -1,6 +1,6 @@
 import { IContactRepository } from "@/core/_domain/repositories/IContactRepository";
 
-export type IFetchTotalFollowerCountByCardIdUseCase = ReturnType<
+export type FetchTotalFollowerCountByCardIdUseCase = ReturnType<
   typeof fetchTotalFollowerCountByCardIdUseCase
 >;
 

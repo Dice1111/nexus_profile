@@ -1,19 +1,19 @@
-import { IFetchContactsWithSpecificCardDataBySearchParamsUseCase } from "@/core/_application/use-cases/contact/fetch-contacts-with-specific-card-data-by-search-params.use-case";
-import { IFetchTotalContactCountBySearchParamsUseCase } from "@/core/_application/use-cases/contact/fetch-total-contact-count-by-search-params.use-case";
-import { IContactWithPaginationData } from "@/core/_domain/types/contact-repository.types";
+import { FetchContactsWithSpecificCardDataBySearchParamsUseCase } from "@/core/_application/use-cases/contact/fetch-contacts-with-specific-card-data-by-search-params.use-case";
+import { FetchTotalContactCountBySearchParamsUseCase } from "@/core/_application/use-cases/contact/fetch-total-contact-count-by-search-params.use-case";
+import { IContactWithPaginationResponse } from "@/core/_domain/types/contact-repository.types";
 import { ISearchParamsHandlerService } from "@/core/_domain/services/ISearchParamsHandler.service";
 import { IRawSearchParams } from "@/core/_domain/types/search-params-handler-service.type";
 
 export const fetchContactsWithPaginationDataBySearchParamsController =
   (
-    fetchContactsWithSpecificCardDataBySearchParamsUseCase: IFetchContactsWithSpecificCardDataBySearchParamsUseCase,
-    fetchTotalContactCountBySearchParamsUseCase: IFetchTotalContactCountBySearchParamsUseCase,
+    fetchContactsWithSpecificCardDataBySearchParamsUseCase: FetchContactsWithSpecificCardDataBySearchParamsUseCase,
+    fetchTotalContactCountBySearchParamsUseCase: FetchTotalContactCountBySearchParamsUseCase,
     searchParamsHandlerService: ISearchParamsHandlerService
   ) =>
   async (
     rawSearchParams: IRawSearchParams,
     itemsPerPage: number
-  ): Promise<IContactWithPaginationData> => {
+  ): Promise<IContactWithPaginationResponse> => {
     const parsedSearchParams =
       searchParamsHandlerService.parseSearchParams(rawSearchParams);
     const sanitizedSearchParams =

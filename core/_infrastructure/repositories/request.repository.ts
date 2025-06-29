@@ -1,7 +1,7 @@
 import { IRequestRepository } from "@/core/_domain/repositories/IRequestRepository";
 import {
   IRequestOrganizedSearchParams,
-  IRawRequestWithSpecificCardData,
+  RequestWithSpecificCardData,
 } from "@/core/_domain/types/request-repository.type";
 import {
   IRequestFilter,
@@ -47,14 +47,24 @@ export class RequestRepository implements IRequestRepository {
 
   async fetchWithSpecificCardDataBySearchParams(
     data: IRequestOrganizedSearchParams
-  ): Promise<IRawRequestWithSpecificCardData[]> {
+  ): Promise<RequestWithSpecificCardData[]> {
     try {
       const offset = (data.requestPage - 1) * data.itemsPerPage;
 
       const whereClause = this.buildWhereClause(data.whereClauseRequirement);
       const orderByClause = this.buildOrderClause(data.sortClauseRequirement);
       const rawRequests = await prisma.request.findMany({
-        where: whereClause,
+        where: {
+          ...whereClause,
+          SenderCard: {
+            Design: {
+              isNot: null,
+            },
+            Information: {
+              isNot: null,
+            },
+          },
+        },
         orderBy: orderByClause,
         skip: offset,
         take: data.itemsPerPage,
@@ -68,12 +78,28 @@ export class RequestRepository implements IRequestRepository {
                   company: true,
                 },
               },
+              Design: {
+                select: {
+                  profileImage: true,
+                },
+              },
             },
           },
         },
       });
 
-      return rawRequests;
+      const fixData: RequestWithSpecificCardData[] = rawRequests.map(
+        (item) => ({
+          ...item,
+          SenderCard: {
+            ...item.SenderCard!,
+            Information: item.SenderCard!.Information!,
+            Design: item.SenderCard!.Design!,
+          },
+        })
+      );
+
+      return fixData;
     } catch (error) {
       throw new DatabaseOperationError("Failed to fetch Requests", {
         cause: error,

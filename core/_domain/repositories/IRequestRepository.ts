@@ -1,13 +1,13 @@
 import { IRequestFilter } from "../types/search-params-handler-service.type";
 import {
-  IRawRequestWithSpecificCardData,
+  RequestWithSpecificCardData,
   IRequestOrganizedSearchParams,
 } from "../types/request-repository.type";
 
 export interface IRequestRepository {
   fetchWithSpecificCardDataBySearchParams(
     data: IRequestOrganizedSearchParams
-  ): Promise<IRawRequestWithSpecificCardData[]>;
+  ): Promise<RequestWithSpecificCardData[]>;
 
   fetchTotalCountBySearchParams(data: IRequestFilter): Promise<number>;
   delete(requestId: number): Promise<void>;

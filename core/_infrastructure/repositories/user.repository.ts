@@ -29,7 +29,6 @@ export class UserRepository implements IUserRepository {
     }
   }
   async fetchUserSettingDataById(id: string): Promise<UserSettingResponse> {
-    console.log("id", id);
     try {
       const data = await prisma.user.findUniqueOrThrow({
         where: { id: id },
@@ -49,8 +48,6 @@ export class UserRepository implements IUserRepository {
           cause: error,
         });
       }
-
-      console.log("Error", error);
 
       throw new DatabaseOperationError("Failed to fetch User Setting Data", {
         cause: error,

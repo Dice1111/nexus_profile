@@ -1,6 +1,10 @@
 "use client";
 
-import { IContactWithSpecificCardData } from "@/core/_domain/types/contact-repository.types";
+import {
+  deleteContactAction,
+  IDeleteContactActionState,
+} from "@/app/(Dashboard)/contact/connection/action";
+import { ContactWithSpecificCardData } from "@/core/_domain/types/contact-repository.types";
 import React, {
   startTransition,
   useActionState,
@@ -8,15 +12,13 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { displayErrorToast } from "../Box/errorToastBox";
+import { displaySuccessToast } from "../Box/successToastBox";
 import ContactRow from "../Row/ContactRow";
 import ProfileCardSheet, {
   ConnectionSheetVarient,
   SHEET_VARIENT,
 } from "../Sheet/ProfileCardSheet";
-import {
-  deleteContactAction,
-  IDeleteContactActionState,
-} from "@/app/(Dashboard)/contact/connection/action";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,11 +29,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog";
-import { displayErrorToast } from "../Box/errorToastBox";
-import { displaySuccessToast } from "../Box/successToastBox";
 
 interface ContactListProps {
-  contacts: IContactWithSpecificCardData[];
+  contacts: ContactWithSpecificCardData[];
 }
 
 const MemoizedContactRow = React.memo(ContactRow);
@@ -56,6 +56,26 @@ export default function ContactList({ contacts }: ContactListProps) {
   );
 
   useEffect(() => {
+    if (!SheetData || !isSheetOpen) return;
+
+    // Find the latest data for the open contact
+    const updatedContact = contacts.find((c) => c.id === SheetData.contactId);
+
+    if (updatedContact) {
+      const newSheetData: ConnectionSheetVarient = {
+        contactId: updatedContact.id,
+        fullName:
+          updatedContact.ContactCard?.Information?.fullName || "No Name",
+        cardId: updatedContact.contactCardId,
+        tag: updatedContact.tag,
+        note: updatedContact.note,
+        date: updatedContact.updatedAt.toLocaleDateString(),
+      };
+      setSheetData(newSheetData);
+    }
+  }, [contacts, SheetData?.contactId, isSheetOpen]);
+
+  useEffect(() => {
     if (isDeleteActionTriggered && !isPendingDelete) {
       if (deleteState.success) {
         displaySuccessToast({ message: deleteState.message });
@@ -73,26 +93,23 @@ export default function ContactList({ contacts }: ContactListProps) {
     }
   }, [isPendingDelete]);
 
-  const handleRowClick = useCallback(
-    (rowData: IContactWithSpecificCardData) => {
-      const sheetData: ConnectionSheetVarient = {
-        contactId: rowData.id,
-        fullName: rowData.fullName,
-        cardId: rowData.contactCardId,
-        tag: rowData.tag,
-        note: rowData.note,
-        date: rowData.updatedAt,
-      };
-      setSheetData(sheetData);
-      setIsSheetOpen(true);
-    },
-    []
-  );
+  const handleRowClick = useCallback((rowData: ContactWithSpecificCardData) => {
+    const sheetData: ConnectionSheetVarient = {
+      contactId: rowData.id,
+      fullName: rowData.ContactCard.Information.fullName,
+      cardId: rowData.contactCardId,
+      tag: rowData.tag,
+      note: rowData.note,
+      date: rowData.updatedAt.toLocaleDateString(),
+    };
+    setSheetData(sheetData);
+    setIsSheetOpen(true);
+  }, []);
 
   const handleRemove = useCallback(
     (
       e: React.MouseEvent<HTMLButtonElement>,
-      contact: IContactWithSpecificCardData
+      contact: ContactWithSpecificCardData
     ) => {
       e.stopPropagation();
       setCurrentContactId(contact.id);
@@ -112,20 +129,20 @@ export default function ContactList({ contacts }: ContactListProps) {
 
   return (
     <div>
-      <div className="bg-secondary text-secondary-foreground rounded-lg flex flex-col">
+      <div className="bg-secondary text-secondary-foreground rounded-lg flex flex-col divide-y divide-primary/20">
         {contacts.length > 0 ? (
           contacts.map((contact) => (
             <div
               key={contact.contactCardId}
               onClick={() => handleRowClick(contact)}
-              className="border-gray-400 border-b p-4 hover:bg-primary/20 cursor-pointer"
+              className="p-4 hover:bg-primary/20 cursor-pointer"
             >
               <MemoizedContactRow
-                fullName={contact.fullName}
-                occupation={contact.occupation}
-                company={contact.company}
-                image={""}
-                date={contact.createdAt}
+                fullName={contact.ContactCard.Information.fullName!}
+                occupation={contact.ContactCard.Information.occupation!}
+                company={contact.ContactCard.Information.company!}
+                image={contact.ContactCard.Design.profileImage}
+                date={contact.createdAt.toLocaleDateString()}
                 tag={contact.tag}
                 onRemove={(e) => handleRemove(e, contact)}
               />

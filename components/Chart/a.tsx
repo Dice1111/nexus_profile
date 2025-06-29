@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { IDailyFollowerCountChartData } from "@/core/_domain/types/contact-repository.types";
+import { IDailyFollowerCountChartResponse } from "@/core/_domain/types/contact-repository.types";
 
 const chartConfig = {
   count: {
@@ -38,7 +38,7 @@ const chartConfig = {
 export default function FollowerChart({
   chartData,
 }: {
-  chartData: IDailyFollowerCountChartData[];
+  chartData: IDailyFollowerCountChartResponse[];
 }) {
   const [timeRange, setTimeRange] = React.useState<"7d" | "30d">("30d");
 

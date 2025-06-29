@@ -1,13 +1,13 @@
-import { IFetchRequestsWithSpecificCardDataBySearchParamsUseCase } from "@/core/_application/use-cases/request/fetch-requests-with-specific-card-data-by-search-params.use-case";
-import { IFetchTotalRequestCountBySearchParamsUseCase } from "@/core/_application/use-cases/request/fetch-total-request-count-by-search-params.use-case";
+import { FetchRequestsWithSpecificCardDataBySearchParamsUseCase } from "@/core/_application/use-cases/request/fetch-requests-with-specific-card-data-by-search-params.use-case";
+import { FetchTotalRequestCountBySearchParamsUseCase } from "@/core/_application/use-cases/request/fetch-total-request-count-by-search-params.use-case";
 import { IRequestWithPaginationData } from "@/core/_domain/types/request-repository.type";
 import { ISearchParamsHandlerService } from "@/core/_domain/services/ISearchParamsHandler.service";
 import { IRawSearchParams } from "@/core/_domain/types/search-params-handler-service.type";
 
 export const fetchRequestWithPaginationDataBySearchParamsController =
   (
-    fetchRequestsWithSpecificCardDataBySearchParamsUseCase: IFetchRequestsWithSpecificCardDataBySearchParamsUseCase,
-    fetchTotalRequestCountBySearchParamsUseCase: IFetchTotalRequestCountBySearchParamsUseCase,
+    fetchRequestsWithSpecificCardDataBySearchParamsUseCase: FetchRequestsWithSpecificCardDataBySearchParamsUseCase,
+    fetchTotalRequestCountBySearchParamsUseCase: FetchTotalRequestCountBySearchParamsUseCase,
     searchParamsHandlerService: ISearchParamsHandlerService
   ) =>
   async (

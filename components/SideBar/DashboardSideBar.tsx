@@ -194,7 +194,7 @@ export default function DashboardSideBar() {
                 >
                   {isPending || !userSettingState ? (
                     <div className="w-full flex justify-center items-center py-2">
-                      <LoadingSpinner className="border-primary w-5 h-5" />
+                      <LoadingSpinner className="w-7 h-7" />
                     </div>
                   ) : (
                     <>

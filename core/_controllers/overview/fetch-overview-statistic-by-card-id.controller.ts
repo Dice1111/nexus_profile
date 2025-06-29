@@ -1,16 +1,16 @@
-import { IFetchDailyFollowerCountByCardIdUseCase } from "@/core/_application/use-cases/contact/fetch-daily-follower-count-by-card-id.use-case";
-import { IFetchTotalContactCountByCardIdUseCase } from "@/core/_application/use-cases/contact/fetch-total-contact-count-by-card-id.use-case";
-import { IFetchTotalFollowerCountByCardIdUseCase } from "@/core/_application/use-cases/contact/fetch-total-follower-count-by-card-id.use-case";
-import { IFetchTotalRequestCountByCardIdUseCase } from "@/core/_application/use-cases/request/fetch-total-request-count-by-card-id.use-case";
+import { FetchDailyFollowerCountByCardIdUseCase } from "@/core/_application/use-cases/contact/fetch-daily-follower-count-by-card-id.use-case";
+import { FetchTotalContactCountByCardIdUseCase } from "@/core/_application/use-cases/contact/fetch-total-contact-count-by-card-id.use-case";
+import { FetchTotalFollowerCountByCardIdUseCase } from "@/core/_application/use-cases/contact/fetch-total-follower-count-by-card-id.use-case";
+import { FetchTotalRequestCountByCardIdUseCase } from "@/core/_application/use-cases/request/fetch-total-request-count-by-card-id.use-case";
 import { InputParseError } from "@/core/_domain/errors/common.error";
-import { IDailyFollowerCountChartData } from "@/core/_domain/types/contact-repository.types";
+import { IDailyFollowerCountChartResponse } from "@/core/_domain/types/contact-repository.types";
 
 export const fetchOverviewStatisticByCardIdController =
   (
-    fetchTotalContactCountByCardIdUseCase: IFetchTotalContactCountByCardIdUseCase,
-    fetchTotalFollowerCountByCardIdUseCase: IFetchTotalFollowerCountByCardIdUseCase,
-    fetchTotalRequestCountByCardIdUseCase: IFetchTotalRequestCountByCardIdUseCase,
-    fetchDailyFollowerCountByCardIdUseCase: IFetchDailyFollowerCountByCardIdUseCase
+    fetchTotalContactCountByCardIdUseCase: FetchTotalContactCountByCardIdUseCase,
+    fetchTotalFollowerCountByCardIdUseCase: FetchTotalFollowerCountByCardIdUseCase,
+    fetchTotalRequestCountByCardIdUseCase: FetchTotalRequestCountByCardIdUseCase,
+    fetchDailyFollowerCountByCardIdUseCase: FetchDailyFollowerCountByCardIdUseCase
   ) =>
   async (
     cardId: string
@@ -18,7 +18,7 @@ export const fetchOverviewStatisticByCardIdController =
     contactCount: number;
     followerCount: number;
     requestCount: number;
-    dailyFollowerChartData: IDailyFollowerCountChartData[];
+    dailyFollowerChartData: IDailyFollowerCountChartResponse[];
   }> => {
     if (typeof cardId !== "string" || cardId === "") {
       throw new InputParseError("Invalid Parsed Data", {

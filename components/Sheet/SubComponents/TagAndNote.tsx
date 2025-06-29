@@ -53,6 +53,7 @@ export default function TagAndNote({ contactId, tag, note }: TagAndNoteProps) {
       } else if (!updateState.success) {
         displayErrorToast({ message: updateState.message });
       }
+      setIsEditing(false);
       setIsUpdateActionTriggered(false);
     }
   }, [isUpdateActionTriggered, updateState, isPendingUpdate]);

@@ -1,3 +1,4 @@
+//toast
 export class DatabaseOperationError extends Error {
   constructor(message: string, options?: ErrorOptions) {
     super(message, options);
@@ -8,34 +9,34 @@ export class DatabaseOperationError extends Error {
 export class DomainTypeMappingError extends Error {
   constructor(message: string, options?: ErrorOptions) {
     super(message, options);
-    this.name = "DomainMappingError";
+    this.name = "Domain Mapping Error";
   }
 }
 
 export class UniqueConstraintError extends Error {
   constructor(message: string, options?: ErrorOptions) {
     super(message, options);
-    this.name = "UniqueConstraintError";
+    this.name = "Unique Constraint Error";
   }
 }
 
 export class NetworkError extends Error {
   constructor(message: string, options?: ErrorOptions) {
     super(message, options);
-    this.name = "NetworkError";
+    this.name = "Network Error";
   }
 }
 
 export class NotFoundError extends Error {
   constructor(message: string, options?: ErrorOptions) {
     super(message, options);
-    this.name = "NotFoundError";
+    this.name = "Not Found Error";
   }
 }
 
 export class InputParseError extends Error {
   constructor(message: string, options?: ErrorOptions) {
     super(message, options);
-    this.name = "InputParseError";
+    this.name = "Input Parse Error";
   }
 }

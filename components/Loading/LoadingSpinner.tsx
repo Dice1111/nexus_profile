@@ -6,13 +6,13 @@ interface LoadingSpinnerProps {
 
 export default function LoadingSpinner({ className }: LoadingSpinnerProps) {
   return (
-    <div className="flex justify-center items-center h-fit">
+    <div className={"flex justify-center items-center"}>
       <div
         className={cn(
-          "border-t-4 border-solid rounded-full w-7 h-7 animate-spin",
+          "w-8 h-8 rounded-full border-4 border-gray-200 border-t-primary animate-spin",
           className
         )}
-      ></div>
+      />
     </div>
   );
 }

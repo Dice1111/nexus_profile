@@ -16,15 +16,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <section className="container mx-auto">
       <div className="flex flex-col gap-4">
-        <h2 className="text-xl font-bold">Requests</h2>
-
-        <div className="flex flex-col justify-between items-center gap-4 md:flex-row ">
-          <Search />
-          <div className="flex gap-4 max-md:w-full">
-            <ContactSort />
-          </div>
-        </div>
-
+        <h2 className="text-xl font-bold">Overview</h2>
         <div>{children}</div>
       </div>
     </section>

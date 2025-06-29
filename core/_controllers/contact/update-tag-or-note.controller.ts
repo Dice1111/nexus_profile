@@ -1,4 +1,4 @@
-import { IUpdateTagOrNoteUseCase } from "@/core/_application/use-cases/contact/update-tag-or-note.use-case";
+import { UpdateTagOrNoteUseCase } from "@/core/_application/use-cases/contact/update-tag-or-note.use-case";
 import { InputParseError } from "@/core/_domain/errors/common.error";
 import {
   IUpdateTagOrNoteData,
@@ -7,7 +7,7 @@ import {
 
 export const updateTagOrNoteController =
   (
-    updateTagOrNoteUseCase: IUpdateTagOrNoteUseCase,
+    updateTagOrNoteUseCase: UpdateTagOrNoteUseCase,
     UpdateTagOrNoteSchema: IUpdateTagOrNoteSchema
   ) =>
   async (data: IUpdateTagOrNoteData) => {

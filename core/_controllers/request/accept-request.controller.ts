@@ -1,5 +1,5 @@
-import { ICreateContactUseCase } from "@/core/_application/use-cases/contact/create-contact.use-case";
-import { IDeleteRequestUseCase } from "@/core/_application/use-cases/request/delete-request.use-case";
+import { CreateContactUseCase } from "@/core/_application/use-cases/contact/create-contact.use-case";
+import { DeleteRequestUseCase } from "@/core/_application/use-cases/request/delete-request.use-case";
 import { InputParseError } from "@/core/_domain/errors/common.error";
 import {
   IAcceptRequestData,
@@ -8,8 +8,8 @@ import {
 
 export const acceptRequestController =
   (
-    createContactUseCase: ICreateContactUseCase,
-    deleteRequestUseCase: IDeleteRequestUseCase,
+    createContactUseCase: CreateContactUseCase,
+    deleteRequestUseCase: DeleteRequestUseCase,
     acceptRequestSchema: IAcceptRequestSchema
   ) =>
   async (data: IAcceptRequestData) => {

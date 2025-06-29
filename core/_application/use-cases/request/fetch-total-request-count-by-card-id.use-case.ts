@@ -1,6 +1,6 @@
 import { IRequestRepository } from "@/core/_domain/repositories/IRequestRepository";
 
-export type IFetchTotalRequestCountByCardIdUseCase = ReturnType<
+export type FetchTotalRequestCountByCardIdUseCase = ReturnType<
   typeof fetchTotalRequestCountByCardIdUseCase
 >;
 

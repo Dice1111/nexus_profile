@@ -83,7 +83,7 @@ export default function SettingAccount({ data }: SettingAccountProps) {
   });
 
   return (
-    <section className="mx-auto mt-6 flex flex-col  text-primary">
+    <section className="flex flex-col  text-primary">
       {/* Avatar */}
       <div className="bg-secondary p-6 flex flex-col gap-10 rounded-lg">
         <div className="flex-col flex gap-4 ">
