@@ -1,15 +1,12 @@
-import { SignInUseCaseType } from "@/core/_application/use-cases/auth/sign-in.use-case";
+import { SignInUseCase } from "@/core/_application/use-cases/user/sign-in.use-case";
 import { InputParseError } from "@/core/_domain/errors/common.error";
-import {
-  SignInInputType,
-  SignInSchemaType,
-} from "@/schema/auth/sign-in.schema";
+import { SignInData, SignInSchema } from "@/schema/user/sign-in.schema";
 
 export type SignInControllerType = ReturnType<typeof signInController>;
 
 export const signInController =
-  (signInUseCase: SignInUseCaseType, signInSchema: SignInSchemaType) =>
-  async (input: Partial<SignInInputType>): Promise<void> => {
+  (signInUseCase: SignInUseCase, signInSchema: SignInSchema) =>
+  async (input: Partial<SignInData>): Promise<void> => {
     const parsed = signInSchema.safeParse(input);
     if (!parsed.success) {
       const firstError = parsed.error.errors[0]?.message ?? "Invalid input";

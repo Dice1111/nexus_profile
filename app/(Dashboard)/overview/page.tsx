@@ -4,7 +4,7 @@ import FollowerAndRequestChart from "@/components/Chart/FollowerAndRequestChart"
 import { fetchOverviewStatisticByCardIdAction } from "./action";
 
 export default async function Page() {
-  const cardId = "7fe88d20-e595-4ce5-9f6f-f586ea6036ac";
+  const cardId = "0cca1c16-14ee-4a3a-95c9-cac8e45100e6";
 
   const { contactCount, followerCount, requestCount, dailyFollowerChartData } =
     await fetchOverviewStatisticByCardIdAction(cardId);

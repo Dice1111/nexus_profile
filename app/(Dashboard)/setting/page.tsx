@@ -1,14 +1,12 @@
 import SettingAccount from "@/components/SettingComponent/SettingAccount";
-import { fetchWithTryCatch } from "@/lib/utils";
-import { getSettingAccountData } from "@/services/setting-service";
+import { fetchUserSettingDataAction } from "./action";
 
 export default async function Page() {
-  const settingAccountData = await fetchWithTryCatch(getSettingAccountData);
-
+  const userSettingData = await fetchUserSettingDataAction();
   return (
     <div className="container mx-auto">
       <h2 className="text-xl font-bold  ">Account Setting</h2>
-      <SettingAccount {...settingAccountData} />
+      <SettingAccount data={userSettingData.data} />
     </div>
   );
 }

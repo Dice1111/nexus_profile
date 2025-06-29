@@ -5,5 +5,5 @@ export const signInSchema = z.object({
   password: z.string().min(1, { message: "Password is required" }),
 });
 
-export type SignInInputType = z.infer<typeof signInSchema>;
-export type SignInSchemaType = typeof signInSchema;
+export type SignInData = z.infer<typeof signInSchema>;
+export type SignInSchema = typeof signInSchema;

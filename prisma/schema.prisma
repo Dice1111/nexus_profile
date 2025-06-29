@@ -19,25 +19,26 @@ model User {
   email        String   @unique
   passwordHash String
   name         String
+  image        String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   Card         Card[]
 }
 
 model Card {
-  id              String            @id @default(uuid())
+  id              String             @id @default(uuid())
   title           String?
-  user            User              @relation(fields: [userId], references: [id])
+  user            User               @relation(fields: [userId], references: [id])
   userId          String
   PofileComponent ProfileComponent[]
-  SentRequest     Request[]         @relation("SentRequest")
+  SentRequest     Request[]          @relation("SentRequest")
   Request         Request[]
   Contact         Contact[]
-  ContactPerson   Contact[]         @relation("ContactPerson")
+  ContactPerson   Contact[]          @relation("ContactPerson")
   Design          Design?
   Information     Information?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
 }
 
 model ProfileComponent {
@@ -51,7 +52,6 @@ model ProfileComponent {
   type      PROFILE_COMPONENT_TYPE
   category  PROFILE_COMPONENT_CATEGORY
   position  Int
-  
 }
 
 model Request {
@@ -81,21 +81,21 @@ model Contact {
 }
 
 model Design {
-  id              Int     @id @default(autoincrement())
-  cardId          String  @unique
+  id              Int            @id @default(autoincrement())
+  cardId          String         @unique
   foregroundColor String
   backgroundColor String
   profileImage    String?
   logoImage       String?
   layout          PROFILE_LAYOUT
-  card            Card    @relation(fields: [cardId], references: [id])
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  card            Card           @relation(fields: [cardId], references: [id])
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
 }
 
 model Information {
-  id            Int     @id @default(autoincrement())
-  cardId        String  @unique
+  id            Int      @id @default(autoincrement())
+  cardId        String   @unique
   title         String?
   occupation    String?
   company       String?
@@ -106,9 +106,9 @@ model Information {
   suffix        String?
   preferredName String?
   pronouns      String?
-  card          Card    @relation(fields: [cardId], references: [id])
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  card          Card     @relation(fields: [cardId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 enum PROFILE_COMPONENT_TYPE {
@@ -191,4 +191,3 @@ enum PROFILE_LAYOUT {
   LAYOUT_TWO
   LAYOUT_THREE
 }
-
