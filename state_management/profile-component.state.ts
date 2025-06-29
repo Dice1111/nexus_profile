@@ -1,8 +1,20 @@
+import { ProfileDndComponentSchemaType } from "@/components/ProfileComponent/EditProfileCard/DragAndDropComponent/ProfileDndInputSchema";
 import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
+import { UseFieldArrayReturn, UseFormReturn } from "react-hook-form";
 import { create } from "zustand";
 
 interface ProfileComponentState {
   profileComponents: FetchProfileComponentData[];
+
+  //Form state
+
+  form: UseFormReturn<{
+    profileComponents: ProfileDndComponentSchemaType[];
+  }> | null;
+  fieldArray: UseFieldArrayReturn<
+    { profileComponents: ProfileDndComponentSchemaType[] },
+    "profileComponents"
+  > | null;
 
   // Actions
   setProfileComponents: (components: FetchProfileComponentData[]) => void;
@@ -13,10 +25,25 @@ interface ProfileComponentState {
   ) => void;
   removeProfileComponent: (id: number) => void;
   clearProfileComponents: () => void;
+
+  //set from
+  setForm: (
+    form: UseFormReturn<{ profileComponents: ProfileDndComponentSchemaType[] }>
+  ) => void;
+
+  setFieldArray: (
+    fieldArray: UseFieldArrayReturn<
+      { profileComponents: ProfileDndComponentSchemaType[] },
+      "profileComponents"
+    >
+  ) => void;
 }
 
 export const useProfileComponents = create<ProfileComponentState>((set) => ({
   profileComponents: [],
+
+  form: null,
+  fieldArray: null,
 
   setProfileComponents: (components) => set({ profileComponents: components }),
 
@@ -40,4 +67,7 @@ export const useProfileComponents = create<ProfileComponentState>((set) => ({
     })),
 
   clearProfileComponents: () => set({ profileComponents: [] }),
+
+  setForm: (form) => set({ form }),
+  setFieldArray: (fieldArray) => set({ fieldArray }),
 }));

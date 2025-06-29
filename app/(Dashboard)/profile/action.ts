@@ -8,9 +8,7 @@ export interface IGetUserInitialCardsDataActionState {
   data: CardWithInformationAndDesignData[];
 }
 
-export async function getUserInitialCardsDataAction(
-  _prevState: IGetUserInitialCardsDataActionState
-) {
+export async function getUserInitialCardsDataAction(): Promise<IGetUserInitialCardsDataActionState> {
   try {
     const fetchInitialUserCardsController =
       buildFetchInitialUserCardsController();
