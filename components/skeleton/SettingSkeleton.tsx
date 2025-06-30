@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function SettingSkeleton() {
   return (
-    <section className="flex flex-col text-primary bg-secondary ">
+    <section className="flex flex-col text-primary bg-secondary rounded-lg">
       <div className="p-6 flex flex-col gap-8 rounded-lg">
         {/* Avatar Section */}
         <div className="flex flex-col gap-3">

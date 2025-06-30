@@ -1,6 +1,9 @@
 import { UserModel } from "../models/user.model";
 
-export type CreateUserInput = Omit<UserModel, "id" | "createdAt" | "updatedAt">;
+export type CreateUserInput = Pick<
+  UserModel,
+  "email" | "name" | "passwordHash"
+>;
 
 export type UserSettingResponse = Omit<
   UserModel,

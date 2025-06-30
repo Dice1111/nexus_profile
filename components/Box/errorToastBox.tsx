@@ -25,7 +25,7 @@ export function displayErrorToast({
       </div>
     ),
     {
-      position: "top-center",
+      position: "top-right",
       duration,
     }
   );

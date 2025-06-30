@@ -21,7 +21,7 @@ export async function signUpUserAction(
     await signUpController(data);
     return {
       success: true,
-      message: "User account created successful",
+      message: "Signup Success",
     };
   } catch (error) {
     if (error instanceof InputParseError) {

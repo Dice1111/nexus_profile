@@ -9,7 +9,7 @@ export default function ClientSideProfilePage() {
   const router = useRouter();
   return (
     <div>
-      <Button onClick={() => router.push("/login")} variant="outline">
+      <Button onClick={() => router.push("/signin")} variant="outline">
         Log in
       </Button>
       <div className="mt-4">

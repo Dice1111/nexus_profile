@@ -4,14 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import { displayErrorToast } from "@/components/Box/errorToastBox";
+import { displaySuccessToast } from "@/components/Box/successToastBox";
 import { SignUpData, signUpSchema } from "@/schema/user/sign-up.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { startTransition, useActionState } from "react";
+import { useRouter } from "next/navigation";
+import { startTransition, useActionState, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { signUpUserAction } from "./action";
 
 const page = () => {
+  const router = useRouter();
   const initialState = {
     success: false,
     message: "",
@@ -21,6 +25,20 @@ const page = () => {
     signUpUserAction,
     initialState
   );
+
+  const [actionTriggered, setActionTriggered] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (actionTriggered) {
+      if (state.success) {
+        router.push("/signin");
+        displaySuccessToast({ message: state.message });
+      } else {
+        displayErrorToast({ message: state.message });
+      }
+      setActionTriggered(false);
+    }
+  }, [state.success, actionTriggered]);
 
   const {
     handleSubmit,
@@ -43,7 +61,10 @@ const page = () => {
 
         <form
           onSubmit={handleSubmit((data) =>
-            startTransition(() => formAction(data))
+            startTransition(() => {
+              formAction(data);
+              setActionTriggered(true);
+            })
           )}
           noValidate
           className="flex flex-col gap-5 w-full"
@@ -96,16 +117,6 @@ const page = () => {
           <Button type="submit" className="h-11" variant={"outline"}>
             {isPending ? "Loading" : "Create account"}
           </Button>
-
-          {state.message && (
-            <p
-              className={`text-center text-sm ${
-                state.success ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              {state.message}
-            </p>
-          )}
 
           <Button
             type="button"
