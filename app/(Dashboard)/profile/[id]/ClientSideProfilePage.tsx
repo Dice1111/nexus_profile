@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
 import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
 import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
-import { useDesign } from "@/state_management/design.state";
-import { useInformation } from "@/state_management/information.state";
-import { useProfileComponents } from "@/state_management/profile-component.state";
+import { useDesignState } from "@/state_management/design.state";
+import { useInformationState } from "@/state_management/information.state";
+import { useProfileComponentsState } from "@/state_management/profile-component.state";
+import { useProfilePageState } from "@/state_management/profile-loading.state";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
@@ -18,8 +19,8 @@ import { RxCross2 } from "react-icons/rx";
 interface ProfileProps {
   profileCardData: {
     profileComponents: FetchProfileComponentData[];
-    information: FetchInformationData | null;
-    design: FetchDesignData | null;
+    information: FetchInformationData;
+    design: FetchDesignData;
   };
 }
 
@@ -46,20 +47,19 @@ const EditProfileCardComponent = dynamic(
 export default function ClientSideProfilePage({
   profileCardData,
 }: ProfileProps) {
-  // State for editing
-  const [isEditing, setEditing] = useState(false);
-  //State for loading
-  const [isLoading, setLoading] = useState(false);
-
   //STATE MANAGEMENT
-  const setInformation = useInformation((state) => state.setInformation);
-  const setDesign = useDesign((state) => state.setDesign);
-  const setProfileComponents = useProfileComponents(
+
+  const isEditing = useProfilePageState((state) => state.isEditing);
+  const isLoading = useProfilePageState((state) => state.isLoading);
+
+  const setEditing = useProfilePageState((state) => state.setEditing);
+  const setLoading = useProfilePageState((state) => state.setLoading);
+
+  const setInformation = useInformationState((state) => state.setInformation);
+  const setDesign = useDesignState((state) => state.setDesign);
+  const setProfileComponents = useProfileComponentsState(
     (state) => state.setProfileComponents
   );
-
-  const setForm = useProfileComponents((state) => state.setForm);
-  const setFieldArray = useProfileComponents((state) => state.setFieldArray);
 
   // Initialize Zustand state from props
   useEffect(() => {
@@ -79,28 +79,6 @@ export default function ClientSideProfilePage({
       setProfileComponents(profileCardData.profileComponents);
     }
   }, [profileCardData.profileComponents, setProfileComponents]);
-
-  //Form setup
-  // const form = useForm<{ profileComponents: ProfileDndComponentSchemaType[] }>({
-  //   mode: "onBlur",
-  //   resolver: zodResolver(
-  //     z.object({
-  //       profileComponents: z.array(profileDndInputSchema),
-  //     })
-  //   ),
-  //   defaultValues: {
-  //     profileComponents: profileComponents as ProfileDndComponentSchemaType[],
-  //   },
-  // });
-  // const fieldArray = useFieldArray({
-  //   control: form.control,
-  //   name: "profileComponents",
-  // });
-
-  // useEffect(() => {
-  //   setForm(form);
-  //   setFieldArray(fieldArray);
-  // }, [form, fieldArray, setForm, setFieldArray]);
 
   return (
     <>

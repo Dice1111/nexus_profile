@@ -1,9 +1,13 @@
-import { DatabaseOperationError } from "@/core/_domain/errors/common.error";
+import {
+  DatabaseOperationError,
+  NotFoundError,
+} from "@/core/_domain/errors/common.error";
 import { DesignModel } from "@/core/_domain/models/design.model";
 import { IDesignRepository } from "@/core/_domain/repositories/IDesignRepository";
 import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
 import { prisma } from "../prisma/prisma-client";
 import { PROFILE_LAYOUT } from "@/core/_domain/enum/design-repository.enum";
+import { Prisma } from "@prisma/client";
 
 export class DesignRepository implements IDesignRepository {
   create(): Promise<void> {
@@ -15,9 +19,9 @@ export class DesignRepository implements IDesignRepository {
   delete(): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  async fetch(cardId: string): Promise<FetchDesignData | null> {
+  async fetch(cardId: string): Promise<FetchDesignData> {
     try {
-      const data = await prisma.design.findUnique({
+      const data = await prisma.design.findUniqueOrThrow({
         where: { cardId: cardId },
         select: {
           id: true,
@@ -30,16 +34,21 @@ export class DesignRepository implements IDesignRepository {
         },
       });
 
-      console.log("design", data);
-      if (data) {
-        const fixData = {
-          ...data,
-          layout: data.layout as PROFILE_LAYOUT,
-        };
-        return fixData;
-      }
-      return null;
+      const fixData = {
+        ...data,
+        layout: data.layout as PROFILE_LAYOUT,
+      };
+      return fixData;
     } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2025"
+      ) {
+        throw new NotFoundError("No Design Found", {
+          cause: error,
+        });
+      }
+
       throw new DatabaseOperationError("Failed to fetch design", {
         cause: error,
       });

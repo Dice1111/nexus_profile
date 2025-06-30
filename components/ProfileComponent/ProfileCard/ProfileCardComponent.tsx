@@ -1,34 +1,16 @@
 "use client";
 
-import { useDesign } from "@/state_management/design.state";
-import { useProfileComponents } from "@/state_management/profile-component.state";
+import { useDesignState } from "@/state_management/design.state";
+import { useProfileComponentsState } from "@/state_management/profile-component.state";
+import ProfileHeaderLayout from "../ProfileHeaderLayout/ProfileHeaderLayout";
 import ProfileBodyItem from "./ProfileBodyItem";
-import { PROFILE_LAYOUT } from "@/core/_domain/enum/design-repository.enum";
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
-import ProfileLayoutOne from "../ProfileHeaderLayout/ProfileLayoutOne";
-import ProfileLayoutTwo from "../ProfileHeaderLayout/ProfileLayoutTwo";
 
 const ProfileCardComponent = () => {
-  // const DynamicProfileLayoutOne = dynamic(
-  //   () => import("../ProfileHeaderLayout/ProfileLayoutOne"),
-  //   {
-  //     ssr: false,
-  //   }
-  // );
-
-  // const DynamicProfileLayoutTwo = dynamic(
-  //   () => import("../ProfileHeaderLayout/ProfileLayoutTwo"),
-  //   {
-  //     ssr: false,
-  //   }
-  // );
-
   //STATE MANAGEMENT
-  const backgroundColor = useDesign((state) => state.backgroundColor);
-  const foregroundColor = useDesign((state) => state.foregroundColor);
-  const layout = useDesign((state) => state.layout);
-  const profileComponents = useProfileComponents(
+  const backgroundColor = useDesignState((state) => state.backgroundColor);
+  const foregroundColor = useDesignState((state) => state.foregroundColor);
+  const layout = useDesignState((state) => state.layout);
+  const profileComponents = useProfileComponentsState(
     (state) => state.profileComponents
   );
 
@@ -41,14 +23,7 @@ const ProfileCardComponent = () => {
       }}
     >
       {/* header area */}
-      {layout === PROFILE_LAYOUT.LAYOUT_ONE && (
-        // <DynamicProfileLayoutOne />
-        <ProfileLayoutOne />
-      )}
-      {layout === PROFILE_LAYOUT.LAYOUT_TWO && (
-        // <DynamicProfileLayoutTwo />
-        <ProfileLayoutTwo />
-      )}
+      <ProfileHeaderLayout layout={layout} />
 
       {/* item area */}
       <div className="flex flex-col gap-3 pb-4 w-full">

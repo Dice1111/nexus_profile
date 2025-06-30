@@ -4,5 +4,5 @@ export interface IInformationRepository {
   create: () => Promise<void>;
   update: () => Promise<void>;
   delete: () => Promise<void>;
-  fetch: (cardId: string) => Promise<FetchInformationData | null>;
+  fetch: (cardId: string) => Promise<FetchInformationData>;
 }

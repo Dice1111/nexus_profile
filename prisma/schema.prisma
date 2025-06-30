@@ -23,6 +23,7 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   Card         Card[]
+
 }
 
 model Card {
@@ -39,10 +40,12 @@ model Card {
   Information     Information?
   createdAt       DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
+  @@index([userId])
+
 }
 
 model ProfileComponent {
-  id        Int                        @id @default(autoincrement())
+  id        String                        @id @default(uuid())
   card      Card                       @relation(fields: [cardId], references: [id])
   cardId    String
   value     String
@@ -52,6 +55,7 @@ model ProfileComponent {
   type      PROFILE_COMPONENT_TYPE
   category  PROFILE_COMPONENT_CATEGORY
   position  Int
+  @@index([cardId])
 }
 
 model Request {
@@ -64,6 +68,9 @@ model Request {
   updatedAt    DateTime @updatedAt
 
   @@unique([cardId, senderCardId])
+  @@index([cardId])
+  @@index([senderCardId])
+  
 }
 
 model Contact {
@@ -78,6 +85,8 @@ model Contact {
   note          String?
 
   @@unique([cardId, contactCardId])
+  @@index([cardId])
+  @@index([contactCardId])
 }
 
 model Design {
@@ -91,6 +100,7 @@ model Design {
   card            Card           @relation(fields: [cardId], references: [id])
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
+
 }
 
 model Information {
@@ -109,6 +119,9 @@ model Information {
   card          Card     @relation(fields: [cardId], references: [id])
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  @@index([occupation])
+  @@index([company])
+  @@index([fullName])
 }
 
 enum PROFILE_COMPONENT_TYPE {

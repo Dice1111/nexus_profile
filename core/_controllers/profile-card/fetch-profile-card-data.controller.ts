@@ -14,8 +14,8 @@ export const fetchProfileCardDataController =
   async (
     cardID: string
   ): Promise<{
-    information: FetchInformationData | null;
-    design: FetchDesignData | null;
+    information: FetchInformationData;
+    design: FetchDesignData;
     profileComponents: FetchProfileComponentData[];
   }> => {
     const [information, design, profileComponents] = await Promise.all([

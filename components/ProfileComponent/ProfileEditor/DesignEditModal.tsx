@@ -6,7 +6,6 @@ import { colorPresets, hexToRgba, rgbaToHsva } from "@/lib/color_utils";
 import {
   ColorableElement,
   colorableElements,
-  profileLayouts,
 } from "@/lib/profileCardLayoutData/LayoutData";
 // import {
 //   svgWaveLayoutData,
@@ -20,6 +19,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import { GrFormCheckmark } from "react-icons/gr";
+import { PROFILE_LAYOUTS } from "../ProfileHeaderLayout/ProfileHeaderLayout";
 
 /** Reusable Image Upload Component */
 function ImageUpload({
@@ -197,7 +197,7 @@ export default function DesignEditModal() {
         <h1 className="text-lg font-thin">Profile Layout</h1>
 
         <div className="flex flex-box gap-4 mt-4">
-          {profileLayouts.map((layout) => (
+          {PROFILE_LAYOUTS.map((layout) => (
             <Button
               key={layout}
               onClick={() => handleProfileLayoutSelect(layout)}

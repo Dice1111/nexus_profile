@@ -3,8 +3,8 @@
 import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
 import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
 // import { svgWaveLayoutData } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
-import { useDesign } from "@/state_management/design.state";
-import { useInformation } from "@/state_management/information.state";
+import { useDesignState } from "@/state_management/design.state";
+import { useInformationState } from "@/state_management/information.state";
 import Image from "next/image";
 import { useEffect } from "react";
 
@@ -18,27 +18,32 @@ const ProfileLayoutOne = ({ design, information }: ProfileLayoutOneProps) => {
 
   // Design state
   const profileImage =
-    design?.profileImage || useDesign((state) => state.profileImage);
-  const logoImage = design?.logoImage || useDesign((state) => state.logoImage);
+    design?.profileImage || useDesignState((state) => state.profileImage);
+  const logoImage =
+    design?.logoImage || useDesignState((state) => state.logoImage);
 
   // Information state
-  const prefix = information?.prefix || useInformation((state) => state.prefix);
+  const prefix =
+    information?.prefix || useInformationState((state) => state.prefix);
   const fullName =
-    information?.fullName || useInformation((state) => state.fullName);
-  const suffix = information?.suffix || useInformation((state) => state.suffix);
-  const title = information?.title || useInformation((state) => state.title);
+    information?.fullName || useInformationState((state) => state.fullName);
+  const suffix =
+    information?.suffix || useInformationState((state) => state.suffix);
+  const title =
+    information?.title || useInformationState((state) => state.title);
   const occupation =
-    information?.occupation || useInformation((state) => state.occupation);
+    information?.occupation || useInformationState((state) => state.occupation);
   const company =
-    information?.company || useInformation((state) => state.company);
+    information?.company || useInformationState((state) => state.company);
   const message =
-    information?.message || useInformation((state) => state.message);
-  const quote = information?.quote || useInformation((state) => state.quote);
+    information?.message || useInformationState((state) => state.message);
+  const quote =
+    information?.quote || useInformationState((state) => state.quote);
   const preferredName =
     information?.preferredName ||
-    useInformation((state) => state.preferredName);
+    useInformationState((state) => state.preferredName);
   const pronouns =
-    information?.pronouns || useInformation((state) => state.pronouns);
+    information?.pronouns || useInformationState((state) => state.pronouns);
 
   useEffect(() => {
     console.log("Profile Layout one");

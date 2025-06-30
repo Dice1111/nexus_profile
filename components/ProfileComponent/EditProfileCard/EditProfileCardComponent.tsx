@@ -1,7 +1,6 @@
 "use client";
-import { useProfileContext } from "@/context/profileContext";
-import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
 
+import { Button } from "@/components/ui/button";
 import {
   closestCorners,
   DndContext,
@@ -15,39 +14,75 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { Button } from "@/components/ui/button";
-import { PROFILE_COMPONENT_TYPE } from "@/lib/types/enums";
-import { ProfileDndComponentSchemaType } from "./DragAndDropComponent/ProfileDndInputSchema";
-import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
+
 import { OurFileRouter } from "@/app/api/uploadthing/core";
-import { genUploader } from "uploadthing/client";
-import { ProfileDndComponent } from "@/lib/types/types";
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
+import { PROFILE_COMPONENT_TYPE } from "@/core/_domain/enum/profile-component-repository.enum";
+import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
+import { useDesignState } from "@/state_management/design.state";
+import { useProfileComponentsState } from "@/state_management/profile-component.state";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { ProfileComponentModel } from "@/core/_domain/models/profile-component.model";
+import { useFieldArray, useForm } from "react-hook-form";
+import { genUploader } from "uploadthing/client";
+import { z } from "zod";
+import ProfileHeaderLayout from "../ProfileHeaderLayout/ProfileHeaderLayout";
+import {
+  ProfileDndComponentSchemaType,
+  profileDndInputSchema,
+} from "./DragAndDropComponent/ProfileDndInputSchema";
+import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
+import { useProfilePageState } from "@/state_management/profile-loading.state";
 export const { uploadFiles } = genUploader<OurFileRouter>();
 
 const EditProfileCardComponent = () => {
-  const context = useProfileContext();
-  const {
-    components,
-    information,
-    design,
-    setComponents,
-    isEditing,
-    setEditing,
-    isLoading,
-    setLoading,
-    form,
-    fieldArray,
-  } = context;
+  //STATE MANAGEMENT
+
+  const isLoading = useProfilePageState((state) => state.isLoading);
+  const isEditing = useProfilePageState((state) => state.isEditing);
+
+  const setLoading = useProfilePageState((state) => state.setLoading);
+  const setEditing = useProfilePageState((state) => state.setEditing);
+
+  const backgroundColor = useDesignState((state) => state.backgroundColor);
+  const foregroundColor = useDesignState((state) => state.foregroundColor);
+  const layout = useDesignState((state) => state.layout);
+  const profileComponents = useProfileComponentsState(
+    (state) => state.profileComponents
+  );
+
+  const setForm = useProfileComponentsState((state) => state.setForm);
+  const setFieldArray = useProfileComponentsState(
+    (state) => state.setFieldArray
+  );
+  const setProfileComponents = useProfileComponentsState(
+    (state) => state.setProfileComponents
+  );
 
   // Touchscreen and pointer support for drag-and-drop
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
 
-  const layoutComponent = profileLayoutData(design, information)[
-    design.layout as keyof typeof profileLayoutData
-  ];
+  //Form setup
+  const form = useForm<{ profileComponents: ProfileDndComponentSchemaType[] }>({
+    mode: "onBlur",
+    resolver: zodResolver(
+      z.object({
+        profileComponents: z.array(profileDndInputSchema),
+      })
+    ),
+    defaultValues: {
+      profileComponents: profileComponents as ProfileDndComponentSchemaType[],
+    },
+  });
+  const fieldArray = useFieldArray({
+    control: form.control,
+    name: "profileComponents",
+  });
+
+  useEffect(() => {
+    setForm(form);
+    setFieldArray(fieldArray);
+  }, [form, fieldArray, setForm, setFieldArray]);
 
   const {
     register,
@@ -62,7 +97,7 @@ const EditProfileCardComponent = () => {
   const { fields, move, remove } = fieldArray;
 
   // Handle delete
-  const handleDeleteItem = (id: string) => {
+  const handleDeleteItem = (id: number) => {
     // Find the index in the form fields
     const fieldIndex = fields.findIndex((field) => field.id === id);
     if (fieldIndex !== -1) {
@@ -85,14 +120,16 @@ const EditProfileCardComponent = () => {
 
     //Wait for RHF to apply reorder, then update `position`
     setTimeout(() => {
-      const liveComponents = getValues("components");
+      const liveComponents = getValues("profileComponents");
 
       //Defensive check: ensure correct length
       if (!liveComponents || liveComponents.length === 0) return;
 
       //Update position values to match visual order
       liveComponents.forEach((_, index) => {
-        setValue(`components.${index}.position`, index, { shouldDirty: true });
+        setValue(`profileComponents.${index}.position`, index, {
+          shouldDirty: true,
+        });
       });
 
       console.log("Reordered Components:", liveComponents);
@@ -101,14 +138,14 @@ const EditProfileCardComponent = () => {
 
   // Handle form submission
   const onSubmit = async (data: {
-    components: ProfileDndComponentSchemaType[];
+    profileComponents: ProfileDndComponentSchemaType[];
   }) => {
     if (isDirty) {
       console.log("is dirty");
 
       setLoading(true);
-      const dirtyComponents = data.components?.filter((_, i) => {
-        const dirtyFieldObj = dirtyFields.components?.[i];
+      const dirtyComponents = data.profileComponents?.filter((_, i) => {
+        const dirtyFieldObj = dirtyFields.profileComponents?.[i];
         if (!dirtyFieldObj) return false; // no dirty fields at all
         // Check if any property inside dirtyFieldObj is true
         return Object.values(dirtyFieldObj).some(Boolean);
@@ -117,21 +154,21 @@ const EditProfileCardComponent = () => {
       console.log("Dirty Component Values:", dirtyComponents);
 
       const updatedComponents = await Promise.all(
-        dirtyComponents.map(async (component, index) => {
+        dirtyComponents.map(async (profileComponent, index) => {
           // Only handle image components with a new file
           if (
-            component.type === PROFILE_COMPONENT_TYPE.IMAGE &&
-            component.file instanceof File
+            profileComponent.type === PROFILE_COMPONENT_TYPE.IMAGE &&
+            profileComponent.file instanceof File
           ) {
             try {
               //GET old image url from main components state
-              const oldUrl = components.find(
-                (c) => c.id === component.id
+              const oldUrl = profileComponents.find(
+                (c) => c.id === profileComponent.id
               )?.value;
 
               // Upload new image
               const response = await uploadFiles("imageUploader", {
-                files: [component.file],
+                files: [profileComponent.file],
               });
 
               // Delete previous image from UploadThing (if applicable)
@@ -156,34 +193,38 @@ const EditProfileCardComponent = () => {
               // Build new image URL
               const uploadedUrl = response[0]?.key
                 ? `https://${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}.ufs.sh/f/${response[0].key}`
-                : component.value;
+                : profileComponent.value;
 
               return {
-                ...component,
+                ...profileComponent,
                 value: uploadedUrl,
               };
             } catch (error) {
               console.error("UploadThing error:", error);
-              return component;
+              return profileComponent;
             }
           }
           // Return unmodified component if not an image or no new file
-          return component;
+          return profileComponent;
         })
       );
 
       console.log("updatedComponents:", updatedComponents);
-      console.log("finalComponents:", getValues("components"));
+      console.log("finalComponents:", getValues("profileComponents"));
 
       // need to update data.components with updatedComponents
-      const finalComponents = data.components.map((originalComponent) => {
-        const updated = updatedComponents.find(
-          (comp) => comp.id === originalComponent.id
-        );
-        return updated ?? originalComponent;
-      });
+      const finalComponents = data.profileComponents.map(
+        (originalComponent) => {
+          const updated = updatedComponents.find(
+            (comp) => comp.id === originalComponent.id
+          );
+          return updated ?? originalComponent;
+        }
+      );
 
-      setComponents(data.components as ProfileDndComponent[]);
+      setProfileComponents(
+        data.profileComponents as FetchProfileComponentData[]
+      );
     } else {
       console.log("is not dirty");
     }
@@ -193,8 +234,10 @@ const EditProfileCardComponent = () => {
   };
 
   useEffect(() => {
-    reset({ components: components as ProfileDndComponentSchemaType[] });
-  }, [components, reset]);
+    reset({
+      profileComponents: profileComponents as ProfileDndComponentSchemaType[],
+    });
+  }, [profileComponents, reset]);
 
   return (
     <>
@@ -204,12 +247,12 @@ const EditProfileCardComponent = () => {
         <div
           className={`relative max-w-[400px] md:w-[400px]  flex flex-col  overflow-hidden rounded-lg`}
           style={{
-            backgroundColor: design.backgroundColor,
-            color: design.foregroundColor,
+            backgroundColor: backgroundColor,
+            color: foregroundColor,
           }}
         >
           {/* Header area */}
-          {layoutComponent}
+          <ProfileHeaderLayout layout={layout} />
 
           {/* Drag-and-drop area */}
           <form id="profileForm" onSubmit={handleSubmit(onSubmit)}>
@@ -226,10 +269,12 @@ const EditProfileCardComponent = () => {
                   {fields.map((item, index) => (
                     <ProfileDroppable
                       key={item.id}
-                      item={item as ProfileComponentModel}
+                      item={item as FetchProfileComponentData}
                       index={index}
                       formRegister={register}
-                      formErrors={errors.components?.[index]?.value?.message}
+                      formErrors={
+                        errors.profileComponents?.[index]?.value?.message
+                      }
                       handleDeleteItem={handleDeleteItem}
                       setValue={setValue}
                       watch={watch}

@@ -4,11 +4,12 @@ import { typeIconMap } from "@/lib/icon";
 import { Button } from "@/components/ui/button";
 import { useProfileContext } from "@/context/profileContext";
 import { v4 as uuidv4 } from "uuid"; // Import uuid for generating unique IDs
-import {
-  PROFILE_COMPONENT_TYPE,
-  PROFILE_COMPONENT_CATEGORY,
-} from "@/lib/types/enums";
+
 import { ProfileDndComponentSchemaType } from "../EditProfileCard/DragAndDropComponent/ProfileDndInputSchema";
+import {
+  PROFILE_COMPONENT_CATEGORY,
+  PROFILE_COMPONENT_TYPE,
+} from "@/core/_domain/enum/profile-component-repository.enum";
 
 export default function FieldsEditModal() {
   // Data categorized by type
@@ -245,7 +246,6 @@ export default function FieldsEditModal() {
     category: PROFILE_COMPONENT_CATEGORY
   ) => {
     const newComponent = {
-      id: uuidv4(),
       cardId: card_id, // Generate unique ID
       type: type,
       category: category,

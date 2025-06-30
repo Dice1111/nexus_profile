@@ -3,6 +3,8 @@ import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
 import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
 import dynamic from "next/dynamic";
 import ProfileLayoutOne from "../ProfileHeaderLayout/ProfileLayoutOne";
+import ProfileLayoutTwo from "../ProfileHeaderLayout/ProfileLayoutTwo";
+import ProfileHeaderLayout from "../ProfileHeaderLayout/ProfileHeaderLayout";
 
 interface InitialProfileCardComponentProps {
   information: FetchInformationData;
@@ -13,14 +15,6 @@ const InitialProfileCardComponent = ({
   information,
   design,
 }: InitialProfileCardComponentProps) => {
-  const DynamicProfileLayoutOne = dynamic(
-    () => import("../ProfileHeaderLayout/ProfileLayoutOne")
-  );
-
-  const DynamicProfileLayoutTwo = dynamic(
-    () => import("../ProfileHeaderLayout/ProfileLayoutTwo")
-  );
-
   return (
     <div
       className="relative max-w-[400px] flex flex-col overflow-hidden rounded-lg shadow-lg"
@@ -29,14 +23,11 @@ const InitialProfileCardComponent = ({
         color: design.foregroundColor || "#ffffff",
       }}
     >
-      {design.layout === PROFILE_LAYOUT.LAYOUT_ONE && (
-        <DynamicProfileLayoutOne design={design} information={information} />
-        // <ProfileLayoutOne design={design} information={information} />
-      )}
-      {design.layout === PROFILE_LAYOUT.LAYOUT_TWO && (
-        <DynamicProfileLayoutTwo design={design} information={information} />
-        // <ProfileLayoutTwo design={design} information={information} />
-      )}
+      <ProfileHeaderLayout
+        layout={design.layout}
+        design={design}
+        information={information}
+      />
     </div>
   );
 };

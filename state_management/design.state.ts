@@ -34,7 +34,7 @@ type DesignActions = {
   setDesign: (design: Omit<DesignState, keyof DesignActions>) => void;
 };
 
-export const useDesign = create<DesignState>((set) => ({
+export const useDesignState = create<DesignState>((set) => ({
   id: 0,
   cardId: "",
   foregroundColor: "#000000",
