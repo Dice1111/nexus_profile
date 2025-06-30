@@ -1,20 +1,20 @@
 "use server";
 
-import { SignUpControllerType } from "@/core/_controllers/auth/sign-up.controller";
+import { SignUpControllerType } from "@/core/_controllers/user/sign-up.controller";
 import {
   DatabaseOperationError,
   InputParseError,
   UniqueConstraintError,
 } from "@/core/_domain/errors/common.error";
-import buildSignUpController from "@/core/_factory/controller-factory/auth/build-sign-up-controller";
-import { SignUpInputType } from "@/schema/auth/sign-up.schema";
+import buildSignUpController from "@/core/_factory/controller-factory/user/build-sign-up-controller";
+import { SignUpData } from "@/schema/user/sign-up.schema";
 
 export async function signUpUserAction(
   _prevState: {
     success: boolean;
     message: string;
   },
-  data: SignUpInputType
+  data: SignUpData
 ) {
   try {
     const signUpController: SignUpControllerType = buildSignUpController();

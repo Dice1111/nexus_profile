@@ -4,14 +4,16 @@ import { URL_PAGE, URL_SEARCH } from "@/lib/utils";
 import { SearchIcon } from "lucide-react";
 import Form from "next/form";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Input } from "../ui/input";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 function SearchBase({ initialQuery }: { initialQuery: string }) {
   const [inputValue, setInputValue] = useState(initialQuery);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async (formData: FormData) => {
     const query = formData.get(URL_SEARCH) as string;
@@ -25,7 +27,9 @@ function SearchBase({ initialQuery }: { initialQuery: string }) {
     }
     newParams.delete(URL_PAGE);
     const newURL = `${pathname}?${newParams.toString()}`;
-    router.replace(newURL);
+    startTransition(() => {
+      router.replace(newURL);
+    });
   };
 
   return (
@@ -45,14 +49,20 @@ function SearchBase({ initialQuery }: { initialQuery: string }) {
         {/* <div className="absolute right-3 top-1/2 -translate-y-1/2">
           {shouldSuspend && <SearchBarLoadingSpinner />}
         </div> */}
+
+        {isPending && (
+          <div className="absolute right-3 top-1/2 -translate-y-1/2">
+            <LoadingSpinner className="w-6 h-6" />
+          </div>
+        )}
       </div>
     </Form>
   );
 }
 
-export function SearchFallback() {
-  return <SearchBase initialQuery="" />;
-}
+// export function SearchFallback() {
+//   return <SearchBase initialQuery="" />;
+// }
 
 export default function Search() {
   const query = useSearchParams().get("search") ?? "";

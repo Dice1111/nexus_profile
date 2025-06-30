@@ -1,4 +1,4 @@
-"use client"; // Error boundaries must be Client Components
+"use client";
 
 import { useEffect } from "react";
 
@@ -9,23 +9,38 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const errorType = error.name || "Application Error";
+  const errorMessage = error.message || "An unexpected error occurred.";
+
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
   return (
-    <div className="flex justify-center items-center min-h-screen  p-4">
-      <div className="bg-popover p-4 rounded-lg shadow-xl max-w-lg w-full text-center">
-        <h2 className="text-3xl font-semibold text-popover-foreground mb-4">
-          Something Went Wrong!
-        </h2>
-        <p className="text-popover-foreground mb-6">
-          {error?.message || "An unexpected error occurred. Please try again."}
-        </p>
+    <div className="flex items-center justify-center text-primary">
+      <div className="bg-secondary flex flex-col gap-4 rounded-lg p-8 max-w-xl w-full">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center">
+          Something went wrong
+        </h1>
+
+        <div className="text-left mb-6 space-y-2">
+          <div>
+            <span className="font-semibold text-muted-foreground">
+              Error Type:
+            </span>{" "}
+            <span className="font-medium">{errorType}</span>
+          </div>
+          <div>
+            <span className="font-semibold text-muted-foreground">
+              Message:
+            </span>{" "}
+            <span className="text-popover-foreground">{errorMessage}</span>
+          </div>
+        </div>
+
         <button
-          className="bg-primary text-primary-foreground border border-primary px-6 py-2 rounded-lg hover:bg-secondary hover:text-secondary-foreground transition-colors ease-in-out"
-          onClick={() => reset()}
+          onClick={reset}
+          className="w-full bg-primary text-primary-foreground py-2 px-4 rounded-lg hover:bg-secondary hover:text-secondary-foreground transition duration-200 font-medium"
         >
           Try Again
         </button>

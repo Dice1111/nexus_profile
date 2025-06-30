@@ -1,13 +1,13 @@
 import { IContactRepository } from "@/core/_domain/repositories/IContactRepository";
-import { IDailyFollowerCountChartData } from "@/core/_domain/types/contact-repository.types";
+import { IDailyFollowerCountChartResponse } from "@/core/_domain/types/contact-repository.types";
 
-export type IFetchDailyFollowerCountByCardIdUseCase = ReturnType<
+export type FetchDailyFollowerCountByCardIdUseCase = ReturnType<
   typeof fetchDailyFollowerCountByCardIdUseCase
 >;
 
 export const fetchDailyFollowerCountByCardIdUseCase =
   (contactRepository: IContactRepository) =>
-  async (cardId: string): Promise<IDailyFollowerCountChartData[]> => {
+  async (cardId: string): Promise<IDailyFollowerCountChartResponse[]> => {
     const rawData = await contactRepository.fetchDailyFollowerCountByCardId(
       cardId
     );

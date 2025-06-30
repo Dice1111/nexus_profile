@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { SignUpInputType, signUpSchema } from "@/schema/auth/sign-up.schema";
+import { SignUpData, signUpSchema } from "@/schema/user/sign-up.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { startTransition, useActionState } from "react";
@@ -26,7 +26,7 @@ const page = () => {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<SignUpInputType>({
+  } = useForm<SignUpData>({
     resolver: zodResolver(signUpSchema),
     mode: "onBlur",
   });

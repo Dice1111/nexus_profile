@@ -10,9 +10,9 @@ import {
 } from "@/core/_domain/errors/common.error";
 import { IContactRepository } from "@/core/_domain/repositories/IContactRepository";
 import {
-  ContactOrganizedSearchParams,
-  ICreateContactData,
-  IRawContactWithSpecificCardData,
+  IContactOrganizedSearchParams,
+  CreateContactInput,
+  ContactWithSpecificCardData,
 } from "@/core/_domain/types/contact-repository.types";
 import {
   IContactFilter,
@@ -106,7 +106,7 @@ export class ContactRepository implements IContactRepository {
       });
     }
   }
-  async create(data: ICreateContactData): Promise<void> {
+  async create(data: CreateContactInput): Promise<void> {
     try {
       await prisma.contact.create({
         data: {
@@ -129,8 +129,8 @@ export class ContactRepository implements IContactRepository {
     }
   }
   async fetchWithSpecificCardDataBySearchParams(
-    data: ContactOrganizedSearchParams
-  ): Promise<IRawContactWithSpecificCardData[]> {
+    data: IContactOrganizedSearchParams
+  ): Promise<ContactWithSpecificCardData[]> {
     try {
       const offset = (data.requestPage - 1) * data.itemsPerPage;
 
@@ -138,7 +138,17 @@ export class ContactRepository implements IContactRepository {
       const orderByClause = this.buildOrderClause(data.sortClauseRequirement);
 
       const rawData = await prisma.contact.findMany({
-        where: whereClause,
+        where: {
+          ...whereClause,
+          ContactCard: {
+            Design: {
+              isNot: null,
+            },
+            Information: {
+              isNot: null,
+            },
+          },
+        },
         orderBy: orderByClause,
         skip: offset,
         take: data.itemsPerPage,
@@ -148,6 +158,11 @@ export class ContactRepository implements IContactRepository {
               id: true,
               title: true,
               userId: true,
+              Design: {
+                select: {
+                  profileImage: true,
+                },
+              },
               Information: {
                 select: {
                   occupation: true,
@@ -160,7 +175,17 @@ export class ContactRepository implements IContactRepository {
         },
       });
 
-      return rawData;
+      const fixData: ContactWithSpecificCardData[] = rawData.map((item) => ({
+        ...item,
+        tag: item.tag as CONTACT_TAG_ENUM,
+        ContactCard: {
+          ...item.ContactCard!,
+          Information: item.ContactCard!.Information!,
+          Design: item.ContactCard!.Design!,
+        },
+      }));
+
+      return fixData;
     } catch (error) {
       throw new DatabaseOperationError("Failed to fetch Contacts", {
         cause: error,

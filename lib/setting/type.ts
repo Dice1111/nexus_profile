@@ -6,12 +6,3 @@ export interface SettingToggleProps {
   initialState?: boolean;
   purpose: TOGGLE_TYPE;
 }
-
-export interface SettingAccountDataType {
-  id: string;
-  firstName: string;
-  lastName: string;
-  middleName?: string;
-  email: string;
-  image?: string;
-}

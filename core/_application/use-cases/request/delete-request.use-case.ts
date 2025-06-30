@@ -1,6 +1,6 @@
 import { IRequestRepository } from "@/core/_domain/repositories/IRequestRepository";
 
-export type IDeleteRequestUseCase = ReturnType<typeof deleteRequestUseCase>;
+export type DeleteRequestUseCase = ReturnType<typeof deleteRequestUseCase>;
 
 export const deleteRequestUseCase =
   (requestRepository: IRequestRepository) =>

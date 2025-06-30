@@ -1,6 +1,6 @@
 "use server";
 
-import { IDailyFollowerCountChartData } from "@/core/_domain/types/contact-repository.types";
+import { IDailyFollowerCountChartResponse } from "@/core/_domain/types/contact-repository.types";
 import buildFetchOverviewStatisticByCardId from "@/core/_factory/controller-factory/overview/build-fetch-overview-statistic-by-card-id-controller";
 
 export interface IFetchOverviewStatisticByCardIdActionState {
@@ -8,7 +8,7 @@ export interface IFetchOverviewStatisticByCardIdActionState {
   contactCount: number;
   followerCount: number;
   requestCount: number;
-  dailyFollowerChartData: IDailyFollowerCountChartData[];
+  dailyFollowerChartData: IDailyFollowerCountChartResponse[];
 }
 
 export async function fetchOverviewStatisticByCardIdAction(

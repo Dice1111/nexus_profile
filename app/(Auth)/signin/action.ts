@@ -1,20 +1,21 @@
 "use server";
 
-import { SignInControllerType } from "@/core/_controllers/auth/sign-in.controller";
+import { SignInControllerType } from "@/core/_controllers/user/sign-in.controller";
 import { AuthenticationError } from "@/core/_domain/errors/auth.error";
 import {
   DatabaseOperationError,
   InputParseError,
+  NotFoundError,
 } from "@/core/_domain/errors/common.error";
-import buildSignInController from "@/core/_factory/controller-factory/auth/build-sign-in-controller";
-import { SignInInputType } from "@/schema/auth/sign-in.schema";
+import buildSignInController from "@/core/_factory/controller-factory/user/build-sign-in-controller";
+import { SignInData } from "@/schema/user/sign-in.schema";
 
 export async function signInUserAction(
   _prevState: {
     success: boolean;
     message: string;
   },
-  data: SignInInputType
+  data: SignInData
 ) {
   try {
     const signInController: SignInControllerType = buildSignInController();
@@ -32,6 +33,12 @@ export async function signInUserAction(
       };
     }
     if (error instanceof AuthenticationError) {
+      return {
+        success: false,
+        message: error.message,
+      };
+    }
+    if (error instanceof NotFoundError) {
       return {
         success: false,
         message: error.message,

@@ -12,7 +12,7 @@ export default async function RequestPage({
 }) {
   const searchParam = await searchParams;
 
-  const cardId = "1c41b717-d565-47f6-a569-10774f2c8d4b";
+  const cardId = "ca2ca944-959f-4d4d-8ec1-5f5b8066ec2b";
 
   const enrichedParams = {
     ...searchParam,

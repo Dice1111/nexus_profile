@@ -1,7 +1,12 @@
-import { UserModel } from "../models/user.model";
-import { ICreateUserData } from "../types/user-repository.types";
+import {
+  CreateUserInput,
+  UpdateNameInput,
+  UserSettingResponse,
+} from "../types/user-repository.types";
 
 export interface IUserRepository {
-  findByEmail(email: string): Promise<UserModel | null>;
-  create(data: ICreateUserData): Promise<void>;
+  findPasswordHashByEmail(email: string): Promise<string>;
+  create(data: CreateUserInput): Promise<void>;
+  fetchUserSettingDataById(id: string): Promise<UserSettingResponse>;
+  updateUserName(data: UpdateNameInput): Promise<void>;
 }

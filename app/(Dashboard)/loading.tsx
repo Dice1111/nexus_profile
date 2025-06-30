@@ -4,6 +4,6 @@ export default function loading() {
     //   <div className="border-t-4 border-primary-foreground border-solid rounded-full w-10 h-10 animate-spin"></div>
     // </div>
 
-    <p>Loading........</p>
+    <p>Loading...</p>
   );
 }

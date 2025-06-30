@@ -18,7 +18,7 @@ import {
   IAcceptRequestActionState,
   IDeleteRequestActionState,
 } from "@/app/(Dashboard)/contact/request/action";
-import { IRequestWithSpecificCardData } from "@/core/_domain/types/request-repository.type";
+import { RequestWithSpecificCardData } from "@/core/_domain/types/request-repository.type";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -36,7 +36,7 @@ import { displaySuccessToast } from "../Box/successToastBox";
 import RequestRow from "../Row/RequestRow";
 
 interface ConnectionRequestListProps {
-  requests: IRequestWithSpecificCardData[];
+  requests: RequestWithSpecificCardData[];
 }
 
 const acceptRequestActionInitialState: IAcceptRequestActionState = {
@@ -113,22 +113,19 @@ export default function ConnectionRequestList({
     }
   }, [isPendingDelete]);
 
-  const handleRowClick = useCallback(
-    (rowData: IRequestWithSpecificCardData) => {
-      const data: RequestSheetVarient = {
-        cardId: rowData.senderCardId,
-        date: rowData.createdAt,
-      };
-      setSheetData(data);
-      setIsSheetOpen(true);
-    },
-    []
-  );
+  const handleRowClick = useCallback((rowData: RequestWithSpecificCardData) => {
+    const data: RequestSheetVarient = {
+      cardId: rowData.senderCardId,
+      date: rowData.createdAt.toLocaleDateString(),
+    };
+    setSheetData(data);
+    setIsSheetOpen(true);
+  }, []);
 
   const handleAccept = useCallback(
     (
       e: React.MouseEvent<HTMLButtonElement>,
-      req: IRequestWithSpecificCardData
+      req: RequestWithSpecificCardData
     ) => {
       e.stopPropagation();
       setCurrentRequest({
@@ -153,7 +150,7 @@ export default function ConnectionRequestList({
   const handleReject = useCallback(
     (
       event: React.MouseEvent<HTMLButtonElement>,
-      req: IRequestWithSpecificCardData
+      req: RequestWithSpecificCardData
     ) => {
       event.stopPropagation();
 
@@ -177,20 +174,20 @@ export default function ConnectionRequestList({
 
   return (
     <div>
-      <div className="bg-secondary text-secondary-foreground rounded-lg flex flex-col">
+      <div className="bg-secondary text-secondary-foreground rounded-lg flex flex-col divide-y divide-primary/20">
         {requests.length > 0 ? (
           requests.map((request) => (
             <div
               key={request.senderCardId}
               onClick={() => handleRowClick(request)}
-              className="border-gray-400 border-b p-4 hover:bg-primary/20 cursor-pointer"
+              className="p-4 hover:bg-primary/20 cursor-pointer"
             >
               <MemoizedRequestRow
-                fullName={request.fullName}
-                occupation={request.occupation}
-                company={request.company}
-                image={""}
-                date={request.createdAt}
+                fullName={request.SenderCard.Information.fullName}
+                occupation={request.SenderCard.Information.occupation}
+                company={request.SenderCard.Information.company}
+                image={request.SenderCard.Design.profileImage}
+                date={request.createdAt.toLocaleDateString()}
                 onAccept={(e) => handleAccept(e, request)}
                 onReject={(e) => handleReject(e, request)}
               />

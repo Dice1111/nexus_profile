@@ -5,7 +5,7 @@ import {
   ISanitizedRequestSearchParams,
 } from "@/core/_domain/types/search-params-handler-service.type";
 
-export type IFetchTotalRequestCountBySearchParamsUseCase = ReturnType<
+export type FetchTotalRequestCountBySearchParamsUseCase = ReturnType<
   typeof fetchTotalRequestCountBySearchParamsUseCase
 >;
 

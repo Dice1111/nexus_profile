@@ -3,7 +3,7 @@ import {
   DatabaseOperationError,
   InputParseError,
 } from "@/core/_domain/errors/common.error";
-import { IContactWithPaginationData } from "@/core/_domain/types/contact-repository.types";
+import { IContactWithPaginationResponse } from "@/core/_domain/types/contact-repository.types";
 import { IRawSearchParams } from "@/core/_domain/types/search-params-handler-service.type";
 import buildDeleteContactController from "@/core/_factory/controller-factory/contact/build-delete-contact-controller";
 import buildFetchContactsWithPaginationDataBySearchParamsController from "@/core/_factory/controller-factory/contact/build-fetch-contacts-with-pagination-data-by-search-params-controller";
@@ -16,7 +16,7 @@ export async function fetchContactsWithPaginationDataBySearchParamsAction(
   itemsPerPage: number
 ): Promise<{
   success: boolean;
-  data: IContactWithPaginationData;
+  data: IContactWithPaginationResponse;
 }> {
   try {
     const fetchBySearchParamsController =

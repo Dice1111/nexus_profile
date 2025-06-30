@@ -1,36 +1,13 @@
 import { IRequestRepository } from "@/core/_domain/repositories/IRequestRepository";
 import {
-  IRawRequestWithSpecificCardData,
-  IRequestWithSpecificCardData,
-} from "@/core/_domain/types/request-repository.type";
-import {
   IRequestFilter,
   IRequestSort,
   ISanitizedRequestSearchParams,
 } from "@/core/_domain/types/search-params-handler-service.type";
 
-function ToFlatRequest(
-  requests: IRawRequestWithSpecificCardData[]
-): IRequestWithSpecificCardData[] {
-  if (requests.length === 0) return [];
-  return requests.map((request) => {
-    const info = request.SenderCard?.Information;
-
-    return {
-      id: request.id,
-      cardId: request.cardId,
-      senderCardId: request.senderCardId,
-      createdAt: request.createdAt.toISOString().split("T")[0],
-      updatedAt: request.updatedAt.toISOString().split("T")[0],
-      occupation: info?.occupation ?? null,
-      company: info?.company ?? null,
-      fullName: info?.fullName ?? "No Name",
-    };
-  });
-}
-
-export type IFetchRequestsWithSpecificCardDataBySearchParamsUseCase =
-  ReturnType<typeof fetchRequestsWithSpecificCardDataBySearchParamsUseCase>;
+export type FetchRequestsWithSpecificCardDataBySearchParamsUseCase = ReturnType<
+  typeof fetchRequestsWithSpecificCardDataBySearchParamsUseCase
+>;
 
 export const fetchRequestsWithSpecificCardDataBySearchParamsUseCase =
   (requestRepository: IRequestRepository) =>
@@ -50,7 +27,7 @@ export const fetchRequestsWithSpecificCardDataBySearchParamsUseCase =
 
     const requestPage = sanitizedSearchParams.page;
 
-    const rawContactData =
+    const requestData =
       await requestRepository.fetchWithSpecificCardDataBySearchParams({
         itemsPerPage,
         requestPage,
@@ -58,5 +35,5 @@ export const fetchRequestsWithSpecificCardDataBySearchParamsUseCase =
         sortClauseRequirement,
       });
 
-    return ToFlatRequest(rawContactData);
+    return requestData;
   };

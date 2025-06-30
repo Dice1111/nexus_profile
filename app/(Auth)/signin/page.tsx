@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { SignInInputType, signInSchema } from "@/schema/auth/sign-in.schema";
+import { SignInData, signInSchema } from "@/schema/user/sign-in.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,7 +23,7 @@ export default function LoginPage() {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<SignInInputType>({
+  } = useForm<SignInData>({
     resolver: zodResolver(signInSchema),
     mode: "onBlur",
   });
