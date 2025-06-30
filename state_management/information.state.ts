@@ -52,7 +52,7 @@ type InformationActions = {
   ) => void;
 };
 
-export const useInformation = create<InformationState>((set) => ({
+export const useInformationState = create<InformationState>((set) => ({
   id: 0,
   cardId: "",
   title: null,
@@ -78,6 +78,5 @@ export const useInformation = create<InformationState>((set) => ({
   setSuffix: (suffix) => set({ suffix }),
   setPreferredName: (preferredName) => set({ preferredName }),
   setPronouns: (pronouns) => set({ pronouns }),
-
   setInformation: (info) => set((state) => ({ ...state, ...info })),
 }));

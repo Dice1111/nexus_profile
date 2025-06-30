@@ -1,45 +1,38 @@
 "use client";
 
-import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
-import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
-import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
-import { profileLayoutData } from "@/lib/profileCardLayoutData/LayoutData";
+import { useDesignState } from "@/state_management/design.state";
+import { useProfileComponentsState } from "@/state_management/profile-component.state";
+import ProfileHeaderLayout from "../ProfileHeaderLayout/ProfileHeaderLayout";
 import ProfileBodyItem from "./ProfileBodyItem";
 
-interface ProfileCardComponentProps {
-  components: FetchProfileComponentData[];
-  design: FetchDesignData;
-  information: FetchInformationData;
-}
-
-const ProfileCardComponent = ({
-  components,
-  design,
-  information,
-}: ProfileCardComponentProps) => {
-  const layoutComponent = profileLayoutData(design, information)[
-    design?.layout as keyof typeof profileLayoutData
-  ];
+const ProfileCardComponent = () => {
+  //STATE MANAGEMENT
+  const backgroundColor = useDesignState((state) => state.backgroundColor);
+  const foregroundColor = useDesignState((state) => state.foregroundColor);
+  const layout = useDesignState((state) => state.layout);
+  const profileComponents = useProfileComponentsState(
+    (state) => state.profileComponents
+  );
 
   return (
     <div
       className="relative max-w-[400px]  flex flex-col overflow-hidden rounded-lg bg-red-300 "
       style={{
-        backgroundColor: design.backgroundColor || "#000000",
-        color: design.foregroundColor || "#ffffff",
+        backgroundColor: backgroundColor || "#000000",
+        color: foregroundColor || "#ffffff",
       }}
     >
       {/* header area */}
-      {layoutComponent}
+      <ProfileHeaderLayout layout={layout} />
 
       {/* item area */}
       <div className="flex flex-col gap-3 pb-4 w-full">
-        {components.map((item) => (
+        {profileComponents.map((item) => (
           <ProfileBodyItem
             key={item.id}
             item={item}
-            background_color={design.backgroundColor || "#000000"}
-            foreground_color={design.foregroundColor || "#ffffff"}
+            background_color={backgroundColor || "#000000"}
+            foreground_color={foregroundColor || "#ffffff"}
           />
         ))}
       </div>

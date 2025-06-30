@@ -1,18 +1,5 @@
 // types/itemTypes.ts
 
-import { PROFILE_COMPONENT_CATEGORY, PROFILE_COMPONENT_TYPE } from "./enums";
-
-export type ProfileDndComponent = {
-  id: string;
-  card_id: string;
-  type: PROFILE_COMPONENT_TYPE;
-  category: PROFILE_COMPONENT_CATEGORY;
-  display_text: string; //need to check wheather it is nullable or not
-  value: string;
-  file?: File;
-  position: number;
-};
-
 export interface ThemeSchema {
   [key: string]: {
     imageWrapper: string;

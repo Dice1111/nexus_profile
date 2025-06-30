@@ -20,12 +20,10 @@ export default function CardPreviewPage() {
     return null;
   }
 
-  const { components, profileData } = context;
-
   return (
     <div>
       <h1 className="text-2xl mb-10 font-thin">Preview</h1>
-      <ProfileCardComponent profileData={profileData} components={components} />
+      <ProfileCardComponent />
     </div>
   );
 }

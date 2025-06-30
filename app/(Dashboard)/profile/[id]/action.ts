@@ -7,8 +7,8 @@ import { buildFetchProfileCardDataController } from "@/core/_factory/controller-
 
 export interface IFetchCardDataActionState {
   profileData: {
-    information: FetchInformationData | null;
-    design: FetchDesignData | null;
+    information: FetchInformationData;
+    design: FetchDesignData;
     profileComponents: FetchProfileComponentData[];
   };
   success: boolean;

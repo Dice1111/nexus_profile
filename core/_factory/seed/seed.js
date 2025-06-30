@@ -1,11 +1,12 @@
 const { PrismaClient } = require("@prisma/client");
 const { faker } = require("@faker-js/faker");
 const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require("uuid");
 
 //Card dnd component
 const profileDndComponents = [
   {
-    id: "103",
+    id: uuidv4(),
     card_id: "1",
     type: "EMAIL",
     category: "MAIL",
@@ -14,7 +15,7 @@ const profileDndComponents = [
     position: 0,
   },
   {
-    id: "104",
+    id: uuidv4(),
     card_id: "1",
     type: "LINK",
     category: "LINK",
@@ -23,7 +24,7 @@ const profileDndComponents = [
     position: 1,
   },
   {
-    id: "106",
+    id: uuidv4(),
     card_id: "1",
     type: "PHONE",
     category: "PHONE",
@@ -32,7 +33,7 @@ const profileDndComponents = [
     position: 2,
   },
   {
-    id: "107",
+    id: uuidv4(),
     card_id: "1",
     type: "WHATSAPP",
     category: "LINK",
@@ -41,7 +42,7 @@ const profileDndComponents = [
     position: 3,
   },
   {
-    id: "108",
+    id: uuidv4(),
     card_id: "1",
     type: "TELEGRAM",
     category: "LINK",
@@ -50,7 +51,7 @@ const profileDndComponents = [
     position: 4,
   },
   {
-    id: "102",
+    id: uuidv4(),
     card_id: "1",
     type: "HEADING",
     category: "TEXT",
@@ -59,7 +60,7 @@ const profileDndComponents = [
     position: 5,
   },
   {
-    id: "101",
+    id: uuidv4(),
     card_id: "1",
     type: "IMAGE",
     category: "IMAGE",
@@ -69,7 +70,7 @@ const profileDndComponents = [
     position: 6,
   },
   {
-    id: "200",
+    id: uuidv4(),
     card_id: "1",
     type: "HEADING",
     category: "TEXT",
@@ -78,7 +79,7 @@ const profileDndComponents = [
     position: 7,
   },
   {
-    id: "109",
+    id: uuidv4(),
     card_id: "1",
     type: "YOUTUBE",
     category: "LINK",
@@ -87,7 +88,7 @@ const profileDndComponents = [
     position: 8,
   },
   {
-    id: "201",
+    id: uuidv4(),
     card_id: "1",
     type: "HEADING",
     category: "TEXT",
@@ -96,7 +97,7 @@ const profileDndComponents = [
     position: 9,
   },
   {
-    id: "110",
+    id: uuidv4(),
     card_id: "1",
     type: "DISCORD",
     category: "LINK",
@@ -105,7 +106,7 @@ const profileDndComponents = [
     position: 10,
   },
   {
-    id: "111",
+    id: uuidv4(),
     card_id: "1",
     type: "GITHUB",
     category: "LINK",
@@ -114,7 +115,7 @@ const profileDndComponents = [
     position: 11,
   },
   {
-    id: "112",
+    id: uuidv4(),
     card_id: "1",
     type: "LINKEDIN",
     category: "LINK",
@@ -123,7 +124,7 @@ const profileDndComponents = [
     position: 12,
   },
   {
-    id: "113",
+    id: uuidv4(),
     card_id: "1",
     type: "FACEBOOK",
     category: "LINK",
@@ -132,7 +133,7 @@ const profileDndComponents = [
     position: 13,
   },
   {
-    id: "114",
+    id: uuidv4(),
     card_id: "1",
     type: "INSTAGRAM",
     category: "LINK",
@@ -141,7 +142,7 @@ const profileDndComponents = [
     position: 14,
   },
   {
-    id: "115",
+    id: uuidv4(),
     card_id: "1",
     type: "TWITTER",
     category: "LINK",
@@ -150,7 +151,7 @@ const profileDndComponents = [
     position: 15,
   },
   {
-    id: "116",
+    id: uuidv4(),
     card_id: "1",
     type: "TIKTOK",
     category: "LINK",
@@ -159,7 +160,7 @@ const profileDndComponents = [
     position: 16,
   },
   {
-    id: "117",
+    id: uuidv4(),
     card_id: "1",
     type: "PINTEREST",
     category: "LINK",
@@ -168,7 +169,7 @@ const profileDndComponents = [
     position: 17,
   },
   {
-    id: "119",
+    id: uuidv4(),
     card_id: "1",
     type: "PAYPAL",
     category: "LINK",
@@ -177,7 +178,7 @@ const profileDndComponents = [
     position: 18,
   },
   {
-    id: "120",
+    id: uuidv4(),
     card_id: "1",
     type: "ZOOM",
     category: "LINK",
@@ -186,7 +187,7 @@ const profileDndComponents = [
     position: 19,
   },
   {
-    id: "121",
+    id: uuidv4(),
     card_id: "1",
     type: "GOOGLE_MEET",
     category: "LINK",
@@ -195,7 +196,7 @@ const profileDndComponents = [
     position: 20,
   },
   {
-    id: "122",
+    id: uuidv4(),
     card_id: "1",
     type: "MICROSOFT_TEAMS",
     category: "LINK",
@@ -213,7 +214,7 @@ const profileDndComponents = [
     position: 22,
   },
   {
-    id: "124",
+    id: uuidv4(),
     card_id: "1",
     type: "BEHANCE",
     category: "LINK",
@@ -222,7 +223,7 @@ const profileDndComponents = [
     position: 23,
   },
   {
-    id: "125",
+    id: uuidv4(),
     card_id: "1",
     type: "LINKEDIN_POST",
     category: "SOCIAL_EMBED",
@@ -232,7 +233,7 @@ const profileDndComponents = [
     position: 24,
   },
   {
-    id: "126",
+    id: uuidv4(),
     card_id: "1",
     type: "TWITTER_POST",
     category: "SOCIAL_EMBED",
@@ -241,7 +242,7 @@ const profileDndComponents = [
     position: 25,
   },
   {
-    id: "127",
+    id: uuidv4(),
     card_id: "1",
     type: "INSTAGRAM_POST",
     category: "SOCIAL_EMBED",
@@ -251,7 +252,7 @@ const profileDndComponents = [
     position: 26,
   },
   {
-    id: "128",
+    id: uuidv4(),
     card_id: "1",
     type: "YOUTUBE_POST",
     category: "SOCIAL_EMBED",
@@ -260,7 +261,7 @@ const profileDndComponents = [
     position: 27,
   },
   {
-    id: "129",
+    id: uuidv4(),
     card_id: "1",
     type: "FACEBOOK_POST",
     category: "SOCIAL_EMBED",
@@ -270,7 +271,7 @@ const profileDndComponents = [
     position: 28,
   },
   {
-    id: "130",
+    id: uuidv4(),
     card_id: "1",
     type: "TIKTOK_POST",
     category: "SOCIAL_EMBED",

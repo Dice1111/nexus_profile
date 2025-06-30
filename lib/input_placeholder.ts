@@ -1,4 +1,4 @@
-import { PROFILE_COMPONENT_TYPE } from "@/lib/types/enums";
+import { PROFILE_COMPONENT_TYPE } from "@/core/_domain/enum/profile-component-repository.enum";
 
 export const InputPlaceholder = {
   [PROFILE_COMPONENT_TYPE.PHONE]: "1234567890", // Example phone number

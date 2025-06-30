@@ -1,7 +1,11 @@
-import { DatabaseOperationError } from "@/core/_domain/errors/common.error";
+import {
+  DatabaseOperationError,
+  NotFoundError,
+} from "@/core/_domain/errors/common.error";
 import { IInformationRepository } from "@/core/_domain/repositories/IInformationRepository";
 import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
 import { prisma } from "../prisma/prisma-client";
+import { Prisma } from "@prisma/client";
 
 export class InformationRepository implements IInformationRepository {
   create(): Promise<void> {
@@ -14,11 +18,9 @@ export class InformationRepository implements IInformationRepository {
     throw new Error("Method not implemented.");
   }
 
-  async fetch(cardId: string): Promise<FetchInformationData | null> {
-    console.log("cardId", cardId);
-
+  async fetch(cardId: string): Promise<FetchInformationData> {
     try {
-      const data = await prisma.information.findUnique({
+      const data = await prisma.information.findUniqueOrThrow({
         where: { cardId: cardId },
         select: {
           id: true,
@@ -37,6 +39,14 @@ export class InformationRepository implements IInformationRepository {
       });
       return data;
     } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2025"
+      ) {
+        throw new NotFoundError("No Information Found", {
+          cause: error,
+        });
+      }
       throw new DatabaseOperationError("Failed to fetch information", {
         cause: error,
       });

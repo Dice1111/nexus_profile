@@ -3,10 +3,10 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useProfileContext } from "@/context/profileContext";
+import { PROFILE_COMPONENT_CATEGORY } from "@/core/_domain/enum/profile-component-repository.enum";
+import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 import { typeIconMap } from "@/lib/icon";
 import { InputPlaceholder } from "@/lib/input_placeholder";
-import { PROFILE_COMPONENT_CATEGORY } from "@/lib/types/enums";
-import { ProfileDndComponent } from "@/lib/types/types";
 
 import { UploadButton } from "@/util/uploadthing";
 
@@ -17,7 +17,6 @@ import { CSS } from "@dnd-kit/utilities";
 
 import Image from "next/image";
 import {
-  Control,
   FieldValues,
   Path,
   PathValue,
@@ -28,11 +27,11 @@ import {
 import { RxCross1, RxDragHandleHorizontal } from "react-icons/rx";
 
 interface DroppableProps<T extends FieldValues> {
-  item: ProfileDndComponent;
+  item: FetchProfileComponentData;
   index: number;
   formRegister: UseFormRegister<T>;
   formErrors?: string;
-  handleDeleteItem: (id: string) => void;
+  handleDeleteItem: (id: number) => void;
   setValue: UseFormSetValue<T>;
   watch: UseFormWatch<T>;
 }
@@ -44,10 +43,10 @@ const DndComponentHeader = ({
   listeners,
   handleDeleteItem,
 }: {
-  item: ProfileDndComponent;
+  item: FetchProfileComponentData;
   attributes: DraggableAttributes;
   listeners?: SyntheticListenerMap;
-  handleDeleteItem: (id: string) => void;
+  handleDeleteItem: (id: number) => void;
 }) => (
   <div className="flex justify-between w-full items-center">
     <div
@@ -114,13 +113,13 @@ const DndInputFieldBuilder = <T extends FieldValues>({
   setValue,
   watch,
 }: {
-  item: ProfileDndComponent;
+  item: FetchProfileComponentData;
   index: number;
   attributes: DraggableAttributes;
   listeners?: SyntheticListenerMap;
   formRegister: UseFormRegister<T>;
   formErrors?: string;
-  handleDeleteItem: (id: string) => void;
+  handleDeleteItem: (id: number) => void;
   setValue: UseFormSetValue<T>;
   watch: UseFormWatch<T>;
 }) => {
@@ -167,7 +166,7 @@ const DndInputFieldBuilder = <T extends FieldValues>({
             {imageValue ? (
               <Image
                 src={imageValue}
-                alt={item.display_text || "Uploaded Image"}
+                alt={item.label || "Uploaded Image"}
                 width={300}
                 height={300}
                 className="rounded-lg w-full h-full object-cover shadow-md"

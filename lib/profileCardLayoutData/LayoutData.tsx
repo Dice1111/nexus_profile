@@ -1,30 +1,20 @@
 import ProfileLayoutOne from "@/components/ProfileComponent/ProfileHeaderLayout/ProfileLayoutOne";
 import ProfileLayoutTwo from "@/components/ProfileComponent/ProfileHeaderLayout/ProfileLayoutTwo";
 import { PROFILE_LAYOUT } from "@/core/_domain/enum/design-repository.enum";
-import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
-import { FetchInformationData } from "@/core/_domain/types/information-repository.types";
-
-export const profileLayouts = [
-  PROFILE_LAYOUT.LAYOUT_ONE,
-  PROFILE_LAYOUT.LAYOUT_TWO,
-  PROFILE_LAYOUT.LAYOUT_THREE,
-];
 
 // Function to Get Profile Layout Data
-export const profileLayoutData = (
-  design: FetchDesignData,
-  information: FetchInformationData
-) => ({
-  [PROFILE_LAYOUT.LAYOUT_ONE]: (
-    <ProfileLayoutOne design={design} information={information} />
-  ),
-  [PROFILE_LAYOUT.LAYOUT_TWO]: (
-    <ProfileLayoutTwo design={design} information={information} />
-  ),
-  [PROFILE_LAYOUT.LAYOUT_THREE]: (
-    <ProfileLayoutOne design={design} information={information} />
-  ),
-});
+export const getProfileLayoutComponent = (layout: PROFILE_LAYOUT) => {
+  switch (layout) {
+    case PROFILE_LAYOUT.LAYOUT_ONE:
+      return <ProfileLayoutOne />;
+    case PROFILE_LAYOUT.LAYOUT_TWO:
+      return <ProfileLayoutTwo />;
+    case PROFILE_LAYOUT.LAYOUT_THREE:
+      return <ProfileLayoutOne />;
+    default:
+      return null; // or a default layout/component
+  }
+};
 
 export enum ColorableElement {
   BACKGROUND = "BACKGROUND",

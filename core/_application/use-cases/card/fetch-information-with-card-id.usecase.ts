@@ -6,6 +6,6 @@ export type IFetchInformationWithCardIdUseCase = ReturnType<
 >;
 export const fetchInformationWithCardIdUseCase =
   (informationRepository: IInformationRepository) =>
-  async (cardID: string): Promise<FetchInformationData | null> => {
+  async (cardID: string): Promise<FetchInformationData> => {
     return await informationRepository.fetch(cardID);
   };

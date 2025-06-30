@@ -8,6 +8,6 @@ export type IFetchDesignWithCardIdUseCase = ReturnType<
 
 export const fetchDesignWithCardIdUseCase =
   (designRepository: IDesignRepository) =>
-  async (cardID: string): Promise<FetchDesignData | null> => {
+  async (cardID: string): Promise<FetchDesignData> => {
     return await designRepository.fetch(cardID);
   };
