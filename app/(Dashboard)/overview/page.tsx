@@ -2,10 +2,9 @@ import { InfoBox, InfoBox_Type } from "@/components/Box/InfoBox";
 
 import FollowerAndRequestChart from "@/components/Chart/FollowerAndRequestChart";
 import { fetchOverviewStatisticByCardIdAction } from "./action";
-import OverviewSkeleton from "@/components/skeleton/OverviewSkeleton";
 
 export default async function Page() {
-  const cardId = "ca2ca944-959f-4d4d-8ec1-5f5b8066ec2b";
+  const cardId = "085e949c-1696-48a1-bbde-6535b5400bba";
 
   const { contactCount, followerCount, requestCount, dailyFollowerChartData } =
     await fetchOverviewStatisticByCardIdAction(cardId);

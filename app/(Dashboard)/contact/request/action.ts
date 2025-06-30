@@ -29,22 +29,12 @@ export async function fetchRequestWithPaginationDataAction(
     };
   } catch (error) {
     if (error instanceof InputParseError) {
-      return {
-        success: false,
-        data: { requests: [], totalCount: 0, currentPage: 0, totalPage: 0 },
-      };
+      throw error;
+    } else if (error instanceof DatabaseOperationError) {
+      throw error;
+    } else {
+      throw error;
     }
-
-    if (error instanceof DatabaseOperationError) {
-      return {
-        success: false,
-        data: { requests: [], totalCount: 0, currentPage: 0, totalPage: 0 },
-      };
-    }
-    return {
-      success: false,
-      data: { requests: [], totalCount: 0, currentPage: 0, totalPage: 0 },
-    };
   }
 }
 
@@ -71,25 +61,19 @@ export async function acceptRequestAction(
         success: false,
         message: error.message,
       };
-    }
-
-    if (error instanceof UniqueConstraintError) {
+    } else if (error instanceof UniqueConstraintError) {
       return {
         success: false,
         message: error.message,
       };
-    }
-
-    if (error instanceof DatabaseOperationError) {
+    } else if (error instanceof DatabaseOperationError) {
       return {
         success: false,
-        message: error.message,
+        message: "Something went wrong",
       };
+    } else {
+      throw error;
     }
-    return {
-      success: false,
-      message: "An error happened. Please try again later",
-    };
   }
 }
 
@@ -116,17 +100,13 @@ export async function deleteRequestAction(
         success: false,
         message: error.message,
       };
-    }
-
-    if (error instanceof DatabaseOperationError) {
+    } else if (error instanceof DatabaseOperationError) {
       return {
         success: false,
-        message: error.message,
+        message: "Something went wrong",
       };
+    } else {
+      throw error;
     }
-    return {
-      success: false,
-      message: "An error happened. Please try again later",
-    };
   }
 }

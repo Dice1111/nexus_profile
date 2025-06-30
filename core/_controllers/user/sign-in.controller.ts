@@ -9,7 +9,7 @@ export const signInController =
   async (input: Partial<SignInData>): Promise<void> => {
     const parsed = signInSchema.safeParse(input);
     if (!parsed.success) {
-      const firstError = parsed.error.errors[0]?.message ?? "Invalid input";
+      const firstError = parsed.error.errors[0]?.message ?? "Invalid Data";
       throw new InputParseError(firstError, {
         cause: parsed.error.format(),
       });

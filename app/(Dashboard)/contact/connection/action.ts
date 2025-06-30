@@ -28,23 +28,12 @@ export async function fetchContactsWithPaginationDataBySearchParamsAction(
     };
   } catch (error) {
     if (error instanceof InputParseError) {
-      return {
-        success: false,
-        data: { contacts: [], totalCount: 0, currentPage: 0, totalPage: 0 },
-      };
+      throw error;
+    } else if (error instanceof DatabaseOperationError) {
+      throw error;
+    } else {
+      throw error;
     }
-
-    if (error instanceof DatabaseOperationError) {
-      return {
-        success: false,
-        data: { contacts: [], totalCount: 0, currentPage: 0, totalPage: 0 },
-      };
-    }
-
-    return {
-      success: false,
-      data: { contacts: [], totalCount: 0, currentPage: 0, totalPage: 0 },
-    };
   }
 }
 
@@ -71,18 +60,14 @@ export async function deleteContactAction(
         success: false,
         message: error.message,
       };
-    }
-
-    if (error instanceof DatabaseOperationError) {
+    } else if (error instanceof DatabaseOperationError) {
       return {
         success: false,
-        message: error.message,
+        message: "Something went wrong",
       };
+    } else {
+      throw error;
     }
-    return {
-      success: false,
-      message: "An error happened. Please try again later",
-    };
   }
 }
 
@@ -109,17 +94,13 @@ export async function updateTagOrNoteAction(
         success: false,
         message: error.message,
       };
-    }
-
-    if (error instanceof DatabaseOperationError) {
+    } else if (error instanceof DatabaseOperationError) {
       return {
         success: false,
-        message: error.message,
+        message: "Something went wrong",
       };
+    } else {
+      throw error;
     }
-    return {
-      success: false,
-      message: "An error happened. Please try again later",
-    };
   }
 }

@@ -5,7 +5,7 @@ export const deleteContactController =
   (deleteContactUseCase: DeleteContactUseCase) =>
   async (contactId: number): Promise<void> => {
     if (typeof contactId !== "number" || isNaN(contactId)) {
-      throw new InputParseError("Invalid Parsed Data", {
+      throw new InputParseError("Invalid Data", {
         cause: "Contact Id must be a number",
       });
     }

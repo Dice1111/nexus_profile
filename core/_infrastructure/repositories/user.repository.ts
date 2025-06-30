@@ -96,7 +96,7 @@ export class UserRepository implements IUserRepository {
           cause: error,
         });
       }
-      throw new DatabaseOperationError("Login Failed", {
+      throw new DatabaseOperationError("Failed to find user by email", {
         cause: error,
       });
     }

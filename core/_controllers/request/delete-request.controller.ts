@@ -5,7 +5,7 @@ export const deleteRequestController =
   (deleteRequestUseCase: DeleteRequestUseCase) =>
   async (requestId: number): Promise<void> => {
     if (typeof requestId !== "number" || isNaN(requestId)) {
-      throw new InputParseError("Invalid Parsed Data", {
+      throw new InputParseError("Invalid Data", {
         cause: "Request Id must be a number",
       });
     }

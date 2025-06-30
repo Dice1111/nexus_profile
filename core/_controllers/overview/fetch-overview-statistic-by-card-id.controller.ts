@@ -21,7 +21,7 @@ export const fetchOverviewStatisticByCardIdController =
     dailyFollowerChartData: IDailyFollowerCountChartResponse[];
   }> => {
     if (typeof cardId !== "string" || cardId === "") {
-      throw new InputParseError("Invalid Parsed Data", {
+      throw new InputParseError("Invalid Data", {
         cause: "Card ID must be a non-empty string",
       });
     }
@@ -33,8 +33,6 @@ export const fetchOverviewStatisticByCardIdController =
         fetchTotalRequestCountByCardIdUseCase(cardId),
         fetchDailyFollowerCountByCardIdUseCase(cardId),
       ]);
-
-    // console.log(dailyfollowerCount);
 
     return {
       contactCount,

@@ -23,7 +23,7 @@ export async function signInUserAction(
 
     return {
       success: true,
-      message: "Login Success",
+      message: "Signin Success",
     };
   } catch (error) {
     if (error instanceof InputParseError) {
@@ -31,28 +31,23 @@ export async function signInUserAction(
         success: false,
         message: error.message,
       };
-    }
-    if (error instanceof AuthenticationError) {
+    } else if (error instanceof AuthenticationError) {
       return {
         success: false,
         message: error.message,
       };
-    }
-    if (error instanceof NotFoundError) {
+    } else if (error instanceof NotFoundError) {
       return {
         success: false,
         message: error.message,
       };
-    }
-    if (error instanceof DatabaseOperationError) {
+    } else if (error instanceof DatabaseOperationError) {
       return {
         success: false,
-        message: error.message,
+        message: "Something went wrong",
       };
+    } else {
+      throw error;
     }
-    return {
-      success: false,
-      message: "An error happened. Please try again later",
-    };
   }
 }

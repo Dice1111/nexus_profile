@@ -85,12 +85,14 @@ export default function SettingAccount({ data }: SettingAccountProps) {
   return (
     <section className="flex flex-col  text-primary">
       {/* Avatar */}
-      <div className="bg-secondary p-6 flex flex-col gap-10 rounded-lg">
-        <div className="flex-col flex gap-4 ">
-          <h3 className="text-lg font-medium">Avatar</h3>
+      <div className="bg-secondary flex flex-col rounded-lg">
+        <div className="flex-col flex gap-4 p-6 ">
+          <h3 className="text-lg font-medium pb-1 border-b border-primary/20">
+            Profile
+          </h3>
 
-          <div className="flex items-center gap-6">
-            <Avatar className="w-16 h-16  rounded-full overflow-hidden">
+          <div className="flex justify-between items-center gap-6">
+            <Avatar className="w-20 h-20 rounded-full overflow-hidden">
               <AvatarImage
                 className="object-cover w-full h-full"
                 src={profilePicture || undefined}
@@ -102,21 +104,25 @@ export default function SettingAccount({ data }: SettingAccountProps) {
             </Avatar>
 
             <div className="flex gap-3">
-              {/* Change picture */}
-              <label className="relative">
-                <Button>
-                  Change picture
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="absolute inset-0 opacity-0 cursor-pointer"
-                    onChange={handleProfilePictureUpload}
-                  />
-                </Button>
-              </label>
+              <Button
+                className="relative bg-secondary border-primary hover:bg-primary hover:text-primary-foreground"
+                variant={"outline"}
+              >
+                Change picture
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={handleProfilePictureUpload}
+                />
+              </Button>
 
               {/* Delete picture */}
-              <Button variant="destructive" onClick={handleDeletePicture}>
+              <Button
+                className=" bg-secondary border-primary hover:bg-primary hover:text-primary-foreground"
+                variant={"outline"}
+                onClick={handleDeletePicture}
+              >
                 Delete picture
               </Button>
             </div>
@@ -125,8 +131,10 @@ export default function SettingAccount({ data }: SettingAccountProps) {
 
         {/* Display Name */}
 
-        <div className="flex-col flex gap-4">
-          <h3 className="text-lg font-medium">Display Name</h3>
+        <div className="flex-col flex gap-4 p-6">
+          <h3 className="text-lg font-medium pb-1 border-b border-primary/20">
+            Display Name
+          </h3>
           <p className="text-sm text-muted-foreground">
             Please enter your account display name
           </p>
@@ -137,7 +145,7 @@ export default function SettingAccount({ data }: SettingAccountProps) {
                 setIsUpdateNameActionTriggered(true);
               })
             )}
-            className="flex flex-col gap-2"
+            className="flex justify-between items-center"
           >
             <div className="flex items-center gap-4">
               <Input
@@ -145,22 +153,28 @@ export default function SettingAccount({ data }: SettingAccountProps) {
                 {...register("name")}
                 placeholder="Your display name"
                 disabled={isPendingUpdateName}
-                className="flex-1 px-3 py-2 border border-primary rounded-md bg-secondary text-sm max-w-xs"
+                className="w-full sm:w-64 md:w-80 px-3 py-2 border border-primary rounded-md bg-secondary text-sm"
               />
-
-              <Button disabled={isPendingUpdateName} type="submit">
-                {isPendingUpdateName ? "Saving..." : "Save"}
-              </Button>
+              {errors.name && (
+                <p className="text-sm text-red-400">{errors.name.message}</p>
+              )}
             </div>
-            {errors.name && (
-              <p className="text-sm text-red-400">{errors.name.message}</p>
-            )}
+            <Button
+              className=" bg-secondary border-primary hover:bg-primary hover:text-primary-foreground"
+              variant={"outline"}
+              disabled={isPendingUpdateName}
+              type="submit"
+            >
+              {isPendingUpdateName ? "Updating..." : "Update Name"}
+            </Button>
           </form>
         </div>
 
         {/* Email */}
-        <div className="flex-col flex gap-4">
-          <h3 className="text-lg font-medium">Email</h3>
+        <div className="flex-col flex gap-4 p-6">
+          <h3 className="text-lg font-medium pb-1 border-b border-primary/20">
+            Email Address
+          </h3>
           <p className="text-sm text-muted-foreground">
             This is the address we’ll use for notifications and password resets.
           </p>
@@ -169,35 +183,50 @@ export default function SettingAccount({ data }: SettingAccountProps) {
               disabled
               type="email"
               value={data.email}
-              className="flex-1 px-3 py-2 border border-primary rounded-md bg-secondary text-sm max-w-xs"
+              className="w-full sm:w-64 md:w-80 px-3 py-2 border border-primary rounded-md bg-secondary text-sm"
             />
           </div>
         </div>
 
         {/* Reset Password */}
-        <div className="flex-col flex gap-4">
-          <h3 className="text-lg font-medium">Reset Password</h3>
-          <p className="text-sm text-muted-foreground">
-            Set a new password for your account.
-          </p>
-          <Button className="max-w-[200px]" onClick={handleResetPassword}>
+        <div className=" flex flex-col gap-4 p-6">
+          <h3 className="text-lg font-medium pb-1 border-b border-primary/20">
             Reset Password
-          </Button>
+          </h3>
+
+          <div className="flex justify-between items-center">
+            <p className="text-sm text-muted-foreground">
+              Set a new password for your account.
+            </p>
+            <Button
+              className=" bg-secondary border-primary hover:bg-primary hover:text-primary-foreground"
+              onClick={handleResetPassword}
+              variant={"outline"}
+            >
+              Reset Password
+            </Button>
+          </div>
         </div>
 
         {/* Delete Account */}
-        <div className="flex-col flex gap-4">
-          <h3 className="text-lg font-medium">Delete Account</h3>
-          <p className="text-sm text-muted-foreground">
-            Permanently delete your account and all associated data.
-          </p>
-          <Button
-            className="max-w-[200px]"
-            variant="destructive"
-            onClick={handleDeleteAccount}
-          >
+        <div className="flex flex-col gap-4 p-6">
+          <h3 className="text-lg font-medium pb-1 border-b border-primary/20">
             Delete Account
-          </Button>
+          </h3>
+
+          <div className="flex justify-between items-center">
+            <p className="text-sm text-muted-foreground">
+              Permanently delete your account and all associated data.
+            </p>
+
+            <Button
+              className=" bg-secondary border-primary hover:bg-primary hover:text-primary-foreground"
+              variant="outline"
+              onClick={handleDeleteAccount}
+            >
+              Delete Account
+            </Button>
+          </div>
         </div>
       </div>
     </section>

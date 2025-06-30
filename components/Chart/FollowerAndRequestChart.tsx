@@ -52,8 +52,6 @@ export default function FollowerChart({
     return chartData.filter((item) => item.date >= thresholdStr);
   }, [chartData, daysToSubtract]);
 
-  console.log("filterData", filteredData);
-
   return (
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">

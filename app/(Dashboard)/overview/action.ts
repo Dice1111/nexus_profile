@@ -1,5 +1,9 @@
 "use server";
 
+import {
+  InputParseError,
+  DatabaseOperationError,
+} from "@/core/_domain/errors/common.error";
 import { IDailyFollowerCountChartResponse } from "@/core/_domain/types/contact-repository.types";
 import buildFetchOverviewStatisticByCardId from "@/core/_factory/controller-factory/overview/build-fetch-overview-statistic-by-card-id-controller";
 
@@ -27,6 +31,12 @@ export async function fetchOverviewStatisticByCardIdAction(
       dailyFollowerChartData: data.dailyFollowerChartData,
     };
   } catch (error) {
-    throw error;
+    if (error instanceof InputParseError) {
+      throw error;
+    } else if (error instanceof DatabaseOperationError) {
+      throw error;
+    } else {
+      throw error;
+    }
   }
 }

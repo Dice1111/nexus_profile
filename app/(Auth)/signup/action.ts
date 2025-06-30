@@ -29,22 +29,17 @@ export async function signUpUserAction(
         success: false,
         message: error.message,
       };
-    }
-    if (error instanceof UniqueConstraintError) {
+    } else if (error instanceof UniqueConstraintError) {
       return {
         success: false,
         message: error.message,
       };
-    }
-    if (error instanceof DatabaseOperationError) {
+    } else if (error instanceof DatabaseOperationError) {
       return {
         success: false,
-        message: error.message,
+        message: "Something went wrong",
       };
     }
-    return {
-      success: false,
-      message: "An error happened. Please try again later",
-    };
+    throw error;
   }
 }
