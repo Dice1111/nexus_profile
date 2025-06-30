@@ -7,7 +7,7 @@ export interface ICardRepository {
   create: () => Promise<void>;
   update: (cardId: string) => Promise<void>;
   delete: (cardId: string) => Promise<void>;
-  fetchByUserID: (userID: string) => Promise<CardWithTitleAndID[]>;
+  fetchIdAndTitleByUserId: (userId: string) => Promise<CardWithTitleAndID[]>;
   fetchWithInformationAndDesignByUserID: (
     userId: string
   ) => Promise<CardWithInformationAndDesignData[]>;

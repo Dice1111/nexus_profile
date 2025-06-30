@@ -14,7 +14,6 @@ import { URL_FILTER, validTags } from "@/lib/utils";
 
 import { Settings2 } from "lucide-react";
 import Form from "next/form";
-import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export function ContactFilter() {
@@ -32,8 +31,13 @@ export function ContactFilter() {
         newParams.append(URL_FILTER, query.trim());
       }
     });
-    const newURL = `${pathname}?${newParams.toString()}`;
-    router.replace(newURL);
+    router.replace(`${pathname}?${newParams.toString()}`);
+  };
+
+  const handleReset = () => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete(URL_FILTER); // Remove only filter param(s)
+    router.replace(`${pathname}?${newParams.toString()}`);
   };
 
   return (
@@ -56,7 +60,7 @@ export function ContactFilter() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        <Form action={handleSubmit} className=" px-2 pb-2">
+        <Form action={handleSubmit} className="px-2 pb-2">
           <DropdownMenuGroup className="grid gap-1">
             <DropdownMenuLabel className="text-sm text-muted-foreground">
               Filter By
@@ -85,13 +89,16 @@ export function ContactFilter() {
               </Button>
             </DropdownMenuItem>
 
-            <Link href={pathname} className="flex-1">
-              <DropdownMenuItem asChild>
-                <Button variant="outline" className="w-full">
-                  Reset
-                </Button>
-              </DropdownMenuItem>
-            </Link>
+            <DropdownMenuItem asChild>
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={handleReset}
+                type="button"
+              >
+                Reset
+              </Button>
+            </DropdownMenuItem>
           </div>
         </Form>
       </DropdownMenuContent>

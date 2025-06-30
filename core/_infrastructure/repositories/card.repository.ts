@@ -20,8 +20,17 @@ export class CardRepository implements ICardRepository {
   delete(cardId: string): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  fetchByUserID(userID: string): Promise<CardWithTitleAndID[]> {
-    throw new Error("Method not implemented.");
+  async fetchIdAndTitleByUserId(userId: string): Promise<CardWithTitleAndID[]> {
+    try {
+      const data = await prisma.card.findMany({
+        where: { userId: userId },
+      });
+      return data;
+    } catch (error) {
+      throw new DatabaseOperationError("Failed to fetch title and id", {
+        cause: error,
+      });
+    }
   }
   async fetchWithInformationAndDesignByUserID(
     userId: string

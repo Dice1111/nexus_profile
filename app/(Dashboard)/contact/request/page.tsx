@@ -4,18 +4,30 @@ import { IRawSearchParams } from "@/core/_domain/types/search-params-handler-ser
 import { ITEMS_PER_PAGE } from "@/lib/utils";
 import { Suspense } from "react";
 import { fetchRequestWithPaginationDataAction } from "./action";
+import { fetchCardIdandTitleByUserIdAction } from "../connection/action";
+import NoCardSkeleton from "@/components/skeleton/NoCardSkeleton";
 
 export default async function RequestPage({
   searchParams,
 }: {
   searchParams: Promise<IRawSearchParams>;
 }) {
-  const searchParam = await searchParams;
+  const rawParams = await searchParams;
 
-  const cardId = "085e949c-1696-48a1-bbde-6535b5400bba";
+  let cardId = rawParams.cardId;
 
-  const enrichedParams = {
-    ...searchParam,
+  if (!cardId) {
+    const cardsData = await fetchCardIdandTitleByUserIdAction();
+    if (cardsData?.data?.length > 0) {
+      cardId = cardsData.data[0].id;
+    }
+  }
+  if (!cardId) {
+    return <NoCardSkeleton />;
+  }
+
+  const enrichedParams: IRawSearchParams = {
+    ...rawParams,
     cardId,
   };
 

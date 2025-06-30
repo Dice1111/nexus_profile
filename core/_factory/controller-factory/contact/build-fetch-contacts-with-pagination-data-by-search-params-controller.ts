@@ -6,11 +6,14 @@ import { ContactRepository } from "@/core/_infrastructure/repositories/contact.r
 
 export default function buildFetchContactsWithPaginationDataBySearchParamsController() {
   const repository = new ContactRepository();
+
   const searchParamsHandlerService = new SearchParamsHandlerService();
+
   const fetchContactUseCase =
     fetchContactsWithSpecificCardDataBySearchParamsUseCase(repository);
   const fetchTotalCountUseCase =
     fetchTotalContactCountBySearchParamsUseCase(repository);
+
   return fetchContactsWithPaginationDataBySearchParamsController(
     fetchContactUseCase,
     fetchTotalCountUseCase,

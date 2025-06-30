@@ -3,19 +3,33 @@ import ContactPagination from "@/components/Pagination/contact-pagination";
 import { IRawSearchParams } from "@/core/_domain/types/search-params-handler-service.type";
 import { ITEMS_PER_PAGE } from "@/lib/utils";
 import { Suspense } from "react";
-import { fetchContactsWithPaginationDataBySearchParamsAction } from "./action";
-import ContactSkeleton from "@/components/skeleton/ContactSkeleton";
+import {
+  fetchCardIdandTitleByUserIdAction,
+  fetchContactsWithPaginationDataBySearchParamsAction,
+} from "./action";
+import NoCardSkeleton from "@/components/skeleton/NoCardSkeleton";
 
 export default async function ContactPage({
   searchParams,
 }: {
   searchParams: Promise<IRawSearchParams>;
 }) {
-  const searchParam = await searchParams;
-  const cardId = "085e949c-1696-48a1-bbde-6535b5400bba";
+  const rawParams = await searchParams;
 
-  const enrichedParams = {
-    ...searchParam,
+  let cardId = rawParams.cardId;
+
+  if (!cardId) {
+    const cardsData = await fetchCardIdandTitleByUserIdAction();
+    if (cardsData?.data?.length > 0) {
+      cardId = cardsData.data[0].id;
+    }
+  }
+  if (!cardId) {
+    return <NoCardSkeleton />;
+  }
+
+  const enrichedParams: IRawSearchParams = {
+    ...rawParams,
     cardId,
   };
 
@@ -23,7 +37,6 @@ export default async function ContactPage({
     enrichedParams,
     ITEMS_PER_PAGE
   );
-
   return (
     <div className="flex flex-col gap-4">
       <div className="text-md ">

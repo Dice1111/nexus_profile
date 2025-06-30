@@ -17,7 +17,6 @@ import {
 import { URL_SORT_IEM, URL_SORT_ORDER } from "@/lib/utils";
 import { ArrowUpDown } from "lucide-react";
 import Form from "next/form";
-import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface SortItemsArray {
@@ -63,8 +62,15 @@ export function ContactSort() {
     const newParams = new URLSearchParams(searchParams);
     newParams.set(URL_SORT_IEM, sortItemQuery.trim());
     newParams.set(URL_SORT_ORDER, sortOrderQuery.trim());
-    const newURL = `${pathname}?${newParams.toString()}`;
-    router.replace(newURL);
+    router.replace(`${pathname}?${newParams.toString()}`);
+  };
+
+  // Reset function: Remove ONLY sort related params from the URL
+  const handleReset = () => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete(URL_SORT_IEM);
+    newParams.delete(URL_SORT_ORDER);
+    router.replace(`${pathname}?${newParams.toString()}`);
   };
 
   return (
@@ -113,7 +119,7 @@ export function ContactSort() {
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuGroup className="grid gap-1  p-2">
+          <DropdownMenuGroup className="grid gap-1 p-2">
             <DropdownMenuLabel className="text-sm text-muted-foreground">
               Order By
             </DropdownMenuLabel>
@@ -136,6 +142,7 @@ export function ContactSort() {
               </label>
             ))}
           </DropdownMenuGroup>
+
           <div className="flex justify-between gap-2 px-2">
             <DropdownMenuItem asChild>
               <Button type="submit" variant={"outline"} className="flex-1">
@@ -143,13 +150,16 @@ export function ContactSort() {
               </Button>
             </DropdownMenuItem>
 
-            <Link href={pathname} className="flex-1">
-              <DropdownMenuItem asChild>
-                <Button variant="outline" className="w-full">
-                  Reset
-                </Button>
-              </DropdownMenuItem>
-            </Link>
+            <DropdownMenuItem asChild>
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={handleReset}
+                type="button"
+              >
+                Reset
+              </Button>
+            </DropdownMenuItem>
           </div>
         </Form>
       </DropdownMenuContent>

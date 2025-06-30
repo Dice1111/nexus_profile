@@ -1,10 +1,32 @@
 import { InfoBox, InfoBox_Type } from "@/components/Box/InfoBox";
-
 import FollowerAndRequestChart from "@/components/Chart/FollowerAndRequestChart";
 import { fetchOverviewStatisticByCardIdAction } from "./action";
+import { IRawSearchParams } from "@/core/_domain/types/search-params-handler-service.type";
+import { fetchCardIdandTitleByUserIdAction } from "../contact/connection/action";
+import NoCardSkeleton from "@/components/skeleton/NoCardSkeleton";
 
-export default async function Page() {
-  const cardId = "085e949c-1696-48a1-bbde-6535b5400bba";
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<IRawSearchParams>;
+}) {
+  const rawParams = await searchParams;
+
+  let cardId = rawParams.cardId;
+
+  if (Array.isArray(cardId)) {
+    cardId = cardId[0];
+  }
+
+  if (!cardId) {
+    const cardsData = await fetchCardIdandTitleByUserIdAction();
+    if (cardsData?.data?.length > 0) {
+      cardId = cardsData.data[0].id;
+    }
+  }
+  if (!cardId) {
+    return <NoCardSkeleton />;
+  }
 
   const { contactCount, followerCount, requestCount, dailyFollowerChartData } =
     await fetchOverviewStatisticByCardIdAction(cardId);

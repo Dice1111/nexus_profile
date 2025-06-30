@@ -2,6 +2,7 @@ import { CardModel } from "../models/card.model";
 import { ContactModel } from "../models/contact.model";
 import { DesignModel } from "../models/design.model";
 import { InformationModel } from "../models/information.model";
+import { CardWithTitleAndID } from "./card-repository.types";
 import {
   IContactFilter,
   IContactSort,

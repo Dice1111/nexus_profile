@@ -136,6 +136,7 @@ export class ContactRepository implements IContactRepository {
 
       const whereClause = this.buildWhereClause(data.whereClauseRequirement);
       const orderByClause = this.buildOrderClause(data.sortClauseRequirement);
+      console.log("where", whereClause);
 
       const rawData = await prisma.contact.findMany({
         where: whereClause,
