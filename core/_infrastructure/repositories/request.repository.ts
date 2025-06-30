@@ -53,18 +53,9 @@ export class RequestRepository implements IRequestRepository {
 
       const whereClause = this.buildWhereClause(data.whereClauseRequirement);
       const orderByClause = this.buildOrderClause(data.sortClauseRequirement);
+
       const rawRequests = await prisma.request.findMany({
-        where: {
-          ...whereClause,
-          SenderCard: {
-            Design: {
-              isNot: null,
-            },
-            Information: {
-              isNot: null,
-            },
-          },
-        },
+        where: whereClause,
         orderBy: orderByClause,
         skip: offset,
         take: data.itemsPerPage,
@@ -120,24 +111,37 @@ export class RequestRepository implements IRequestRepository {
       });
     }
   }
-
   private buildWhereClause(filters: IRequestFilter): Prisma.RequestWhereInput {
-    const where: Prisma.RequestWhereInput = {};
-    where.cardId = filters.cardId;
+    const conditions: Prisma.RequestWhereInput[] = [];
+
+    conditions.push({ cardId: filters.cardId });
+
+    conditions.push({
+      SenderCard: {
+        Design: { isNot: null },
+        Information: { isNot: null },
+      },
+    });
 
     if (filters.keyword) {
-      where.SenderCard = {
-        Information: {
-          OR: [
-            { fullName: { contains: filters.keyword, mode: "insensitive" } },
-            { occupation: { contains: filters.keyword, mode: "insensitive" } },
-            { company: { contains: filters.keyword, mode: "insensitive" } },
-          ],
+      conditions.push({
+        SenderCard: {
+          Information: {
+            OR: [
+              { fullName: { contains: filters.keyword, mode: "insensitive" } },
+              {
+                occupation: { contains: filters.keyword, mode: "insensitive" },
+              },
+              { company: { contains: filters.keyword, mode: "insensitive" } },
+            ],
+          },
         },
-      };
+      });
     }
 
-    return where;
+    return {
+      AND: conditions,
+    };
   }
 
   private buildOrderClause(

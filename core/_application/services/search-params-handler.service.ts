@@ -69,7 +69,7 @@ export class SearchParamsHandlerService implements ISearchParamsHandlerService {
       typeof params.cardId !== "string" ||
       params.cardId.trim() === ""
     ) {
-      throw new InputParseError("Invalid card ID");
+      throw new InputParseError("Invalid Data");
     }
 
     return {

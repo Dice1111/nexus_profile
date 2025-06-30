@@ -13,7 +13,7 @@ export const updateUserNameController =
   async (data: UpdateUsernameData) => {
     const parsed = updateUsernameSchema.safeParse(data);
     if (!parsed.success) {
-      throw new InputParseError("Invalid Parsed Data", {
+      throw new InputParseError("Invalid Data", {
         cause: parsed.error.format(),
       });
     }

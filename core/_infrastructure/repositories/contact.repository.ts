@@ -138,17 +138,7 @@ export class ContactRepository implements IContactRepository {
       const orderByClause = this.buildOrderClause(data.sortClauseRequirement);
 
       const rawData = await prisma.contact.findMany({
-        where: {
-          ...whereClause,
-          ContactCard: {
-            Design: {
-              isNot: null,
-            },
-            Information: {
-              isNot: null,
-            },
-          },
-        },
+        where: whereClause,
         orderBy: orderByClause,
         skip: offset,
         take: data.itemsPerPage,
@@ -210,28 +200,59 @@ export class ContactRepository implements IContactRepository {
   }
 
   private buildWhereClause(filters: IContactFilter): Prisma.ContactWhereInput {
-    const where: Prisma.ContactWhereInput = {};
-    where.cardId = filters.cardId;
+    const conditions: Prisma.ContactWhereInput[] = [];
 
-    if (filters.tags) {
-      where.tag = {
-        in: filters.tags as CONTACT_TAG_TYPE[],
-      };
+    if (filters.cardId) {
+      conditions.push({ cardId: filters.cardId });
     }
+
+    if (filters.tags && filters.tags.length > 0) {
+      conditions.push({
+        tag: {
+          in: filters.tags as CONTACT_TAG_TYPE[],
+        },
+      });
+    }
+
+    conditions.push({
+      ContactCard: {
+        Design: { isNot: null },
+        Information: { isNot: null },
+      },
+    });
 
     if (filters.keyword) {
-      where.ContactCard = {
-        Information: {
-          OR: [
-            { fullName: { contains: filters.keyword, mode: "insensitive" } },
-            { occupation: { contains: filters.keyword, mode: "insensitive" } },
-            { company: { contains: filters.keyword, mode: "insensitive" } },
-          ],
+      conditions.push({
+        ContactCard: {
+          Information: {
+            OR: [
+              {
+                fullName: {
+                  contains: filters.keyword,
+                  mode: "insensitive",
+                },
+              },
+              {
+                occupation: {
+                  contains: filters.keyword,
+                  mode: "insensitive",
+                },
+              },
+              {
+                company: {
+                  contains: filters.keyword,
+                  mode: "insensitive",
+                },
+              },
+            ],
+          },
         },
-      };
+      });
     }
 
-    return where;
+    return {
+      AND: conditions,
+    };
   }
 
   private buildOrderClause(
