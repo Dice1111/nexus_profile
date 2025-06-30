@@ -17,7 +17,6 @@ export const signUpUseCase =
       name: input.name,
       email: input.email,
       passwordHash: hashedPassword,
-      image: input.image,
     };
     await userRepository.create(user);
   };

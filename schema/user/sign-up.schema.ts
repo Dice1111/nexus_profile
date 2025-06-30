@@ -15,7 +15,6 @@ export const signUpSchema = z.object({
     .refine((val) => /[!@#$%^&*(),.?":{}|<>]/.test(val), {
       message: "Password must contain at least one special character",
     }),
-  image: z.string().nullable(),
 });
 
 export type SignUpData = z.infer<typeof signUpSchema>;

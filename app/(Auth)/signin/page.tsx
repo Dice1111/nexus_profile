@@ -1,5 +1,7 @@
 "use client";
 
+import { displayErrorToast } from "@/components/Box/errorToastBox";
+import { displaySuccessToast } from "@/components/Box/successToastBox";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,10 +9,9 @@ import { SignInData, signInSchema } from "@/schema/user/sign-in.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { startTransition, useActionState, useEffect } from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { signInUserAction } from "./action";
-import { toast } from "sonner";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -18,6 +19,8 @@ export default function LoginPage() {
     success: false,
     message: "",
   });
+
+  const [actionTriggered, setActionTriggered] = useState<boolean>(false);
 
   const {
     handleSubmit,
@@ -29,15 +32,16 @@ export default function LoginPage() {
   });
 
   useEffect(() => {
-    if (state.success) {
-      router.push("/profile");
-      toast("Log in Success", {
-        duration: 1000,
-        style: { backgroundColor: "green" },
-      });
-    } else {
+    if (actionTriggered) {
+      if (state.success) {
+        router.push("/profile");
+        displaySuccessToast({ message: state.message });
+      } else {
+        displayErrorToast({ message: state.message });
+      }
+      setActionTriggered(false);
     }
-  }, [state.success, router]);
+  }, [state.success, actionTriggered]);
 
   return (
     <div className="flex h-screen flex-col items-center justify-center gap-10 bg-primary p-4 sm:p-0">
@@ -45,7 +49,10 @@ export default function LoginPage() {
 
       <form
         onSubmit={handleSubmit((data) =>
-          startTransition(() => formAction(data))
+          startTransition(() => {
+            formAction(data);
+            setActionTriggered(true);
+          })
         )}
         noValidate
         className="w-full max-w-sm bg-primary flex flex-col gap-5"
@@ -88,16 +95,6 @@ export default function LoginPage() {
         >
           {isPending ? "Loading..." : "Log in"}
         </Button>
-
-        {state.message && (
-          <p
-            className={`text-center text-sm ${
-              state.success ? "text-green-500" : "text-red-500"
-            }`}
-          >
-            {state.message}
-          </p>
-        )}
 
         <div className="flex flex-col gap-2">
           <p className="text-center text-sm">

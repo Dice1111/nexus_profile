@@ -25,7 +25,7 @@ export function displaySuccessToast({
       </div>
     ),
     {
-      position: "top-center",
+      position: "top-right",
       duration,
     }
   );
