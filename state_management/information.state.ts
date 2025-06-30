@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface InformationState {
+export interface InformationState {
   id: number;
   cardId: string;
   title: string | null;
@@ -32,6 +32,12 @@ interface InformationState {
   setInformation: (
     info: Omit<InformationState, keyof InformationActions>
   ) => void;
+
+  // Optional: Replace partial object
+  setField: (
+    key: keyof InformationState,
+    value: string | number | null
+  ) => void;
 }
 
 type InformationActions = {
@@ -47,6 +53,10 @@ type InformationActions = {
   setSuffix: (suffix: string | null) => void;
   setPreferredName: (preferredName: string | null) => void;
   setPronouns: (pronouns: string | null) => void;
+  setField: (
+    key: keyof InformationState,
+    value: string | number | null
+  ) => void;
   setInformation: (
     info: Omit<InformationState, keyof InformationActions>
   ) => void;
@@ -79,4 +89,6 @@ export const useInformationState = create<InformationState>((set) => ({
   setPreferredName: (preferredName) => set({ preferredName }),
   setPronouns: (pronouns) => set({ pronouns }),
   setInformation: (info) => set((state) => ({ ...state, ...info })),
+  setField: (key: keyof InformationState, value: string | number | null) =>
+    set((state) => ({ ...state, [key]: value })),
 }));

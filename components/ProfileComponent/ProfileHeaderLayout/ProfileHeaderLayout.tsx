@@ -26,7 +26,7 @@ const layoutComponentMap: Record<
 > = {
   [PROFILE_LAYOUT.LAYOUT_ONE]: ProfileLayoutOne,
   [PROFILE_LAYOUT.LAYOUT_TWO]: ProfileLayoutTwo,
-  [PROFILE_LAYOUT.LAYOUT_THREE]: () => <div>Layout Three Coming Soon</div>,
+  [PROFILE_LAYOUT.LAYOUT_THREE]: ProfileLayoutOne,
 };
 
 const ProfileHeaderLayout = ({ layout, design, information }: Props) => {

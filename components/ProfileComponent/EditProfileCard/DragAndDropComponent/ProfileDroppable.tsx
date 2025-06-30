@@ -2,7 +2,6 @@
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useProfileContext } from "@/context/profileContext";
 import { PROFILE_COMPONENT_CATEGORY } from "@/core/_domain/enum/profile-component-repository.enum";
 import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 import { typeIconMap } from "@/lib/icon";
@@ -31,7 +30,7 @@ interface DroppableProps<T extends FieldValues> {
   index: number;
   formRegister: UseFormRegister<T>;
   formErrors?: string;
-  handleDeleteItem: (id: number) => void;
+  handleDeleteItem: (id: string) => void;
   setValue: UseFormSetValue<T>;
   watch: UseFormWatch<T>;
 }
@@ -46,7 +45,7 @@ const DndComponentHeader = ({
   item: FetchProfileComponentData;
   attributes: DraggableAttributes;
   listeners?: SyntheticListenerMap;
-  handleDeleteItem: (id: number) => void;
+  handleDeleteItem: (id: string) => void;
 }) => (
   <div className="flex justify-between w-full items-center">
     <div
@@ -119,17 +118,10 @@ const DndInputFieldBuilder = <T extends FieldValues>({
   listeners?: SyntheticListenerMap;
   formRegister: UseFormRegister<T>;
   formErrors?: string;
-  handleDeleteItem: (id: number) => void;
+  handleDeleteItem: (id: string) => void;
   setValue: UseFormSetValue<T>;
   watch: UseFormWatch<T>;
 }) => {
-  const context = useProfileContext();
-
-  if (!context) {
-    console.warn("profileEditContext is null");
-    return null;
-  }
-
   switch (item.category) {
     case PROFILE_COMPONENT_CATEGORY.TEXT:
       return (

@@ -13,6 +13,7 @@ import {
 // } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
 import { PROFILE_LAYOUT } from "@/core/_domain/enum/design-repository.enum";
 import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
+import { useDesignState } from "@/state_management/design.state";
 import _throttle from "lodash/throttle";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -22,62 +23,23 @@ import { GrFormCheckmark } from "react-icons/gr";
 import { PROFILE_LAYOUTS } from "../ProfileHeaderLayout/ProfileHeaderLayout";
 
 /** Reusable Image Upload Component */
-function ImageUpload({
-  label,
-  keyName,
-}: {
-  label: string;
-  keyName: "profileImage" | "logoImage";
-}) {
-  const context = useProfileContext();
-
-  const default_profile = "/image/default-profile.jpg";
-
-  const { design, setDesign } = context;
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const fileUrl = URL.createObjectURL(file); // Generate preview URL
-      const updatedDesign = { ...design, [keyName]: fileUrl };
-      setDesign(updatedDesign);
-    }
-  };
-
-  return (
-    <div>
-      <h1 className="text-xl font-thin">{label}</h1>
-      <div className="mt-4">
-        <label
-          htmlFor={`upload-${keyName}`}
-          className="relative flex flex-col items-center justify-center w-32 h-32 rounded-full cursor-pointer transition-all"
-        >
-          <Image
-            src={design[keyName] || default_profile}
-            alt={label}
-            width={1000}
-            height={1000}
-            className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-300 hover:opacity-80"
-          />
-          <input
-            id={`upload-${keyName}`}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-        </label>
-      </div>
-    </div>
-  );
-}
 
 export default function DesignEditModal() {
-  const context = useProfileContext();
+  const foregroundColor = useDesignState((state) => state.foregroundColor);
+  const backgroundColor = useDesignState((state) => state.backgroundColor);
+  const profileImage = useDesignState((state) => state.profileImage);
+  const logoImage = useDesignState((state) => state.logoImage);
+  const layout = useDesignState((state) => state.layout);
 
-  const { design, setDesign } = context;
-
-  // const prev_wave = profileData.wave_type;
+  const setForegroundColor = useDesignState(
+    (state) => state.setForegroundColor
+  );
+  const setBackgroundColor = useDesignState(
+    (state) => state.setBackgroundColor
+  );
+  const setProfileImage = useDesignState((state) => state.setProfileImage);
+  const setLogoImage = useDesignState((state) => state.setLogoImage);
+  const setLayout = useDesignState((state) => state.setLayout);
 
   //selection state
 
@@ -86,9 +48,6 @@ export default function DesignEditModal() {
   // const [selectedWaveLayout, setSelectedWaveLayout] =
   //   useState<string>(prev_wave);
 
-  const [selectedProfileLayout, setSelectedProfileLayout] = useState<string>(
-    design.layout
-  );
   const [selectedElement, setSelectedElement] = useState<ColorableElement>(
     ColorableElement.BACKGROUND
   );
@@ -100,48 +59,73 @@ export default function DesignEditModal() {
   //   setSelectedWaveLayout(layout);
   // };
 
-  const handleProfileLayoutSelect = (layout: PROFILE_LAYOUT) => {
-    const updatedDesign = { ...design, ["layout"]: layout };
-    setDesign(updatedDesign);
-    setSelectedProfileLayout(layout);
-  };
-
   const handleElementSelect = (element: ColorableElement) => {
     setSelectedElement(element);
   };
 
+  const ImageUpload = ({
+    label,
+    keyName,
+  }: {
+    label: string;
+    keyName: "profileImage" | "logoImage";
+  }) => {
+    const default_profile = "/image/default-profile.jpg";
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        const fileUrl = URL.createObjectURL(file); // Generate preview URL
+
+        if (keyName === "profileImage") {
+          setProfileImage(fileUrl);
+        } else if (keyName === "logoImage") {
+          setLogoImage(fileUrl);
+        }
+      }
+    };
+
+    return (
+      <div>
+        <h1 className="text-xl font-thin">{label}</h1>
+        <div className="mt-4">
+          <label
+            htmlFor={`upload-${keyName}`}
+            className="relative flex flex-col items-center justify-center w-32 h-32 rounded-full cursor-pointer transition-all"
+          >
+            <Image
+              src={
+                keyName === "profileImage"
+                  ? profileImage || default_profile
+                  : logoImage || default_profile
+              }
+              alt={label}
+              width={1000}
+              height={1000}
+              className="w-32 h-32 object-cover rounded-full shadow-md border-2 border-gray-300 hover:opacity-80"
+            />
+            <input
+              id={`upload-${keyName}`}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+          </label>
+        </div>
+      </div>
+    );
+  };
+
   const updateElementColor = useCallback(
     (color: string, selectedElement: ColorableElement) => {
-      setDesign((prevDesign: FetchDesignData) => {
-        const updatedDesign = { ...prevDesign };
-
-        // Update only if the color has changed for the selected element
-        if (
-          selectedElement === ColorableElement.BACKGROUND &&
-          updatedDesign.backgroundColor !== color
-        ) {
-          updatedDesign.backgroundColor = color;
-        } else if (
-          selectedElement === ColorableElement.FOREGROUND &&
-          updatedDesign.foregroundColor !== color
-        ) {
-          updatedDesign.foregroundColor = color;
-        }
-        // } else if (
-        //   selectedElement === ColorableElement.WAVE &&
-        //   updatedDesign.wave_color !== color
-        // ) {
-        //   updatedDesign.wave_color = color;
-        // }
-        else {
-          // If no changes, return the same object to avoid unnecessary updates
-          return prevDesign;
-        }
-
-        return updatedDesign;
-      });
+      if (selectedElement === ColorableElement.BACKGROUND) {
+        setBackgroundColor(color);
+      } else if (selectedElement === ColorableElement.FOREGROUND) {
+        setForegroundColor(color);
+      }
     },
-    [setDesign]
+    [setBackgroundColor, setForegroundColor]
   );
 
   const handleColorSelect = useCallback(
@@ -163,14 +147,14 @@ export default function DesignEditModal() {
 
   useEffect(() => {
     if (selectedElement === ColorableElement.BACKGROUND) {
-      handleColorSelect(design.backgroundColor);
+      handleColorSelect(backgroundColor);
     } else if (selectedElement === ColorableElement.FOREGROUND) {
-      handleColorSelect(design.foregroundColor);
+      handleColorSelect(foregroundColor);
     }
     // else if (selectedElement === ColorableElement.WAVE) {
     //   handleColorSelect(design.wave_color);
     // }
-  }, [selectedElement, design, handleColorSelect]);
+  }, [selectedElement, backgroundColor, foregroundColor, handleColorSelect]);
 
   const throttledUpdate = useMemo(
     () =>
@@ -197,15 +181,15 @@ export default function DesignEditModal() {
         <h1 className="text-lg font-thin">Profile Layout</h1>
 
         <div className="flex flex-box gap-4 mt-4">
-          {PROFILE_LAYOUTS.map((layout) => (
+          {PROFILE_LAYOUTS.map((layoutButton) => (
             <Button
-              key={layout}
-              onClick={() => handleProfileLayoutSelect(layout)}
+              key={layoutButton}
+              onClick={() => setLayout(layoutButton)}
               className={`relative  rounded transition-transform hover:scale-105 ${
-                selectedProfileLayout === layout ? "border-2 border-white" : ""
+                layout === layoutButton ? "border-2 border-white" : ""
               }`}
             >
-              {layout}
+              {layoutButton}
             </Button>
           ))}
         </div>

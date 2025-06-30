@@ -4,7 +4,7 @@ import {
 } from "../enum/profile-component-repository.enum";
 
 export interface ProfileComponentModel {
-  id: number;
+  id: string;
   cardId: string;
   value: string;
   label: string;

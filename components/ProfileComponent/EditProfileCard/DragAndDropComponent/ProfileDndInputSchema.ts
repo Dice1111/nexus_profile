@@ -6,7 +6,7 @@ import { z } from "zod";
 
 // Base schema with common fields including position
 const baseComponentSchema = z.object({
-  id: z.number().min(1, "ID cannot be empty"),
+  id: z.string().min(1, "ID cannot be empty"),
   cardId: z.string().min(1, "Card ID cannot be empty"),
   position: z
     .number()

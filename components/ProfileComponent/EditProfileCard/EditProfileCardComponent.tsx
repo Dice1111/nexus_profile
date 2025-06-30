@@ -97,7 +97,7 @@ const EditProfileCardComponent = () => {
   const { fields, move, remove } = fieldArray;
 
   // Handle delete
-  const handleDeleteItem = (id: number) => {
+  const handleDeleteItem = (id: string) => {
     // Find the index in the form fields
     const fieldIndex = fields.findIndex((field) => field.id === id);
     if (fieldIndex !== -1) {
