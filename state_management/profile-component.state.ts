@@ -1,26 +1,10 @@
 import { ProfileDndComponentSchemaType } from "@/components/ProfileComponent/EditProfileCard/DragAndDropComponent/ProfileDndInputSchema";
-import {
-  PROFILE_COMPONENT_CATEGORY,
-  PROFILE_COMPONENT_TYPE,
-} from "@/core/_domain/enum/profile-component-repository.enum";
 import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 import { UseFieldArrayReturn, UseFormReturn } from "react-hook-form";
 import { create } from "zustand";
 
-export type ProfileComponentViewType = {
-  id?: number;
-  cardId: string;
-  value: string;
-  label: string;
-  createdAt: Date;
-  updatedAt: Date;
-  type: PROFILE_COMPONENT_TYPE;
-  category: PROFILE_COMPONENT_CATEGORY;
-  position: number;
-};
-
 interface ProfileComponentState {
-  profileComponents: ProfileComponentViewType[];
+  profileComponents: FetchProfileComponentData[];
 
   //Form state
 
@@ -33,13 +17,13 @@ interface ProfileComponentState {
   > | null;
 
   // Actions
-  setProfileComponents: (components: ProfileComponentViewType[]) => void;
-  addProfileComponent: (component: ProfileComponentViewType) => void;
+  setProfileComponents: (components: FetchProfileComponentData[]) => void;
+  addProfileComponent: (component: FetchProfileComponentData) => void;
   updateProfileComponent: (
-    id: number,
-    updated: Partial<ProfileComponentViewType>
+    id: string,
+    updated: Partial<FetchProfileComponentData>
   ) => void;
-  removeProfileComponent: (id: number) => void;
+  removeProfileComponent: (id: string) => void;
   clearProfileComponents: () => void;
 
   //set from

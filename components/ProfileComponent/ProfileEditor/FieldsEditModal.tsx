@@ -1,15 +1,17 @@
 "use client";
 
-import { typeIconMap } from "@/lib/icon";
 import { Button } from "@/components/ui/button";
 import { useProfileContext } from "@/context/profileContext";
-import { v4 as uuidv4 } from "uuid"; // Import uuid for generating unique IDs
+import { typeIconMap } from "@/lib/icon";
 
-import { ProfileDndComponentSchemaType } from "../EditProfileCard/DragAndDropComponent/ProfileDndInputSchema";
 import {
   PROFILE_COMPONENT_CATEGORY,
   PROFILE_COMPONENT_TYPE,
 } from "@/core/_domain/enum/profile-component-repository.enum";
+import { ProfileDndComponentSchemaType } from "../EditProfileCard/DragAndDropComponent/ProfileDndInputSchema";
+import { useProfileComponentsState } from "@/state_management/profile-component.state";
+import { v4 as uuidv4 } from "uuid";
+import { useInformationState } from "@/state_management/information.state";
 
 export default function FieldsEditModal() {
   // Data categorized by type
@@ -228,17 +230,12 @@ export default function FieldsEditModal() {
     //   },
     // ],
   };
+  const profileComponents = useProfileComponentsState(
+    (state) => state.profileComponents
+  );
+  const cardId = useInformationState((state) => state.cardId);
 
-  // Context for managing profile components
-  const context = useProfileContext();
-  if (!context) {
-    console.warn("profileEditContext is null");
-    return null;
-  }
-
-  const { profileData, components, fieldArray } = context;
-
-  const card_id = profileData.card_id; //
+  const fieldArray = useProfileComponentsState((state) => state.fieldArray);
 
   // Function to create a new metadata component
   const createMetadataComponents = (
@@ -246,19 +243,18 @@ export default function FieldsEditModal() {
     category: PROFILE_COMPONENT_CATEGORY
   ) => {
     const newComponent = {
-      cardId: card_id, // Generate unique ID
+      id: uuidv4(),
+      cardId: cardId,
       type: type,
       category: category,
       value: "",
       label: "",
-      position: components.length - 1,
+      position: profileComponents.length - 1,
     };
 
-    fieldArray.append(newComponent as ProfileDndComponentSchemaType);
-
-    // Update the context with the new component
-    //setComponents((prevComponents) => [...prevComponents, { ...newComponent }]);
-
+    if (fieldArray) {
+      fieldArray.append(newComponent as ProfileDndComponentSchemaType);
+    }
     setTimeout(() => {
       window.scrollTo({
         top: document.documentElement.scrollHeight, // Scroll to bottom of the page
