@@ -161,7 +161,7 @@ export default function DesignEditModal() {
       _throttle((newColor, selectedElement) => {
         setSelectedColor(newColor);
         updateElementColor(newColor.hex, selectedElement);
-      }, 20),
+      }, 40),
     [updateElementColor, setSelectedColor]
   );
 

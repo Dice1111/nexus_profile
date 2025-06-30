@@ -11,6 +11,7 @@ import {
 import { ProfileDndComponentSchemaType } from "../EditProfileCard/DragAndDropComponent/ProfileDndInputSchema";
 import { useProfileComponentsState } from "@/state_management/profile-component.state";
 import { v4 as uuidv4 } from "uuid";
+import { useInformationState } from "@/state_management/information.state";
 
 export default function FieldsEditModal() {
   // Data categorized by type
@@ -232,10 +233,9 @@ export default function FieldsEditModal() {
   const profileComponents = useProfileComponentsState(
     (state) => state.profileComponents
   );
+  const cardId = useInformationState((state) => state.cardId);
 
   const fieldArray = useProfileComponentsState((state) => state.fieldArray);
-
-  const cardId = profileComponents[0].cardId; //
 
   // Function to create a new metadata component
   const createMetadataComponents = (
