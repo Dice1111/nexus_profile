@@ -3,6 +3,7 @@
 import { useDesignState } from "@/state_management/design.state";
 import { useProfileComponentsState } from "@/state_management/profile-component.state";
 import ProfileHeaderLayout from "../ProfileHeaderLayout/ProfileHeaderLayout";
+import ProfileBodyItem from "./ProfileBodyItem";
 
 const ProfileCardComponent = () => {
   //STATE MANAGEMENT
@@ -25,6 +26,16 @@ const ProfileCardComponent = () => {
       <ProfileHeaderLayout layout={layout} />
 
       {/* item area */}
+      <div className="flex flex-col gap-3 pb-4 w-full">
+        {profileComponents.map((item) => (
+          <ProfileBodyItem
+            key={item.id}
+            item={item}
+            background_color={backgroundColor || "#000000"}
+            foreground_color={foregroundColor || "#ffffff"}
+          />
+        ))}
+      </div>
     </div>
   );
 };
