@@ -21,19 +21,19 @@ import { PROFILE_COMPONENT_TYPE } from "@/core/_domain/enum/profile-component-re
 import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 import { useDesignState } from "@/state_management/design.state";
 import { useProfileComponentsState } from "@/state_management/profile-component.state";
+import { useProfilePageState } from "@/state_management/profile-loading.state";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { genUploader } from "uploadthing/client";
 import { z } from "zod";
+import TestComp from "../ProfileCard/TestComp";
 import ProfileHeaderLayout from "../ProfileHeaderLayout/ProfileHeaderLayout";
 import {
   ProfileDndComponentSchemaType,
   profileDndInputSchema,
 } from "./DragAndDropComponent/ProfileDndInputSchema";
 import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
-import { useProfilePageState } from "@/state_management/profile-loading.state";
-import TestComp from "../ProfileCard/TestComp";
 export const { uploadFiles } = genUploader<OurFileRouter>();
 
 const EditProfileCardComponent = () => {
