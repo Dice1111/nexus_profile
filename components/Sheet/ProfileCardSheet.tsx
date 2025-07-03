@@ -16,7 +16,6 @@ import {
 } from "../ui/sheet";
 import TagAndNote from "./SubComponents/TagAndNote";
 
-import { ProfileCard, ProfileDndComponent } from "@/lib/types/types";
 import QRButton from "../QRCodeButton/QRButton";
 import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-repository.enum";
 
@@ -126,10 +125,7 @@ export default function ProfileCardSheet({
         <div className=" relative">
           {profileCardData && profileDndComponents ? (
             <>
-              <ProfileCardComponent
-                profileData={profileCardData}
-                components={profileDndComponents}
-              />
+              <ProfileCardComponent />
               <div className="absolute top-3 left-3 z-20">
                 <QRButton profileID={sheetData.cardId} />
               </div>

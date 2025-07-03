@@ -1,4 +1,4 @@
-import ContactSkeleton from "@/components/skeleton/ContactSkeleton";
+import ContactSkeleton from "@/components/Skeleton/ContactSkeleton";
 
 export default function Loading() {
   return <ContactSkeleton />;

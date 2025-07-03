@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import { ReactNode, Suspense } from "react";
 import { fetchCardIdandTitleByUserIdAction } from "../contact/connection/action";
 import { CardSelectorBox } from "@/components/Box/CardSelectorBox";
-import NoCardSkeleton from "@/components/skeleton/NoCardSkeleton";
+import NoCardSkeleton from "@/components/Skeleton/NoCardSkeleton";
 
 export const metadata: Metadata = {
   title: "Connection",

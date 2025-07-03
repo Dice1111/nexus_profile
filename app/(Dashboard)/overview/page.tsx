@@ -3,7 +3,7 @@ import FollowerAndRequestChart from "@/components/Chart/FollowerAndRequestChart"
 import { fetchOverviewStatisticByCardIdAction } from "./action";
 import { IRawSearchParams } from "@/core/_domain/types/search-params-handler-service.type";
 import { fetchCardIdandTitleByUserIdAction } from "../contact/connection/action";
-import NoCardSkeleton from "@/components/skeleton/NoCardSkeleton";
+import NoCardSkeleton from "@/components/Skeleton/NoCardSkeleton";
 
 export default async function Page({
   searchParams,

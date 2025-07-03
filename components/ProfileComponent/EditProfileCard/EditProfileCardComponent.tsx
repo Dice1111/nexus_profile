@@ -33,6 +33,7 @@ import {
 } from "./DragAndDropComponent/ProfileDndInputSchema";
 import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
 import { useProfilePageState } from "@/state_management/profile-loading.state";
+import TestComp from "../ProfileCard/TestComp";
 export const { uploadFiles } = genUploader<OurFileRouter>();
 
 const EditProfileCardComponent = () => {
@@ -234,6 +235,7 @@ const EditProfileCardComponent = () => {
   };
 
   useEffect(() => {
+    console.log("setting profile components");
     reset({
       profileComponents: profileComponents as ProfileDndComponentSchemaType[],
     });
@@ -289,6 +291,8 @@ const EditProfileCardComponent = () => {
           </form>
         </div>
       )}
+
+      <TestComp />
     </>
   );
 };

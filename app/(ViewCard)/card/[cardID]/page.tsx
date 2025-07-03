@@ -30,10 +30,7 @@ export default async function Page({ params }: Props) {
             <Button variant="outline">Add Connection</Button>
           </div>
 
-          <ProfileCardComponent
-            profileData={profileData}
-            components={componentsData}
-          />
+          <ProfileCardComponent />
         </div>
       </div>
     );

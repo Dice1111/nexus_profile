@@ -4,13 +4,16 @@ import {
 } from "@/core/_domain/enum/profile-component-repository.enum";
 import { FetchProfileComponentData } from "@/core/_domain/types/profile-component-repository.types";
 import { typeIconMap } from "@/lib/icon";
-
 import dynamic from "next/dynamic";
-
 import Image from "next/image";
+
 const SocialEmbed = dynamic(() => import("./SocialEmbed"), {
   ssr: false,
-  loading: () => <p>Loading...</p>,
+  loading: () => (
+    <p className="text-center text-gray-500 text-sm sm:text-base md:text-lg">
+      Loading social embed...
+    </p>
+  ),
 });
 
 interface ProfileBodyItemProps {
@@ -19,7 +22,6 @@ interface ProfileBodyItemProps {
   foreground_color: string;
 }
 
-// Mapping for each type
 const frameComponents = {
   [PROFILE_COMPONENT_CATEGORY.MAIL]: (
     value: string,
@@ -29,16 +31,18 @@ const frameComponents = {
     foreground_color: string
   ) => (
     <a href={`mailto:${value}`}>
-      <div className="flex  items-center gap-5 relative p-2 mx-4 rounded hover:scale-105   transition">
+      <div className="flex items-center gap-5 relative p-2 mx-4 rounded hover:scale-105 transition">
         <div
-          className=" rounded-full p-2"
+          className="rounded-full p-2"
           style={{ backgroundColor: foreground_color, color: background_color }}
         >
           {typeIconMap[type as keyof typeof typeIconMap]}
         </div>
         <div>
-          <p>{value}</p>
-          <div className="font-thin text-sm">{label}</div>
+          <p className="text-sm sm:text-base md:text-lg">{value}</p>
+          <div className="font-thin text-xs sm:text-sm md:text-base">
+            {label}
+          </div>
         </div>
       </div>
     </a>
@@ -56,10 +60,8 @@ const frameComponents = {
 
     const handleClick = () => {
       if (isAndroid || isIPhone) {
-        // Open the phone dialer on Android or iPhone
         window.location.href = `tel:${value}`;
       } else {
-        // Copy the phone number to clipboard on other devices
         navigator.clipboard.writeText(value);
         alert("Phone number copied to clipboard!");
       }
@@ -77,8 +79,10 @@ const frameComponents = {
           {typeIconMap[type as keyof typeof typeIconMap]}
         </div>
         <div>
-          {value} <br />
-          <div className="font-thin text-sm">{label}</div>
+          <p className="text-sm sm:text-base md:text-lg">{value}</p>
+          <div className="font-thin text-xs sm:text-sm md:text-base">
+            {label}
+          </div>
         </div>
       </div>
     );
@@ -97,12 +101,14 @@ const frameComponents = {
       />
     </div>
   ),
+
   [PROFILE_COMPONENT_CATEGORY.TEXT]: (value: string, type: string) => {
-    let text_component = null; // Declare text_component outside the switch
+    let text_component = null;
+
     switch (type) {
       case PROFILE_COMPONENT_TYPE.PARAGRAPH:
         text_component = (
-          <div className="px-8 py-4 text-sm font-thin relative">
+          <div className="px-8 py-4 font-thin relative text-sm sm:text-base md:text-lg">
             <p>{value}</p>
           </div>
         );
@@ -110,7 +116,7 @@ const frameComponents = {
 
       case PROFILE_COMPONENT_TYPE.HEADING:
         text_component = (
-          <div className="px-8 py-2 text-lg font-thin relative">
+          <div className="px-8 py-2 font-thin relative text-lg sm:text-xl md:text-2xl">
             <p>{value}</p>
           </div>
         );
@@ -118,7 +124,7 @@ const frameComponents = {
 
       default:
         text_component = (
-          <div className="px-8 py-4 text-sm font-thin relative">
+          <div className="px-8 py-4 font-thin relative text-sm sm:text-base md:text-lg">
             <p>{value}</p>
           </div>
         );
@@ -138,7 +144,11 @@ const frameComponents = {
     const embedURL = getEmbedURL(value);
 
     if (!embedURL) {
-      return <div className="p-4 text-gray-500">No address provided</div>;
+      return (
+        <div className="p-4 text-gray-500 text-sm sm:text-base md:text-lg">
+          No address provided
+        </div>
+      );
     }
 
     return (
@@ -156,7 +166,7 @@ const frameComponents = {
   },
 
   [PROFILE_COMPONENT_CATEGORY.SOCIAL_EMBED]: (value: string, type: string) => {
-    let embedComponent = null; // Declare embedComponent outside the switch
+    let embedComponent = null;
 
     switch (type) {
       case PROFILE_COMPONENT_TYPE.FACEBOOK_POST:
@@ -178,7 +188,11 @@ const frameComponents = {
         embedComponent = <SocialEmbed type="linkedin" url={value} />;
         break;
       default:
-        embedComponent = <div>Unsupported social media type</div>;
+        embedComponent = (
+          <div className="text-center text-gray-500 text-sm sm:text-base md:text-lg">
+            Unsupported social media type
+          </div>
+        );
         break;
     }
 
@@ -195,15 +209,15 @@ const frameComponents = {
     foreground_color: string
   ) => (
     <a href={value}>
-      <div className="flex items-center gap-5 relative p-2  mx-4 rounded hover:scale-105  transition">
+      <div className="flex items-center gap-5 relative p-2 mx-4 rounded hover:scale-105 transition">
         <div
-          className=" rounded-full p-2"
+          className="rounded-full p-2"
           style={{ backgroundColor: foreground_color, color: background_color }}
         >
           {typeIconMap[type as keyof typeof typeIconMap]}
         </div>
         <div>
-          <p>{label}</p>
+          <p className="text-sm sm:text-base md:text-lg">{label}</p>
         </div>
       </div>
     </a>
@@ -217,15 +231,15 @@ const frameComponents = {
     foreground_color: string
   ) => (
     <a href={value}>
-      <div className="flex items-center gap-5 relative p-2  mx-4 rounded hover:scale-105  transition">
+      <div className="flex items-center gap-5 relative p-2 mx-4 rounded hover:scale-105 transition">
         <div
-          className=" rounded-full p-2"
+          className="rounded-full p-2"
           style={{ backgroundColor: foreground_color, color: background_color }}
         >
           {typeIconMap[type as keyof typeof typeIconMap]}
         </div>
         <div>
-          <p>{label}</p>
+          <p className="text-sm sm:text-base md:text-lg">{label}</p>
         </div>
       </div>
     </a>
@@ -238,6 +252,7 @@ export default function ProfileBodyItem({
   foreground_color,
 }: ProfileBodyItemProps) {
   if (item.value === undefined || item.label === undefined) return null;
+
   return frameComponents[item.category as keyof typeof frameComponents]
     ? frameComponents[item.category as keyof typeof frameComponents](
         item.value,

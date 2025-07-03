@@ -4,6 +4,7 @@ import { useDesignState } from "@/state_management/design.state";
 import { useProfileComponentsState } from "@/state_management/profile-component.state";
 import ProfileHeaderLayout from "../ProfileHeaderLayout/ProfileHeaderLayout";
 import ProfileBodyItem from "./ProfileBodyItem";
+import TestComp from "./TestComp";
 
 const ProfileCardComponent = () => {
   //STATE MANAGEMENT
@@ -16,7 +17,7 @@ const ProfileCardComponent = () => {
 
   return (
     <div
-      className="relative max-w-[400px]  flex flex-col overflow-hidden rounded-lg bg-red-300 "
+      className="relative w-[400px]  flex flex-col overflow-hidden rounded-lg "
       style={{
         backgroundColor: backgroundColor || "#000000",
         color: foregroundColor || "#ffffff",
