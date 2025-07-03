@@ -91,7 +91,9 @@ const DndInputField = <T extends FieldValues>({
         }`}
         type={type}
         placeholder={InputPlaceholder[type as keyof typeof InputPlaceholder]}
-        {...formRegister(`components.${index}.${String(inputType)}` as Path<T>)}
+        {...formRegister(
+          `profileComponents.${index}.${String(inputType)}` as Path<T>
+        )}
       />
     </div>
     {inputType === "value" && formErrors && (
@@ -137,14 +139,14 @@ const DndInputFieldBuilder = <T extends FieldValues>({
               formErrors ? "border-red-500" : "border-primary"
             }`}
             placeholder="Type your message here."
-            {...formRegister(`components.${index}.value` as Path<T>)}
+            {...formRegister(`profileComponents.${index}.value` as Path<T>)}
           />
           {formErrors && <p className="text-red-500 text-sm">{formErrors}</p>}
         </div>
       );
 
     case PROFILE_COMPONENT_CATEGORY.IMAGE:
-      const imageValue = watch(`components.${index}.value` as Path<T>);
+      const imageValue = watch(`profileComponents.${index}.value` as Path<T>);
       return (
         <div className="flex flex-col items-center gap-4 w-full max-w-sm rounded-lg bg-secondary text-secondary-foreground shadow-lg p-4">
           <DndComponentHeader
@@ -193,7 +195,7 @@ const DndInputFieldBuilder = <T extends FieldValues>({
 
                 // Update form value directly
                 setValue(
-                  `components.${index}.value` as Path<T>,
+                  `profileComponents.${index}.value` as Path<T>,
                   URL.createObjectURL(file) as PathValue<T, Path<T>>,
                   {
                     shouldValidate: true,
@@ -203,7 +205,7 @@ const DndInputFieldBuilder = <T extends FieldValues>({
 
                 // Also set the actual file in the 'file' property
                 setValue(
-                  `components.${index}.file` as Path<T>,
+                  `profileComponents.${index}.file` as Path<T>,
                   file as PathValue<T, Path<T>>,
                   {
                     shouldValidate: false, // Usually no need to validate the file object itself here
@@ -257,7 +259,7 @@ const DndInputFieldBuilder = <T extends FieldValues>({
             onClientUploadComplete={(res) => {
               if (res && res[0]) {
                 setValue(
-                  `components.${index}.value` as Path<T>,
+                  `profileComponents.${index}.value` as Path<T>,
                   res[0].ufsUrl as PathValue<T, Path<T>>,
                   {
                     shouldValidate: true,
@@ -275,7 +277,7 @@ const DndInputFieldBuilder = <T extends FieldValues>({
           {formErrors && <p className="text-red-500 text-sm">{formErrors}</p>}
 
           <DndInputField
-            type="info"
+            type="INFO"
             index={index}
             inputType="display_text"
             formRegister={formRegister}
@@ -302,9 +304,9 @@ const DndInputFieldBuilder = <T extends FieldValues>({
           />
 
           <DndInputField
-            type="info"
+            type="INFO"
             index={index}
-            inputType="display_text"
+            inputType="label"
             formRegister={formRegister}
             formErrors={formErrors}
           />

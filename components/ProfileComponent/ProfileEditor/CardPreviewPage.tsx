@@ -13,13 +13,6 @@ const ProfileCardComponent = dynamic(
 );
 
 export default function CardPreviewPage() {
-  const context = useProfileContext();
-
-  if (!context) {
-    console.warn("profileEditContext is null");
-    return null;
-  }
-
   return (
     <div>
       <h1 className="text-2xl mb-10 font-thin">Preview</h1>

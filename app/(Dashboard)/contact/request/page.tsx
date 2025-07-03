@@ -5,7 +5,7 @@ import { ITEMS_PER_PAGE } from "@/lib/utils";
 import { Suspense } from "react";
 import { fetchRequestWithPaginationDataAction } from "./action";
 import { fetchCardIdandTitleByUserIdAction } from "../connection/action";
-import NoCardSkeleton from "@/components/skeleton/NoCardSkeleton";
+import NoCardSkeleton from "@/components/Skeleton/NoCardSkeleton";
 
 export default async function RequestPage({
   searchParams,

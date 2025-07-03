@@ -1,4 +1,4 @@
-import SettingSkeleton from "@/components/skeleton/SettingSkeleton";
+import SettingSkeleton from "@/components/Skeleton/SettingSkeleton";
 
 export default function Loading() {
   return <SettingSkeleton />;

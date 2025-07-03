@@ -1,13 +1,11 @@
+import { DatabaseOperationError } from "@/core/_domain/errors/common.error";
 import { ICardRepository } from "@/core/_domain/repositories/ICardRepository";
 import {
-  CardWithTitleAndID,
   CardWithInformationAndDesignData,
+  CardWithTitleAndID,
 } from "@/core/_domain/types/card-repository.types";
 import { prisma } from "../prisma/prisma-client";
-import { DatabaseOperationError } from "@/core/_domain/errors/common.error";
 
-import { DesignModel } from "@/core/_domain/models/design.model";
-import { InformationModel } from "@/core/_domain/models/information.model";
 import { PROFILE_LAYOUT } from "@/core/_domain/enum/design-repository.enum";
 
 export class CardRepository implements ICardRepository {
@@ -37,10 +35,17 @@ export class CardRepository implements ICardRepository {
   ): Promise<CardWithInformationAndDesignData[]> {
     try {
       const data = await prisma.card.findMany({
-        where: { userId: userId },
+        where: {
+          userId: userId,
+          Information: { isNot: null },
+          Design: { isNot: null },
+        },
         select: {
           id: true,
           title: true,
+          userId: true,
+          createdAt: true,
+          updatedAt: true,
           Information: {
             select: {
               id: true,
@@ -75,12 +80,13 @@ export class CardRepository implements ICardRepository {
 
       const fixData: CardWithInformationAndDesignData[] = data.map((item) => ({
         ...item,
-        Design: item.Design
-          ? {
-              ...item.Design,
-              layout: item.Design.layout as PROFILE_LAYOUT,
-            }
-          : null,
+        Information: {
+          ...item.Information!,
+        },
+        Design: {
+          ...item.Design!,
+          layout: item.Design!.layout as PROFILE_LAYOUT,
+        },
       }));
 
       return fixData;

@@ -3,7 +3,9 @@ const { faker } = require("@faker-js/faker");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
 
-//Card dnd component
+const prisma = new PrismaClient();
+
+// Original testing component list (card_id will be overridden)
 const profileDndComponents = [
   {
     id: uuidv4(),
@@ -282,18 +284,13 @@ const profileDndComponents = [
   },
 ];
 
-//...................PROFILE DATA............................
-
-const prisma = new PrismaClient();
-
+// Main seeding function
 async function main() {
-  let users = [];
+  console.log("🌱 Started Seeding 10 Users with 2 Cards Each");
+  const users = [];
 
-  console.log("Started Seeding User.");
-
-  // Create 10 users with cards and info
+  // 1. Create 10 users, each with 2 cards
   for (let i = 0; i < 10; i++) {
-    console.log(`Seeding User.${i + 1}`);
     const fullName = faker.person.fullName();
     const email = faker.internet.email();
     const plainPassword = faker.internet.password();
@@ -305,7 +302,7 @@ async function main() {
         passwordHash,
         name: fullName,
         Card: {
-          create: {
+          create: Array.from({ length: 2 }).map(() => ({
             title: `${fullName}'s Card`,
             Information: {
               create: {
@@ -318,7 +315,7 @@ async function main() {
                 pronouns: faker.person.sexType(),
               },
             },
-          },
+          })),
         },
       },
       include: { Card: true },
@@ -327,18 +324,51 @@ async function main() {
     users.push(user);
   }
 
-  const allCards = users.map((u) => u.Card[0]);
+  // 2. Gather all cards
+  const allCards = users.flatMap((u) => u.Card);
 
-  // Create Requests and Contacts
-  for (let i = 0; i < allCards.length; i++) {
-    const senderCard = allCards[i];
+  // 3. Create design and profile components for each card
+  for (const card of allCards) {
+    await prisma.design.create({
+      data: {
+        cardId: card.id,
+        foregroundColor: "#ffffff",
+        backgroundColor: "#000000",
+        profileImage: "/image/profile.jpg",
+        logoImage: "/image/profile.jpg",
+        layout: faker.helpers.arrayElement([
+          "LAYOUT_ONE",
+          "LAYOUT_TWO",
+          "LAYOUT_THREE",
+        ]),
+      },
+    });
 
-    // Create 15–21 requests to random other cards
+    for (const component of profileDndComponents) {
+      await prisma.profileComponent.create({
+        data: {
+          cardId: card.id,
+          type: component.type,
+          category: component.category,
+          label: component.label,
+          value: component.value,
+          position: component.position,
+        },
+      });
+    }
+
+    console.log(`✅ Seeded components + design for card: ${card.id}`);
+  }
+
+  // 4. Create random Requests & Contacts between cards
+  for (const senderCard of allCards) {
+    const others = allCards.filter((c) => c.id !== senderCard.id);
+
+    // Requests (to 2–4 random cards)
     const requestTargets = faker.helpers.arrayElements(
-      allCards.filter((c) => c.id !== senderCard.id),
+      others,
       faker.number.int({ min: 2, max: 4 })
     );
-
     for (const target of requestTargets) {
       await prisma.request.create({
         data: {
@@ -346,17 +376,13 @@ async function main() {
           senderCardId: senderCard.id,
         },
       });
-      console.log(
-        "done with request for " + senderCard.id + " to " + target.id
-      );
     }
 
-    // Create 15–21 contacts
+    // Contacts (to 2–3 random cards)
     const contactTargets = faker.helpers.arrayElements(
-      allCards.filter((c) => c.id !== senderCard.id),
+      others,
       faker.number.int({ min: 2, max: 3 })
     );
-
     for (const contact of contactTargets) {
       await prisma.contact.create({
         data: {
@@ -372,57 +398,18 @@ async function main() {
           note: faker.lorem.sentence(),
         },
       });
-
-      console.log(
-        "done with request for " + senderCard.id + " to " + contact.id
-      );
-    }
-  }
-
-  // Create Design
-  for (let i = 0; i < allCards.length; i++) {
-    const card = allCards[i];
-    const design = await prisma.design.create({
-      data: {
-        cardId: card.id,
-        foregroundColor: faker.color.rgb(),
-        backgroundColor: faker.color.rgb(),
-        profileImage: "/image/profile.jpg",
-        logoImage: "/image/profile.jpg",
-        layout: faker.helpers.arrayElement([
-          "LAYOUT_ONE",
-          "LAYOUT_TWO",
-          "LAYOUT_THREE",
-        ]),
-      },
-    });
-    console.log("done with design for " + card.id);
-  }
-
-  //Create profileComponent
-  for (const card of allCards) {
-    for (const comp of profileDndComponents) {
-      await prisma.profileComponent.create({
-        data: {
-          cardId: card.id,
-          type: comp.type,
-          category: comp.category,
-          label: comp.label,
-          value: comp.value,
-          position: comp.position,
-        },
-      });
     }
 
-    console.log("Seeded components for card: " + card.id);
+    console.log(`🔁 Seeded requests and contacts for card: ${senderCard.id}`);
   }
 
-  console.log("Seeded 10 users with all data.");
+  console.log("🎉 Done seeding 10 users × 2 cards with full data!");
 }
 
+// Final execution
 main()
   .catch((e) => {
-    console.error(e);
+    console.error("❌ Error during seed:", e);
     process.exit(1);
   })
   .finally(async () => {

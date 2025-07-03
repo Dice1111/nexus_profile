@@ -7,7 +7,7 @@ import {
   fetchCardIdandTitleByUserIdAction,
   fetchContactsWithPaginationDataBySearchParamsAction,
 } from "./action";
-import NoCardSkeleton from "@/components/skeleton/NoCardSkeleton";
+import NoCardSkeleton from "@/components/Skeleton/NoCardSkeleton";
 
 export default async function ContactPage({
   searchParams,
