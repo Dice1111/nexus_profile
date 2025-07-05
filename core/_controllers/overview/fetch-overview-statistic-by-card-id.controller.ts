@@ -13,16 +13,21 @@ export const fetchOverviewStatisticByCardIdController =
     fetchDailyFollowerCountByCardIdUseCase: FetchDailyFollowerCountByCardIdUseCase
   ) =>
   async (
-    cardId: string
+    cardId: string[]
   ): Promise<{
     contactCount: number;
     followerCount: number;
     requestCount: number;
     dailyFollowerChartData: IDailyFollowerCountChartResponse[];
   }> => {
-    if (typeof cardId !== "string" || cardId === "") {
+    const isValidArray =
+      Array.isArray(cardId) &&
+      cardId.length > 0 &&
+      cardId.every((id) => typeof id === "string" && id.trim() !== "");
+
+    if (!isValidArray) {
       throw new InputParseError("Invalid Data", {
-        cause: "Card ID must be a non-empty string",
+        cause: "Card ID must be a non-empty array of strings",
       });
     }
 

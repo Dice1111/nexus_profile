@@ -1,3 +1,4 @@
+import { CardModel } from "../models/card.model";
 import { DesignModel } from "../models/design.model";
 import { InformationModel } from "../models/information.model";
 import { RequestModel } from "../models/request.model";
@@ -14,6 +15,7 @@ export interface IRequestOrganizedSearchParams {
 }
 
 export type RequestWithSpecificCardData = RequestModel & {
+  Card: Pick<CardModel, "title">;
   SenderCard: {
     Information: Pick<InformationModel, "fullName" | "occupation" | "company">;
     Design: Pick<DesignModel, "profileImage">;

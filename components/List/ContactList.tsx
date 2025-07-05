@@ -64,8 +64,8 @@ export default function ContactList({ contacts }: ContactListProps) {
     if (updatedContact) {
       const newSheetData: ConnectionSheetVarient = {
         contactId: updatedContact.id,
-        fullName:
-          updatedContact.ContactCard?.Information?.fullName || "No Name",
+        linkedCardTitle: updatedContact.Card.title,
+        fullName: updatedContact.ContactCard.Information.fullName,
         cardId: updatedContact.contactCardId,
         tag: updatedContact.tag,
         note: updatedContact.note,
@@ -96,6 +96,7 @@ export default function ContactList({ contacts }: ContactListProps) {
   const handleRowClick = useCallback((rowData: ContactWithSpecificCardData) => {
     const sheetData: ConnectionSheetVarient = {
       contactId: rowData.id,
+      linkedCardTitle: rowData.Card.title,
       fullName: rowData.ContactCard.Information.fullName,
       cardId: rowData.contactCardId,
       tag: rowData.tag,
@@ -133,7 +134,7 @@ export default function ContactList({ contacts }: ContactListProps) {
         {contacts.length > 0 ? (
           contacts.map((contact) => (
             <div
-              key={contact.contactCardId}
+              key={contact.id}
               onClick={() => handleRowClick(contact)}
               className="p-4 hover:bg-primary/20 cursor-pointer"
             >
@@ -145,6 +146,7 @@ export default function ContactList({ contacts }: ContactListProps) {
                 date={contact.createdAt.toLocaleDateString()}
                 tag={contact.tag}
                 onRemove={(e) => handleRemove(e, contact)}
+                linkedCardTitle={contact.Card.title}
               />
             </div>
           ))

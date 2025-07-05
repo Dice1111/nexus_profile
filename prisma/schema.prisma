@@ -23,12 +23,11 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   Card         Card[]
-
 }
 
 model Card {
   id              String             @id @default(uuid())
-  title           String?
+  title           String
   user            User               @relation(fields: [userId], references: [id])
   userId          String
   PofileComponent ProfileComponent[]
@@ -40,13 +39,13 @@ model Card {
   Information     Information?
   createdAt       DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
-  @@index([userId])
 
+  @@index([userId])
 }
 
 model ProfileComponent {
-  id        String                        @id @default(uuid())
-  card      Card                       @relation(fields: [cardId], references: [id])
+  id        String                     @id @default(uuid())
+  Card      Card                       @relation(fields: [cardId], references: [id])
   cardId    String
   value     String
   label     String?
@@ -55,6 +54,7 @@ model ProfileComponent {
   type      PROFILE_COMPONENT_TYPE
   category  PROFILE_COMPONENT_CATEGORY
   position  Int
+
   @@index([cardId])
 }
 
@@ -70,12 +70,11 @@ model Request {
   @@unique([cardId, senderCardId])
   @@index([cardId])
   @@index([senderCardId])
-  
 }
 
 model Contact {
   id            Int              @id @default(autoincrement())
-  card          Card             @relation(fields: [cardId], references: [id])
+  Card          Card             @relation(fields: [cardId], references: [id])
   cardId        String
   ContactCard   Card             @relation("ContactPerson", fields: [contactCardId], references: [id])
   contactCardId String
@@ -97,18 +96,17 @@ model Design {
   profileImage    String?
   logoImage       String?
   layout          PROFILE_LAYOUT
-  card            Card           @relation(fields: [cardId], references: [id])
+  Card            Card           @relation(fields: [cardId], references: [id])
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
-
 }
 
 model Information {
   id            Int      @id @default(autoincrement())
   cardId        String   @unique
   title         String?
-  occupation    String?
-  company       String?
+  occupation    String
+  company       String
   message       String?
   quote         String?
   prefix        String?
@@ -116,9 +114,10 @@ model Information {
   suffix        String?
   preferredName String?
   pronouns      String?
-  card          Card     @relation(fields: [cardId], references: [id])
+  Card          Card     @relation(fields: [cardId], references: [id])
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
   @@index([occupation])
   @@index([company])
   @@index([fullName])

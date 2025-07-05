@@ -1,6 +1,6 @@
 export interface CardModel {
   id: string;
-  title: string | null;
+  title: string;
   userId: string;
   createdAt: Date;
   updatedAt: Date;

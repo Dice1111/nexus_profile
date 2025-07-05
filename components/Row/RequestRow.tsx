@@ -1,6 +1,7 @@
 import { LuDot } from "react-icons/lu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { Link2 } from "lucide-react";
 
 interface RequestRowProps {
   fullName: string;
@@ -8,12 +9,14 @@ interface RequestRowProps {
   company: string | null;
   image: string | null;
   date: string;
+  linkedCardTitle: string;
   onAccept?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onReject?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function RequestRow({
   fullName,
+  linkedCardTitle,
   occupation,
   company,
   image,
@@ -67,7 +70,11 @@ export default function RequestRow({
             </div>
             <p className="sm:hidden">{company}</p>
           </div>
+          <p className="text-xs text-blue-800 flex gap-2 items-center">
+            <Link2 className="w-5 h-5" />
 
+            {linkedCardTitle}
+          </p>
           <p className="text-xs text-gray-500">Requested on: {date}</p>
 
           <div className="lg:hidden">{RenderActionButtons()}</div>

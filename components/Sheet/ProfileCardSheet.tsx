@@ -28,6 +28,7 @@ export enum SHEET_VARIENT {
 // Props for Connection and Request Sheet Variants
 export interface ConnectionSheetVarient {
   contactId: number;
+  linkedCardTitle: string;
   fullName: string;
   cardId: string;
   tag: CONTACT_TAG_ENUM;
@@ -111,15 +112,19 @@ export default function ProfileCardSheet({
             {formatDisplayDate(sheetData.date, sheetVarient)}
           </SheetDescription>
 
-          <div className="mt-4">
-            {sheetVarient === SHEET_VARIENT.CONNECTION && (
+          {sheetVarient === SHEET_VARIENT.CONNECTION && (
+            <>
+              <p className="my-4">
+                Linked with{" "}
+                {(sheetData as ConnectionSheetVarient).linkedCardTitle}
+              </p>
               <TagAndNote
                 tag={(sheetData as ConnectionSheetVarient).tag}
                 note={(sheetData as ConnectionSheetVarient).note}
                 contactId={(sheetData as ConnectionSheetVarient).contactId}
               />
-            )}
-          </div>
+            </>
+          )}
         </SheetHeader>
 
         <div className=" relative">

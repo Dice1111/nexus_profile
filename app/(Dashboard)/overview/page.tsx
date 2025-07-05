@@ -4,6 +4,7 @@ import { fetchOverviewStatisticByCardIdAction } from "./action";
 import { IRawSearchParams } from "@/core/_domain/types/search-params-handler-service.type";
 import { fetchCardIdandTitleByUserIdAction } from "../contact/connection/action";
 import NoCardSkeleton from "@/components/Skeleton/NoCardSkeleton";
+import { ALL_CARDS } from "@/lib/utils";
 
 export default async function Page({
   searchParams,
@@ -11,25 +12,29 @@ export default async function Page({
   searchParams: Promise<IRawSearchParams>;
 }) {
   const rawParams = await searchParams;
-
   let cardId = rawParams.cardId;
+  const normalizedCardId =
+    cardId === ALL_CARDS
+      ? []
+      : Array.isArray(cardId)
+      ? cardId.filter((id) => id !== ALL_CARDS)
+      : cardId
+      ? [cardId]
+      : [];
 
-  if (Array.isArray(cardId)) {
-    cardId = cardId[0];
-  }
+  let finalCardId: string[] = normalizedCardId;
 
-  if (!cardId) {
+  if (finalCardId.length === 0) {
     const cardsData = await fetchCardIdandTitleByUserIdAction();
-    if (cardsData?.data?.length > 0) {
-      cardId = cardsData.data[0].id;
-    }
+    finalCardId = cardsData?.data?.map((card) => card.id) ?? [];
   }
-  if (!cardId) {
+
+  if (finalCardId.length === 0) {
     return <NoCardSkeleton />;
   }
 
   const { contactCount, followerCount, requestCount, dailyFollowerChartData } =
-    await fetchOverviewStatisticByCardIdAction(cardId);
+    await fetchOverviewStatisticByCardIdAction(finalCardId);
 
   const TotalFollowerData = {
     title: "Followers",
@@ -44,7 +49,7 @@ export default async function Page({
     type: InfoBox_Type.CONNECTION,
   };
 
-  const TotalRequestDat = {
+  const TotalRequestData = {
     title: "Requests",
     description: "Total number of users who shared their contact with you",
     value: requestCount,
@@ -63,7 +68,7 @@ export default async function Page({
         </div>
 
         <div className="col-span-1  xl:col-span-2">
-          <InfoBox data={TotalRequestDat} />
+          <InfoBox data={TotalRequestData} />
         </div>
       </div>
 

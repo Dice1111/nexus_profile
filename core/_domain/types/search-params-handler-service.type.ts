@@ -35,6 +35,7 @@ export interface ISanitizedRequestSearchParams {
 }
 
 export interface IRequestFilter {
+  userId: string;
   cardId: string;
   keyword?: string;
 }
@@ -45,6 +46,7 @@ export interface IRequestSort {
 }
 
 export interface IContactFilter {
+  userId: string;
   cardId: string;
   tags?: CONTACT_TAG_ENUM[];
   keyword?: string;

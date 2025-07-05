@@ -1,7 +1,7 @@
 import ContactList from "@/components/List/ContactList";
 import ContactPagination from "@/components/Pagination/contact-pagination";
 import { IRawSearchParams } from "@/core/_domain/types/search-params-handler-service.type";
-import { ITEMS_PER_PAGE } from "@/lib/utils";
+import { ALL_CARDS, ITEMS_PER_PAGE } from "@/lib/utils";
 import { Suspense } from "react";
 import {
   fetchCardIdandTitleByUserIdAction,
@@ -21,7 +21,7 @@ export default async function ContactPage({
   if (!cardId) {
     const cardsData = await fetchCardIdandTitleByUserIdAction();
     if (cardsData?.data?.length > 0) {
-      cardId = cardsData.data[0].id;
+      cardId = ALL_CARDS;
     }
   }
   if (!cardId) {

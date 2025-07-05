@@ -1,4 +1,5 @@
 import { IContactRepository } from "@/core/_domain/repositories/IContactRepository";
+import { IAuthenticationService } from "@/core/_domain/services/IAuthentication.service";
 
 import {
   IContactFilter,
@@ -10,11 +11,15 @@ export type FetchTotalContactCountBySearchParamsUseCase = ReturnType<
 >;
 
 export const fetchTotalContactCountBySearchParamsUseCase =
-  (contactRepository: IContactRepository) =>
+  (
+    contactRepository: IContactRepository,
+    authservice: IAuthenticationService
+  ) =>
   async (
     sanitizedSearchParams: ISanitizedContactSearchParams
   ): Promise<number> => {
     const whereClauseRequirement: IContactFilter = {
+      userId: await authservice.getSession(),
       cardId: sanitizedSearchParams.cardId,
       tags: sanitizedSearchParams.filters,
       keyword: sanitizedSearchParams.search,

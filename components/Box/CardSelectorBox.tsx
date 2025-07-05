@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CardWithTitleAndID } from "@/core/_domain/types/card-repository.types";
-import { URL_CARD_ID } from "@/lib/utils";
+import { ALL_CARDS, URL_CARD_ID } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
@@ -24,10 +24,9 @@ export function CardSelectorBox({ data }: CardSelectorBoxProps) {
   const router = useRouter();
 
   const currentCardId = searchParams.get(URL_CARD_ID) ?? undefined;
-  const firstCardId = data.length > 0 ? data[0].id : undefined;
 
   // What should the Select show initially?
-  const initialValue = currentCardId ?? firstCardId;
+  const initialValue = currentCardId ?? ALL_CARDS;
 
   const cardOptions = useMemo(
     () => data.map((card) => ({ id: card.id, title: card.title })),
@@ -49,14 +48,12 @@ export function CardSelectorBox({ data }: CardSelectorBoxProps) {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Cards</SelectLabel>
+          <SelectItem value={ALL_CARDS}>All Cards</SelectItem>
           {cardOptions.map((card) => (
             <SelectItem key={card.id} value={card.id}>
               {card.title}
             </SelectItem>
           ))}
-          <SelectItem value={"a0d1a8d4-2d9a-4618-b096-05a418a9cf42"}>
-            apple
-          </SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

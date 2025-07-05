@@ -15,9 +15,9 @@ export interface IContactRepository {
   create(data: CreateContactInput): Promise<void>;
   delete(contactId: number): Promise<void>;
   updateTagOrNote(data: IUpdateTagOrNoteData): Promise<void>;
-  fetchTotalContactCountByCardId(cardId: string): Promise<number>;
-  fetchTotalFollowerCountByCardId(cardId: string): Promise<number>;
+  fetchTotalContactCountByCardId(cardId: string[]): Promise<number>;
+  fetchTotalFollowerCountByCardId(cardId: string[]): Promise<number>;
   fetchDailyFollowerCountByCardId(
-    cardId: string
+    cardId: string[]
   ): Promise<{ date: Date; count: number }[]>;
 }

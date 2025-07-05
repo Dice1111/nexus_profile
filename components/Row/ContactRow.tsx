@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import PillShapeTag from "../Tag/PillShapeTag";
 import { CONTACT_TAG_ENUM } from "@/core/_domain/enum/contact-repository.enum";
 import { Button } from "../ui/button";
+import { Link2 } from "lucide-react";
 
 interface ContactRowProps {
   fullName: string;
@@ -11,6 +12,7 @@ interface ContactRowProps {
   image: string | null;
   date: string;
   tag: CONTACT_TAG_ENUM;
+  linkedCardTitle: string;
   onRemove?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -22,6 +24,7 @@ export default function ContactRow({
   date,
   tag,
   onRemove,
+  linkedCardTitle,
 }: ContactRowProps) {
   return (
     <div className="flex flex-col lg:flex-row lg:justify-between gap-5 lg:gap-8 ">
@@ -51,8 +54,13 @@ export default function ContactRow({
             </div>
             <p className="sm:hidden">{company}</p>
           </div>
+          <p className="text-xs text-blue-800 flex gap-2 items-center">
+            <Link2 className="w-5 h-5" />
 
+            {linkedCardTitle}
+          </p>
           <p className="text-xs text-gray-500">Connected on: {date}</p>
+
           <div className="lg:hidden">
             <Button
               onClick={onRemove}

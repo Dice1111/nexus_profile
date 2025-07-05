@@ -14,13 +14,16 @@ import {
   SORTABLE_ITEMS,
   SORTABLE_ORDERS,
 } from "@/core/_domain/enum/search-params-handler-service.enum";
+import { ALL_CARDS } from "@/lib/utils";
 
 export class RequestRepository implements IRequestRepository {
-  async fetchTotalRequestCountByCardId(cardId: string): Promise<number> {
+  async fetchTotalRequestCountByCardId(cardId: string[]): Promise<number> {
     try {
       const count = await prisma.request.count({
         where: {
-          cardId,
+          cardId: {
+            in: cardId,
+          },
         },
       });
 
@@ -60,6 +63,11 @@ export class RequestRepository implements IRequestRepository {
         skip: offset,
         take: data.itemsPerPage,
         include: {
+          Card: {
+            select: {
+              title: true,
+            },
+          },
           SenderCard: {
             select: {
               Information: {
@@ -82,6 +90,9 @@ export class RequestRepository implements IRequestRepository {
       const fixData: RequestWithSpecificCardData[] = rawRequests.map(
         (item) => ({
           ...item,
+          Card: {
+            ...item.Card!,
+          },
           SenderCard: {
             ...item.SenderCard!,
             Information: item.SenderCard!.Information!,
@@ -114,7 +125,15 @@ export class RequestRepository implements IRequestRepository {
   private buildWhereClause(filters: IRequestFilter): Prisma.RequestWhereInput {
     const conditions: Prisma.RequestWhereInput[] = [];
 
-    conditions.push({ cardId: filters.cardId });
+    if (filters.cardId === ALL_CARDS) {
+      conditions.push({
+        Card: {
+          userId: filters.userId,
+        },
+      });
+    } else if (filters.cardId) {
+      conditions.push({ cardId: filters.cardId });
+    }
 
     conditions.push({
       SenderCard: {

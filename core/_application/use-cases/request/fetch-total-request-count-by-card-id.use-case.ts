@@ -6,7 +6,7 @@ export type FetchTotalRequestCountByCardIdUseCase = ReturnType<
 
 export const fetchTotalRequestCountByCardIdUseCase =
   (requestRepository: IRequestRepository) =>
-  async (cardId: string): Promise<number> => {
+  async (cardId: string[]): Promise<number> => {
     const count = await requestRepository.fetchTotalRequestCountByCardId(
       cardId
     );

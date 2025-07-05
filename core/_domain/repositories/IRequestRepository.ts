@@ -11,5 +11,5 @@ export interface IRequestRepository {
 
   fetchTotalCountBySearchParams(data: IRequestFilter): Promise<number>;
   delete(requestId: number): Promise<void>;
-  fetchTotalRequestCountByCardId(cardId: string): Promise<number>;
+  fetchTotalRequestCountByCardId(cardId: string[]): Promise<number>;
 }

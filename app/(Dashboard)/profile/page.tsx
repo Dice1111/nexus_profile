@@ -1,10 +1,9 @@
 import InitialProfileCardComponent from "@/components/ProfileComponent/InitialProfileCard/InitialProfileCard";
+import { Button } from "@/components/ui/button";
 import { CardWithInformationAndDesignData } from "@/core/_domain/types/card-repository.types";
 import Link from "next/link";
-import { getUserInitialCardsDataAction } from "./action";
-import { Button } from "@/components/ui/button";
 import { MdOutlineAddCard } from "react-icons/md";
-import CardSkeleton from "@/components/Skeleton/CardSkeleton";
+import { getUserInitialCardsDataAction } from "./action";
 
 const page = async () => {
   const data = await getUserInitialCardsDataAction();

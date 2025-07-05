@@ -21,26 +21,30 @@ import {
 import { IUpdateTagOrNoteData } from "@/schema/contact/update-contact-or-delete.schema";
 import { CONTACT_TAG_TYPE, Prisma } from "@prisma/client";
 import { prisma } from "../prisma/prisma-client";
+import { ALL_CARDS } from "@/lib/utils";
 
 export class ContactRepository implements IContactRepository {
   async fetchDailyFollowerCountByCardId(
-    cardId: string
+    cardId: string[]
   ): Promise<{ date: Date; count: number }[]> {
     try {
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - 29);
       startDate.setHours(0, 0, 0, 0);
 
-      const rawData = await prisma.$queryRaw<{ date: Date; count: number }[]>`
-    SELECT 
-      DATE("createdAt") as date,
-      COUNT(*) as count
-    FROM "Contact"
-    WHERE "contactCardId" = ${cardId}
-      AND "createdAt" >= ${startDate}
-    GROUP BY DATE("createdAt")
-    ORDER BY DATE("createdAt") ASC;
-  `;
+      const rawData = await prisma.$queryRaw<
+        { date: Date; count: number }[]
+      >(Prisma.sql`
+      SELECT 
+        DATE("createdAt") AS date,
+        COUNT(*) AS count
+      FROM "Contact"
+      WHERE "contactCardId" IN (${Prisma.join(cardId)})
+        AND "createdAt" >= ${startDate}
+      GROUP BY DATE("createdAt")
+      ORDER BY DATE("createdAt") ASC;
+    `);
+
       return rawData;
     } catch (error) {
       throw new DatabaseOperationError("Failed to fetch daily follower count", {
@@ -48,11 +52,13 @@ export class ContactRepository implements IContactRepository {
       });
     }
   }
-  async fetchTotalContactCountByCardId(cardId: string): Promise<number> {
+  async fetchTotalContactCountByCardId(cardId: string[]): Promise<number> {
     try {
       const count = await prisma.contact.count({
         where: {
-          cardId,
+          cardId: {
+            in: cardId,
+          },
         },
       });
 
@@ -63,11 +69,13 @@ export class ContactRepository implements IContactRepository {
       });
     }
   }
-  async fetchTotalFollowerCountByCardId(cardId: string): Promise<number> {
+  async fetchTotalFollowerCountByCardId(cardId: string[]): Promise<number> {
     try {
       const count = await prisma.contact.count({
         where: {
-          contactCardId: cardId,
+          contactCardId: {
+            in: cardId,
+          },
         },
       });
 
@@ -136,7 +144,6 @@ export class ContactRepository implements IContactRepository {
 
       const whereClause = this.buildWhereClause(data.whereClauseRequirement);
       const orderByClause = this.buildOrderClause(data.sortClauseRequirement);
-      console.log("where", whereClause);
 
       const rawData = await prisma.contact.findMany({
         where: whereClause,
@@ -144,6 +151,11 @@ export class ContactRepository implements IContactRepository {
         skip: offset,
         take: data.itemsPerPage,
         include: {
+          Card: {
+            select: {
+              title: true,
+            },
+          },
           ContactCard: {
             select: {
               id: true,
@@ -169,6 +181,9 @@ export class ContactRepository implements IContactRepository {
       const fixData: ContactWithSpecificCardData[] = rawData.map((item) => ({
         ...item,
         tag: item.tag as CONTACT_TAG_ENUM,
+        Card: {
+          ...item.Card!,
+        },
         ContactCard: {
           ...item.ContactCard!,
           Information: item.ContactCard!.Information!,
@@ -203,7 +218,13 @@ export class ContactRepository implements IContactRepository {
   private buildWhereClause(filters: IContactFilter): Prisma.ContactWhereInput {
     const conditions: Prisma.ContactWhereInput[] = [];
 
-    if (filters.cardId) {
+    if (filters.cardId === ALL_CARDS) {
+      conditions.push({
+        Card: {
+          userId: filters.userId,
+        },
+      });
+    } else if (filters.cardId) {
       conditions.push({ cardId: filters.cardId });
     }
 

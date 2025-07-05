@@ -1,4 +1,5 @@
 import { IContactRepository } from "@/core/_domain/repositories/IContactRepository";
+import { IAuthenticationService } from "@/core/_domain/services/IAuthentication.service";
 import { ContactWithSpecificCardData } from "@/core/_domain/types/contact-repository.types";
 import {
   IContactFilter,
@@ -11,12 +12,16 @@ export type FetchContactsWithSpecificCardDataBySearchParamsUseCase = ReturnType<
 >;
 
 export const fetchContactsWithSpecificCardDataBySearchParamsUseCase =
-  (contactRepository: IContactRepository) =>
+  (
+    contactRepository: IContactRepository,
+    authservice: IAuthenticationService
+  ) =>
   async (
     sanitizedSearchParams: ISanitizedContactSearchParams,
     itemsPerPage: number
   ): Promise<ContactWithSpecificCardData[]> => {
     const whereClauseRequirement: IContactFilter = {
+      userId: await authservice.getSession(),
       cardId: sanitizedSearchParams.cardId,
       tags: sanitizedSearchParams.filters,
       keyword: sanitizedSearchParams.search,

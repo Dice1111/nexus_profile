@@ -16,6 +16,7 @@ export interface IContactOrganizedSearchParams {
 }
 
 export type ContactWithSpecificCardData = ContactModel & {
+  Card: Pick<CardModel, "title">;
   ContactCard: Omit<CardModel, "createdAt" | "updatedAt"> & {
     Design: Pick<DesignModel, "profileImage">;
     Information: Pick<InformationModel, "fullName" | "occupation" | "company">;

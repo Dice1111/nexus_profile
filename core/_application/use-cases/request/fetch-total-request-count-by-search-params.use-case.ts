@@ -1,4 +1,5 @@
 import { IRequestRepository } from "@/core/_domain/repositories/IRequestRepository";
+import { IAuthenticationService } from "@/core/_domain/services/IAuthentication.service";
 
 import {
   IRequestFilter,
@@ -10,11 +11,15 @@ export type FetchTotalRequestCountBySearchParamsUseCase = ReturnType<
 >;
 
 export const fetchTotalRequestCountBySearchParamsUseCase =
-  (requestRepository: IRequestRepository) =>
+  (
+    requestRepository: IRequestRepository,
+    authservice: IAuthenticationService
+  ) =>
   async (
     sanitizedSearchParams: ISanitizedRequestSearchParams
   ): Promise<number> => {
     const whereClauseRequirement: IRequestFilter = {
+      userId: await authservice.getSession(),
       cardId: sanitizedSearchParams.cardId,
       keyword: sanitizedSearchParams.search,
     };

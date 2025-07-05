@@ -178,7 +178,7 @@ export default function ConnectionRequestList({
         {requests.length > 0 ? (
           requests.map((request) => (
             <div
-              key={request.senderCardId}
+              key={request.id}
               onClick={() => handleRowClick(request)}
               className="p-4 hover:bg-primary/20 cursor-pointer"
             >
@@ -190,6 +190,7 @@ export default function ConnectionRequestList({
                 date={request.createdAt.toLocaleDateString()}
                 onAccept={(e) => handleAccept(e, request)}
                 onReject={(e) => handleReject(e, request)}
+                linkedCardTitle={request.Card.title}
               />
             </div>
           ))

@@ -36,5 +36,5 @@ export const URL_SORT_IEM = "sortItem";
 export const URL_SORT_ORDER = "sortOrder";
 export const URL_SEARCH = "search";
 export const URL_CARD_ID = "cardId";
-
+export const ALL_CARDS = "all";
 export const ITEMS_PER_PAGE: number = 10;

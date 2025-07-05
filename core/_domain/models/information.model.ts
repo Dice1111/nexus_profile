@@ -3,8 +3,8 @@ export interface InformationModel {
   cardId: string;
   title: string | null;
   fullName: string;
-  occupation: string | null;
-  company: string | null;
+  occupation: string;
+  company: string;
   message: string | null;
   quote: string | null;
   prefix: string | null;

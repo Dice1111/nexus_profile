@@ -7,7 +7,7 @@ export type FetchDailyFollowerCountByCardIdUseCase = ReturnType<
 
 export const fetchDailyFollowerCountByCardIdUseCase =
   (contactRepository: IContactRepository) =>
-  async (cardId: string): Promise<IDailyFollowerCountChartResponse[]> => {
+  async (cardId: string[]): Promise<IDailyFollowerCountChartResponse[]> => {
     const rawData = await contactRepository.fetchDailyFollowerCountByCardId(
       cardId
     );

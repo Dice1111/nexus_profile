@@ -16,7 +16,7 @@ export interface IFetchOverviewStatisticByCardIdActionState {
 }
 
 export async function fetchOverviewStatisticByCardIdAction(
-  cardId: string
+  cardId: string[]
 ): Promise<IFetchOverviewStatisticByCardIdActionState> {
   try {
     const fetchOverviewStatisticByCardId =

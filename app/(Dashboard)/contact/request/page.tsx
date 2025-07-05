@@ -1,7 +1,7 @@
 import ConnectionRequestList from "@/components/List/ConnectionRequestList";
 import ContactPagination from "@/components/Pagination/contact-pagination";
 import { IRawSearchParams } from "@/core/_domain/types/search-params-handler-service.type";
-import { ITEMS_PER_PAGE } from "@/lib/utils";
+import { ALL_CARDS, ITEMS_PER_PAGE } from "@/lib/utils";
 import { Suspense } from "react";
 import { fetchRequestWithPaginationDataAction } from "./action";
 import { fetchCardIdandTitleByUserIdAction } from "../connection/action";
@@ -19,7 +19,7 @@ export default async function RequestPage({
   if (!cardId) {
     const cardsData = await fetchCardIdandTitleByUserIdAction();
     if (cardsData?.data?.length > 0) {
-      cardId = cardsData.data[0].id;
+      cardId = ALL_CARDS;
     }
   }
   if (!cardId) {

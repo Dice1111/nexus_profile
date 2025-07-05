@@ -6,6 +6,7 @@ import Search from "@/components/Search/Search";
 import { Metadata } from "next";
 import { ReactNode } from "react";
 import { fetchCardIdandTitleByUserIdAction } from "./action";
+
 import NoCardSkeleton from "@/components/Skeleton/NoCardSkeleton";
 
 export const metadata: Metadata = {

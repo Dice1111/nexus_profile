@@ -6,7 +6,7 @@ export type FetchTotalFollowerCountByCardIdUseCase = ReturnType<
 
 export const fetchTotalFollowerCountByCardIdUseCase =
   (contactRepository: IContactRepository) =>
-  async (cardId: string): Promise<number> => {
+  async (cardId: string[]): Promise<number> => {
     const count = await contactRepository.fetchTotalFollowerCountByCardId(
       cardId
     );
