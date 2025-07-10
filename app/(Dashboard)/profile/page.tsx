@@ -8,6 +8,8 @@ import { getUserInitialCardsDataAction } from "./action";
 const page = async () => {
   const data = await getUserInitialCardsDataAction();
 
+  console.log("data", data);
+
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-xl font-bold">Profile Cards</h2>

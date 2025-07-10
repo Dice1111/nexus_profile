@@ -11,7 +11,7 @@ import { useInformationState } from "@/state_management/information.state";
 import { useProfileComponentsState } from "@/state_management/profile-component.state";
 import { useProfilePageState } from "@/state_management/profile-loading.state";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CiEdit } from "react-icons/ci";
 import { GiCheckMark } from "react-icons/gi";
 import { RxCross2 } from "react-icons/rx";
@@ -122,7 +122,7 @@ export default function ClientSideProfilePage({
                 type="button"
                 disabled={isLoading}
                 onClick={() => {
-                  window.location.reload();
+                  setEditing(false);
                 }}
               >
                 <RxCross2 />

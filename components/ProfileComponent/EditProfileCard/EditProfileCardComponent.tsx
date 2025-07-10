@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import {
   closestCorners,
@@ -14,7 +13,6 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 import { PROFILE_COMPONENT_TYPE } from "@/core/_domain/enum/profile-component-repository.enum";
@@ -35,7 +33,6 @@ import {
 } from "./DragAndDropComponent/ProfileDndInputSchema";
 import ProfileDroppable from "./DragAndDropComponent/ProfileDroppable";
 export const { uploadFiles } = genUploader<OurFileRouter>();
-
 const EditProfileCardComponent = () => {
   //STATE MANAGEMENT
 
@@ -89,7 +86,6 @@ const EditProfileCardComponent = () => {
     register,
     handleSubmit,
     formState: { errors, isDirty, dirtyFields },
-    reset,
     watch,
     setValue,
     getValues,
@@ -233,13 +229,6 @@ const EditProfileCardComponent = () => {
     setLoading(false);
     setEditing(false);
   };
-
-  useEffect(() => {
-    console.log("setting profile components");
-    reset({
-      profileComponents: profileComponents as ProfileDndComponentSchemaType[],
-    });
-  }, [profileComponents, reset]);
 
   return (
     <>

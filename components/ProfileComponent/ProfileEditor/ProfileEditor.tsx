@@ -42,16 +42,17 @@ export default function ProfileEditor() {
       style={{ height: `calc(100vh - 48px)` }}
     >
       <NavBar wrapperClassName="top-0" data={navItems}>
-        <div id={PROFILE_PANEL.DESIGN}>
+        <div id={PROFILE_PANEL.DESIGN} className="">
           <DesignEditModal />
         </div>
         <div id={PROFILE_PANEL.INFORMATION}>
           <InformationEditModal />
         </div>
         <div id={PROFILE_PANEL.FIELDS}>
+          <input type="text" name="c" />
           <FieldsEditModal />
         </div>
-        <div id={PROFILE_PANEL.PREVIEW} className="flex justify-center">
+        <div id={PROFILE_PANEL.PREVIEW} className="flex justify-center ">
           <CardPreviewPage />
         </div>
       </NavBar>

@@ -186,14 +186,14 @@ export default function ContactList({ contacts }: ContactListProps) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      {isSheetOpen && SheetData && (
+      {/* {isSheetOpen && SheetData && (
         <ProfileCardSheet
           isOpen={isSheetOpen}
           setIsOpen={setIsSheetOpen}
           sheetData={SheetData}
           sheetVarient={SHEET_VARIENT.CONNECTION}
         />
-      )}
+      )} */}
     </div>
   );
 }

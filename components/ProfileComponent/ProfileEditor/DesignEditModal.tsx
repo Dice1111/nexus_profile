@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useProfileContext } from "@/context/profileContext";
 import { colorPresets, hexToRgba, rgbaToHsva } from "@/lib/color_utils";
 import {
   ColorableElement,
@@ -11,8 +10,6 @@ import {
 //   svgWaveLayoutData,
 //   svgWaveLayouts,
 // } from "@/lib/profileCardLayoutData/SvgWaveLayoutData";
-import { PROFILE_LAYOUT } from "@/core/_domain/enum/design-repository.enum";
-import { FetchDesignData } from "@/core/_domain/types/design-repository.types";
 import { useDesignState } from "@/state_management/design.state";
 import _throttle from "lodash/throttle";
 import Image from "next/image";

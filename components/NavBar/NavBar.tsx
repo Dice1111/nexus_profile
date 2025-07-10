@@ -44,7 +44,18 @@ export default function NavBar<T>({
       </nav>
 
       {/* Render the content based on the selected panel */}
-      <section className="mt-4 container mx-auto">{renderContent}</section>
+      <section className="mt-4 container mx-auto">
+        {children.map((child, index) => (
+          <div
+            key={index}
+            className={cn({
+              hidden: child.props.id !== currentPanel ? true : false,
+            })}
+          >
+            {child}
+          </div>
+        ))}
+      </section>
     </>
   );
 }
